@@ -7,14 +7,11 @@ const props = defineProps({
     url: String
 })
 
-let percentage = ref(parseInt(props.level) + 2)
 </script>
 
 <template>
-    <h1>{{ name }}</h1>
-    <img :src=url>
+    <img class="back" :src=url>
 </template>
 
 <style scoped>
-
 </style>
