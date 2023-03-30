@@ -16,6 +16,7 @@ onMounted(() => {
             {rotateY: 180}
         ],
         duration: 1000,
+        delay: anime.stagger(500),
         easing: 'spring(1, 80, 10, 0)'
         
     });
@@ -42,6 +43,7 @@ onMounted(() => {
   width: 180px;
   height: 290px;
   perspective: 1000px;
+  transition: transform 330ms ease-in-out;
 }
 
 .flip-card-inner {
@@ -52,6 +54,7 @@ onMounted(() => {
   transition: transform 0.6s;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-radius: 16px;
   
 }
 
@@ -80,5 +83,9 @@ onMounted(() => {
   background-color: #fff;
   color: #000;
   transform: rotateY(180deg);
+}
+
+.flip-card:hover {
+  transform: scale(1.15);
 }
 </style>
