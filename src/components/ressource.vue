@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
     name: String,
@@ -7,9 +7,12 @@ const props = defineProps({
     size: String
 })
 const url = `src/assets/icons/${props.name}.svg`
-let percentToPX = (parseInt(props.level) / 100) * parseInt(props.size)
-let sizeLevel = ref(`${percentToPX}px`) //Taille de remplissage de l'icon de la ressource
-let translate = ref(`${parseInt(props.size) - percentToPX}px`) //Remplissage commençant du bas
+let levelUpdate = ref(props.level)
+
+let percentToPX = computed(() => (parseInt(levelUpdate.value) / 100) * parseInt(props.size))
+let sizeLevel = computed(() => `${percentToPX.value}px`) //Taille de remplissage de l'icon de la ressource
+let translate = computed(() => `${parseInt(props.size) - percentToPX.value}px`) //Remplissage commençant du bas
+
 </script>
 
 <template>
@@ -28,9 +31,11 @@ let translate = ref(`${parseInt(props.size) - percentToPX}px`) //Remplissage com
     display: grid;
     grid-template: 1fr / 1fr;
 }
+
 img {
     height: v-bind(size);
 }
+
 .icon {
     overflow: hidden;
     height: v-bind(size);
@@ -38,15 +43,19 @@ img {
     grid-column: 1 / 1;
     grid-row: 1 / 1;
 }
+
 .front {
     height: v-bind(sizeLevel);
+    transition: 0.5s;
     align-self: end;
 }
-.front > img {
+
+.front>img {
     position: relative;
     bottom: v-bind(translate);
+    transition: 0.5s;
 }
+
 .back {
     opacity: 30%;
-}
-</style>
+}</style>
