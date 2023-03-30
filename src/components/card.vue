@@ -44,6 +44,7 @@ onMounted(() => {
   height: 290px;
   perspective: 1000px;
   transition: transform 330ms ease-in-out;
+  cursor: pointer;
 }
 
 .flip-card-inner {
