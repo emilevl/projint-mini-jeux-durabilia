@@ -1,37 +1,67 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted } from 'vue';
+import anime from 'animejs/lib/anime.es.js';
+
 
 defineProps({
   name: String,
   description: String
 })
 
+onMounted(() => {
+    anime({
+        targets: '.flip-card .flip-card-inner',
+        keyframes: [
+            {translateY: ['500', '0']},
+            {rotateY: 180}
+        ],
+        duration: 1000,
+        easing: 'spring(1, 80, 10, 0)'
+        
+    });
+})
 
 </script>
 
+
 <template>
-  <div class="card">
-    <h1>{{ name }}</h1>
-    <p> {{ description }} </p>
+  <div class="flip-card">
+  <div class="flip-card-inner">
+    <div class="flip-card-front"></div>
+    <div class="flip-card-back">
+      <h1>{{name}}</h1> 
+      <p>{{description}}</p> 
+    </div>
   </div>
+</div>
 </template>
 
 <style scoped>
-    .card {
-        display: block;
-        flex-grow: 0;
-        flex-shrink: 1;
-        flex-basis: auto;
-        align-self: auto;
-        order: 0;
+.flip-card {
+  background-color: transparent;
+  width: 180px;
+  height: 290px;
+  perspective: 1000px;
+}
 
-        background-color: #fff;
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  
+}
 
-        width: 180px;
-        height: 290px;
-
-        border-radius: 16px;
-
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 16px;
         box-shadow:
             2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
             6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
@@ -39,11 +69,16 @@ defineProps({
             22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
             41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
             100px 100px 80px rgba(0, 0, 0, 0.07);
-        
-        color: #000;
-    }
+}
 
-    h1 {
+.flip-card-front {
+  background-color: #912727;
+  color: black;
+}
 
-    }
+.flip-card-back {
+  background-color: #fff;
+  color: #000;
+  transform: rotateY(180deg);
+}
 </style>
