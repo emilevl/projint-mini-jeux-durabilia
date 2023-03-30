@@ -1,13 +1,21 @@
 <script setup>
+/* import the fontawesome core */
+import { library } from '@fortawesome/fontawesome-svg-core'
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+/* import specific icons */
+import { faArrowLeft, faUserSecret } from '@fortawesome/free-solid-svg-icons'
+/* add icons to the library */
+library.add(faArrowLeft)
 
 </script>
 
 
 <template>
     <div class="main-page">
-      <router-link to="/" class="back-link">Back</router-link>
-      <div class="bottom-text">Small text on the bottom left corner</div>
-      <router-view />
+      <p to="/" class="back-link"><font-awesome-icon icon="fa-solid fa-arrow-left" />  Retour au campement</p>
+      <div class="bottom-text">La forêt</div>
+      
     </div>
   </template>
   
