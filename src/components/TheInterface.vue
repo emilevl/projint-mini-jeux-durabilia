@@ -38,13 +38,13 @@ function testAnim(){ //Test for the level diffence
       <div class="bottom-text">La forêt</div>
       <div id="ressources">
         <ressource v-for="name of RESSOURCES_NAMES" :name="name.name" :level="name.level" size="60px"></ressource>
-        <button @click="testAnim()">Random levels</button>
       </div>
+      
 
       <div id="cards">
-        <Card name="Card 1" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."></Card>
-        <Card name="Card 2" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."></Card>
-        <Card name="Card 3" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."></Card>
+        <Card name="Card 1" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()"></Card>
+        <Card name="Card 2" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()"></Card>
+        <Card name="Card 3" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()"></Card>
       </div>
     </div>
   </template>
