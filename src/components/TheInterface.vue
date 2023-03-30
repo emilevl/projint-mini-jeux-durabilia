@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
 /* import font awesome icon component */
@@ -12,7 +13,7 @@ library.add(faArrowLeft)
 
 
 //Les noms et les niveaux pour chaque ressources (Les niveaux sont en pourcents)
-const RESSOURCES_NAMES = [
+let RESSOURCES_NAMES = ref([
   { name: 'balance', level: 40 },
   { name: 'bolt', level: 20 },
   { name: 'brain', level: 80 },
@@ -21,7 +22,12 @@ const RESSOURCES_NAMES = [
   { name: 'handshake', level: 29 },
   { name: 'network', level: 100 },
   { name: 'sober', level: 0 }
-]
+])
+function testAnim(){ //Test for the level diffence
+  RESSOURCES_NAMES.value[1].level = 90
+  console.log(RESSOURCES_NAMES.value[1].level)
+  
+}
 
 </script>
 
@@ -32,6 +38,7 @@ const RESSOURCES_NAMES = [
       <div class="bottom-text">La forêt</div>
       <div id="ressources">
         <ressource v-for="name of RESSOURCES_NAMES" :name="name.name" :level="name.level" size="60px"></ressource>
+        <button @click="testAnim()">click</button>
       </div>
 
       <div id="cards">
