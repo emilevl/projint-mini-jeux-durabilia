@@ -45,6 +45,7 @@ const RESSOURCES_NAMES = [
   <style>
   body {
     background-color: #b8b7b7;
+    
   }
     .main-page {
       display: flex;
@@ -81,7 +82,7 @@ const RESSOURCES_NAMES = [
       justify-content: center;
       gap: 15px;
       position: absolute;
-      top: 0;
+      top: 10px;
       margin: 0 auto;
     }
   </style>
