@@ -38,7 +38,7 @@ function testAnim(){ //Test for the level diffence
       <div class="bottom-text">La forêt</div>
       <div id="ressources">
         <ressource v-for="name of RESSOURCES_NAMES" :name="name.name" :level="name.level" size="60px"></ressource>
-        <button @click="testAnim()">click</button>
+        <button @click="testAnim()">Random levels</button>
       </div>
 
       <div id="cards">
