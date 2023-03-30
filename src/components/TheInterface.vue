@@ -24,9 +24,9 @@ let RESSOURCES_NAMES = ref([
   { name: 'sober', level: 0 }
 ])
 function testAnim(){ //Test for the level diffence
-  RESSOURCES_NAMES.value[1].level = 90
-  console.log(RESSOURCES_NAMES.value[1].level)
-  
+  RESSOURCES_NAMES.value.forEach(ressource => {
+    ressource.level = Math.floor(Math.random() * 100);
+  })
 }
 
 </script>
