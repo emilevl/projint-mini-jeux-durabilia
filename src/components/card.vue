@@ -3,41 +3,40 @@ import { onMounted } from 'vue';
 import anime from 'animejs/lib/anime.es.js';
 
 
-defineProps({
+const props = defineProps({
   name: String,
   description: String,
   index: Number
 })
 
 onMounted(() => {
-    anime({
-        targets: '.flip-card .flip-card-inner',
-        keyframes: [
-            {translateY: ['500', '0']},
-            {rotateY: 180}
-        ],
-        duration: 1000,
-        delay: anime.stagger(500),
-        easing: 'spring(1, 80, 10, 0)'
-        
-    });
-})
+  console.log(props.index)
+  anime({
+    targets: '.flip-card .flip-card-inner',
+    keyframes: [
+      { translateY: ['1000', '0'] }
+    ],
+    duration: 1000,
+    delay: anime.stagger(500),
+    easing: 'spring(1, 80, 10, 0)'
 
+  });
+})
 </script>
 
 
 <template>
-  <div class="flip-card"  :style="{
+  <div class="flip-card" :id="`card-${props.index}`" :style="{
     transform: 'translate(-50%, calc(-50% + ' + (15 * index) + 'px)) scale(' + (1 - index * 0.01) + ')'
-    , 'z-index': index}">
-  <div class="flip-card-inner">
-    <div class="flip-card-front"></div>
-    <div class="flip-card-back">
-      <h1>{{name}}</h1> 
-      <p>{{description}}</p> 
+  }">
+    <div class="flip-card-inner" :id="`card-${props.index}`" >
+      <div class="flip-card-front" @click="turnCard()"></div>
+      <div class="flip-card-back">
+        <h1>{{ name }}</h1>
+        <p>{{ description }}</p>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <style scoped>
@@ -54,6 +53,7 @@ onMounted(() => {
 }
 
 @media (max-width: 767px) {
+
   /* Apply different styles for small screens */
   .flip-card {
     width: calc(45vh * 0.64);
@@ -62,12 +62,14 @@ onMounted(() => {
 }
 
 @media (max-width: 479px) {
+
   /* Apply different styles for very small screens */
   .flip-card {
     width: calc(40 *0.64);
     height: 40vh;
   }
 }
+
 /* .flip-card {
   background-color: transparent;
   width: 10vw;
@@ -84,23 +86,25 @@ onMounted(() => {
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 100px;
 }
 
-.flip-card-front, .flip-card-back {
+.flip-card-front,
+.flip-card-back {
   position: absolute;
   width: 100%;
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-        box-shadow:
-            2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
-            6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
-            12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-            22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
-            41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
-            100px 100px 80px rgba(0, 0, 0, 0.07);
+  box-shadow:
+    2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+    100px 100px 80px rgba(0, 0, 0, 0.07);
+  border-radius: 15px;
 }
 
 .flip-card-front {
