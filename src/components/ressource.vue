@@ -38,7 +38,7 @@ img {
 .icon {
     overflow: hidden;
     height: v-bind(size);
-    width: v-bind(size);
+    width: auto;
     grid-column: 1 / 1;
     grid-row: 1 / 1;
 }

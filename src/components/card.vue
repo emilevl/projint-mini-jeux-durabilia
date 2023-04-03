@@ -12,7 +12,7 @@ const props = defineProps({
   response: String
 })
 
-let ressourcesTest = ref(["energy", "hunger", "water"])
+let ressourcesTest = ref([{ name: "energy", level: 100 }, { name: "water", level: 30 }, { name: "hunger", level: 50 }])
 let ressourceTemplating = ref(ressourcesTest.value.length)
 
 onMounted(() => {
@@ -41,7 +41,13 @@ onMounted(() => {
         <h1>{{ name }}</h1>
         <p>{{ description }}</p>
         <div class="flip-card-ressources">
-          <img v-for="ressource of ressourcesTest" :src="`src/assets/icons/${ressource}.svg`">
+          <div v-for="ressource of ressourcesTest" class="ressource-icon-wrapper">
+            <img :src="`src/assets/icons/${ressource.name}.svg`">
+            <div class="circle" :style="{
+              height: `${((ressource.level/100)*10)+5}px`,
+              width: `${((ressource.level/100)*10)+5}px`
+            }"></div>
+          </div>
         </div>
         <div class="flip-card-band">
           <p class="flip-card-response">{{ response }}</p>
@@ -125,7 +131,7 @@ onMounted(() => {
 }
 
 .flip-card-back {
-  background-color: #fff;
+  background-color: white;
   color: #000;
   transform: rotateY(180deg);
 }
@@ -151,6 +157,22 @@ onMounted(() => {
   align-items: center;
   justify-items: center;
   grid-template-columns: repeat(v-bind(ressourceTemplating), 1fr);
+}
+
+.ressource-icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+img {
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.circle {
+  background-color: #000;
+  border-radius: 50%;
 }
 
 .flip-card-back:hover .flip-card-band {
