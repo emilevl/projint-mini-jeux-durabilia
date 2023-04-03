@@ -8,11 +8,14 @@ const props = defineProps({
   name: String,
   description: String,
   index: Number,
+  ressources: [String],
   response: String
 })
 
+let ressourcesTest = ref(["energy", "hunger", "water"])
+let ressourceTemplating = ref(ressourcesTest.value.length)
+
 onMounted(() => {
-  console.log(props.index)
   anime({
     targets: '.flip-card .flip-card-inner',
     keyframes: [
@@ -22,7 +25,6 @@ onMounted(() => {
     duration: 1000,
     delay: anime.stagger(500),
     easing: 'spring(1, 80, 10, 0)'
-
   });
 })
 
@@ -38,8 +40,11 @@ onMounted(() => {
       <div class="flip-card-back">
         <h1>{{ name }}</h1>
         <p>{{ description }}</p>
+        <div class="flip-card-ressources">
+          <img v-for="ressource of ressourcesTest" :src="`src/assets/icons/${ressource}.svg`">
+        </div>
         <div class="flip-card-band">
-          <p class="flip-card-response">Réponse</p>
+          <p class="flip-card-response">{{ response }}</p>
         </div>
       </div>
     </div>
@@ -136,6 +141,16 @@ onMounted(() => {
   border-radius: 0px 0px 15px 15px;
   transition: 0.5s ease;
   overflow: hidden;
+}
+
+.flip-card-ressources {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(v-bind(ressourceTemplating), 1fr);
 }
 
 .flip-card-back:hover .flip-card-band {
