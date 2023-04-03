@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
 import { faArrowLeft, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
-import Card from './card.vue';
-import ressource from './ressource.vue';
+import Card from '../components./components/card.vue';
+import ressource from '../components./components/ressource.vue';
 library.add(faArrowLeft)
 
 
@@ -23,6 +23,7 @@ let RESSOURCES_NAMES = ref([
   { name: 'network', level: 100 },
   { name: 'sober', level: 0 }
 ])
+
 function testAnim(){ //Test for the level diffence
   RESSOURCES_NAMES.value.forEach(ressource => {
     ressource.level = Math.floor(Math.random() * 100);
@@ -42,9 +43,9 @@ function testAnim(){ //Test for the level diffence
       
 
       <div id="cards">
-        <Card name="Card 1" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()"></Card>
-        <Card name="Card 2" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()"></Card>
-        <Card name="Card 3" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()"></Card>
+        <Card name="Card 1" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()" index="0"></Card>
+        <Card name="Card 2" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()" index="1"></Card>
+        <Card name="Card 3" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()" index="2"></Card>
       </div>
     </div>
   </template>

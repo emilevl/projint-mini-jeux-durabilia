@@ -5,7 +5,8 @@ import anime from 'animejs/lib/anime.es.js';
 
 defineProps({
   name: String,
-  description: String
+  description: String,
+  index: Number
 })
 
 onMounted(() => {
@@ -26,7 +27,9 @@ onMounted(() => {
 
 
 <template>
-  <div class="flip-card">
+  <div class="flip-card"  :style="{
+    transform: 'translate(-50%, calc(-50% + ' + (15 * index) + 'px)) scale(' + (1 - index * 0.01) + ')'
+  }">
   <div class="flip-card-inner">
     <div class="flip-card-front"></div>
     <div class="flip-card-back">
@@ -39,13 +42,40 @@ onMounted(() => {
 
 <style scoped>
 .flip-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(64vh * 0.64);
+  max-width: 480px;
+  max-height: 750px;
+  height: 64vh;
+  border: 1px solid black;
+}
+
+@media (max-width: 767px) {
+  /* Apply different styles for small screens */
+  .flip-card {
+    width: calc(90vh * 0.64);
+    height: 45vh;
+  }
+}
+
+@media (max-width: 479px) {
+  /* Apply different styles for very small screens */
+  .flip-card {
+    width: calc(100vw - 20px);
+    height: 40vh;
+  }
+}
+/* .flip-card {
   background-color: transparent;
-  width: 180px;
+  width: 10vw;
   height: 290px;
   perspective: 1000px;
   transition: transform 330ms ease-in-out;
   cursor: pointer;
-}
+} */
 
 .flip-card-inner {
   position: relative;
@@ -86,7 +116,7 @@ onMounted(() => {
   transform: rotateY(180deg);
 }
 
-.flip-card:hover {
+/* .flip-card:hover {
   transform: scale(1.15);
-}
+} */
 </style>
