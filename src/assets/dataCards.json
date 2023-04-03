@@ -24,12 +24,12 @@
             },
             {
                 "id": 2,
-                "title": "Installer un barrage",
-                "question": "Proposer la construction d'un barrage ?",
-                "context": "Les villageois se plaignent de blablabla...",
+                "title": "",
+                "question": "",
+                "context": "",
                 "reponses": [
                     {
-                        "name": "Oui, je veux",
+                        "name": "",
                         "impact": [
                             {"ressource": "lifeAquatic", "level": -10},
                             {"ressource": "energy", "level": 20}
