@@ -35,7 +35,7 @@ onMounted(() => {
   <div class="flip-card" :id="`card-${props.index}`" :style="{
     transform: 'translate(-50%, calc(-50% + ' + (15 * index) + 'px)) scale(' + (1 - index * 0.01) + ')'
   }">
-    <div class="flip-card-inner" :id="`card-${props.index}`">
+    <div class="flip-card-inner">
       <div class="flip-card-front" @click="turnCard()"></div>
       <div class="flip-card-back">
         <h1>{{ name }}</h1>
@@ -67,7 +67,7 @@ onMounted(() => {
   max-width: 480px;
   max-height: 750px;
   height: 64vh;
-  /* border: 1px solid black; */
+  transform-origin: bottom center;
 }
 
 @media (max-width: 767px) {
