@@ -1,12 +1,13 @@
 <script setup>
+import { ref } from 'vue';
+import Grid from '../components/puzzle/grid.vue';
 
 </script>
 
 <template>
-    <h2>Puzzle</h2>
-    <h1>test</h1>
+    <!-- <h1>Puzzle</h1> -->
+    <grid></grid>
 </template>
 
 <style scoped>
-
 </style>
