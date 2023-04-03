@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import { onMounted } from 'vue';
 import anime from 'animejs/lib/anime.es.js';
 
@@ -6,7 +7,8 @@ import anime from 'animejs/lib/anime.es.js';
 const props = defineProps({
   name: String,
   description: String,
-  index: Number
+  index: Number,
+  response: String
 })
 
 onMounted(() => {
@@ -14,7 +16,8 @@ onMounted(() => {
   anime({
     targets: '.flip-card .flip-card-inner',
     keyframes: [
-      { translateY: ['1000', '0'] }
+      { translateY: ['1000', '0'] },
+      { rotateY: 180 }
     ],
     duration: 1000,
     delay: anime.stagger(500),
@@ -22,6 +25,7 @@ onMounted(() => {
 
   });
 })
+
 </script>
 
 
@@ -29,11 +33,14 @@ onMounted(() => {
   <div class="flip-card" :id="`card-${props.index}`" :style="{
     transform: 'translate(-50%, calc(-50% + ' + (15 * index) + 'px)) scale(' + (1 - index * 0.01) + ')'
   }">
-    <div class="flip-card-inner" :id="`card-${props.index}`" >
+    <div class="flip-card-inner" :id="`card-${props.index}`">
       <div class="flip-card-front" @click="turnCard()"></div>
       <div class="flip-card-back">
         <h1>{{ name }}</h1>
         <p>{{ description }}</p>
+        <div class="flip-card-band">
+          <p class="flip-card-response">Réponse</p>
+        </div>
       </div>
     </div>
   </div>
@@ -87,7 +94,7 @@ onMounted(() => {
   transition: transform 0.6s;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 100px;
+  border-radius: 15px;
 }
 
 .flip-card-front,
@@ -116,6 +123,23 @@ onMounted(() => {
   background-color: #fff;
   color: #000;
   transform: rotateY(180deg);
+}
+
+.flip-card-band {
+  position: absolute;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: auto;
+  width: 100%;
+  height: 0%;
+  background-color: lightblue;
+  border-radius: 0px 0px 15px 15px;
+  transition: 0.5s ease;
+  overflow: hidden;
+}
+
+.flip-card-back:hover .flip-card-band {
+  height: 20%;
 }
 
 /* .flip-card:hover {
