@@ -8,7 +8,7 @@ const props = defineProps({
   name: String,
   description: String,
   index: Number,
-  ressources: Object,
+  ressources: Array,
   response: String
 })
 
