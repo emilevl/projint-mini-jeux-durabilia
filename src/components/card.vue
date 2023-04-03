@@ -29,7 +29,7 @@ onMounted(() => {
 <template>
   <div class="flip-card"  :style="{
     transform: 'translate(-50%, calc(-50% + ' + (15 * index) + 'px)) scale(' + (1 - index * 0.01) + ')'
-  }">
+    , 'z-index': index}">
   <div class="flip-card-inner">
     <div class="flip-card-front"></div>
     <div class="flip-card-back">
@@ -50,13 +50,13 @@ onMounted(() => {
   max-width: 480px;
   max-height: 750px;
   height: 64vh;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 @media (max-width: 767px) {
   /* Apply different styles for small screens */
   .flip-card {
-    width: calc(90vh * 0.64);
+    width: calc(45vh * 0.64);
     height: 45vh;
   }
 }
@@ -64,7 +64,7 @@ onMounted(() => {
 @media (max-width: 479px) {
   /* Apply different styles for very small screens */
   .flip-card {
-    width: calc(100vw - 20px);
+    width: calc(40 *0.64);
     height: 40vh;
   }
 }
@@ -85,7 +85,6 @@ onMounted(() => {
   transition: transform 0.6s;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  border-radius: 16px;
   
 }
 
@@ -95,7 +94,6 @@ onMounted(() => {
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  border-radius: 16px;
         box-shadow:
             2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
             6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),

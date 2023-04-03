@@ -24,6 +24,12 @@ let RESSOURCES_NAMES = ref([
   { name: 'sober', level: 0 }
 ])
 
+let CARDS = ref([
+  { name: 'Card 1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+  { name: 'Card 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
+  { name: 'Card 3', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' }
+])
+
 function testAnim(){ //Test for the level diffence
   RESSOURCES_NAMES.value.forEach(ressource => {
     ressource.level = Math.floor(Math.random() * 100);
@@ -43,9 +49,7 @@ function testAnim(){ //Test for the level diffence
       
 
       <div id="cards">
-        <Card name="Card 1" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()" index="0"></Card>
-        <Card name="Card 2" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()" index="1"></Card>
-        <Card name="Card 3" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit." @click="testAnim()" index="2"></Card>
+        <Card v-for="card of CARDS" :name="card.name" :description="card.description" @click="testAnim()" :index="card.index"></Card>
       </div>
     </div>
   </template>
@@ -74,7 +78,7 @@ function testAnim(){ //Test for the level diffence
         left: 0;
         margin: 20px;
     }
-    #cards {
+    /* #cards {
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
@@ -82,7 +86,7 @@ function testAnim(){ //Test for the level diffence
       align-items: normal;
       align-content: normal;
       gap: 32px;
-    }
+    } */
 
     #ressources {
       display: flex;
