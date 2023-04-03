@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* import specific icons */
 import { faArrowLeft, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
-import Card from './card.vue';
-import ressource from './ressource.vue';
+import Card from '../components./components/card.vue';
+import ressource from '../components./components/ressource.vue';
 library.add(faArrowLeft)
 
 
