@@ -34,23 +34,38 @@ let RESSOURCES_NAMES = ref([
 ])
 
 let CARDS = ref([
-  { name: 'Card 1', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-  { name: 'Card 2', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' },
-  { name: 'Card 3', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' }
+  { 
+    name: 'Card 1', 
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',  
+    ressources: [{name: 'energy', level: 10}, {name: 'water', level: 30}, {name: 'hunger', level: 50}],
+    response: 'esfdklasé fkjdlésa jfkldé sajfkléd as.'
+  },
+  { 
+    name: 'Card 2',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 
+    ressources: [{name: 'energy', level: 10}, {name: 'water', level: 30}, {name: 'hunger', level: 50}],
+    response: 'Informations sur la claret, consectetur adipiscing elit.',
+  },
+  { 
+    name: 'Card 3', 
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 
+    ressources: [{name: 'peaceJustice', level: 90}, {name: 'water', level: 30}, {name: 'hunger', level: 50}],
+    response: 'fdéasmflkd askfdjkl ipsum dolor sit amet, consectetur adipiscing elit.'
+  }
 ])
 
-const currentCard = CARDS.value.length-1;
+const iCurrentCard = CARDS.value.length-1;
 let mouseMoveHandler;
 onMounted(() => {
   
   mouseMoveHandler = (event) => {
     const windowCenterX = window.innerWidth / 2;
-    const card = document.querySelector(`#card-${currentCard}`);
+    const card = document.querySelector(`#card-${iCurrentCard}`);
     if (!card) return;
-
-    const tiltRange = 5; // You can adjust the tilt range as needed
+    
+    const tiltRange = 7; // You can adjust the tilt range as needed
     const tilt = (event.clientX - windowCenterX) / windowCenterX * tiltRange;
-    card.style.transform = `rotate(${tilt}deg) translate(-50%, -50%)`;
+    card.style.transform = `rotate(${tilt}deg) translate(-50%, calc(-50% + ${15 * iCurrentCard}px))`;
   };
   document.addEventListener("mousemove", mouseMoveHandler);
 });
@@ -87,16 +102,20 @@ function turnCard() {
     <div class="main-page">
       <p to="/" class="back-link"><font-awesome-icon icon="fa-solid fa-arrow-left" />  Retour au campement</p>
       <div class="bottom-text">La forêt</div>
-      <div id="ressources">
+      <!-- <div id="ressources">
         <ressource v-for="name of RESSOURCES_NAMES" :name="name.name" :level="name.level" size="60px"></ressource>
-      </div>
+      </div> -->
       
 
       <div id="cards">
         <Card v-for="(card, index) of CARDS" :name="card.name" 
         :description="card.description" 
         @click="turnCard()" 
-        :index="index" ref="cards"></Card>
+        :index="index" 
+        ref="cards"
+        :ressources="card.ressources"
+        :response="card.response"
+        ></Card>
       </div>
     </div>
   </template>
