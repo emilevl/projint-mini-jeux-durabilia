@@ -39,30 +39,18 @@ let CARDS = ref([
   { name: 'Card 3', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' }
 ])
 
+const currentCard = CARDS.value.length-1;
 let mouseMoveHandler;
 onMounted(() => {
-  let animationDone = false;
-
-  // Wait for the initial animation to complete
-  setTimeout(() => {
-    animationDone = true;
-  }, 1000 + 500 * CARDS.value.length);
-
+  
   mouseMoveHandler = (event) => {
     const windowCenterX = window.innerWidth / 2;
-    const card = document.querySelector("#cards .flip-card:first-child");
+    const card = document.querySelector(`#card-${currentCard}`);
     if (!card) return;
-
-    const cardComponent = ctx.$refs.cards[0];
-    if (!cardComponent) return;
-
-    // Get the translateY and scale values from the Vue component's style attribute
-    const translateY = cardComponent.$attrs.style.match(/translateY\(([^)]+)\)/)[1];
-    const scale = cardComponent.$attrs.style.match(/scale\(([^)]+)\)/)[1];
 
     const tiltRange = 5; // You can adjust the tilt range as needed
     const tilt = (event.clientX - windowCenterX) / windowCenterX * tiltRange;
-    card.style.transform = `rotate(${tilt}deg)`;
+    card.style.transform = `rotate(${tilt}deg) translate(-50%, -50%)`;
   };
   document.addEventListener("mousemove", mouseMoveHandler);
 });
@@ -76,7 +64,6 @@ function testAnim(){ //Test for the level diffence
     ressource.level = Math.floor(Math.random() * 100);
   })
 }
-const iNextCard = CARDS.value.length-1;
 function turnCard() {
   // if (iNextCard >= 0) {
   //   anime({
@@ -109,12 +96,7 @@ function turnCard() {
         <Card v-for="(card, index) of CARDS" :name="card.name" 
         :description="card.description" 
         @click="turnCard()" 
-        :index="index" ref="cards" 
-        :style="{
-          position: 'absolute', 
-          top: `${50+ index}%`, 
-          left: '50%'
-          }"></Card>
+        :index="index" ref="cards"></Card>
       </div>
     </div>
   </template>
