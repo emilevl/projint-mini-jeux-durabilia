@@ -8,7 +8,7 @@ const props = defineProps({
   name: String,
   description: String,
   index: Number,
-  ressources: [String],
+  ressources: Object,
   response: String
 })
 
@@ -35,7 +35,7 @@ onMounted(() => {
     transform: 'translate(-50%, calc(-50% + ' + (15 * index) + 'px))'
   }">
     <div class="flip-card-inner">
-      <div class="flip-card-front" @click="turnCard()"></div>
+      <div class="flip-card-front"></div>
       <div class="flip-card-back">
         <h1>{{ name }}</h1>
         <p>{{ description }}</p>
@@ -86,15 +86,6 @@ onMounted(() => {
   }
 }
 
-/* .flip-card {
-  background-color: transparent;
-  width: 10vw;
-  height: 290px;
-  perspective: 1000px;
-  transition: transform 330ms ease-in-out;
-  cursor: pointer;
-} */
-
 .flip-card-inner {
   position: relative;
   width: 100%;
@@ -103,7 +94,6 @@ onMounted(() => {
   transition: transform 0.6s;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 15px;
 }
 
 .flip-card-front,
@@ -120,7 +110,6 @@ onMounted(() => {
     22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
     41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
     100px 100px 80px rgba(0, 0, 0, 0.07);
-  border-radius: 15px;
 }
 
 .flip-card-front {
@@ -142,7 +131,6 @@ onMounted(() => {
   width: 100%;
   height: 0%;
   background-color: lightblue;
-  border-radius: 0px 0px 15px 15px;
   transition: 0.5s ease;
   overflow: hidden;
 }
@@ -172,12 +160,4 @@ img {
   background-color: #000;
   border-radius: 50%;
 }
-
-.flip-card-back:hover .flip-card-band {
-  height: 20%;
-}
-
-/* .flip-card:hover {
-  transform: scale(1.15);
-} */
 </style>
