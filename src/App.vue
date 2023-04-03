@@ -1,12 +1,12 @@
 <script setup>
 import Card from './components/card.vue';
 import ressource from './components/ressource.vue';
-import TheInterface from './interfaces/TheInterface.vue';
+import TheCardInterface from './interfaces/TheCardInterface.vue';
 
 </script>
 
 <template>
-  <TheInterface></TheInterface>
+  <TheCardInterface></TheCardInterface>
 </template>
 
 <style scoped>
