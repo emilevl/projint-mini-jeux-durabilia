@@ -14,14 +14,23 @@ library.add(faArrowLeft)
 
 //Les noms et les niveaux pour chaque ressources (Les niveaux sont en pourcents)
 let RESSOURCES_NAMES = ref([
-  { name: 'balance', level: 40 },
-  { name: 'bolt', level: 20 },
-  { name: 'brain', level: 80 },
-  { name: 'bulb', level: 75 },
-  { name: 'engagement', level: 33 },
-  { name: 'handshake', level: 29 },
-  { name: 'network', level: 100 },
-  { name: 'sober', level: 0 }
+  { name: 'climateActions', level: 0 },
+  { name: 'communities', level: 0 },
+  { name: 'consumption', level: 0 },
+  { name: 'decentWork', level: 0 },
+  { name: 'education', level: 0 },
+  { name: 'energy', level: 0 },
+  { name: 'genderEquality', level: 0 },
+  { name: 'health', level: 0 },
+  { name: 'hunger', level: 0 },
+  { name: 'inequality', level: 0 },
+  { name: 'innovation', level: 0 },
+  { name: 'lifeAquatic', level: 0 },
+  { name: 'lifeLand', level: 0 },
+  { name: 'partnership', level: 0 },
+  { name: 'peaceJustice', level: 0 },
+  { name: 'poverty', level: 0 },
+  { name: 'water', level: 0 },
 ])
 
 let CARDS = ref([

@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import { onMounted } from 'vue';
 import anime from 'animejs/lib/anime.es.js';
 
@@ -6,22 +7,27 @@ import anime from 'animejs/lib/anime.es.js';
 const props = defineProps({
   name: String,
   description: String,
-  index: Number
+  index: Number,
+  ressources: [String],
+  response: String
 })
 
+let ressourcesTest = ref([{ name: "energy", level: 100 }, { name: "water", level: 30 }, { name: "hunger", level: 50 }])
+let ressourceTemplating = ref(ressourcesTest.value.length)
+
 onMounted(() => {
-  console.log(props.index)
   anime({
     targets: '.flip-card .flip-card-inner',
     keyframes: [
-      { translateY: ['1000', '0'] }
+      { translateY: ['1000', '0'] },
+      { rotateY: 180 }
     ],
     duration: 1000,
     delay: anime.stagger(500),
     easing: 'spring(1, 80, 10, 0)'
-
   });
 })
+
 </script>
 
 
@@ -29,11 +35,23 @@ onMounted(() => {
   <div class="flip-card" :id="`card-${props.index}`" :style="{
     transform: 'translate(-50%, calc(-50% + ' + (15 * index) + 'px)) scale(' + (1 - index * 0.01) + ')'
   }">
-    <div class="flip-card-inner" :id="`card-${props.index}`" >
+    <div class="flip-card-inner" :id="`card-${props.index}`">
       <div class="flip-card-front" @click="turnCard()"></div>
       <div class="flip-card-back">
         <h1>{{ name }}</h1>
         <p>{{ description }}</p>
+        <div class="flip-card-ressources">
+          <div v-for="ressource of ressourcesTest" class="ressource-icon-wrapper">
+            <img :src="`src/assets/icons/${ressource.name}.svg`">
+            <div class="circle" :style="{
+              height: `${((ressource.level/100)*10)+5}px`,
+              width: `${((ressource.level/100)*10)+5}px`
+            }"></div>
+          </div>
+        </div>
+        <div class="flip-card-band">
+          <p class="flip-card-response">{{ response }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -87,7 +105,7 @@ onMounted(() => {
   transition: transform 0.6s;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 100px;
+  border-radius: 15px;
 }
 
 .flip-card-front,
@@ -113,9 +131,52 @@ onMounted(() => {
 }
 
 .flip-card-back {
-  background-color: #fff;
+  background-color: white;
   color: #000;
   transform: rotateY(180deg);
+}
+
+.flip-card-band {
+  position: absolute;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: auto;
+  width: 100%;
+  height: 0%;
+  background-color: lightblue;
+  border-radius: 0px 0px 15px 15px;
+  transition: 0.5s ease;
+  overflow: hidden;
+}
+
+.flip-card-ressources {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(v-bind(ressourceTemplating), 1fr);
+}
+
+.ressource-icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+img {
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.circle {
+  background-color: #000;
+  border-radius: 50%;
+}
+
+.flip-card-back:hover .flip-card-band {
+  height: 20%;
 }
 
 /* .flip-card:hover {
