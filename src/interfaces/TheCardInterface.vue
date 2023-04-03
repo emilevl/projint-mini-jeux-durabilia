@@ -39,36 +39,63 @@ let CARDS = ref([
     name: 'Card 1', 
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',  
     ressources: [{name: 'energy', level: 10}, {name: 'water', level: 30}, {name: 'hunger', level: 50}],
-    response: 'esfdklasé fkjdlésa jfkldé sajfkléd as.'
+    description: 'Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    response: '',
+    yes: 'Card 1 yes info',
+    no: 'Card 1 no info'
   },
   { 
     name: 'Card 2',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 
     ressources: [{name: 'energy', level: 10}, {name: 'water', level: 30}, {name: 'hunger', level: 50}],
-    response: 'Informations sur la claret, consectetur adipiscing elit.',
+    description: 'Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    response: '',
+    yes: 'Card 2 yes info',
+    no: 'Card 2 no info'
   },
   { 
     name: 'Card 3', 
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 
     ressources: [{name: 'peaceJustice', level: 90}, {name: 'water', level: 30}, {name: 'hunger', level: 50}],
-    response: 'fdéasmflkd askfdjkl ipsum dolor sit amet, consectetur adipiscing elit.'
+    description: 'Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    response: '',
+    yes: 'Card 3 yes info',
+    no: 'Card 3 no info'
   }
 ])
 
 const iCurrentCard = CARDS.value.length-1;
 let mouseMoveHandler;
 onMounted(() => {
+  const windowCenterX = window.innerWidth / 2;
   
   mouseMoveHandler = (event) => {
-    const windowCenterX = window.innerWidth / 2;
     const card = document.querySelector(`#card-${iCurrentCard}`);
+    const band = card.querySelector(`.flip-card-band`);
     if (!card) return;
     
+    // If the person tilts on the left, we'll show the "no" response
+    if (event.clientX < windowCenterX - 200) {
+      CARDS.value[iCurrentCard].response = CARDS.value[iCurrentCard].no;
+      band.style.height = '20%';
+    } else if(event.clientX > windowCenterX + 200){
+      CARDS.value[iCurrentCard].response = CARDS.value[iCurrentCard].yes;
+      band.style.height = '20%';
+    } else {
+      band.style.height = '0%';
+    }
     const tiltRange = 7; // You can adjust the tilt range as needed
     const tilt = (event.clientX - windowCenterX) / windowCenterX * tiltRange;
     card.style.transform = `rotate(${tilt}deg) translate(-50%, calc(-50% + ${15 * iCurrentCard}px))`;
   };
   document.addEventListener("mousemove", mouseMoveHandler);
+  document.addEventListener("click", (event) => {
+    if (event.clientX < windowCenterX - 200) {
+      console.log('no')
+    } else if(event.clientX > windowCenterX + 200){
+      console.log('yes')
+    }
+  });
 });
 
 onUnmounted(() => {
