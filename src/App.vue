@@ -1,7 +1,7 @@
 <script setup>
 import Card from './components/card.vue';
 import ressource from './components/ressource.vue';
-import TheInterface from './components/TheInterface.vue';
+import TheInterface from './interfaces/TheInterface.vue';
 
 </script>
 
