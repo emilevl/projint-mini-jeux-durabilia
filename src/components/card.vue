@@ -12,8 +12,7 @@ const props = defineProps({
   response: String
 })
 
-let ressourcesTest = ref([{ name: "energy", level: 100 }, { name: "water", level: 30 }, { name: "hunger", level: 50 }])
-let ressourceTemplating = ref(ressourcesTest.value.length)
+let ressourceTemplating = ref(props.ressources.length)
 
 onMounted(() => {
   anime({
@@ -33,7 +32,7 @@ onMounted(() => {
 
 <template>
   <div class="flip-card" :id="`card-${props.index}`" :style="{
-    transform: 'translate(-50%, calc(-50% + ' + (15 * index) + 'px)) scale(' + (1 - index * 0.01) + ')'
+    transform: 'translate(-50%, calc(-50% + ' + (15 * index) + 'px))'
   }">
     <div class="flip-card-inner">
       <div class="flip-card-front" @click="turnCard()"></div>
@@ -41,7 +40,7 @@ onMounted(() => {
         <h1>{{ name }}</h1>
         <p>{{ description }}</p>
         <div class="flip-card-ressources">
-          <div v-for="ressource of ressourcesTest" class="ressource-icon-wrapper">
+          <div v-for="ressource of props.ressources" class="ressource-icon-wrapper">
             <img :src="`src/assets/icons/${ressource.name}.svg`">
             <div class="circle" :style="{
               height: `${((ressource.level/100)*10)+5}px`,
@@ -62,12 +61,11 @@ onMounted(() => {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   width: calc(64vh * 0.64);
   max-width: 480px;
   max-height: 750px;
   height: 64vh;
-  transform-origin: bottom center;
+  transform-origin: left center;
 }
 
 @media (max-width: 767px) {
