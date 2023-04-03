@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <h1>Puzzle</h1>
+    <h2>Puzzle</h2>
 </template>
 
 <style scoped>
