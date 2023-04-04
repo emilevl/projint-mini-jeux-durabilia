@@ -5,7 +5,7 @@
             "title": "Installer un barrage",
             "question": "Proposer la construction d'un barrage ?",
             "context": "Les villageois se plaignent de blablabla...",
-            "reponses": [
+            "responses": [
                 {
                     "name": "Oui, je veux",
                     "impact": [
@@ -23,21 +23,24 @@
         },
         {
             "id": 2,
-            "title": "",
-            "question": "",
-            "context": "",
-            "reponses": [
+            "title": "Emprisonner villageois",
+            "question": "Mettre en prison les villageois ?",
+            "context": "Les villageois se plaignent de blablabla...",
+            "responses": [
                 {
-                    "name": "",
+                    "name": "Oui, que justice soit faite",
                     "impact": [
-                        {"ressource": "lifeAquatic", "level": -10},
-                        {"ressource": "energy", "level": 20}
+                        {"ressource": "peaceJustice", "level": 10},
+                        {"ressource": "energy", "level": -20},
+                        {"ressource": "communities", "level": -50}
                     ]
                 },
                 {
-                    "name": "Non t'es ouf",
+                    "name": "Non, nous avons besoin d'eux",
                     "impact": [
-                        {"ressource": "lifeAquatic", "level": 20}
+                        {"ressource": "education", "level": -20},
+                        {"ressource": "energy", "level": -20},
+                        {"ressource": "peaceJustice", "level": -50}
                     ]
                 }
             ]

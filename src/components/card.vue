@@ -41,10 +41,10 @@ onMounted(() => {
         <p>{{ description }}</p>
         <div class="flip-card-ressources">
           <div v-for="ressource of props.ressources" class="ressource-icon-wrapper">
-            <img :src="`src/assets/icons/${ressource.name}.svg`">
+            <img :src="`src/assets/icons/${ressource.ressource}.svg`">
             <div class="circle" :style="{
-              height: `${((ressource.level/100)*10)+5}px`,
-              width: `${((ressource.level/100)*10)+5}px`
+              height: `${((ressource.level/100)*4)}px`,
+              width: `${((ressource.level/100)*4)}px`
             }"></div>
           </div>
         </div>
@@ -103,13 +103,16 @@ onMounted(() => {
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  box-shadow:
+  -webkit-box-shadow: 0px -4px 30px -14px rgba(0,0,0,0.67);
+  -moz-box-shadow: 0px -4px 30px -14px rgba(0,0,0,0.67);
+  box-shadow: 0px -4px 30px -14px rgba(0,0,0,0.67);
+  /* box-shadow:
     2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
     6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
     12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
     22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
     41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
-    100px 100px 80px rgba(0, 0, 0, 0.07);
+    100px 100px 80px rgba(0, 0, 0, 0.07); */
 }
 
 .flip-card-front {

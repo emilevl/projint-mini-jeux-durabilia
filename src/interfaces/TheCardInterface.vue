@@ -35,44 +35,19 @@ let RESSOURCES_NAMES = ref([
   { name: 'water', level: 0 },
 ])
 
-console.log(dataCards.cards[0].id)
 
-// let CARDS = [];
+let CARDS = ref([]);
 // create a new array with 5 of the dataCards objects
-// for(let i = 0; i < dataCards.cards.length; i++) {
-//   CARDS.push(dataCards.cards[i])
-//   dataCards.cards[i].id = i
-// }
+for(let i = 0; i < dataCards.cards.length; i++) {
+  // add the card from the dataCards object to the CARDS array
+  CARDS.value.push(dataCards.cards[i]);
+  
+  // dataCards.cards[i].id = i
+}
 
-let CARDS = ref([
-  { 
-    name: 'Card 1', 
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',  
-    ressources: [{name: 'energy', level: 10}, {name: 'water', level: 30}, {name: 'hunger', level: 50}],
-    description: 'Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    response: '',
-    yes: 'Card 1 yes info',
-    no: 'Card 1 no info'
-  },
-  { 
-    name: 'Card 2',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 
-    ressources: [{name: 'energy', level: 10}, {name: 'water', level: 30}, {name: 'hunger', level: 50}],
-    description: 'Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    response: '',
-    yes: 'Card 2 yes info',
-    no: 'Card 2 no info'
-  },
-  { 
-    name: 'Card 3', 
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 
-    ressources: [{name: 'peaceJustice', level: 90}, {name: 'water', level: 30}, {name: 'hunger', level: 50}],
-    description: 'Description Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    response: '',
-    yes: 'Card 3 yes info',
-    no: 'Card 3 no info'
-  }
-])
+// choices are from the dataCards object: 0 = choice 1, 1 = choice 2
+// -> cards.responses[choice]
+const iChoice = ref(0);
 
 const iCurrentCard = CARDS.value.length-1;
 let mouseMoveHandler;
@@ -84,12 +59,13 @@ onMounted(() => {
     const band = card.querySelector(`.flip-card-band`);
     if (!card) return;
     
-    // If the person tilts on the left, we'll show the "no" response
+    // If the person tilts on the left, we'll show the first response
     if (event.clientX < windowCenterX - 200) {
-      CARDS.value[iCurrentCard].response = CARDS.value[iCurrentCard].no;
+      iChoice.value = 0;
       band.style.height = '20%';
     } else if(event.clientX > windowCenterX + 200){
-      CARDS.value[iCurrentCard].response = CARDS.value[iCurrentCard].yes;
+      iChoice.value = 1;
+      // CARDS.value[iCurrentCard].response = CARDS.value[iCurrentCard].responses[1].name;
       band.style.height = '20%';
     } else {
       band.style.height = '0%';
@@ -112,7 +88,7 @@ onUnmounted(() => {
   document.removeEventListener("mousemove", mouseMoveHandler);
 });
 
-let showRecap = ref(true)
+let showRecap = ref(false)
 function toggleRecap(){
   showRecap.value = !showRecap.value
 }
@@ -146,12 +122,12 @@ function turnCard() {
 
       <div id="cards">
         <Card v-for="(card, index) of CARDS" :name="card.name" 
-        :description="card.description" 
+        :description="card.question" 
         @click="turnCard()" 
         :index="index" 
         ref="cards"
-        :ressources="card.ressources"
-        :response="card.response"
+        :ressources="card.responses[iChoice].impact"
+        :response="card.responses[iChoice].name"
         ></Card>
       </div>
     </div>
