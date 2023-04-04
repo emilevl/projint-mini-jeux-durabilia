@@ -65,7 +65,6 @@ function updateImpactData() {
                     } else {
                         dataEntry.impact += impact.level
                     }
-                    console.log(impact)
                 }
             }
         }
@@ -75,8 +74,26 @@ function updateImpactData() {
 onMounted(() => {
     getPlayerChoices()
     updateImpactData()
+    setTimeout(() => showBars(), 50)
     setTimeout(() => showChange(), 500)
 })
+
+function showBars() {
+    for (let impact of totalImpact.value) {
+        const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
+        for (let ressource of ressourceGlobal.value) {
+            if (ressource.name == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
+        }
+    }
+    for (let i = 0; i < 5; i++) {
+        for (let impact of playerChoices.value[i]) {
+            const barPrincipal = document.querySelector(`#barGlob-choice${i+1}-${impact.ressource}`)
+            for (let ressource of ressourceGlobal.value) {
+                if (ressource.name == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
+            }
+        }
+    }
+}
 
 //Set changes for the full recap of total impacts
 function showChange() {
@@ -93,10 +110,6 @@ function showChange() {
     //For the choices
     for (let i = 0; i < 5; i++) {
         for (let impact of playerChoices.value[i]) {
-            const barPrincipal = document.querySelector(`#barGlob-choice${i + 1}-${impact.ressource}`)
-            for (let ressource of ressourceGlobal.value) {
-                if (ressource.name == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
-            }
             const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
             bar.style.height = `${(Math.abs(impact.level) / 100) * 200}px`
             if (impact.level < 0) {
@@ -146,7 +159,7 @@ function changeSection(id) {
                 <div class="detail-progression" v-for="impact of totalImpact">
                     <img class="icon" :src="`src/assets/icons/${impact.ressource}.svg`">
                     <div class="progression-bar-container">
-                        <div class="progression-bar-current" :style="{ height: `${(impact.currentLevel / 100) * 200}px` }">
+                        <div class="progression-bar-current" :id="`barGlob-${impact.ressource}`">
                         </div>
                         <div class="progression-bar-impact" :id="`${impact.ressource}`"></div>
                     </div>
