@@ -36,10 +36,10 @@ let totalImpact = ref([
 ])
 
 //Store the impacts of the player choices
-function getPlayerChoices(){
-    for(let card of props.cardSelection){
-        for(let impact of card.responses[card.decision].impact){
-            playerChoices.value[card.id-1].push(impact)
+function getPlayerChoices() {
+    for (let card of props.cardSelection) {
+        for (let impact of card.responses[card.decision].impact) {
+            playerChoices.value[card.id - 1].push(impact)
         }
     }
 }
@@ -47,8 +47,8 @@ function getPlayerChoices(){
 function updateImpactData() {
     for (let dataEntry of totalImpact.value) {
         //Get ressources level
-        for(let ressource of ressourceGlobal.value){
-            if(dataEntry.ressource == ressource.name) {
+        for (let ressource of ressourceGlobal.value) {
+            if (dataEntry.ressource == ressource.name) {
                 dataEntry.currentLevel = ressource.currentLevel
             }
         }
@@ -65,6 +65,7 @@ function updateImpactData() {
                     } else {
                         dataEntry.impact += impact.level
                     }
+                    console.log(impact)
                 }
             }
         }
@@ -92,6 +93,10 @@ function showChange() {
     //For the choices
     for (let i = 0; i < 5; i++) {
         for (let impact of playerChoices.value[i]) {
+            const barPrincipal = document.querySelector(`#barGlob-choice${i + 1}-${impact.ressource}`)
+            for (let ressource of ressourceGlobal.value) {
+                if (ressource.name == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
+            }
             const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
             bar.style.height = `${(Math.abs(impact.level) / 100) * 200}px`
             if (impact.level < 0) {
@@ -159,9 +164,7 @@ function changeSection(id) {
                     <div class="detail-progression" v-for="impact of playerChoices[n - 1]">
                         <img class="icon" :src="`src/assets/icons/${impact.ressource}.svg`">
                         <div class="progression-bar-container">
-                            <div class="progression-bar-current"
-                                :style="{ height: `${(impact.currentLevel / 100) * 200}px` }">
-                            </div>
+                            <div class="progression-bar-current" :id="`barGlob-choice${n}-${impact.ressource}`"></div>
                             <div class="progression-bar-impact" :id="`choice${n}-${impact.ressource}`"></div>
                         </div>
                         <div v-if="impact.level > 0" class="progression-bar-number">+{{ impact.level }}</div>
