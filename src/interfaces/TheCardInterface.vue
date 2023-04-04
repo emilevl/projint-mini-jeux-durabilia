@@ -170,6 +170,7 @@ function infoPlayer() {
     flex-direction: column;
     justify-content: center;
     margin-left: 20px;
+    max-width: 500px;
   }
 
   #description-current-card h1 {
@@ -178,7 +179,7 @@ function infoPlayer() {
   }
 
   #description-current-card p {
-      font-size: 1rem;
+      font-size: 0.9em;
       margin: 10px 0 0;
   }
 
