@@ -9,23 +9,14 @@
                 {
                     "name": "Oui, je veux",
                     "impact": [
-                        {
-                            "ressource": "lifeAquatic",
-                            "level": -10
-                        },
-                        {
-                            "ressource": "energy",
-                            "level": 20
-                        }
+                        {"ressource": "lifeAquatic", "level": -10},
+                        {"ressource": "energy", "level": 20}
                     ]
                 },
                 {
                     "name": "Non t'es ouf",
                     "impact": [
-                        {
-                            "ressource": "lifeAquatic",
-                            "level": 20
-                        }
+                        {"ressource": "lifeAquatic", "level": 20}
                     ]
                 }
             ]
@@ -39,23 +30,14 @@
                 {
                     "name": "",
                     "impact": [
-                        {
-                            "ressource": "lifeAquatic",
-                            "level": -10
-                        },
-                        {
-                            "ressource": "energy",
-                            "level": 20
-                        }
+                        {"ressource": "lifeAquatic", "level": -10},
+                        {"ressource": "energy", "level": 20}
                     ]
                 },
                 {
                     "name": "Non t'es ouf",
                     "impact": [
-                        {
-                            "ressource": "lifeAquatic",
-                            "level": 20
-                        }
+                        {"ressource": "lifeAquatic", "level": 20}
                     ]
                 }
             ]
