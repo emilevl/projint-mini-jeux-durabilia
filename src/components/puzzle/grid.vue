@@ -7,7 +7,7 @@ const nbTiles = nbCols * nbRows
 
 const nbColsCss = `repeat(${nbCols}, 1fr)`
 
-let sizeGrid = window.innerHeight * 0.9;
+let sizeGrid = window.innerHeight * 0.7;
 let sizeTile = sizeGrid / nbCols;
 let sizeTileCss = `${sizeTile}px`
 
@@ -51,12 +51,25 @@ for (let i = 0; i < nbTiles; i++) {
 
     height: fit-content;
     width: fit-content;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* padding: 2%; */
 }
 
 .grid-item {
     background-color: rgba(255, 255, 255, 0.8);
-    /* border: 1px solid rgba(0, 0, 0, 0.8); */
-    width: v-bind(sizeTileCss);
-    height: v-bind(sizeTileCss);
+    width: 16vh;
+    height: 16vh;
+}
+
+@media (orientation: portrait) {
+  .grid-item {
+    width: 16vw;
+    height: 16vw;
+  }
 }
 </style>

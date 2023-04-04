@@ -1,13 +1,34 @@
 <script setup>
 import { ref } from 'vue';
 import Grid from '../components/puzzle/grid.vue';
+import TheMenu from '../components/theMenu.vue';
+import TheChrono from '../components/puzzle/theChrono.vue';
 
 </script>
 
 <template>
-    <!-- <h1>Puzzle</h1> -->
-    <grid></grid>
+    <div class="aside">
+        <the-chrono></the-chrono>
+        <the-menu></the-menu>
+    </div>
+    <grid id="grid"></grid>
 </template>
 
-<style scoped>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --darkgrey: #2E2E2E;
+    --lightgrey: #D9D9D9
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--darkgrey);;
+}
+
+.aside {
+    padding: 25px 25px 0 0;
+    text-align: right;
+}
 </style>

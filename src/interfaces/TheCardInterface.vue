@@ -54,7 +54,7 @@ function testAnim(){ //Test for the level diffence
     </div>
   </template>
   
-  <style>
+  <style scoped>
   body {
     background-color: #b8b7b7;
     
