@@ -10,6 +10,7 @@ import { faArrowLeft, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import Card from '../components/card.vue';
 import popupCardEnd from '../components/popupCardEnd.vue';
 import ressource from '../components/ressource.vue';
+import dataCards from '../assets/dataCards.json';
 library.add(faArrowLeft)
 
 
@@ -33,6 +34,15 @@ let RESSOURCES_NAMES = ref([
   { name: 'poverty', level: 0 },
   { name: 'water', level: 0 },
 ])
+
+console.log(dataCards.cards[0].id)
+
+// let CARDS = [];
+// create a new array with 5 of the dataCards objects
+// for(let i = 0; i < dataCards.cards.length; i++) {
+//   CARDS.push(dataCards.cards[i])
+//   dataCards.cards[i].id = i
+// }
 
 let CARDS = ref([
   { 
@@ -146,7 +156,6 @@ function turnCard() {
         ></Card>
       </div>
     </div>
-    <popupCardEnd @closeRecap="toggleRecap()"></popupCardEnd>
   </template>
   
   <style>

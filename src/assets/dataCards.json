@@ -1,48 +1,46 @@
-[
-    {
-        "cards": [
-            {
-                "id": 1,
-                "title": "Installer un barrage",
-                "question": "Proposer la construction d'un barrage ?",
-                "context": "Les villageois se plaignent de blablabla...",
-                "reponses": [
-                    {
-                        "name": "Oui, je veux",
-                        "impact": [
-                            {"ressource": "lifeAquatic", "level": -10},
-                            {"ressource": "energy", "level": 20}
-                        ]
-                    },
-                    {
-                        "name": "Non t'es ouf",
-                        "impact": [
-                            {"ressource": "lifeAquatic", "level": 20}
-                        ]
-                    }
-                ]
-            },
-            {
-                "id": 2,
-                "title": "",
-                "question": "",
-                "context": "",
-                "reponses": [
-                    {
-                        "name": "",
-                        "impact": [
-                            {"ressource": "lifeAquatic", "level": -10},
-                            {"ressource": "energy", "level": 20}
-                        ]
-                    },
-                    {
-                        "name": "Non t'es ouf",
-                        "impact": [
-                            {"ressource": "lifeAquatic", "level": 20}
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
-]
+{
+    "cards": [
+        {
+            "id": 1,
+            "title": "Installer un barrage",
+            "question": "Proposer la construction d'un barrage ?",
+            "context": "Les villageois se plaignent de blablabla...",
+            "reponses": [
+                {
+                    "name": "Oui, je veux",
+                    "impact": [
+                        {"ressource": "lifeAquatic", "level": -10},
+                        {"ressource": "energy", "level": 20}
+                    ]
+                },
+                {
+                    "name": "Non t'es ouf",
+                    "impact": [
+                        {"ressource": "lifeAquatic", "level": 20}
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "",
+            "question": "",
+            "context": "",
+            "reponses": [
+                {
+                    "name": "",
+                    "impact": [
+                        {"ressource": "lifeAquatic", "level": -10},
+                        {"ressource": "energy", "level": 20}
+                    ]
+                },
+                {
+                    "name": "Non t'es ouf",
+                    "impact": [
+                        {"ressource": "lifeAquatic", "level": 20}
+                    ]
+                }
+            ]
+        }
+    ]
+}
