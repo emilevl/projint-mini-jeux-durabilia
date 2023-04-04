@@ -8,7 +8,7 @@ import dataCards from "../assets/dataCards.json";
 import anime from "animejs/lib/anime.es";
 import { ressourceGlobal } from '../utils/store.js';
 
-console.log(ressourceGlobal.value)
+// console.log(ressourceGlobal.value)
 
 //Les noms et les niveaux pour chaque ressources (Les niveaux sont en pourcents)
 let RESSOURCES_NAMES = ref([
@@ -33,40 +33,55 @@ let RESSOURCES_NAMES = ref([
 
 const CARDS = ref([]);
 const TOTAL_CARDS = 5;
+// choices are from the dataCards object: 0 = choice 1, 1 = choice 2
+// -> cards.responses[choice]
+const iChoice = ref(0);
+let mouseMoveHandler;
+let cardSelection = ref([]);
+const endGame = ref(false);
+
+
 // create a new array with 5 of the dataCards objects
 for (let i = 0; i < dataCards.cards.length; i++) {
   // add the card from the dataCards object to the CARDS array
   CARDS.value.push(dataCards.cards[i]);
-
+  
   // dataCards.cards[i].id = i
 }
-
-// choices are from the dataCards object: 0 = choice 1, 1 = choice 2
-// -> cards.responses[choice]
-const iChoice = ref(0);
 const iCurrentCard = ref(CARDS.value.length - 1);
-let mouseMoveHandler;
 
-let choicesCards = ref([]);
+
 function decisionDone(decision) {
   // add the decision to the choice array
-  const currentCard = CARDS.value[iCurrentCard];
+  const currentCard = CARDS.value[iCurrentCard.value];
   currentCard.decision = decision;
-  choicesCards.value.push({currentCard});
+  cardSelection.value.push({currentCard});
+
+  if (iCurrentCard.value === 0) {
+    // end of the game
+    endGame.value = true;
+    document.removeEventListener("mousemove", mouseMoveHandler);
+    document.querySelector("#clickable-part").removeEventListener("click");
+
+    console.log("end of the game")
+    return;
+  }
 
   // animate the card to leave the page from the left or right, down
-  const card = document.querySelector(`#card-${iCurrentCard}`);
-  const band = card.querySelector(`.flip-card-band`);
-  const windowCenterX = window.innerWidth / 2;
+  console.log(iCurrentCard.value)
+  const card = document.querySelector(`#card-${iCurrentCard.value}`);
+  // const band = card.querySelector(`.flip-card-band`);
+  // const windowCenterX = window.innerWidth / 2;
   if (decision === 0) {
     // card disappears to the left
   } else {
+    // card disappears to the right
     // card.style.transform = `rotate(10deg) translate(-50%, calc(-50% + ${
     //   15 * iCurrentCard
     // }px))`;
     // band.style.height = "20%";
   }
-  card.style.display = "none";
+  // card.style.display = "none";
 
   // anime({
   //   targets: `#card-${iCurrentCard}`,
@@ -78,18 +93,16 @@ function decisionDone(decision) {
   // remove the card from the CARDS array
   iCurrentCard.value--;
   CARDS.value.pop();
-
-
 }
 
 onMounted(() => {
   const windowCenterX = window.innerWidth / 2;
 
   mouseMoveHandler = (event) => {
-    const card = document.querySelector(`#card-${iCurrentCard}`);
+    const card = document.querySelector(`#card-${iCurrentCard.value}`);
     const band = card.querySelector(`.flip-card-band`);
     if (!card) return;
-
+    
     // If the person tilts on the left, we'll show the first response
     if (event.clientX < windowCenterX - 200) {
       iChoice.value = 0;
@@ -104,7 +117,7 @@ onMounted(() => {
     const tiltRange = 7; // You can adjust the tilt range as needed
     const tilt = ((event.clientX - windowCenterX) / windowCenterX) * tiltRange;
     card.style.transform = `rotate(${tilt}deg) translate(-50%, calc(-50% + ${
-      15 * iCurrentCard
+      15 * iCurrentCard.value
     }px))`;
   };
   document.addEventListener("mousemove", mouseMoveHandler);
@@ -122,10 +135,6 @@ onUnmounted(() => {
   document.removeEventListener("mousemove", mouseMoveHandler);
 });
 
-let showRecap = ref(false);
-function toggleRecap() {
-  showRecap.value = !showRecap.value;
-}
 function turnCard() {
   // if (iNextCard >= 0) {
   //   anime({
@@ -186,7 +195,7 @@ function infoPlayer() {
     </div>
     <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div>
   </div>
-  <popupCardEnd v-if="showRecap" @closeRecap="toggleRecap()"></popupCardEnd>
+  <popupCardEnd v-if="endGame" :cardSelection="cardSelection"></popupCardEnd>
 </template>
   
 <style>
