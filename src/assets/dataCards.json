@@ -30,7 +30,7 @@
                 {
                     "name": "Oui, que justice soit faite",
                     "impact": [
-                        {"ressource": "peaceJustice", "level": 10},
+                        {"ressource": "peaceJustice", "level": 30},
                         {"ressource": "energy", "level": -20},
                         {"ressource": "communities", "level": -50}
                     ]
@@ -39,7 +39,73 @@
                     "name": "Non, nous avons besoin d'eux",
                     "impact": [
                         {"ressource": "education", "level": -20},
+                        {"ressource": "energy", "level": 20},
+                        {"ressource": "peaceJustice", "level": -50}
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Détruire villageois",
+            "question": "Détruire les villageois ?",
+            "context": "Les villageois se plaignent de blablabla...",
+            "responses": [
+                {
+                    "name": "Oui, je veux",
+                    "impact": [
+                        {"ressource": "lifeAquatic", "level": -10},
+                        {"ressource": "energy", "level": 20}
+                    ]
+                },
+                {
+                    "name": "Non t'es ouf",
+                    "impact": [
+                        {"ressource": "lifeAquatic", "level": 20}
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "title": "Installer un barrage",
+            "question": "Proposer la construction d'un barrage ?",
+            "context": "Les villageois se plaignent de blablabla...",
+            "responses": [
+                {
+                    "name": "Oui, je veux",
+                    "impact": [
+                        {"ressource": "lifeAquatic", "level": -10},
+                        {"ressource": "energy", "level": 20}
+                    ]
+                },
+                {
+                    "name": "Non t'es ouf",
+                    "impact": [
+                        {"ressource": "lifeAquatic", "level": 20}
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "title": "Emprisonner villageois",
+            "question": "Mettre en prison les villageois ?",
+            "context": "Les villageois se plaignent de blablabla...",
+            "responses": [
+                {
+                    "name": "Oui, que justice soit faite",
+                    "impact": [
+                        {"ressource": "peaceJustice", "level": 30},
                         {"ressource": "energy", "level": -20},
+                        {"ressource": "communities", "level": -50}
+                    ]
+                },
+                {
+                    "name": "Non, nous avons besoin d'eux",
+                    "impact": [
+                        {"ressource": "education", "level": -20},
+                        {"ressource": "energy", "level": 20},
                         {"ressource": "peaceJustice", "level": -50}
                     ]
                 }
