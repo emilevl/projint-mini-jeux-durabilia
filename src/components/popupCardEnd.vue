@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import dataCards from '../assets/dataCards.json';
 import { ressourceGlobal } from '../utils/store';
 
 const props = defineProps({
@@ -37,10 +36,11 @@ let totalImpact = ref([
 
 //Store the impacts of the player choices
 function getPlayerChoices() {
-    for (let card of props.cardSelection) {
+    for (let [i, card] of props.cardSelection.entries()) {
         for (let impact of card.responses[card.decision].impact) {
-            playerChoices.value[card.id - 1].push(impact)
+            playerChoices.value[i].push(impact)
         }
+        console.log(playerChoices)
     }
 }
 //Calculate all the impacts of the cards chosen
@@ -72,8 +72,8 @@ function updateImpactData() {
 }
 
 onMounted(() => {
-    getPlayerChoices()
-    updateImpactData()
+    setTimeout(() => getPlayerChoices(), 50)
+    setTimeout(() => updateImpactData(), 50)
     setTimeout(() => showBars(), 50)
     setTimeout(() => showChange(), 500)
 })
