@@ -36,11 +36,10 @@ let totalImpact = ref([
 
 //Store the impacts of the player choices
 function getPlayerChoices() {
-    for (let [i, card] of props.cardSelection.entries()) {
+    for (let [index, card] of props.cardSelection.entries()) {
         for (let impact of card.responses[card.decision].impact) {
-            playerChoices.value[i].push(impact)
+            playerChoices.value[index].push(impact)
         }
-        console.log(playerChoices)
     }
 }
 //Calculate all the impacts of the cards chosen
