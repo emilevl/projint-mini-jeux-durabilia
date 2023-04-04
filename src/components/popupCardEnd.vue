@@ -37,7 +37,7 @@ let totalImpact = ref([
 
 //Store the impacts of the player choices
 function getPlayerChoices(){
-    for(let card of dataCards.cards){
+    for(let card of props.cardSelection){
         for(let impact of card.responses[card.decision].impact){
             playerChoices.value[card.id-1].push(impact)
         }

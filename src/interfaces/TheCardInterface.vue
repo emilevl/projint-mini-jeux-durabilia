@@ -55,7 +55,7 @@ function decisionDone(decision) {
   // add the decision to the choice array
   const currentCard = CARDS.value[iCurrentCard.value];
   currentCard.decision = decision;
-  cardSelection.value.push({currentCard});
+  cardSelection.value.push(currentCard);
 
   if (iCurrentCard.value === 0) {
     // end of the game

@@ -19,8 +19,7 @@
                         {"ressource": "lifeAquatic", "level": 20}
                     ]
                 }
-            ],
-            "decision": 0
+            ]
         },
         {
             "id": 2,
@@ -44,8 +43,7 @@
                         {"ressource": "peaceJustice", "level": -50}
                     ]
                 }
-            ],
-            "decision": 0
+            ]
         },
         {
             "id": 3,
@@ -66,8 +64,7 @@
                         {"ressource": "lifeAquatic", "level": 20}
                     ]
                 }
-            ],
-            "decision": 1
+            ]
         },
         {
             "id": 4,
@@ -88,8 +85,7 @@
                         {"ressource": "partnership", "level": 20}
                     ]
                 }
-            ],
-            "decision": 1
+            ]
         },
         {
             "id": 5,
@@ -113,8 +109,7 @@
                         {"ressource": "peaceJustice", "level": -50}
                     ]
                 }
-            ],
-            "decision": 0
+            ]
         }
     ]
 }
