@@ -112,10 +112,9 @@ onUnmounted(() => {
   document.removeEventListener("mousemove", mouseMoveHandler);
 });
 
-function testAnim(){ //Test for the level diffence
-  RESSOURCES_NAMES.value.forEach(ressource => {
-    ressource.level = Math.floor(Math.random() * 100);
-  })
+let showRecap = ref(true)
+function toggleRecap(){
+  showRecap.value = !showRecap.value
 }
 function turnCard() {
   // if (iNextCard >= 0) {
@@ -156,6 +155,7 @@ function turnCard() {
         ></Card>
       </div>
     </div>
+    <popupCardEnd v-if="showRecap" @closeRecap="toggleRecap()"></popupCardEnd>
   </template>
   
   <style>
