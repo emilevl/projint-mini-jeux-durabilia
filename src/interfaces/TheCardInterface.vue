@@ -81,7 +81,7 @@ onUnmounted(() => {
   document.removeEventListener("mousemove", mouseMoveHandler);
 });
 
-let showRecap = ref(false)
+let showRecap = ref(true)
 function toggleRecap(){
   showRecap.value = !showRecap.value
 }

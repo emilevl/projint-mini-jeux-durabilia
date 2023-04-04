@@ -1,41 +1,103 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import dataCards from '../assets/dataCards.json';
 
 const props = defineProps({
-    ressourcesImpacted: Array
+    cardSelection: Array,
+    ressource
 })
 
-const RESSOURCES_TEST = [[{ ressource: "lifeAquatic", level: -10 }, { ressource: "energy", level: 10 }], [{ ressource: "inequality", level: 10 }, { ressource: "peaceJustice", level: -20 }], [{ ressource: "genderEquality", level: 10 }, { ressource: "energy", level: 20 }], [{ ressource: "climateActions", level: 10 }], [{ ressource: "education", level: -20 }]]
+const RESSOURCES_TEST = [[{ ressource: "lifeAquatic", level: -10, currentLevel: 20 }, { ressource: "energy", level: 10, currentLevel: 0 }], [{ ressource: "inequality", level: 10, currentLevel: 47 }, { ressource: "peaceJustice", level: -20, currentLevel: 18 }], [{ ressource: "genderEquality", level: 10, currentLevel: 35 }, { ressource: "energy", level: 20, currentLevel: 0 }], [{ ressource: "climateActions", level: 10, currentLevel: 20 }], [{ ressource: "education", level: -20, currentLevel: 21 }]]
 
 const emit = defineEmits([
     'closeRecap',
 ]);
 
 let totalImpact = ref([
-    {ressource:"climateActions", impact:0, currentLevel: 20},
-    {ressource:"communities", impact:0, currentLevel: 15},
-    {ressource:"consumption", impact:0, currentLevel: 40},
-    {ressource:"decentWork", impact:0, currentLevel: 32},
-    {ressource:"education", impact:0, currentLevel: 21},
-    {ressource:"energy", impact:0, currentLevel: 0},
-    {ressource:"genderEquality", impact:0, currentLevel: 35},
-    {ressource:"health", impact:0, currentLevel: 37},
-    {ressource:"hunger", impact:0, currentLevel: 26},
-    {ressource:"inequality", impact:0, currentLevel: 47},
-    {ressource:"innovation", impact:0, currentLevel: 20},
-    {ressource:"lifeAquatic", impact:0, currentLevel: 20},
-    {ressource:"lifeLand", impact:0, currentLevel: 10},
-    {ressource:"partnership", impact:0, currentLevel: 15},
-    {ressource:"peaceJustice", impact:0, currentLevel: 18},
-    {ressource:"poverty", impact:0, currentLevel: 56},
-    {ressource:"water", impact:0, currentLevel: 23},
+    { ressource: "climateActions", impact: 0, currentLevel: 20 },
+    { ressource: "communities", impact: 0, currentLevel: 15 },
+    { ressource: "consumption", impact: 0, currentLevel: 40 },
+    { ressource: "decentWork", impact: 0, currentLevel: 32 },
+    { ressource: "education", impact: 0, currentLevel: 21 },
+    { ressource: "energy", impact: 0, currentLevel: 0 },
+    { ressource: "genderEquality", impact: 0, currentLevel: 35 },
+    { ressource: "health", impact: 0, currentLevel: 37 },
+    { ressource: "hunger", impact: 0, currentLevel: 26 },
+    { ressource: "inequality", impact: 0, currentLevel: 47 },
+    { ressource: "innovation", impact: 0, currentLevel: 20 },
+    { ressource: "lifeAquatic", impact: 0, currentLevel: 20 },
+    { ressource: "lifeLand", impact: 0, currentLevel: 10 },
+    { ressource: "partnership", impact: 0, currentLevel: 15 },
+    { ressource: "peaceJustice", impact: 0, currentLevel: 18 },
+    { ressource: "poverty", impact: 0, currentLevel: 56 },
+    { ressource: "water", impact: 0, currentLevel: 23 },
 ])
+function updateImpactData() {
+    for (let dataEntry of totalImpact.value) {
+        for (let choice of RESSOURCES_TEST) {
+            for (let impact of choice) {
+                if (impact.ressource == dataEntry.ressource) {
+                    if (dataEntry.currentLevel + impact.level <= 0) {
+                        dataEntry.impact = -dataEntry.currentLevel
+                        impact.level = -impact.currentLevel
+                    } else {
+                        dataEntry.impact += impact.level
+                    }
+                }
+            }
+        }
+    }
+}
 
+onMounted(() => {
+    updateImpactData()
+    setTimeout(() => showChange(), 500)
+})
+
+//Set changes for the full recap of total impacts
+function showChange() {
+    //For totalImpacts (full recap)
+    for (let impact of totalImpact.value) {
+        const bar = document.querySelector(`#${impact.ressource}`)
+        bar.style.height = `${(Math.abs(impact.impact) / 100) * 200}px`
+        if (impact.impact < 0) {
+            bar.style.backgroundColor = "red"
+            bar.style.transform = `translate(0, ${(Math.abs(impact.impact) / 100) * 200}px)`
+        }
+        if (impact.impact > 0) bar.style.backgroundColor = "green"
+    }
+    //For the choices
+    for (let i = 0; i < 5; i++) {
+        for (let impact of RESSOURCES_TEST[i]) {
+            const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
+            bar.style.height = `${(Math.abs(impact.level) / 100) * 200}px`
+            if (impact.level < 0) {
+                bar.style.backgroundColor = "red"
+                bar.style.transform = `translate(0, ${(Math.abs(impact.level) / 100) * 200}px)`
+            }
+            if (impact.level > 0) bar.style.backgroundColor = "green"
+        }
+    }
+}
+
+//Manage the nav between the choices
 let activeSection = ref("recap")
 function changeSection(id) {
     activeSection.value = id
+    for (let impact of totalImpact.value) {
+        const bar = document.querySelector(`#${impact.ressource}`)
+        bar.style.height = `0px`
+        bar.style.transform = `translate(0,0)`
+    }
+    for (let i = 0; i < 5; i++) {
+        for (let impact of RESSOURCES_TEST[i]) {
+            const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
+            bar.style.height = `0px`
+            bar.style.transform = `translate(0,0)`
+        }
+    }
+    setTimeout(() => showChange(), 500)
 }
-
 </script>
 
 <template>
@@ -56,16 +118,36 @@ function changeSection(id) {
                 <div class="detail-progression" v-for="impact of totalImpact">
                     <img class="icon" :src="`src/assets/icons/${impact.ressource}.svg`">
                     <div class="progression-bar-container">
-                        <div class="progression-bar-current"></div>
-                        <div class="progression-bar-impact"></div>
+                        <div class="progression-bar-current" :style="{ height: `${(impact.currentLevel / 100) * 200}px` }">
+                        </div>
+                        <div class="progression-bar-impact" :id="`${impact.ressource}`"></div>
+                    </div>
+                    <div v-if="impact.impact > 0" class="progression-bar-number">+{{ impact.impact }}</div>
+                    <div v-if="impact.impact < 0" class="progression-bar-number">{{ impact.impact }}</div>
+                    <div v-if="impact.impact == 0" class="progression-bar-number">-</div>
+                </div>
+            </section>
+            <section v-for="n in 5" class="detail-section choice-section" :id="`choix-${n}-section`"
+                v-show="activeSection == `choix-${n}`">
+                <div class="card-container">
+                    card
+                </div>
+                <div class="bar-container">
+                    <div class="detail-progression" v-for="impact of RESSOURCES_TEST[n - 1]">
+                        <img class="icon" :src="`src/assets/icons/${impact.ressource}.svg`">
+                        <div class="progression-bar-container">
+                            <div class="progression-bar-current"
+                                :style="{ height: `${(impact.currentLevel / 100) * 200}px` }">
+                            </div>
+                            <div class="progression-bar-impact" :id="`choice${n}-${impact.ressource}`"></div>
+                        </div>
+                        <div v-if="impact.level > 0" class="progression-bar-number">+{{ impact.level }}</div>
+                        <div v-if="impact.level < 0" class="progression-bar-number">{{ impact.level }}</div>
+                        <div v-if="impact.level == 0" class="progression-bar-number">-</div>
                     </div>
                 </div>
             </section>
-            <section v-for="n in 5" class="detail-section" :id="`choix-${n}-section`" v-show="activeSection == `choix-${n}`">
-                
-            </section>
         </div>
-
 
         <button class="back-to-map" @click="$emit('closeRecap')">Retour à la carte</button>
     </div>
@@ -126,6 +208,17 @@ function changeSection(id) {
     gap: 25px;
 }
 
+.card-container,
+.bar-container {
+    width: 50%;
+}
+
+.bar-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
 .detail-progression {
     margin-top: 50px;
     display: flex;
@@ -139,15 +232,22 @@ function changeSection(id) {
     height: 200px;
     width: 20px;
     border: 1px solid black;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: end;
 }
 
 .progression-bar-current {
     background-color: black;
-    height: 20%;
 }
 
 .progression-bar-impact {
-    
+    height: 0;
+    transition: 1s;
+}
+
+.choice-section {
+    display: flex;
 }
 
 .back-to-map {
