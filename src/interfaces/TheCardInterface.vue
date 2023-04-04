@@ -5,6 +5,10 @@ import Card from "../components/card.vue";
 import popupCardEnd from "../components/popupCardEnd.vue";
 import ressource from "../components/ressource.vue";
 import dataCards from "../assets/dataCards.json";
+import anime from "animejs/lib/anime.es";
+import { ressourceGlobal } from '../utils/store.js';
+
+console.log(ressourceGlobal.value)
 
 //Les noms et les niveaux pour chaque ressources (Les niveaux sont en pourcents)
 let RESSOURCES_NAMES = ref([
@@ -40,8 +44,44 @@ for (let i = 0; i < dataCards.cards.length; i++) {
 // choices are from the dataCards object: 0 = choice 1, 1 = choice 2
 // -> cards.responses[choice]
 const iChoice = ref(0);
-const iCurrentCard = CARDS.value.length - 1;
+const iCurrentCard = ref(CARDS.value.length - 1);
 let mouseMoveHandler;
+
+let choicesCards = ref([]);
+function decisionDone(decision) {
+  // add the decision to the choice array
+  const currentCard = CARDS.value[iCurrentCard];
+  currentCard.decision = decision;
+  choicesCards.value.push({currentCard});
+
+  // animate the card to leave the page from the left or right, down
+  const card = document.querySelector(`#card-${iCurrentCard}`);
+  const band = card.querySelector(`.flip-card-band`);
+  const windowCenterX = window.innerWidth / 2;
+  if (decision === 0) {
+    // card disappears to the left
+  } else {
+    // card.style.transform = `rotate(10deg) translate(-50%, calc(-50% + ${
+    //   15 * iCurrentCard
+    // }px))`;
+    // band.style.height = "20%";
+  }
+  card.style.display = "none";
+
+  // anime({
+  //   targets: `#card-${iCurrentCard}`,
+  //   translateX: 250,
+  //   scale: 2,
+  //   rotate: '1turn'
+  // });
+
+  // remove the card from the CARDS array
+  iCurrentCard.value--;
+  CARDS.value.pop();
+
+
+}
+
 onMounted(() => {
   const windowCenterX = window.innerWidth / 2;
 
@@ -71,9 +111,9 @@ onMounted(() => {
   //select the #app element
   document.querySelector("#clickable-part").addEventListener("click", (event) => {
     if (event.clientX < windowCenterX - 200) {
-      console.log("no");
+      decisionDone(0);
     } else if (event.clientX > windowCenterX + 200) {
-      console.log("yes");
+      decisionDone(1);
     }
   });
 });
