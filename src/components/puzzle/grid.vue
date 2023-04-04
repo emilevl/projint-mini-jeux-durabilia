@@ -1,4 +1,5 @@
 <script setup>
+import Tile from '../puzzle/tile.vue'
 
 const nbCols = 5;
 const nbRows = nbCols;
@@ -26,15 +27,16 @@ for (let i = 0; i < nbTiles; i++) {
         rotation: 0
     })
 }
-
-console.log(path)
 </script>
 
 <template>
     <div id="grid" class="grid-container">
-        <div v-for="tile in path" class="grid-item">
-            <img :class="'deg' + tile.rotation"
-                src="https://pbs.twimg.com/profile_images/1433586148350304256/bL2dOWpH_400x400.jpg">
+        <div v-for="(tile, i) in nbTiles" class="grid-item">
+            <tile
+                :tileType="'2b'"
+                :position="i++"
+                :rotation="90"
+            ></tile>
         </div>
     </div>
 </template>
@@ -53,29 +55,8 @@ console.log(path)
 
 .grid-item {
     background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.8);
+    /* border: 1px solid rgba(0, 0, 0, 0.8); */
     width: v-bind(sizeTileCss);
     height: v-bind(sizeTileCss);
-}
-
-img {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-img.deg0 {
-    transform: rotate(0deg);
-}
-
-img.deg1 {
-    transform: rotate(90deg);
-}
-
-img.deg2 {
-    transform: rotate(180deg);
-}
-
-img.deg3 {
-    transform: rotate(270deg);
 }
 </style>
