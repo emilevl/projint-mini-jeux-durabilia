@@ -1,6 +1,10 @@
 <script setup>
+// https://codepen.io/AllThingsSmitty/pen/JJavZN?editors=0010
+
 import { ref } from 'vue';
 import addTime from 'add-time';
+
+const time = ref(null)
 
 const second = 1000,
     minute = second * 60,
@@ -12,7 +16,7 @@ const today = new Date();
 let timer = 1;
 const newDate = addTime.now({ minutes: timer });
 let distance = timer * minute
-let min, sec, time
+let min, sec
 const interval = setInterval(function () {
     const now = new Date().getTime()
     distance = newDate - now
@@ -27,25 +31,20 @@ const interval = setInterval(function () {
         sec = secondes
     }
 
-    time = `${min}:${sec}`
-    document.getElementById("counter").innerText = time
+    time.value = `${min}:${sec}`
 
     if (distance <= 0) {
         clearInterval(interval)
-        //document.getElementById("counter").innerText = secondes
-        //document.getElementById("counter").style.display = "none"
-        document.getElementById("counter").innerText = "🎉confettis🎉"
+        time.value = "FIN"
     }
 }, 0)
-
-
 
 </script>
 
 <template>
     <div id="chrono">
         <img src="../../assets/icons/chrono.svg">
-        <p id="counter"></p>
+        <p id="counter">{{ time }}</p>
     </div>
 </template>
 

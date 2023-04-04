@@ -1,10 +1,18 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watchEffect } from "vue";
+import { menuOpen } from "../store.js"
 
+let menuOpened = ref(menuOpen)
+
+/* watchEffect(() =>
+    //console.log("store" + menuOpen),
+    console.log("local" + menuOpened.value)
+) */
 </script>
 
 <template>
-    <p>MENU</p>
+    <p @click="menuOpened = !menuOpened">MENU</p>
+    <p v-if="menuOpen">menu à écrire</p>
 </template>
 
 <style scoped>
