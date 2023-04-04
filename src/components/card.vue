@@ -43,8 +43,8 @@ onMounted(() => {
             <img :src="`src/assets/icons/${ressource.ressource}.svg`">
 
             <div class="circle" :style="{
-              height: `${((Math.abs(ressource.level)/100)*10)}px`,
-              width: `${((Math.abs(ressource.level)/100)*10)}px`
+              height: `${((Math.abs(ressource.level)/100)*15)+5}px`,
+              width: `${((Math.abs(ressource.level)/100)*15)+5}px`
             }"></div>
           </div>
         </div>
