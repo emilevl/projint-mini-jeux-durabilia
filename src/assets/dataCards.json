@@ -19,7 +19,8 @@
                         {"ressource": "lifeAquatic", "level": 20}
                     ]
                 }
-            ]
+            ],
+            "decision": 0
         },
         {
             "id": 2,
@@ -43,7 +44,8 @@
                         {"ressource": "peaceJustice", "level": -50}
                     ]
                 }
-            ]
+            ],
+            "decision": 0
         },
         {
             "id": 3,
@@ -55,7 +57,7 @@
                     "name": "Oui, je veux",
                     "impact": [
                         {"ressource": "lifeAquatic", "level": -10},
-                        {"ressource": "energy", "level": 20}
+                        {"ressource": "innovation", "level": 20}
                     ]
                 },
                 {
@@ -64,7 +66,8 @@
                         {"ressource": "lifeAquatic", "level": 20}
                     ]
                 }
-            ]
+            ],
+            "decision": 1
         },
         {
             "id": 4,
@@ -75,17 +78,18 @@
                 {
                     "name": "Oui, je veux",
                     "impact": [
-                        {"ressource": "lifeAquatic", "level": -10},
+                        {"ressource": "climateActions", "level": -10},
                         {"ressource": "energy", "level": 20}
                     ]
                 },
                 {
                     "name": "Non t'es ouf",
                     "impact": [
-                        {"ressource": "lifeAquatic", "level": 20}
+                        {"ressource": "partnership", "level": 20}
                     ]
                 }
-            ]
+            ],
+            "decision": 1
         },
         {
             "id": 5,
@@ -109,7 +113,8 @@
                         {"ressource": "peaceJustice", "level": -50}
                     ]
                 }
-            ]
+            ],
+            "decision": 0
         }
     ]
 }

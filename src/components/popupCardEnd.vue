@@ -1,45 +1,67 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import dataCards from '../assets/dataCards.json';
+import { ressourceGlobal } from '../utils/store';
 
 const props = defineProps({
-    cardSelection: Array,
-    ressource
+    cardSelection: Array
 })
-
-const RESSOURCES_TEST = [[{ ressource: "lifeAquatic", level: -10, currentLevel: 20 }, { ressource: "energy", level: 10, currentLevel: 0 }], [{ ressource: "inequality", level: 10, currentLevel: 47 }, { ressource: "peaceJustice", level: -20, currentLevel: 18 }], [{ ressource: "genderEquality", level: 10, currentLevel: 35 }, { ressource: "energy", level: 20, currentLevel: 0 }], [{ ressource: "climateActions", level: 10, currentLevel: 20 }], [{ ressource: "education", level: -20, currentLevel: 21 }]]
 
 const emit = defineEmits([
     'closeRecap',
 ]);
 
+//Store the impact of the cards from the choices of the player
+let playerChoices = ref([[], [], [], [], []])
+
+//Get the total impact of the player choices
 let totalImpact = ref([
-    { ressource: "climateActions", impact: 0, currentLevel: 20 },
-    { ressource: "communities", impact: 0, currentLevel: 15 },
-    { ressource: "consumption", impact: 0, currentLevel: 40 },
-    { ressource: "decentWork", impact: 0, currentLevel: 32 },
-    { ressource: "education", impact: 0, currentLevel: 21 },
+    { ressource: "climateActions", impact: 0, currentLevel: 0 },
+    { ressource: "communities", impact: 0, currentLevel: 0 },
+    { ressource: "consumption", impact: 0, currentLevel: 0 },
+    { ressource: "decentWork", impact: 0, currentLevel: 0 },
+    { ressource: "education", impact: 0, currentLevel: 0 },
     { ressource: "energy", impact: 0, currentLevel: 0 },
-    { ressource: "genderEquality", impact: 0, currentLevel: 35 },
-    { ressource: "health", impact: 0, currentLevel: 37 },
-    { ressource: "hunger", impact: 0, currentLevel: 26 },
-    { ressource: "inequality", impact: 0, currentLevel: 47 },
-    { ressource: "innovation", impact: 0, currentLevel: 20 },
-    { ressource: "lifeAquatic", impact: 0, currentLevel: 20 },
-    { ressource: "lifeLand", impact: 0, currentLevel: 10 },
-    { ressource: "partnership", impact: 0, currentLevel: 15 },
-    { ressource: "peaceJustice", impact: 0, currentLevel: 18 },
-    { ressource: "poverty", impact: 0, currentLevel: 56 },
-    { ressource: "water", impact: 0, currentLevel: 23 },
+    { ressource: "genderEquality", impact: 0, currentLevel: 0 },
+    { ressource: "health", impact: 0, currentLevel: 0 },
+    { ressource: "hunger", impact: 0, currentLevel: 0 },
+    { ressource: "inequality", impact: 0, currentLevel: 0 },
+    { ressource: "innovation", impact: 0, currentLevel: 0 },
+    { ressource: "lifeAquatic", impact: 0, currentLevel: 0 },
+    { ressource: "lifeLand", impact: 0, currentLevel: 0 },
+    { ressource: "partnership", impact: 0, currentLevel: 0 },
+    { ressource: "peaceJustice", impact: 0, currentLevel: 0 },
+    { ressource: "poverty", impact: 0, currentLevel: 0 },
+    { ressource: "water", impact: 0, currentLevel: 0 },
 ])
+
+//Store the impacts of the player choices
+function getPlayerChoices(){
+    for(let card of dataCards.cards){
+        for(let impact of card.responses[card.decision].impact){
+            playerChoices.value[card.id-1].push(impact)
+        }
+    }
+}
+//Calculate all the impacts of the cards chosen
 function updateImpactData() {
     for (let dataEntry of totalImpact.value) {
-        for (let choice of RESSOURCES_TEST) {
+        //Get ressources level
+        for(let ressource of ressourceGlobal.value){
+            if(dataEntry.ressource == ressource.name) {
+                dataEntry.currentLevel = ressource.currentLevel
+            }
+        }
+        //Get choices player
+        for (let choice of playerChoices.value) {
             for (let impact of choice) {
                 if (impact.ressource == dataEntry.ressource) {
                     if (dataEntry.currentLevel + impact.level <= 0) {
                         dataEntry.impact = -dataEntry.currentLevel
-                        impact.level = -impact.currentLevel
+                        impact.level = -dataEntry.currentLevel
+                    } else if (dataEntry.currentLevel + impact.level >= 100) {
+                        dataEntry.impact = 100 - dataEntry.currentLevel
+                        impact.level = 100 - dataEntry.currentLevel
                     } else {
                         dataEntry.impact += impact.level
                     }
@@ -50,6 +72,7 @@ function updateImpactData() {
 }
 
 onMounted(() => {
+    getPlayerChoices()
     updateImpactData()
     setTimeout(() => showChange(), 500)
 })
@@ -68,7 +91,7 @@ function showChange() {
     }
     //For the choices
     for (let i = 0; i < 5; i++) {
-        for (let impact of RESSOURCES_TEST[i]) {
+        for (let impact of playerChoices.value[i]) {
             const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
             bar.style.height = `${(Math.abs(impact.level) / 100) * 200}px`
             if (impact.level < 0) {
@@ -90,7 +113,7 @@ function changeSection(id) {
         bar.style.transform = `translate(0,0)`
     }
     for (let i = 0; i < 5; i++) {
-        for (let impact of RESSOURCES_TEST[i]) {
+        for (let impact of playerChoices.value[i]) {
             const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
             bar.style.height = `0px`
             bar.style.transform = `translate(0,0)`
@@ -133,7 +156,7 @@ function changeSection(id) {
                     card
                 </div>
                 <div class="bar-container">
-                    <div class="detail-progression" v-for="impact of RESSOURCES_TEST[n - 1]">
+                    <div class="detail-progression" v-for="impact of playerChoices[n - 1]">
                         <img class="icon" :src="`src/assets/icons/${impact.ressource}.svg`">
                         <div class="progression-bar-container">
                             <div class="progression-bar-current"
