@@ -1,6 +1,5 @@
 <script setup>
-import { ref } from 'vue';
-import { onMounted } from 'vue';
+import { ref, onMounted} from 'vue';
 import anime from 'animejs/lib/anime.es.js';
 
 

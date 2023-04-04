@@ -1,17 +1,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-/* import the fontawesome core */
-import { library } from '@fortawesome/fontawesome-svg-core'
-/* import font awesome icon component */
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-/* import specific icons */
-import { faArrowLeft, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
 import Card from '../components/card.vue';
 import popupCardEnd from '../components/popupCardEnd.vue';
 import ressource from '../components/ressource.vue';
 import dataCards from '../assets/dataCards.json';
-library.add(faArrowLeft)
 
 
 //Les noms et les niveaux pour chaque ressources (Les niveaux sont en pourcents)
@@ -36,7 +29,8 @@ let RESSOURCES_NAMES = ref([
 ])
 
 
-let CARDS = ref([]);
+const CARDS = ref([]);
+const TOTAL_CARDS = 5; 
 // create a new array with 5 of the dataCards objects
 for(let i = 0; i < dataCards.cards.length; i++) {
   // add the card from the dataCards object to the CARDS array
@@ -48,7 +42,6 @@ for(let i = 0; i < dataCards.cards.length; i++) {
 // choices are from the dataCards object: 0 = choice 1, 1 = choice 2
 // -> cards.responses[choice]
 const iChoice = ref(0);
-
 const iCurrentCard = CARDS.value.length-1;
 let mouseMoveHandler;
 onMounted(() => {
@@ -108,13 +101,17 @@ function turnCard() {
   // }
 }
 
+function pauseGame() {
+  console.log('pause')
+}
+
 </script>
 
 
 <template>
     <div class="main-page">
-      <p to="/" class="back-link"><font-awesome-icon icon="fa-solid fa-arrow-left" />  Retour au campement</p>
-      <div class="bottom-text">La forêt</div>
+      <p to="/" class="pause-game" @click="pauseGame()"><img src="src/assets/icons/pause.svg"/></p>
+      <div class="bottom-text">Choix {{TOTAL_CARDS - iCurrentCard }} / {{TOTAL_CARDS}}</div>
       <!-- <div id="ressources">
         <ressource v-for="name of RESSOURCES_NAMES" :name="name.name" :level="name.level" size="60px"></ressource>
       </div> -->
@@ -139,24 +136,39 @@ function turnCard() {
     background-color: #b8b7b7;
     
   }
+
+  #app {
+    margin: 80px auto 0;
+    text-align: center;
+    width: 100%;
+    height: 70vh;
+  }
     .main-page {
       display: flex;
       justify-content: center;
     }
     
-    .back-link {
+    .pause-game {
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 5px;
+        right: 5px;
         margin: 20px;
         cursor: pointer;
+        width: 50px;
+        height: 50px;
+    }
+
+    .pause-game img {
+        width: 40px;
+        height: 40px;
     }
     
     .bottom-text {
         position: absolute;
-        bottom: 0;
-        left: 0;
+        bottom: 10px;
+        width: 100%;
         margin: 20px;
+        text-align: center;
     }
     /* #cards {
       display: flex;
