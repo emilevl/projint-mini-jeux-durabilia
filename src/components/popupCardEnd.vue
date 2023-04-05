@@ -71,9 +71,9 @@ function updateImpactData() {
 }
 
 onMounted(() => {
-    setTimeout(() => getPlayerChoices(), 50)
-    setTimeout(() => updateImpactData(), 50)
-    setTimeout(() => showBars(), 50)
+    setTimeout(() => getPlayerChoices(), 10)
+    setTimeout(() => updateImpactData(), 10)
+    setTimeout(() => showBars(), 10)
     setTimeout(() => showChange(), 500)
 })
 
@@ -86,7 +86,7 @@ function showBars() {
     }
     for (let i = 0; i < 5; i++) {
         for (let impact of playerChoices.value[i]) {
-            const barPrincipal = document.querySelector(`#barGlob-choice${i+1}-${impact.ressource}`)
+            const barPrincipal = document.querySelector(`#barGlob-choice${i + 1}-${impact.ressource}`)
             for (let ressource of ressourceGlobal.value) {
                 if (ressource.name == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
             }
@@ -99,10 +99,12 @@ function showChange() {
     //For totalImpacts (full recap)
     for (let impact of totalImpact.value) {
         const bar = document.querySelector(`#${impact.ressource}`)
+        const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
         bar.style.height = `${(Math.abs(impact.impact) / 100) * 200}px`
         if (impact.impact < 0) {
             bar.style.backgroundColor = "red"
-            bar.style.transform = `translate(0, ${(Math.abs(impact.impact) / 100) * 200}px)`
+            barPrincipal.style.transition = "all 1s ease 0s"
+            barPrincipal.style.height = `${(parseInt(barPrincipal.style.height) - (Math.abs(impact.impact) / 100) * 200)}px`
         }
         if (impact.impact > 0) bar.style.backgroundColor = "green"
     }
@@ -123,20 +125,25 @@ function showChange() {
 //Manage the nav between the choices
 let activeSection = ref("recap")
 function changeSection(id) {
-    activeSection.value = id
-    for (let impact of totalImpact.value) {
-        const bar = document.querySelector(`#${impact.ressource}`)
-        bar.style.height = `0px`
-        bar.style.transform = `translate(0,0)`
-    }
-    for (let i = 0; i < 5; i++) {
-        for (let impact of playerChoices.value[i]) {
-            const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
+    if (activeSection.value != id) {
+        activeSection.value = id
+        for (let impact of totalImpact.value) {
+            const bar = document.querySelector(`#${impact.ressource}`)
+            const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
             bar.style.height = `0px`
             bar.style.transform = `translate(0,0)`
+            barPrincipal.style.transition = "all 0s ease 0s"
         }
+        for (let i = 0; i < 5; i++) {
+            for (let impact of playerChoices.value[i]) {
+                const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
+                bar.style.height = `0px`
+                bar.style.transform = `translate(0,0)`
+            }
+        }
+        showBars()
+        setTimeout(() => showChange(), 500)
     }
-    setTimeout(() => showChange(), 500)
 }
 </script>
 
@@ -170,7 +177,25 @@ function changeSection(id) {
             <section v-for="n in 5" class="detail-section choice-section" :id="`choix-${n}-section`"
                 v-show="activeSection == `choix-${n}`">
                 <div class="card-container">
-                    card
+                    <div class="card-back">
+                        <h1>{{ props.cardSelection[n - 1].title }}</h1>
+                        <p>{{ props.cardSelection[n - 1].question }}</p>
+                        <div class="card-ressources">
+                            <div v-for="ressource of props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].impact"
+                                class="ressource-icon-wrapper">
+                                <img class="card-icons" :src="`src/assets/icons/${ressource.ressource}.svg`">
+
+                                <div class="circle" :style="{
+                                    height: `${((Math.abs(ressource.level) / 100) * 15) + 5}px`,
+                                    width: `${((Math.abs(ressource.level) / 100) * 15) + 5}px`
+                                }"></div>
+                            </div>
+                        </div>
+                        <div class="card-band">
+                            <p class="card-response">{{
+                                props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].name }}</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="bar-container">
                     <div class="detail-progression" v-for="impact of playerChoices[n - 1]">
@@ -277,6 +302,7 @@ function changeSection(id) {
 
 .progression-bar-current {
     background-color: black;
+    transition: 1s;
 }
 
 .progression-bar-impact {
@@ -296,4 +322,52 @@ function changeSection(id) {
     background-color: black;
     color: white;
 }
-</style>
+
+/* CARDS */
+.card-container {
+    display: flex;
+    justify-content: center;
+}
+.card-back {
+    margin-top: 50px;
+    background-color: white;
+    color: #000;
+    position: absolute;
+    height: 300px;
+    width: 180px;
+    font-size: 0.6em;
+}
+
+.card-band {
+    position: absolute;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: auto;
+    width: 100%;
+    height: 10%;
+    background-color: lightblue;
+}
+
+.card-ressources {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.ressource-icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-icons {
+    margin-bottom: 20px;
+}
+
+.circle {
+    background-color: #000;
+    border-radius: 50%;
+}</style>
