@@ -7,6 +7,7 @@ import ressource from "../components/ressource.vue";
 import dataCards from "../assets/dataCards.json";
 import anime from "animejs/lib/anime.es";
 import { ressourceGlobal } from '../utils/store.js';
+import ThePause from "../components/ThePause.vue";
 
 //Les noms et les niveaux pour chaque ressources (Les niveaux sont en pourcents)
 let RESSOURCES_NAMES = ref([
@@ -36,6 +37,7 @@ const iChoice = ref(0);
 let mouseMoveHandler;
 let cardSelection = ref([]);
 const endGame = ref(false);
+const pauseGame = ref(false);
 
 
 // create a new array with 5 of the dataCards objects
@@ -167,8 +169,17 @@ function turnCard() {
   }
 }
 
-function pauseGame() {
+function togglePauseGame() {
   console.log("pause");
+  if (pauseGame.value) {
+    document.addEventListener("mousemove", mouseMoveHandler);
+    document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
+    pauseGame.value = false;
+  } else {
+    document.removeEventListener("mousemove", mouseMoveHandler);
+  document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
+    pauseGame.value = true;
+  }
 }
 
 function infoPlayer() {
@@ -186,7 +197,7 @@ function infoPlayer() {
         <p>{{CARDS[iCurrentCard].context}}</p>
       </div>
     </div>
-    <p to="/" class="pause-game" @click="pauseGame()">
+    <p to="/" class="pause-game" @click="togglePauseGame()">
       <img src="src/assets/icons/pause.svg" />
     </p>
     
@@ -209,6 +220,7 @@ function infoPlayer() {
     <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div>
   </div>
   <popupCardEnd v-if="endGame" :cardSelection="cardSelection"></popupCardEnd>
+  <ThePause v-if="pauseGame" @resumeGame="togglePauseGame"></ThePause>
 </template>
   
 <style>
