@@ -2,6 +2,8 @@
 import tiles from '../../assets/data/tiles.json'
 import anime from 'animejs/lib/anime.es.js';
 import { ref, computed, reactive } from 'vue'
+import sound from '../../assets/sounds/Impact_Concrete_Hit_By_Solid_Metal_Bar_02.wav'
+//import sound from '../../assets/sounds/Liquid_Water_Filling_Up_Pool_07.wav'
 
 const props = defineProps({
     tileType: {
@@ -23,7 +25,7 @@ const isEnabled = ref(true)
 
 
 const styleObject = reactive({
-//   transform: `rotate(${props.rotation}deg)`,
+    //   transform: `rotate(${props.rotation}deg)`,
     zIndex: '1'
 })
 
@@ -37,11 +39,11 @@ function rotate(evt) {
         targets: evt.target,
         easing: 'linear',
         duration: 200,
-        begin: function(anim) {
+        begin: function (anim) {
             styleObject.zIndex = 999
             isEnabled.value = false
         },
-        complete: function(anim) {
+        complete: function (anim) {
             styleObject.zIndex = 1
             isEnabled.value = true
         }
@@ -53,17 +55,21 @@ function rotate(evt) {
         scale: [1],
     })
 
+    playAudio(sound)
+
+}
+
+function playAudio(url) {
+    new Audio(url).play();
+    //console.log(url)
 }
 
 </script>
 
 <template>
-    <!-- https://pbs.twimg.com/profile_images/1433586148350304256/bL2dOWpH_400x400.jpg -->
-    <div @click="isEnabled && rotate($event)">
-        <img 
-            :src="correctTile.svg"
-            :style="styleObject"
-        >
+    <div
+        @click="isEnabled && rotate($event)">
+        <img :src="correctTile.svg" :style="styleObject">
     </div>
 </template>
 
