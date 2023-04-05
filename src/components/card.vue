@@ -17,13 +17,34 @@ onMounted(() => {
   anime({
     targets: '.flip-card .flip-card-inner',
     keyframes: [
-      { translateY: ['1000', '0'] },
-      { rotateY: 180 }
+      { translateY: ['1000', '0'] }
     ],
-    duration: 1000,
+    duration: 500,
     delay: anime.stagger(500),
     easing: 'spring(1, 80, 10, 0)'
   });
+
+  // rotate only the first card
+  // setTimeout(() => {
+  //   anime({
+  //     targets: `#card-${props.index} .flip-card-inner`,
+  //     keyframes: [
+  //       { rotateY: 180 }
+  //     ],
+  //     duration: 1000,
+  //     delay: anime.stagger(500),
+  //     easing: 'spring(1, 80, 10, 0)'
+  //   });
+  // }, 2500);
+  // anime({
+  //   targets: `#card-${props.index} .flip-card-inner`,
+  //   keyframes: [
+  //     { rotateY: 180 }
+  //   ],
+  //   duration: 1000,
+  //   delay: anime.stagger(500),
+  //   easing: 'spring(1, 80, 10, 0)'
+  // });
 })
 
 </script>
