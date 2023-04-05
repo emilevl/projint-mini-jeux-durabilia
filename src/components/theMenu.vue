@@ -17,7 +17,7 @@ function toggleMenu() {
 <template>
     <div>
         <p @click="$emit('toggleMenu')">MENU</p>
-        <p v-if="menuOpened">menu à écrire</p>
+        <!-- <p v-if="menuOpened">menu à écrire</p> -->
     </div>
 </template>
 

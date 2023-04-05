@@ -1,12 +1,12 @@
 <script setup>
 import { ref, watchEffect } from 'vue';
 import addTime from 'add-time';
+import { menuOpened } from "../../store.js"
 
 const minCounter = 1  // nombre de minutes au timer
 let timer = ref(minCounter * 60000)
 
 const time = ref(null)
-let paused = ref(false)
 let distancePause = ref(null)
 
 const second = 1000,
@@ -42,7 +42,7 @@ function startTimer(newDate) {
             time.value = "FIN"
         }
 
-        if (paused.value) {
+        if (menuOpened.value) {
             timer.value = distance
             clearInterval(interval)
         }
@@ -51,7 +51,7 @@ function startTimer(newDate) {
 
 watchEffect(() =>
 {
-    if (!paused.value) {
+    if (!menuOpened.value) {
         const newDate = new Date(Date.now() + timer.value);
         startTimer(newDate)
     }
@@ -65,7 +65,7 @@ watchEffect(() =>
     <div id="chrono">
         <img src="../../assets/icons/chrono.svg">
         <p id="counter">{{ time }}</p>
-        <button @click="paused = !paused">pause</button>
+        <!-- <button @click="paused = !paused">pause</button> -->
     </div>
 </template>
 
