@@ -33,13 +33,14 @@ function findTile() {
     return tiles.find(tile => tile.type === props.tileType)
 }
 
+// Rotate target 90 degrees clockwise
 function rotate(evt) {
 
     anime.timeline({
         targets: evt.target,
         easing: 'linear',
-        duration: 200,
-        begin: function (anim) {
+        duration: 150,
+        begin: function(anim) {
             styleObject.zIndex = 999
             isEnabled.value = false
         },
