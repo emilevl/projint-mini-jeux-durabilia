@@ -61,7 +61,7 @@ function decisionDone(decision) {
     // end of the game
     endGame.value = true;
     document.removeEventListener("mousemove", mouseMoveHandler);
-    document.querySelector("#clickable-part").removeEventListener("click");
+    document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
 
     console.log("end of the game")
     return;
@@ -95,8 +95,8 @@ function decisionDone(decision) {
   CARDS.value.pop();
 }
 
+const windowCenterX = window.innerWidth / 2;
 onMounted(() => {
-  const windowCenterX = window.innerWidth / 2;
 
   mouseMoveHandler = (event) => {
     const card = document.querySelector(`#card-${iCurrentCard.value}`);
@@ -122,18 +122,21 @@ onMounted(() => {
   };
   document.addEventListener("mousemove", mouseMoveHandler);
   //select the #app element
-  document.querySelector("#clickable-part").addEventListener("click", (event) => {
-    if (event.clientX < windowCenterX - 200) {
-      decisionDone(0);
-    } else if (event.clientX > windowCenterX + 200) {
-      decisionDone(1);
-    }
-  });
+  document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
 });
 
 onUnmounted(() => {
   document.removeEventListener("mousemove", mouseMoveHandler);
 });
+
+
+function updateCardDecision(event) {
+  if (event.clientX < windowCenterX - 200) {
+      decisionDone(0);
+    } else if (event.clientX > windowCenterX + 200) {
+      decisionDone(1);
+    }
+}
 
 function turnCard() {
   // if (iNextCard >= 0) {
