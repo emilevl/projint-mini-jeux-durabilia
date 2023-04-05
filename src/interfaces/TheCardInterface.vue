@@ -8,8 +8,6 @@ import dataCards from "../assets/dataCards.json";
 import anime from "animejs/lib/anime.es";
 import { ressourceGlobal } from '../utils/store.js';
 
-// console.log(ressourceGlobal.value)
-
 //Les noms et les niveaux pour chaque ressources (Les niveaux sont en pourcents)
 let RESSOURCES_NAMES = ref([
   { name: "climateActions", level: 0 },
@@ -33,8 +31,7 @@ let RESSOURCES_NAMES = ref([
 
 const CARDS = ref([]);
 const TOTAL_CARDS = 5;
-// choices are from the dataCards object: 0 = choice 1, 1 = choice 2
-// -> cards.responses[choice]
+// choices are from the dataCards object: 0 = choice 1, 1 = choice -> cards.responses[choice]
 const iChoice = ref(0);
 let mouseMoveHandler;
 let cardSelection = ref([]);
@@ -52,51 +49,70 @@ const iCurrentCard = ref(CARDS.value.length - 1);
 
 
 function decisionDone(decision) {
+
   // add the decision to the choice array
   const currentCard = CARDS.value[iCurrentCard.value];
   currentCard.decision = decision;
   cardSelection.value.push(currentCard);
+  document.removeEventListener("mousemove", mouseMoveHandler);
+  document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
 
   if (iCurrentCard.value === 0) {
     // end of the game
     endGame.value = true;
-    document.removeEventListener("mousemove", mouseMoveHandler);
-    document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
-
-    console.log("end of the game")
     return;
   }
 
   // animate the card to leave the page from the left or right, down
   console.log(iCurrentCard.value)
-  const card = document.querySelector(`#card-${iCurrentCard.value}`);
-  // const band = card.querySelector(`.flip-card-band`);
-  // const windowCenterX = window.innerWidth / 2;
+  const card = document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`);
   if (decision === 0) {
-    // card disappears to the left
+    // anime the card so it rotates fluently to the left bottom of the screen
+    anime({
+      targets: card,
+      translateX: 700,
+      translateY: 250,
+      rotate: '90deg',
+      opacity: [1, 0.7, 0.5, 0],
+      duration: 250
+    });
+
   } else {
-    // card disappears to the right
-    // card.style.transform = `rotate(10deg) translate(-50%, calc(-50% + ${
-    //   15 * iCurrentCard
-    // }px))`;
-    // band.style.height = "20%";
+    // anime the card so it rotates fluently to the right bottom of the screen
+    anime({
+      targets: card,
+      translateX: -700,
+      translateY: -250,
+      rotate: '-90deg',
+      opacity: [1, 0.7, 0.5, 0],
+      duration: 250
+    });
   }
-  // card.style.display = "none";
 
-  // anime({
-  //   targets: `#card-${iCurrentCard}`,
-  //   translateX: 250,
-  //   scale: 2,
-  //   rotate: '1turn'
-  // });
 
-  // remove the card from the CARDS array
-  iCurrentCard.value--;
-  CARDS.value.pop();
+
+  // wait for the animation to finish
+  setTimeout(() => {
+    // remove the card from the CARDS array
+    iCurrentCard.value--;
+    CARDS.value.pop();
+    turnCard();
+    
+    document.addEventListener("mousemove", mouseMoveHandler);
+    //select the #app element
+    document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
+  }, 250);
+
 }
+
+
 
 const windowCenterX = window.innerWidth / 2;
 onMounted(() => {
+
+  setTimeout(() => {
+    turnCard();
+  }, 2750);
 
   mouseMoveHandler = (event) => {
     const card = document.querySelector(`#card-${iCurrentCard.value}`);
@@ -109,7 +125,6 @@ onMounted(() => {
       band.style.height = "20%";
     } else if (event.clientX > windowCenterX + 200) {
       iChoice.value = 1;
-      // CARDS.value[iCurrentCard].response = CARDS.value[iCurrentCard].responses[1].name;
       band.style.height = "20%";
     } else {
       band.style.height = "0%";
@@ -139,19 +154,17 @@ function updateCardDecision(event) {
 }
 
 function turnCard() {
-  // if (iNextCard >= 0) {
-  //   anime({
-  //     targets: '.flip-card .flip-card-inner',
-  //     keyframes: [
-  //       { translateY: ['500', '0'] },
-  //       { rotateY: 180 }
-  //     ],
-  //     duration: 1000,
-  //     delay: anime.stagger(500),
-  //     easing: 'spring(1, 80, 10, 0)'
-  //   });
-  //   iNextCard--;
-  // }
+  if (iCurrentCard.value >= 0) {
+    anime({
+      targets: `#card-${iCurrentCard.value} .flip-card-inner`,
+      keyframes: [
+        { rotateY: 180 }
+      ],
+      scale: [1, 2, 1],
+      duration: 250,
+      easing: 'cubicBezier(0.450, 0.145, 0.240, 0.850);'
+    });
+  }
 }
 
 function pauseGame() {
@@ -180,9 +193,6 @@ function infoPlayer() {
     <div class="bottom-text">
       Choix {{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}
     </div>
-    <!-- <div id="ressources">
-        <ressource v-for="name of RESSOURCES_NAMES" :name="name.name" :level="name.level" size="60px"></ressource>
-      </div> -->
 
     <div id="cards">
       <Card
