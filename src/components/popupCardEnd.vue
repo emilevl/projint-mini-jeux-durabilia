@@ -55,15 +55,7 @@ function updateImpactData() {
         for (let choice of playerChoices.value) {
             for (let impact of choice) {
                 if (impact.ressource == dataEntry.ressource) {
-                    if (dataEntry.currentLevel + impact.level <= 0) {
-                        dataEntry.impact = -dataEntry.currentLevel
-                        impact.level = -dataEntry.currentLevel
-                    } else if (dataEntry.currentLevel + impact.level >= 100) {
-                        dataEntry.impact = 100 - dataEntry.currentLevel
-                        impact.level = 100 - dataEntry.currentLevel
-                    } else {
-                        dataEntry.impact += impact.level
-                    }
+                    dataEntry.impact += impact.level
                 }
             }
         }
@@ -74,9 +66,10 @@ onMounted(() => {
     setTimeout(() => getPlayerChoices(), 10)
     setTimeout(() => updateImpactData(), 10)
     setTimeout(() => showBars(), 10)
-    setTimeout(() => showChange(), 500)
+    setTimeout(() => showChange(), 300)
 })
 
+//Sets the bar of the current level of ressources (black bars)
 function showBars() {
     for (let impact of totalImpact.value) {
         const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
@@ -100,18 +93,36 @@ function showChange() {
     for (let impact of totalImpact.value) {
         const bar = document.querySelector(`#${impact.ressource}`)
         const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
-        bar.style.height = `${(Math.abs(impact.impact) / 100) * 200}px`
+
+        //Manage the case where we pass the bar limit (0 -> 100)
+        if (impact.impact + parseInt(barPrincipal.style.height) / 2 >= 100) {
+            impact.impact = 100 - parseInt(barPrincipal.style.height) / 2
+        } else if (impact.impact + parseInt(barPrincipal.style.height) / 2 <= 0) {
+            impact.impact = - parseInt(barPrincipal.style.height) / 2
+        }
+
+        bar.style.height = `${(Math.abs(impact.impact) / 100) * 200}px` //Sets the height for the change bar
         if (impact.impact < 0) {
             bar.style.backgroundColor = "red"
-            barPrincipal.style.transition = "all 1s ease 0s"
-            barPrincipal.style.height = `${(parseInt(barPrincipal.style.height) - (Math.abs(impact.impact) / 100) * 200)}px`
+            barPrincipal.style.transition = "all 1s ease 0s" //For animation transition
+            barPrincipal.style.height = `${parseInt(barPrincipal.style.height) - ((Math.abs(impact.impact) / 100) * 200)}px` //Diminish the black bar to let the red bar go over it
         }
         if (impact.impact > 0) bar.style.backgroundColor = "green"
     }
+
     //For the choices
     for (let i = 0; i < 5; i++) {
         for (let impact of playerChoices.value[i]) {
             const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
+            const barPrincipal = document.querySelector(`#barGlob-choice${i + 1}-${impact.ressource}`)
+
+            //Manage the case where we pass the bar limit (0 -> 100)
+            if (impact.level + parseInt(barPrincipal.style.height) / 2 >= 100) {
+                impact.level = 100 - parseInt(barPrincipal.style.height) / 2
+            } else if (impact.level + parseInt(barPrincipal.style.height) / 2 <= 0) {
+                impact.level = - parseInt(barPrincipal.style.height) / 2
+            }
+
             bar.style.height = `${(Math.abs(impact.level) / 100) * 200}px`
             if (impact.level < 0) {
                 bar.style.backgroundColor = "red"
@@ -142,7 +153,7 @@ function changeSection(id) {
             }
         }
         showBars()
-        setTimeout(() => showChange(), 500)
+        setTimeout(() => showChange(), 300)
     }
 }
 </script>
@@ -235,6 +246,7 @@ function changeSection(id) {
     width: 1000px;
     height: 600px;
     background-color: white;
+    text-align: center;
 }
 
 .content {
@@ -328,6 +340,7 @@ function changeSection(id) {
     display: flex;
     justify-content: center;
 }
+
 .card-back {
     margin-top: 50px;
     background-color: white;
@@ -335,17 +348,23 @@ function changeSection(id) {
     position: absolute;
     height: 300px;
     width: 180px;
-    font-size: 0.6em;
+    font-size: 0.7em;
 }
 
 .card-band {
     position: absolute;
     bottom: 0;
-    display: grid;
-    grid-template-columns: auto;
     width: 100%;
     height: 10%;
     background-color: lightblue;
+}
+
+.card-response {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    line-height: 250%;
 }
 
 .card-ressources {
@@ -370,4 +389,26 @@ function changeSection(id) {
 .circle {
     background-color: #000;
     border-radius: 50%;
-}</style>
+}
+
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+}
+
+button:hover {
+    border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+}
+</style>
