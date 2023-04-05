@@ -17,7 +17,6 @@ function toggleMenu() {
 <template>
     <div>
         <p @click="$emit('toggleMenu')">MENU</p>
-        <!-- <p v-if="menuOpened">menu à écrire</p> -->
     </div>
 </template>
 
@@ -26,5 +25,6 @@ p {
     font-weight: 600;
     font-size: 3vw;
     margin: 5px 0 0 0;
+    cursor: pointer;
 }
 </style>

@@ -70,8 +70,8 @@ function rotate(evt) {
 
 <style scoped>
 img {
-    position: relative;
     max-width: 100%;
     max-height: 100%;
+    cursor: pointer;
 }
 </style>
