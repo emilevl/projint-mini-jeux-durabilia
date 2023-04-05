@@ -4,11 +4,12 @@ import Grid from '../components/puzzle/grid.vue';
 import TheMenu from '../components/theMenu.vue';
 import TheChrono from '../components/puzzle/theChrono.vue';
 import { menuOpened } from "../store.js"
+import {generateMatrix} from '../utils/generateRandomPath.js';
+
 
 function onToggleMenu() {
     menuOpened.value = !menuOpened.value
 }
-
 </script>
 
 <template>
