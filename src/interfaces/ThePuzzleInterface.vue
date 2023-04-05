@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import Grid from '../components/puzzle/grid.vue';
 import TheMenu from '../components/theMenu.vue';
 import TheChrono from '../components/puzzle/theChrono.vue';
-
+import {generateMatrix} from '../utils/generateRandomPath.js';
 </script>
 
 <template>
