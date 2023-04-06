@@ -3,13 +3,19 @@ import { ref } from 'vue';
 import Grid from '../components/puzzle/grid.vue';
 import TheMenu from '../components/theMenu.vue';
 import TheChrono from '../components/puzzle/theChrono.vue';
+import { menuOpened } from "../store.js"
+import {generateMatrix} from '../utils/generateRandomPath.js';
 
+
+function onToggleMenu() {
+    menuOpened.value = !menuOpened.value
+}
 </script>
 
 <template>
     <div class="aside">
         <the-chrono></the-chrono>
-        <the-menu></the-menu>
+        <the-menu @toggle-menu="onToggleMenu"></the-menu>
     </div>
     <grid id="grid"></grid>
 </template>
