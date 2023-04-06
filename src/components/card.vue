@@ -17,13 +17,34 @@ onMounted(() => {
   anime({
     targets: '.flip-card .flip-card-inner',
     keyframes: [
-      { translateY: ['1000', '0'] },
-      { rotateY: 180 }
+      { translateY: ['1000', '0'] }
     ],
-    duration: 1000,
+    duration: 500,
     delay: anime.stagger(500),
     easing: 'spring(1, 80, 10, 0)'
   });
+
+  // rotate only the first card
+  // setTimeout(() => {
+  //   anime({
+  //     targets: `#card-${props.index} .flip-card-inner`,
+  //     keyframes: [
+  //       { rotateY: 180 }
+  //     ],
+  //     duration: 1000,
+  //     delay: anime.stagger(500),
+  //     easing: 'spring(1, 80, 10, 0)'
+  //   });
+  // }, 2500);
+  // anime({
+  //   targets: `#card-${props.index} .flip-card-inner`,
+  //   keyframes: [
+  //     { rotateY: 180 }
+  //   ],
+  //   duration: 1000,
+  //   delay: anime.stagger(500),
+  //   easing: 'spring(1, 80, 10, 0)'
+  // });
 })
 
 </script>
@@ -41,9 +62,10 @@ onMounted(() => {
         <div class="flip-card-ressources">
           <div v-for="ressource of props.ressources" class="ressource-icon-wrapper">
             <img :src="`src/assets/icons/${ressource.ressource}.svg`">
+
             <div class="circle" :style="{
-              height: `${((ressource.level/100)*4)}px`,
-              width: `${((ressource.level/100)*4)}px`
+              height: `${((Math.abs(ressource.level)/100)*15)+5}px`,
+              width: `${((Math.abs(ressource.level)/100)*15)+5}px`
             }"></div>
           </div>
         </div>
@@ -102,9 +124,9 @@ onMounted(() => {
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-box-shadow: 0px -4px 30px -14px rgba(0,0,0,0.67);
-  -moz-box-shadow: 0px -4px 30px -14px rgba(0,0,0,0.67);
-  box-shadow: 0px -4px 30px -14px rgba(0,0,0,0.67);
+  -webkit-box-shadow: 1px -1px 4px -1px rgba(0,0,0,0.7);
+  -moz-box-shadow: 1px -1px 4px -1px rgba(0,0,0,0.7);
+  box-shadow: 1px -1px 4px -1px rgba(0,0,0,0.7);
   /* box-shadow:
     2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
     6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
