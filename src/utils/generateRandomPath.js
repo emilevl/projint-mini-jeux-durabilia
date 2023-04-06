@@ -67,9 +67,9 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
     let compte = 1;
     let currentPos = arrival;
     matrix[currentPos[0]][currentPos[1]] = 1;
-    console.log('currentPos', currentPos);
+
     history.push(currentPos);
-    console.log('wtf', history);
+
     for (let i = 0; i < randomize; i++) {
       let ListMoves = possiblesMoves(currentPos[0], currentPos[1], matrix, rowSize, columsSize);
       let move = ListMoves[Math.floor(Math.random() * ListMoves.length)];
@@ -100,13 +100,11 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
 
     gameOk = verifyMatrix(matrix, history.length);
   }
-  console.log('historique', history);
+
   history.push([0, -1]);
   for (let i = 1; i < history.length - 2; i++) {
     if (history[i + 1][0] != history[i][0] || history[i - 1][1] != history[i][1]) {
-      console.log('courbe');
     } else {
-      console.log('droit');
     }
   }
 
@@ -142,7 +140,7 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
   //       let tileType = randomProperty(tiles);
   //       console.log('ça marche', tileType.length);
   //       elem2 = 'bonjour';
-  //       //elem2 = tileType[Math.floor(Math.random() * tileType.length)];
+  //       //elem2 = tileType[Math.floor(Math.random() * tilesType.length)];
   //     }
   //   });
   // });
