@@ -326,15 +326,113 @@
                         {"ressource": "poverty", "level": 20},
                         {"ressource": "water", "level": -10},
                         {"ressource": "inovation", "level": -20},
+                        {"ressource": "lifeAquatic", "level": -10},
                         
                         
                     ]
                 }
             ]
         },
-        
-        
-        
-        
+                                {
+            "id": 14,
+            "title": "Toilettes pour tous et réduction des contaminations",
+            "question": "Voulez-vous garantir l'accès à des toilettes pour tous pour réduire la contamination de l'eau ?",
+            "context": "Beaucoup de maladies se transmettent par les eaux usées, il est donc important de permettre à tous d'avoir accèsw à des toilettes propres.",
+            "responses": [
+                {
+                    "name": "Oui, permettons à tous d'avoir accès à des toilettes",
+                    "impact": [
+                        {"ressource": "water", "level": 30},
+                        {"ressource": "health", "level": 30},
+                        {"ressource": "poverty", "level": -20},
+                    ]
+                },
+                {
+                    "name": "Non, trouvons une autre solution",
+                    "impact": [
+                        {"ressource": "health", "level": -20},
+                        {"ressource": "water", "level": -20},
+                        {"ressource": "poverty", "level": 20}
+                        
+                        
+                    ]
+                }
+            ]
+        },
+                                        {
+            "id": 15,
+            "title": "Aider les petites entreprises locales",
+            "question": "Voulez-vous aidez financièrement les petites entreprises pour leur survie et leur indépendance.",
+            "context": "Les grandes entreprises sont celles qui bénéficient du plus d'avantages de l'État ce qui restreint l'économie localisée.",
+            "responses": [
+                {
+                    "name": "Oui, soutenons les petites entreprises locales.",
+                    "impact": [
+                        {"ressource": "decentWork", "level": 30},
+                        {"ressource": "communities", "level": 10},
+                        {"ressource": "poverty", "level": -20}
+                    ]
+                },
+                {
+                    "name": "Non, les grandes entreprisent créent plus d'emplois",
+                    "impact": [
+                        {"ressource": "decentWork", "level": -10},
+                        {"ressource": "communities", "level": -10},
+                        {"ressource": "poverty", "level": 20}
+                        
+                    ]
+                }
+            ]
+        },
+                          {
+            "id": 16,
+            "title": "Protection des travailleurs",
+            "question": "Voulez-vous garantir la protection des travailleurs contre l'exploitation et la discrimination ?",
+            "context": "Certaines entreprises jouent avec les limites de l'exploitation, nous pourrions les encadrer d'avantage.",
+            "responses": [
+                {
+                    "name": "Oui, protégeons les travailleurs",
+                    "impact": [
+                        {"ressource": "decentWork", "level": 30},
+                        {"ressource": "health", "level": 10},
+                        {"ressource": "poverty", "level": -20}
+                    ]
+                },
+                {
+                    "name": "Non, les grandes entreprisent créent plus d'emplois",
+                    "impact": [
+                        {"ressource": "decentWork", "level": -10},
+                        {"ressource": "communities", "level": -10},
+                        {"ressource": "poverty", "level": 20}
+                        
+                    ]
+                }
+            ]
+        },
+                    {
+            "id": 17,
+            "title": "Lutter contre les discriminations",
+            "question": "Voulez-vous mettre en place des politiques pour lutter contre la discrimination fondée sur la religion, l'origine ou l'orientation sexuelle ?",
+            "context": "De nos jours, certaines personnes sont toujours discriminer à cause de leur religion, origine et/ou orientation sexuelle. La mise en place de politiques, bien que considéré comme à contre courant des traditions, pénaliserait les comportements discriminants.",
+            "responses": [
+                {
+                    "name": "Oui, il faut agir pour protéger les minorités",
+                    "impact": [
+                        {"ressource": "partnership", "level": 10},
+                        {"ressource": "communities", "level": 20},
+                        {"ressource": "inequality", "level": 30}
+                    ]
+                },
+                {
+                    "name": "Non, ce n'est pas nécessaire.",
+                    "impact": [
+                        {"ressource": "partnership", "level": -10},
+                        {"ressource": "communities", "level": -20},
+                        {"ressource": "inequality", "level": -20}
+                        
+                    ]
+                }
+            ]
+        },
     ]
 }
