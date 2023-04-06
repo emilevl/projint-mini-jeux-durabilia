@@ -92,7 +92,7 @@ function decisionDone() {
     anime({
       targets: card,
       translateX: -700,
-      translateY: -250,
+      translateY: 250,
       rotate: '-90deg',
       opacity: [1, 0.7, 0.5, 0],
       duration: 250
@@ -282,7 +282,7 @@ function infoPlayer() {
     </p>
     
     <div class="bottom-text">
-      Choix {{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}
+      <p>Choix {{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}</p>
     </div>
 
     <div id="cards">
@@ -297,7 +297,7 @@ function infoPlayer() {
         :response="card.responses[iChoice].name"
       ></Card>
     </div>
-    <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div>
+    <!-- <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div> -->
   </div>
   <popupCardEnd v-if="endGame" :cardSelection="cardSelection"></popupCardEnd>
   <ThePause v-if="pauseGame" @resumeGame="togglePauseGame"></ThePause>
@@ -364,6 +364,7 @@ function infoPlayer() {
     height: 70vh;
     display: flex;
   }
+
   .pause-game {
     position: absolute;
     top: 5px;
@@ -383,7 +384,10 @@ function infoPlayer() {
     position: absolute;
     bottom: 10px;
     width: 100%;
-    margin: 20px;
+  }
+
+  .bottom-text p {
+    margin: 0;
     text-align: center;
   }
   /* #cards {
@@ -405,5 +409,38 @@ function infoPlayer() {
     top: 10px;
     margin: 0 auto;
   }
+
+  @media (max-width: 900px) {
+
+    #main-title {
+      font-size: 1.5rem;
+      margin: 5px 0 0;
+    }
+
+    .bottom-text {
+        bottom: 5px;
+    }
+    
+    .bottom-text p {
+        font-size: 0.9em;
+    }
+
+    #description-current-card {
+      margin-left: 5px;
+      max-width: 275px;
+      position: absolute;
+      top: 50px;
+    }
+
+    #description-current-card h1 {
+        font-size: 1.3rem;
+        margin: 0;
+    }
+
+    #description-current-card p {
+        font-size: 0.9em;
+        margin: 5px 0 0;
+    }
+}
 </style>
   

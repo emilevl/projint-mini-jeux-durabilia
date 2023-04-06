@@ -52,7 +52,7 @@ onMounted(() => {
 
 <template>
   <div class="flip-card" :id="`card-${props.index}`" :style="{
-    transform: 'translate(-50%, calc(-50% + ' + (15 * index) + 'px))'
+    transform: 'translate(-50%, calc(-50% + ' + (10 * index) + 'px))'
   }">
     <div class="flip-card-inner">
       <div class="flip-card-front"></div>
@@ -78,110 +78,165 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.flip-card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: calc(64vh * 0.64);
-  max-width: 480px;
-  max-height: 750px;
-  height: 64vh;
-  transform-origin: left center;
-}
-
-@media (max-width: 767px) {
-
-  /* Apply different styles for small screens */
   .flip-card {
-    width: calc(45vh * 0.64);
-    height: 45vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(64vh * 0.64);
+    max-width: 480px;
+    max-height: 750px;
+    min-width: 300px;
+    min-height: 480px;
+    height: 64vh;
+    transform-origin: left center;
   }
-}
 
-@media (max-width: 479px) {
-
-  /* Apply different styles for very small screens */
-  .flip-card {
-    width: calc(40 *0.64);
-    height: 40vh;
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   }
-}
 
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
+  .flip-card-front,
+  .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-box-shadow: 1px -1px 4px -1px rgba(0,0,0,0.7);
+    -moz-box-shadow: 1px -1px 4px -1px rgba(0,0,0,0.7);
+    box-shadow: 1px -1px 4px -1px rgba(0,0,0,0.7);
+    /* box-shadow:
+      2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+      6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+      12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+      22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+      41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+      100px 100px 80px rgba(0, 0, 0, 0.07); */
+  }
 
-.flip-card-front,
-.flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-box-shadow: 1px -1px 4px -1px rgba(0,0,0,0.7);
-  -moz-box-shadow: 1px -1px 4px -1px rgba(0,0,0,0.7);
-  box-shadow: 1px -1px 4px -1px rgba(0,0,0,0.7);
-  /* box-shadow:
-    2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
-    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
-    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
-    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
-    100px 100px 80px rgba(0, 0, 0, 0.07); */
-}
+  .flip-card-front {
+    background-color: #912727;
+    color: black;
+  }
 
-.flip-card-front {
-  background-color: #912727;
-  color: black;
-}
+  .flip-card-back {
+    background-color: white;
+    color: #000;
+    transform: rotateY(180deg);
+  }
 
-.flip-card-back {
-  background-color: white;
-  color: #000;
-  transform: rotateY(180deg);
-}
+  .flip-card-band {
+    position: absolute;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: auto;
+    width: 100%;
+    height: 0%;
+    background-color: lightblue;
+    transition: 0.5s ease;
+    overflow: hidden;
+  }
 
-.flip-card-band {
-  position: absolute;
-  bottom: 0;
-  display: grid;
-  grid-template-columns: auto;
-  width: 100%;
-  height: 0%;
-  background-color: lightblue;
-  transition: 0.5s ease;
-  overflow: hidden;
-}
+  .flip-card-ressources {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns: repeat(v-bind(ressourceTemplating), 1fr);
+  }
 
-.flip-card-ressources {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  grid-template-columns: repeat(v-bind(ressourceTemplating), 1fr);
-}
+  .flip-card-band-ressources {
+    align-self: center;
+  }
 
-.ressource-icon-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  .ressource-icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-img {
-  height: 50px;
-  margin-bottom: 20px;
-}
+  img {
+    height: 50px;
+    margin-bottom: 20px;
+  }
 
-.circle {
-  background-color: #000;
-  border-radius: 50%;
-}
+  .circle {
+    background-color: #000;
+    border-radius: 50%;
+  }
+
+  @media (max-width: 1080px) {
+
+    /* Apply different styles for small screens */
+    .flip-card {
+      width: calc(45vh * 0.64);
+      height: 45vh;
+      max-width: 400px;
+      max-height: 600px;
+      min-width: 250px;
+      min-height: 380px;
+    }
+
+    .flip-card-back h1 {
+      font-size: 1.5rem;
+    }
+
+    .flip-card-back p {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .flip-card-back .flip-card-band .flip-card-response {
+      font-size: 0.8rem;
+    }
+
+    .flip-card-back .flip-card-ressources {
+      margin-top: 1rem;
+    }
+
+    .flip-card-back .flip-card-ressources img{
+      height: 35px;
+    }
+  }
+
+  @media (max-width: 900px) {
+
+    /* Apply different styles for very small screens */
+    .flip-card {
+      width: calc(30vh *0.64);
+      height: 30vh;
+      /* max-width: 200px;
+      max-height: 400px; */
+      min-width: 147.2px;
+    min-height: 230px;
+    }
+
+    .flip-card-back h1 {
+      font-size: 1.5rem;
+    }
+
+    .flip-card-back p {
+      font-size: 0.8rem;
+    }
+
+    .flip-card-back .flip-card-ressources img{
+      height: 25px;
+    }
+
+    .flip-card-back .flip-card-band .flip-card-response {
+      font-size: 0.6rem;
+    }
+
+    .flip-card-back .flip-card-ressources {
+      top: 30%;
+    }
+  }
 </style>
