@@ -35,9 +35,11 @@ const TOTAL_CARDS = 5;
 // choices are from the dataCards object: 0 = choice 1, 1 = choice -> cards.responses[choice]
 const iChoice = ref(0);
 let mouseMoveHandler;
+let touchMoveHandler;
 let cardSelection = ref([]);
 const endGame = ref(false);
 const pauseGame = ref(false);
+const cardMoved = ref(false);
 
 
 // create a new array with 5 of the dataCards objects
@@ -50,14 +52,20 @@ for (let i = 0; i < dataCards.cards.length; i++) {
 const iCurrentCard = ref(CARDS.value.length - 1);
 
 
-function decisionDone(decision) {
+function decisionDone() {
+
+  if (!cardMoved.value) return;
 
   // add the decision to the choice array
   const currentCard = CARDS.value[iCurrentCard.value];
-  currentCard.decision = decision;
+  currentCard.decision = iChoice.value;
   cardSelection.value.push(currentCard);
+
+  // remove the event listeners
   document.removeEventListener("mousemove", mouseMoveHandler);
   document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
+  document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener('touchmove', touchMoveHandler)
+  document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener('touchend', decisionDone)
 
   if (iCurrentCard.value === 0) {
     // end of the game
@@ -66,9 +74,9 @@ function decisionDone(decision) {
   }
 
   // animate the card to leave the page from the left or right, down
-  console.log(iCurrentCard.value)
+  // console.log(iCurrentCard.value)
   const card = document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`);
-  if (decision === 0) {
+  if (iChoice.value === 0) {
     // anime the card so it rotates fluently to the left bottom of the screen
     anime({
       targets: card,
@@ -101,21 +109,17 @@ function decisionDone(decision) {
     turnCard();
     
     document.addEventListener("mousemove", mouseMoveHandler);
-    //select the #app element
     document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
+    document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener('touchmove', touchMoveHandler)
+    document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener('touchend', decisionDone)
+
   }, 250);
 
 }
 
 
-
 const windowCenterX = window.innerWidth / 2;
 onMounted(() => {
-
-  setTimeout(() => {
-    turnCard();
-  }, 2750);
-
   mouseMoveHandler = (event) => {
     const card = document.querySelector(`#card-${iCurrentCard.value}`);
     const band = card.querySelector(`.flip-card-band`);
@@ -125,11 +129,14 @@ onMounted(() => {
     if (event.clientX < windowCenterX - 200) {
       iChoice.value = 0;
       band.style.height = "20%";
+      cardMoved.value = true;
     } else if (event.clientX > windowCenterX + 200) {
       iChoice.value = 1;
       band.style.height = "20%";
+      cardMoved.value = true;
     } else {
       band.style.height = "0%";
+      cardMoved.value = false;
     }
     const tiltRange = 7; // You can adjust the tilt range as needed
     const tilt = ((event.clientX - windowCenterX) / windowCenterX) * tiltRange;
@@ -137,9 +144,82 @@ onMounted(() => {
       15 * iCurrentCard.value
     }px))`;
   };
-  document.addEventListener("mousemove", mouseMoveHandler);
+
+  touchMoveHandler = (e) => {
+      // e.preventDefault();
+      console.log("touchmove");
+      // move the card following the finger
+      const card = document.querySelector(`#card-${iCurrentCard.value}`);
+      const band = card.querySelector(`.flip-card-band`);
+      if (!card) return
+      const touch = e.touches[0];
+
+      // show the band when needed
+      if (touch.clientX < windowCenterX - 25) {
+        iChoice.value = 0;
+        band.style.height = "20%";
+        cardMoved.value = true;
+      } else if (touch.clientX > windowCenterX + 25) {
+        iChoice.value = 1;
+        band.style.height = "20%";
+        cardMoved.value = true;
+      } else {
+        band.style.height = "0%";
+        cardMoved.value = false;
+      }
+
+      card.style.position = "absolute";
+      // the center of the card is centered on the finger
+      card.style.left = touch.clientX - (card.clientWidth/2) + "px";
+      card.style.top = touch.clientY - (card.clientHeight/2) + "px";
+      // card.style.transform = "none";
+      // console log the width of the card
+      // console.log(card.clientWidth)
+      
+      const tiltRange = 7; // You can adjust the tilt range as needed
+      const tilt = ((touch.clientX - windowCenterX) / windowCenterX) * tiltRange;
+      card.style.transform = `rotate(${tilt}deg)`;
+
+    };
+
+    // when the user stops touching the screen
+    document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener('touchend', decisionDone)
+
+  // TODO: Detect if the user is on a mobile device or not
+  // const platform = navigator.platform.toLowerCase();
+  //   if (/(android|webos|iphone|ipad|ipod|blackberry|windows phone)/.test(platform)) {
+  //       // this.deviceType = 'mobile';
+  //       console.log("mobile")
+  //   } else if (/mac|win|linux/i.test(platform)) {
+  //       // this.deviceType = 'desktop';
+  //       console.log("desktop")
+  //   } else if (/tablet|ipad/i.test(platform)) {
+  //       // this.deviceType = 'tablet';
+  //       console.log("tablet")
+  //   } else {
+  //       // this.deviceType = 'unknown';
+  //       console.log("unknown")
+  //   }
+
+  setTimeout(() => {
+    turnCard();
+  }, 2750);
+
+  
+  // check if we are on a desktop or a mobile device
+  if (window.innerWidth > 1080) {
+    document.addEventListener("mousemove", mouseMoveHandler);
+    document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
+  } else {
+    // select the #app element
+    // document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
+    document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener('touchmove', touchMoveHandler);
+  }
+
   //select the #app element
-  document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
+  
+
+  
 });
 
 onUnmounted(() => {
