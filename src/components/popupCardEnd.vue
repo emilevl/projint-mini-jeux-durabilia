@@ -126,7 +126,8 @@ function showChange() {
             bar.style.height = `${(Math.abs(impact.level) / 100) * 200}px`
             if (impact.level < 0) {
                 bar.style.backgroundColor = "red"
-                bar.style.transform = `translate(0, ${(Math.abs(impact.level) / 100) * 200}px)`
+                barPrincipal.style.transition = "all 1s ease 0s" //For animation transition
+                barPrincipal.style.height = `${parseInt(barPrincipal.style.height) - ((Math.abs(impact.level) / 100) * 200)}px` //Diminish the black bar to let the red bar go over it
             }
             if (impact.level > 0) bar.style.backgroundColor = "green"
         }
@@ -189,7 +190,7 @@ function changeSection(id) {
                 v-show="activeSection == `choix-${n}`">
                 <div class="card-container">
                     <div class="card-back">
-                        <h1>{{ props.cardSelection[n - 1].title }}</h1>
+                        <h3>{{ props.cardSelection[n - 1].title }}</h3>
                         <p>{{ props.cardSelection[n - 1].question }}</p>
                         <div class="card-ressources">
                             <div v-for="ressource of props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].impact"
@@ -355,7 +356,7 @@ function changeSection(id) {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 10%;
+    height: 20%;
     background-color: lightblue;
 }
 
@@ -364,12 +365,11 @@ function changeSection(id) {
     height: 100%;
     width: 100%;
     margin: 0;
-    line-height: 250%;
 }
 
 .card-ressources {
     position: absolute;
-    top: 50%;
+    top: 55%;
     width: 100%;
     display: flex;
     gap: 15px;
@@ -380,6 +380,7 @@ function changeSection(id) {
     display: flex;
     flex-direction: column;
     align-items: center;
+    scale: 0.8;
 }
 
 .card-icons {
@@ -410,5 +411,15 @@ button:hover {
 button:focus,
 button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (max-width: 1100px) {
+    .recap-container{
+        width: 750px;
+    }
+
+    .bar-container {
+        
+    }
 }
 </style>
