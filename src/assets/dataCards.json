@@ -38,7 +38,7 @@
                     "impact": [
                         {"ressource": "hunger", "level": -20},
                         {"ressource": "poverty", "level": -20},
-                        {"ressource": "lifeAquatic", "level": +20}
+                        {"ressource": "lifeAquatic", "level": 20}
                     ]
                 },
                 {
@@ -105,14 +105,14 @@
                     "name": "Oui, aidons le corps médical.",
                     "impact": [
                         {"ressource": "communities", "level": 20},
-                        {"ressource": "energy", "level": 30},
+                        {"ressource": "health", "level": 30},
                         {"ressource": "decentWork", "level": -10}
                     ]
                 },
                 {
                     "name": "Non, ce n'est pas possible pour le moment",
                     "impact": [
-                        {"ressource": "energy", "level": -20},
+                        {"ressource": "health", "level": -20},
                         {"ressource": "communities", "level": -10}
                     ]
                 }
@@ -128,14 +128,14 @@
                     "name": "Oui, accordons les fonds",
                     "impact": [
                         {"ressource": "poverty", "level": -10},
-                        {"ressource": "energy", "level": 30},
+                        {"ressource": "health", "level": 30},
                         {"ressource": "genderEquality", "level": 10}
                     ]
                 },
                 {
-                    "name": "Non, il y a déà assez d'actions dans ce sens là",
+                    "name": "Non, il y a déjà assez d'actions dans ce sens là",
                     "impact": [
-                        {"ressource": "energy", "level": -20},
+                        {"ressource": "health", "level": -20},
                         {"ressource": "poverty", "level": 10},
                         {"ressource": "genderEquality", "level": -10}
                     ]
@@ -161,7 +161,173 @@
                     "name": "Non, il y a déà assez d'actions dans ce sens là",
                     "impact": [
                         {"ressource": "education", "level": -20},
+                        {"ressource": "inequality", "level": -10}
+                    ]
+                }
+            ]
+        },
+        
+                   {
+            "id": 8,
+            "title": "iPad dans les écoles",
+            "question": "Voulez-vous attribuer un iPad aux élèves des écoles primaires ?",
+            "context": "Donner des iPad aux élèves permet d'augmenter les affinités aux technologie pour tous. Certains enseignants craignent des conséquences de dépendances.",
+            "responses": [
+                {
+                    "name": "Oui, donnons des iPads aux élèves.",
+                    "impact": [
+                        {"ressource": "education", "level": 30},
+                        {"ressource": "poverty", "level": -10},
+                        {"ressource": "inequality", "level": 10}
+                    ]
+                },
+                {
+                    "name": "Non, cela pourrait être nocif pour la jeunesse.",
+                    "impact": [
+                        {"ressource": "education", "level": -10},
                         {"ressource": "inequality", "level": -10},
+                        
+                    ]
+                }
+            ]
+        },
+        
+              {
+            "id": 9,
+            "title": "Représentation des femmes dans les organes de prise de décision",
+            "question": "Voulez-vous mettre en place des quotas pour garantir une représentation égale des femmes dans les organes de prise de décision ?",
+            "context": "La mise ne place de quotas obligent les entreprisent à passer à l'action pour une égalité des sexes et favorises la diversité des genres dans les organes de décision. Cela peut être contraignant pour les entreprises.",
+            "responses": [
+                {
+                    "name": "Oui, imposons des quotas",
+                    "impact": [
+                        {"ressource": "genderEquality", "level": 30},
+                        {"ressource": "communities", "level": 10}
+ 
+                    ]
+                },
+                {
+                    "name": "Non, ça pourrait aussi discriminer les hommes, ça n'avance rien",
+                    "impact": [
+                        {"ressource": "genderEquality", "level": -10},
+                        {"ressource": "partnership", "level": -10},
+                        {"ressource": "inequality", "level": -10}
+                        
+                    ]
+                }
+            ]
+        },
+        
+         {
+            "id": 10,
+            "title": "Programme contre les violences faites aux femmes",
+            "question": "Voulez-vous mettre en place des programmes pour lutter contre les violences faites aux femmes ?",
+            "context": "Les féminicides ne diminuent pas et des programmes de prévention peuvent réduire le nombre de victimes. Mais cela coûte de l'argent.",
+            "responses": [
+                {
+                    "name": "Oui, mettons en place ce type de programmes",
+                    "impact": [
+                        {"ressource": "genderEquality", "level": 30},
+                        {"ressource": "partnership", "level": 10},
+                        {"ressource": "poverty", "level": -10}
+ 
+                    ]
+                },
+                {
+                    "name": "Non, il est trop difficile de pallier ces problèmes en faisasnt de la prévention.",
+                    "impact": [
+                        {"ressource": "genderEquality", "level": -20},
+                        {"ressource": "partnership", "level": -10},
+                        {"ressource": "health", "level": -10}
+                        
+                        
+                    ]
+                }
+            ]
+        },
+        
+                 {
+            "id": 11,
+            "title": "Énergie renouvelables pour réduire les émissions de C02",
+            "question": "Voulez-vous encourager la production d'énergie à partir de sources renouvelables pour réduire les émissions de gaz à effet de serre ?",
+            "context": "Diminuer les émissions de C02 passent par une production d'énergie reouvelable. À l'heure actuelle, cette transition est très onéreuse.",
+            "responses": [
+                {
+                    "name": "Oui, investissons dans les énergies vertes",
+                    "impact": [
+                        {"ressource": "climateActions", "level": 30},
+                        {"ressource": "consumption", "level": 20},
+                        {"ressource": "poverty", "level": -30},
+                        {"ressource": "energy", "level": -20}
+                    ]
+                },
+                {
+                    "name": "Non, attendons que les sources renouvelables seront plus rentables.",
+                    "impact": [
+                        {"ressource": "energy", "level": 20},
+                        {"ressource": "decentWork", "level": 20},
+                        {"ressource": "climateActions", "level": -20},
+                        {"ressource": "consumption", "level": -20}
+                        
+                        
+                    ]
+                }
+            ]
+        },
+        
+                
+                 {
+            "id": 12,
+            "title": "Recherche & Développement des énergies renouvelables",
+            "question": "Voulez-vous encourager la recherche et le développement de technologies énergétiques propres ?",
+            "context": "Les énergies renouvelables sont propres mais elles ne sont pas très rentables. Ivestir dans la R&D permettrait d'améliorer leur rendement.",
+            "responses": [
+                {
+                    "name": "Oui, investissons dans les énergies vertes",
+                    "impact": [
+                        {"ressource": "climateActions", "level": 30},
+                        {"ressource": "consumption", "level": 20},
+                        {"ressource": "innovation", "level": 20},
+                        {"ressource": "decentWork", "level": -20}
+                    ]
+                },
+                {
+                    "name": "Non, les résultats ne sont pas garantis",
+                    "impact": [
+                        {"ressource": "poverty", "level": 20},
+                        {"ressource": "decentWork", "level": 20},
+                        {"ressource": "climateActions", "level": -20},
+                        {"ressource": "consumption", "level": -20}
+                        
+                        
+                    ]
+                }
+            ]
+        },
+        
+                        {
+            "id": 13,
+            "title": "Traitement des eaux usées et pollution",
+            "question": "Voulez-vous investir dans l'amélioration des infrastructures de traitement des eaux usées pour réduire la pollution de l'eau ?",
+            "context": "L'eau est une ressource très importante et améliorer les infrastrucures pour en prendre soin est primordial. Mais ces infrastructures sont coûteuses et sont encore fonctionnelles.",
+            "responses": [
+                {
+                    "name": "Oui, améliorons les infrastructures des eaux usées.",
+                    "impact": [
+                        {"ressource": "water", "level": 30},
+                        {"ressource": "lifeAquatic", "level": 10},
+                        {"ressource": "innovation", "level": 20},
+                        {"ressource": "poverty", "level": -20}
+                    ]
+                },
+                {
+                    "name": "Non, ces installations sont toujours fonctionnelles.",
+                    "impact": [
+                        {"ressource": "poverty", "level": 20},
+                        {"ressource": "water", "level": -10},
+                        {"ressource": "inovation", "level": -20},
+                        
+                        
                     ]
                 }
             ]
