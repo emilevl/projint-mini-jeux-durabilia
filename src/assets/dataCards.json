@@ -3,113 +3,338 @@
         {
             "id": 1,
             "title": "Installer un barrage",
-            "question": "Proposer la construction d'un barrage ?",
-            "context": "Les villageois se plaignent de blablabla...",
+            "question": "Voulez-vous approuver la construction du barrage du village ?",
+            "context": "Les villageois se préoccupent de la provenance de leur énergie et veulent de l'électricité propre. Ils souahitent construire un barrage dans la rivière. Cela aura pour sûr une influence sur la faune de la rivière. ",
             "responses": [
                 {
-                    "name": "Oui, je veux",
+                    "name": "Oui, construisons le barrage",
                     "impact": [
                         {"ressource": "lifeAquatic", "level": -10},
-                        {"ressource": "energy", "level": 20}
+                        {"ressource": "energy", "level": 20},
+                        {"ressource": "communities", "level": 20}
+                        
+                        
                     ]
                 },
                 {
-                    "name": "Non t'es ouf",
+                    "name": "Non, ne touchons pas à la rivière",
                     "impact": [
-                        {"ressource": "lifeAquatic", "level": 20}
+                        {"ressource": "lifeAquatic", "level": 10},
+                        {"ressource": "energy", "level": -10},
+                        {"ressource": "communities", "level": -20}
+                        
                     ]
                 }
             ]
         },
         {
             "id": 2,
-            "title": "Emprisonner villageois",
-            "question": "Mettre en prison les villageois ?",
-            "context": "Les villageois se plaignent de blablabla...",
+            "title": "Arrêter la pêche de masse",
+            "question": "Voulez-vous arrêter la pêche de masse dans un certaine zone contenant plusieurs espèces menacées ?",
+            "context": "Le pêche de masse, bien que profitable pour le prix et la quantité du poisson, ravage la biodiversité marine de certaines zones et en empêche le développement sain des espèces.",
             "responses": [
                 {
-                    "name": "Oui, que justice soit faite",
+                    "name": "Oui, arrêtons la p^che de masse",
                     "impact": [
-                        {"ressource": "peaceJustice", "level": 30},
-                        {"ressource": "energy", "level": -20},
-                        {"ressource": "communities", "level": -50}
-                    ]
-                },
-                {
-                    "name": "Non, nous avons besoin d'eux",
-                    "impact": [
-                        {"ressource": "education", "level": -20},
-                        {"ressource": "energy", "level": 20},
-                        {"ressource": "peaceJustice", "level": -50}
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "title": "Détruire villageois",
-            "question": "Détruire les villageois ?",
-            "context": "Les villageois se plaignent de blablabla...",
-            "responses": [
-                {
-                    "name": "Oui, je veux",
-                    "impact": [
-                        {"ressource": "lifeAquatic", "level": -10},
-                        {"ressource": "innovation", "level": 20}
-                    ]
-                },
-                {
-                    "name": "Non t'es ouf",
-                    "impact": [
+                        {"ressource": "hunger", "level": -20},
+                        {"ressource": "poverty", "level": -20},
                         {"ressource": "lifeAquatic", "level": 20}
                     ]
+                },
+                {
+                    "name": "Non, c'est malheureux, mais il faut continuer la pêche de masse.",
+                    "impact": [
+                        {"ressource": "decentWork", "level": 10},
+                        {"ressource": "poverty", "level": 10},
+                        {"ressource": "lifeAquatic", "level": -30}
+                    ]
                 }
             ]
         },
-        {
+                {
+            "id": 3,
+            "title": "Augmenter le salaire minimum",
+            "question": "Voulez-vous augmenter le salaire minimum pour aider à réduire la pauvreté ?",
+            "context": "Le salaire minimum sert à protéger les travailleurs d'une potentielle explotation au travail. Cependant, cela coûte de l'argent aux entreprises et à l'Etat",
+            "responses": [
+                {
+                    "name": "Bien sûr, il faut augmenter le salaire minimum.",
+                    "impact": [
+                        {"ressource": "inequality", "level": 30},
+                        {"ressource": "poverty", "level": -20}
+                    ]
+                },
+                {
+                    "name": "Non, cela représente un risque trop grand pour l'économie.",
+                    "impact": [
+                        {"ressource": "inequality", "level": -20},
+                        {"ressource": "poverty", "level": 10}
+                    ]
+                }
+            ]
+        },
+                        {
             "id": 4,
-            "title": "Installer un barrage",
-            "question": "Proposer la construction d'un barrage ?",
-            "context": "Les villageois se plaignent de blablabla...",
+            "title": "Création de nouveaux emplois",
+            "question": "Voulez-vous rénover les infrastructures dans le but de créer de nouveaux emplois?",
+            "context": "Créer de nouveaux emplois permet d'augmenter le pouvoir d'achat de nouvelles personnes. Cependant, cela représente un grnad endettement de l'Etat",
             "responses": [
                 {
-                    "name": "Oui, je veux",
+                    "name": "Rénovons nos routes et créons des chantiers !",
                     "impact": [
-                        {"ressource": "climateActions", "level": -10},
-                        {"ressource": "energy", "level": 20}
+                        {"ressource": "inequality", "level": 30},
+                        {"ressource": "innovation", "level": 10},
+                        {"ressource": "poverty", "level": -30}
                     ]
                 },
                 {
-                    "name": "Non t'es ouf",
+                    "name": "Non, cela représente un risque trop grand pour l'économie.",
                     "impact": [
-                        {"ressource": "partnership", "level": 20}
+                        {"ressource": "inequality", "level": -20}
                     ]
                 }
             ]
         },
-        {
+                                {
             "id": 5,
-            "title": "Emprisonner villageois",
-            "question": "Mettre en prison les villageois ?",
-            "context": "Les villageois se plaignent de blablabla...",
+            "title": "Améliorer les conditions de travail des infirmières et infirmiers",
+            "question": "Voulez-vous améliorer les conditions de travail (salaire, formation) du corps soignant ?",
+            "context": "Le personnel soignant est mis à lourde contributiuon et n'est pas suffisamment soutenu",
             "responses": [
                 {
-                    "name": "Oui, que justice soit faite",
+                    "name": "Oui, aidons le corps médical.",
                     "impact": [
-                        {"ressource": "peaceJustice", "level": 30},
-                        {"ressource": "energy", "level": -20},
-                        {"ressource": "communities", "level": -50}
+                        {"ressource": "communities", "level": 20},
+                        {"ressource": "health", "level": 30},
+                        {"ressource": "decentWork", "level": -10}
                     ]
                 },
                 {
-                    "name": "Non, nous avons besoin d'eux",
+                    "name": "Non, ce n'est pas possible pour le moment",
+                    "impact": [
+                        {"ressource": "health", "level": -20},
+                        {"ressource": "communities", "level": -10}
+                    ]
+                }
+            ]
+        },
+                                {
+            "id": 6,
+            "title": "Prévention de santé mentale",
+            "question": "Voulez-vous accorder les fonds à une association de prévention à la santé mentale ?",
+            "context": "Une association souhaite faire de visites au sein de certaines entreprises pour sensibiliser les citoyens à la santé mentale",
+            "responses": [
+                {
+                    "name": "Oui, accordons les fonds",
+                    "impact": [
+                        {"ressource": "poverty", "level": -10},
+                        {"ressource": "health", "level": 30},
+                        {"ressource": "genderEquality", "level": 10}
+                    ]
+                },
+                {
+                    "name": "Non, il y a déjà assez d'actions dans ce sens là",
+                    "impact": [
+                        {"ressource": "health", "level": -20},
+                        {"ressource": "poverty", "level": 10},
+                        {"ressource": "genderEquality", "level": -10}
+                    ]
+                }
+            ]
+        }, 
+   
+                                {
+            "id": 7,
+            "title": "École pour tous",
+            "question": "Voulez-vous créer des classes de soutien pour les personnes qui ne parlent pas français ?",
+            "context": "Le nombre de personnes illettrées ne cessent d'augmenter ces dernières années. Une des solutions serait de créer des classes, au dépend de la charge de travail des professeurs ",
+            "responses": [
+                {
+                    "name": "Oui, créons des classes.",
+                    "impact": [
+                        {"ressource": "education", "level": 30},
+                        {"ressource": "communities", "level": 10},
+                        {"ressource": "inequality", "level": 10}
+                    ]
+                },
+                {
+                    "name": "Non, il y a déà assez d'actions dans ce sens là",
                     "impact": [
                         {"ressource": "education", "level": -20},
-                        {"ressource": "energy", "level": 20},
-                        {"ressource": "peaceJustice", "level": -50}
+                        {"ressource": "inequality", "level": -10}
                     ]
                 }
             ]
-        }
+        },
+        
+                   {
+            "id": 8,
+            "title": "iPad dans les écoles",
+            "question": "Voulez-vous attribuer un iPad aux élèves des écoles primaires ?",
+            "context": "Donner des iPad aux élèves permet d'augmenter les affinités aux technologie pour tous. Certains enseignants craignent des conséquences de dépendances.",
+            "responses": [
+                {
+                    "name": "Oui, donnons des iPads aux élèves.",
+                    "impact": [
+                        {"ressource": "education", "level": 30},
+                        {"ressource": "poverty", "level": -10},
+                        {"ressource": "inequality", "level": 10}
+                    ]
+                },
+                {
+                    "name": "Non, cela pourrait être nocif pour la jeunesse.",
+                    "impact": [
+                        {"ressource": "education", "level": -10},
+                        {"ressource": "inequality", "level": -10},
+                        
+                    ]
+                }
+            ]
+        },
+        
+              {
+            "id": 9,
+            "title": "Représentation des femmes dans les organes de prise de décision",
+            "question": "Voulez-vous mettre en place des quotas pour garantir une représentation égale des femmes dans les organes de prise de décision ?",
+            "context": "La mise ne place de quotas obligent les entreprisent à passer à l'action pour une égalité des sexes et favorises la diversité des genres dans les organes de décision. Cela peut être contraignant pour les entreprises.",
+            "responses": [
+                {
+                    "name": "Oui, imposons des quotas",
+                    "impact": [
+                        {"ressource": "genderEquality", "level": 30},
+                        {"ressource": "communities", "level": 10}
+ 
+                    ]
+                },
+                {
+                    "name": "Non, ça pourrait aussi discriminer les hommes, ça n'avance rien",
+                    "impact": [
+                        {"ressource": "genderEquality", "level": -10},
+                        {"ressource": "partnership", "level": -10},
+                        {"ressource": "inequality", "level": -10}
+                        
+                    ]
+                }
+            ]
+        },
+        
+         {
+            "id": 10,
+            "title": "Programme contre les violences faites aux femmes",
+            "question": "Voulez-vous mettre en place des programmes pour lutter contre les violences faites aux femmes ?",
+            "context": "Les féminicides ne diminuent pas et des programmes de prévention peuvent réduire le nombre de victimes. Mais cela coûte de l'argent.",
+            "responses": [
+                {
+                    "name": "Oui, mettons en place ce type de programmes",
+                    "impact": [
+                        {"ressource": "genderEquality", "level": 30},
+                        {"ressource": "partnership", "level": 10},
+                        {"ressource": "poverty", "level": -10}
+ 
+                    ]
+                },
+                {
+                    "name": "Non, il est trop difficile de pallier ces problèmes en faisasnt de la prévention.",
+                    "impact": [
+                        {"ressource": "genderEquality", "level": -20},
+                        {"ressource": "partnership", "level": -10},
+                        {"ressource": "health", "level": -10}
+                        
+                        
+                    ]
+                }
+            ]
+        },
+        
+                 {
+            "id": 11,
+            "title": "Énergie renouvelables pour réduire les émissions de C02",
+            "question": "Voulez-vous encourager la production d'énergie à partir de sources renouvelables pour réduire les émissions de gaz à effet de serre ?",
+            "context": "Diminuer les émissions de C02 passent par une production d'énergie reouvelable. À l'heure actuelle, cette transition est très onéreuse.",
+            "responses": [
+                {
+                    "name": "Oui, investissons dans les énergies vertes",
+                    "impact": [
+                        {"ressource": "climateActions", "level": 30},
+                        {"ressource": "consumption", "level": 20},
+                        {"ressource": "poverty", "level": -30},
+                        {"ressource": "energy", "level": -20}
+                    ]
+                },
+                {
+                    "name": "Non, attendons que les sources renouvelables seront plus rentables.",
+                    "impact": [
+                        {"ressource": "energy", "level": 20},
+                        {"ressource": "decentWork", "level": 20},
+                        {"ressource": "climateActions", "level": -20},
+                        {"ressource": "consumption", "level": -20}
+                        
+                        
+                    ]
+                }
+            ]
+        },
+        
+                
+                 {
+            "id": 12,
+            "title": "Recherche & Développement des énergies renouvelables",
+            "question": "Voulez-vous encourager la recherche et le développement de technologies énergétiques propres ?",
+            "context": "Les énergies renouvelables sont propres mais elles ne sont pas très rentables. Ivestir dans la R&D permettrait d'améliorer leur rendement.",
+            "responses": [
+                {
+                    "name": "Oui, investissons dans les énergies vertes",
+                    "impact": [
+                        {"ressource": "climateActions", "level": 30},
+                        {"ressource": "consumption", "level": 20},
+                        {"ressource": "innovation", "level": 20},
+                        {"ressource": "decentWork", "level": -20}
+                    ]
+                },
+                {
+                    "name": "Non, les résultats ne sont pas garantis",
+                    "impact": [
+                        {"ressource": "poverty", "level": 20},
+                        {"ressource": "decentWork", "level": 20},
+                        {"ressource": "climateActions", "level": -20},
+                        {"ressource": "consumption", "level": -20}
+                        
+                        
+                    ]
+                }
+            ]
+        },
+        
+                        {
+            "id": 13,
+            "title": "Traitement des eaux usées et pollution",
+            "question": "Voulez-vous investir dans l'amélioration des infrastructures de traitement des eaux usées pour réduire la pollution de l'eau ?",
+            "context": "L'eau est une ressource très importante et améliorer les infrastrucures pour en prendre soin est primordial. Mais ces infrastructures sont coûteuses et sont encore fonctionnelles.",
+            "responses": [
+                {
+                    "name": "Oui, améliorons les infrastructures des eaux usées.",
+                    "impact": [
+                        {"ressource": "water", "level": 30},
+                        {"ressource": "lifeAquatic", "level": 10},
+                        {"ressource": "innovation", "level": 20},
+                        {"ressource": "poverty", "level": -20}
+                    ]
+                },
+                {
+                    "name": "Non, ces installations sont toujours fonctionnelles.",
+                    "impact": [
+                        {"ressource": "poverty", "level": 20},
+                        {"ressource": "water", "level": -10},
+                        {"ressource": "inovation", "level": -20},
+                        
+                        
+                    ]
+                }
+            ]
+        },
+        
+        
+        
+        
     ]
 }
