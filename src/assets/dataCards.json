@@ -129,7 +129,7 @@
                     "impact": [
                         {"ressource": "poverty", "level": -10},
                         {"ressource": "health", "level": 30},
-                        {"ressource": "genderEquality", "level": 10}
+                        {"ressource": "education", "level": 10}
                     ]
                 },
                 {
@@ -137,7 +137,7 @@
                     "impact": [
                         {"ressource": "health", "level": -20},
                         {"ressource": "poverty", "level": 10},
-                        {"ressource": "genderEquality", "level": -10}
+                        {"ressource": "education", "level": -10}
                     ]
                 }
             ]
@@ -169,23 +169,23 @@
         
                    {
             "id": 8,
-            "title": "iPad dans les écoles",
-            "question": "Voulez-vous attribuer un iPad aux élèves des écoles primaires ?",
-            "context": "Donner des iPad aux élèves permet d'augmenter les affinités aux technologie pour tous. Certains enseignants craignent des conséquences de dépendances.",
+            "title": "Préservation de la biodiversité",
+            "question": "Voulez-vous sensibiliser les citoyens à l'importance de la préservation de la biodiversité terrestre ?",
+            "context": "",
             "responses": [
                 {
-                    "name": "Oui, donnons des iPads aux élèves.",
+                    "name": "Oui, sensibilisons les citoyens",
                     "impact": [
                         {"ressource": "education", "level": 30},
-                        {"ressource": "poverty", "level": -10},
-                        {"ressource": "inequality", "level": 10}
-                    ]
+                        {"ressource": "lifeLand", "level": 20},
+                        {"ressource": "partnership", "level": 10}                   ]
                 },
                 {
                     "name": "Non, cela pourrait être nocif pour la jeunesse.",
                     "impact": [
                         {"ressource": "education", "level": -10},
-                        {"ressource": "inequality", "level": -10},
+                        {"ressource": "lifeLand", "level": -20},
+                        {"ressource": "partnership", "level": -10},
                         
                     ]
                 }
@@ -337,7 +337,7 @@
             "id": 14,
             "title": "Toilettes pour tous et réduction des contaminations",
             "question": "Voulez-vous garantir l'accès à des toilettes pour tous pour réduire la contamination de l'eau ?",
-            "context": "Beaucoup de maladies se transmettent par les eaux usées, il est donc important de permettre à tous d'avoir accèsw à des toilettes propres.",
+            "context": "Beaucoup de maladies se transmettent par les eaux usées, il est donc important de permettre à tous d'avoir accès à des toilettes propres.",
             "responses": [
                 {
                     "name": "Oui, permettons à tous d'avoir accès à des toilettes",
@@ -434,5 +434,80 @@
                 }
             ]
         },
+        
+                            {
+            "id": 18,
+            "title": "Programme d'aide alimentaire pour les personnes en situation précaire",
+            "question": "Voulez-vous investir dans des programmes de nutrition pour réduire la malnutrition et la sous-alimentation ?",
+            "context": "Il est possible d'aider les plus défavorisés en lançant un nouveau pregramme d'aide alimentaire. Cependant, cela nécessite des fonds.",
+            "responses": [
+                {
+                    "name": "Oui, la faim dans le monde doit être éradiquée",
+                    "impact": [
+                        {"ressource": "hunger", "level": 30},
+                        {"ressource": "health", "level": 20},
+                        {"ressource": "partnership", "level": 20}
+                    ]
+                },
+                {
+                    "name": "Non, c'est trop dur d'essayer de régler un problème si vaste",
+                    "impact": [
+                        {"ressource": "hunger", "level": -20},
+                        {"ressource": "health", "level": -20},
+                        {"ressource": "inequality", "level": -20}
+                        
+                    ]
+                }
+            ]
+        },
+                             {
+            "id": 19,
+            "title": "Gaspillage et surconsommation alimentaire",
+            "question": "Voulez-vous mettre en place des politiques pour lutter contre le gaspillage alimentaire et la surconsommation pour réduire la faim ?",
+            "context": "Beaucoup des ressources alimentaires sont mal réparties, cela ammène à du gaspillage inutile et de la faim. Mais ce problème est difficle à affronter.",
+            "responses": [
+                {
+                    "name": "Oui, la faim dans le monde doit être éradiquée",
+                    "impact": [
+                        {"ressource": "hunger", "level": 30},
+                        {"ressource": "consumption", "level": 20},
+                        {"ressource": "partnership", "level": 20}
+                    ]
+                },
+                {
+                    "name": "Non, c'est trop dur d'essayer de régler un problème si vaste.",
+                    "impact": [
+                        {"ressource": "hunger", "level": -20},
+                        {"ressource": "consumption", "level": -20},
+                        {"ressource": "partnership", "level": -20}
+                        
+                    ]
+                }
+            ]
+        },
+                    "id": 20,
+            "title": "Braconnage",
+            "question": "Voulez-vous mettre en place des politiques pour lutter contre le braconnage et le commerce illégal d'espèces sauvages ?",
+            "context": "Beaucoup d'espèces menacées sont chassées illégalement meçant ainsi leur vie et toute leur espèce. Il est cependant difficle de trouver les auteurs de ces crimes.",
+            "responses": [
+                {
+                    "name": "Oui, protégeons les espèces menacées",
+                    "impact": [
+                        {"ressource": "lifeLand", "level": 30},
+                        {"ressource": "lifeAquatic", "level": 30},
+                        {"ressource": "poverty", "level": -20}
+                    ]
+                },
+                {
+                    "name": "Non, il est trop difficile de mener des actions efficaces pour ce domaine",
+                    "impact": [
+                        {"ressource": "lifeLand", "level": -20},
+                        {"ressource": "lifeAquatic", "level": -20},
+                        {"ressource": "partnership", "level": -10}
+                        
+                    ]
+                }
+            ]
+        }
     ]
 }
