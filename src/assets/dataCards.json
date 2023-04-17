@@ -30,11 +30,11 @@
         {
             "id": 2,
             "title": "Arrêter la pêche de masse",
-            "question": "Voulez-vous arrêter la pêche de masse dans un certaine zone contenant plusieurs espèces menacées ?",
-            "context": "Le pêche de masse, bien que profitable pour le prix et la quantité du poisson, ravage la biodiversité marine de certaines zones et en empêche le développement sain des espèces.",
+            "question": "Voulez-vous arrêter la pêche de masse dans une certaine zone contenant plusieurs espèces menacées ?",
+            "context": "La pêche de masse, bien que profitable pour le prix et la quantité du poisson, ravage la biodiversité marine de certaines zones et en empêche le développement sain des espèces.",
             "responses": [
                 {
-                    "name": "Oui, arrêtons la p^che de masse",
+                    "name": "Oui, arrêtons la pêche de masse",
                     "impact": [
                         {"ressource": "hunger", "level": -20},
                         {"ressource": "poverty", "level": -20},
@@ -55,7 +55,7 @@
             "id": 3,
             "title": "Augmenter le salaire minimum",
             "question": "Voulez-vous augmenter le salaire minimum pour aider à réduire la pauvreté ?",
-            "context": "Le salaire minimum sert à protéger les travailleurs d'une potentielle explotation au travail. Cependant, cela coûte de l'argent aux entreprises et à l'Etat",
+            "context": "Le salaire minimum sert à protéger les travailleurs d'une potentielle exploitation au travail. Cependant, cela coûte de l'argent aux entreprises et à l'Etat",
             "responses": [
                 {
                     "name": "Bien sûr, il faut augmenter le salaire minimum.",
@@ -77,7 +77,7 @@
             "id": 4,
             "title": "Création de nouveaux emplois",
             "question": "Voulez-vous rénover les infrastructures dans le but de créer de nouveaux emplois?",
-            "context": "Créer de nouveaux emplois permet d'augmenter le pouvoir d'achat de nouvelles personnes. Cependant, cela représente un grnad endettement de l'Etat",
+            "context": "Créer de nouveaux emplois permet d'augmenter le pouvoir d'achat de nouvelles personnes. Cependant, cela représente un grand endettement de l'Etat",
             "responses": [
                 {
                     "name": "Rénovons nos routes et créons des chantiers !",
@@ -97,9 +97,9 @@
         },
                                 {
             "id": 5,
-            "title": "Améliorer les conditions de travail des infirmières et infirmiers",
+            "title": "Conditions de travail des infirmier·ère·s",
             "question": "Voulez-vous améliorer les conditions de travail (salaire, formation) du corps soignant ?",
-            "context": "Le personnel soignant est mis à lourde contributiuon et n'est pas suffisamment soutenu",
+            "context": "Le personnel soignant est mis à lourde contribution et n'est pas suffisamment soutenu",
             "responses": [
                 {
                     "name": "Oui, aidons le corps médical.",
@@ -133,7 +133,7 @@
                     ]
                 },
                 {
-                    "name": "Non, il y a déjà assez d'actions dans ce sens là",
+                    "name": "Non, il y a déjà assez d'actions dans ce sens-là",
                     "impact": [
                         {"ressource": "health", "level": -20},
                         {"ressource": "poverty", "level": 10},
@@ -147,7 +147,7 @@
             "id": 7,
             "title": "École pour tous",
             "question": "Voulez-vous créer des classes de soutien pour les personnes qui ne parlent pas français ?",
-            "context": "Le nombre de personnes illettrées ne cessent d'augmenter ces dernières années. Une des solutions serait de créer des classes, au dépend de la charge de travail des professeurs ",
+            "context": "Le nombre de personnes illettrées ne cesse d'augmenter ces dernières années. Une des solutions serait de créer des classes, aux dépens de la charge de travail des professeurs ",
             "responses": [
                 {
                     "name": "Oui, créons des classes.",
@@ -158,7 +158,7 @@
                     ]
                 },
                 {
-                    "name": "Non, il y a déà assez d'actions dans ce sens là",
+                    "name": "Non, il y a déjà assez d'actions dans ce sens-là",
                     "impact": [
                         {"ressource": "education", "level": -20},
                         {"ressource": "inequality", "level": -10}
@@ -194,9 +194,9 @@
         
               {
             "id": 9,
-            "title": "Représentation des femmes dans les organes de prise de décision",
+            "title": "Représentation des femmes",
             "question": "Voulez-vous mettre en place des quotas pour garantir une représentation égale des femmes dans les organes de prise de décision ?",
-            "context": "La mise ne place de quotas obligent les entreprisent à passer à l'action pour une égalité des sexes et favorises la diversité des genres dans les organes de décision. Cela peut être contraignant pour les entreprises.",
+            "context": "La mise ne place de quotas obligent les entreprises à passer à l'action pour une égalité des sexes et favorises la diversité des genres dans les organes de décision. Cela peut être contraignant pour les entreprises.",
             "responses": [
                 {
                     "name": "Oui, imposons des quotas",
@@ -220,7 +220,7 @@
         
          {
             "id": 10,
-            "title": "Programme contre les violences faites aux femmes",
+            "title": "Violences faites aux femmes",
             "question": "Voulez-vous mettre en place des programmes pour lutter contre les violences faites aux femmes ?",
             "context": "Les féminicides ne diminuent pas et des programmes de prévention peuvent réduire le nombre de victimes. Mais cela coûte de l'argent.",
             "responses": [
@@ -234,7 +234,7 @@
                     ]
                 },
                 {
-                    "name": "Non, il est trop difficile de pallier ces problèmes en faisasnt de la prévention.",
+                    "name": "Non, il est trop difficile de pallier ces problèmes en faisant de la prévention.",
                     "impact": [
                         {"ressource": "genderEquality", "level": -20},
                         {"ressource": "partnership", "level": -10},
@@ -248,9 +248,9 @@
         
                  {
             "id": 11,
-            "title": "Énergie renouvelables pour réduire les émissions de C02",
+            "title": "Énergie renouvelable & réduction du C02",
             "question": "Voulez-vous encourager la production d'énergie à partir de sources renouvelables pour réduire les émissions de gaz à effet de serre ?",
-            "context": "Diminuer les émissions de C02 passent par une production d'énergie reouvelable. À l'heure actuelle, cette transition est très onéreuse.",
+            "context": "Diminuer les émissions de C02 passe par une production d'énergie renouvelable. À l'heure actuelle, cette transition est très onéreuse.",
             "responses": [
                 {
                     "name": "Oui, investissons dans les énergies vertes",
@@ -262,7 +262,7 @@
                     ]
                 },
                 {
-                    "name": "Non, attendons que les sources renouvelables seront plus rentables.",
+                    "name": "Non, attendons que les sources renouvelables soient plus rentables.",
                     "impact": [
                         {"ressource": "energy", "level": 20},
                         {"ressource": "decentWork", "level": 20},
@@ -278,9 +278,9 @@
                 
                  {
             "id": 12,
-            "title": "Recherche & Développement des énergies renouvelables",
+            "title": "R&D d'énergies renouvelables",
             "question": "Voulez-vous encourager la recherche et le développement de technologies énergétiques propres ?",
-            "context": "Les énergies renouvelables sont propres mais elles ne sont pas très rentables. Ivestir dans la R&D permettrait d'améliorer leur rendement.",
+            "context": "Les énergies renouvelables sont propres, mais elles ne sont pas très rentables. Ivestir dans la R&D permettrait d'améliorer leur rendement.",
             "responses": [
                 {
                     "name": "Oui, investissons dans les énergies vertes",
@@ -309,7 +309,7 @@
             "id": 13,
             "title": "Traitement des eaux usées et pollution",
             "question": "Voulez-vous investir dans l'amélioration des infrastructures de traitement des eaux usées pour réduire la pollution de l'eau ?",
-            "context": "L'eau est une ressource très importante et améliorer les infrastrucures pour en prendre soin est primordial. Mais ces infrastructures sont coûteuses et sont encore fonctionnelles.",
+            "context": "L'eau est une ressource très importante et améliorer les infrastructures pour en prendre soin est primordial. Mais ces infrastructures sont coûteuses et sont encore fonctionnelles.",
             "responses": [
                 {
                     "name": "Oui, améliorons les infrastructures des eaux usées.",
@@ -335,7 +335,7 @@
         },
                                 {
             "id": 14,
-            "title": "Toilettes pour tous et réduction des contaminations",
+            "title": "Toilettes pour tous",
             "question": "Voulez-vous garantir l'accès à des toilettes pour tous pour réduire la contamination de l'eau ?",
             "context": "Beaucoup de maladies se transmettent par les eaux usées, il est donc important de permettre à tous d'avoir accès à des toilettes propres.",
             "responses": [
@@ -362,7 +362,7 @@
                                         {
             "id": 15,
             "title": "Aider les petites entreprises locales",
-            "question": "Voulez-vous aidez financièrement les petites entreprises pour leur survie et leur indépendance.",
+            "question": "Voulez-vous aider financièrement les petites entreprises pour leur survie et leur indépendance.",
             "context": "Les grandes entreprises sont celles qui bénéficient du plus d'avantages de l'État ce qui restreint l'économie localisée.",
             "responses": [
                 {
@@ -388,7 +388,7 @@
             "id": 16,
             "title": "Protection des travailleurs",
             "question": "Voulez-vous garantir la protection des travailleurs contre l'exploitation et la discrimination ?",
-            "context": "Certaines entreprises jouent avec les limites de l'exploitation, nous pourrions les encadrer d'avantage.",
+            "context": "Certaines entreprises jouent avec les limites de l'exploitation, nous pourrions les encadrer davantage.",
             "responses": [
                 {
                     "name": "Oui, protégeons les travailleurs",
@@ -399,7 +399,7 @@
                     ]
                 },
                 {
-                    "name": "Non, les grandes entreprisent créent plus d'emplois",
+                    "name": "Non, les grandes entreprises créent plus d'emplois",
                     "impact": [
                         {"ressource": "decentWork", "level": -10},
                         {"ressource": "communities", "level": -10},
@@ -413,7 +413,7 @@
             "id": 17,
             "title": "Lutter contre les discriminations",
             "question": "Voulez-vous mettre en place des politiques pour lutter contre la discrimination fondée sur la religion, l'origine ou l'orientation sexuelle ?",
-            "context": "De nos jours, certaines personnes sont toujours discriminer à cause de leur religion, origine et/ou orientation sexuelle. La mise en place de politiques, bien que considéré comme à contre courant des traditions, pénaliserait les comportements discriminants.",
+            "context": "De nos jours, certaines personnes sont toujours discriminées à cause de leur religion, origine et/ou orientation sexuelle. La mise en place de politiques, bien que considérée comme à contre-courant des traditions, pénaliserait les comportements discriminants.",
             "responses": [
                 {
                     "name": "Oui, il faut agir pour protéger les minorités",
@@ -437,9 +437,9 @@
         
                             {
             "id": 18,
-            "title": "Programme d'aide alimentaire pour les personnes en situation précaire",
+            "title": "Aide alimentaire",
             "question": "Voulez-vous investir dans des programmes de nutrition pour réduire la malnutrition et la sous-alimentation ?",
-            "context": "Il est possible d'aider les plus défavorisés en lançant un nouveau pregramme d'aide alimentaire. Cependant, cela nécessite des fonds.",
+            "context": "Il est possible d'aider les plus défavorisés en lançant un nouveau programme d'aide alimentaire. Cependant, cela nécessite des fonds.",
             "responses": [
                 {
                     "name": "Oui, la faim dans le monde doit être éradiquée",
@@ -464,7 +464,7 @@
             "id": 19,
             "title": "Gaspillage et surconsommation alimentaire",
             "question": "Voulez-vous mettre en place des politiques pour lutter contre le gaspillage alimentaire et la surconsommation pour réduire la faim ?",
-            "context": "Beaucoup des ressources alimentaires sont mal réparties, cela ammène à du gaspillage inutile et de la faim. Mais ce problème est difficle à affronter.",
+            "context": "Beaucoup des ressources alimentaires sont mal réparties, cela amène à du gaspillage inutile et de la faim. Mais ce problème est difficile à affronter.",
             "responses": [
                 {
                     "name": "Oui, la faim dans le monde doit être éradiquée",
@@ -489,7 +489,7 @@
         "id": 20,
             "title": "Braconnage",
             "question": "Voulez-vous mettre en place des politiques pour lutter contre le braconnage et le commerce illégal d'espèces sauvages ?",
-            "context": "Beaucoup d'espèces menacées sont chassées illégalement meçant ainsi leur vie et toute leur espèce. Il est cependant difficle de trouver les auteurs de ces crimes.",
+            "context": "Beaucoup d'espèces en voie de disparition sont chassées illégalement, menaçant ainsi leur vie et toute leur espèce. Il est cependant difficle de trouver les auteurs de ces crimes.",
             "responses": [
                 {
                     "name": "Oui, protégeons les espèces menacées",
