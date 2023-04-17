@@ -270,16 +270,16 @@ function infoPlayer() {
 
 <template>
   <div class="main-page">
-    <h1 id="main-title">Tribunal</h1>
+    <!-- <h1 id="main-title">Tribunal</h1> -->
     <div id="clickable-part">
       <div id="description-current-card">
         <h2>Description</h2>
         <p>{{CARDS[iCurrentCard].context}}</p>
       </div>
     </div>
-    <p to="/" class="pause-game" @click="togglePauseGame()">
-      <img src="src/assets/icons/pause.svg" />
-    </p>
+    <h1 to="/" class="pause-game" @click="togglePauseGame()">
+      Menu
+    </h1>
     
     <div class="cardNo-onNo">
       <h1>{{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}</h1>
@@ -340,12 +340,18 @@ function infoPlayer() {
     font-family : 'Urbanist', 'Inter', sans-serif;
     margin: 0;
   }
+
   #description-current-card {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
     margin-left: 20px;
-    max-width: 500px;
+    max-width: 500px; */
+    position: absolute;
+    left: 0;
+    margin: 0 0 0 5%;
+    bottom: 100px;
+    max-width: 30%;
   }
 
   #description-current-card p {
@@ -383,12 +389,10 @@ function infoPlayer() {
 
   .pause-game {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    margin: 20px;
+    top: 10px;
+    right: 0px;
+    margin: 0 5% 0 0;
     cursor: pointer;
-    width: 50px;
-    height: 50px;
   }
 
   .pause-game img {
@@ -401,10 +405,10 @@ function infoPlayer() {
     top: 10px;
     left: 0px;
     width: 90%;
+    margin: 0 0 0 5% ;
   }
 
   .cardNo-onNo h1 {
-    margin: 0 0 0 5% ;
     text-align: center;
     text-align: left;
   }
