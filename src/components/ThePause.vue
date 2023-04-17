@@ -4,7 +4,7 @@ import { ressourceGlobal } from '../utils/store';
 import popupRules from "../components/popupRules.vue"
 
 const props = defineProps({
-    
+
 })
 
 const emit = defineEmits([
@@ -25,7 +25,7 @@ function toggleRules() {
     // show the rules
     console.log('show the rules')
     showRules.value = !showRules.value
-    
+
 }
 
 </script>
@@ -33,14 +33,17 @@ function toggleRules() {
 <template>
     <div class="background" @click="$emit('resumeGame')"></div>
     <div class="pause-container">
-        <h2 class="title">Pause</h2>
-
-        <div class="content">
-            <ul>
-                <li @click="$emit('resumeGame')">Reprendre</li>
-                <li @click="toggleRules()">Règles</li>
-                <li @click="leaveGame()">Quitter</li>
-            </ul>
+        <h3 class="close-x" @click="$emit('resumeGame')">X</h3>
+        <div class="pause-details-container">
+            <h2 class="title">PAUSE</h2>
+            <img class="pause-deco" src="src/assets/icons/pause-deco.svg">
+            <div class="content">
+                <ul>
+                    <li @click="$emit('resumeGame')">Reprendre</li>
+                    <li @click="toggleRules()">Règles</li>
+                    <li @click="leaveGame()">Quitter</li>
+                </ul>
+            </div>
         </div>
     </div>
     <popupRules v-if="showRules" @emitToggleRules="toggleRules()"></popupRules>
@@ -57,27 +60,53 @@ function toggleRules() {
     opacity: 50%;
 }
 
+.close-x {
+    cursor: pointer;
+    position: absolute;
+    left: 100%;
+    transform: translate(-100%, 0);
+    line-height: 1;
+    padding: 30px;
+}
+
 .pause-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 40%;
+    /* width: 40%;
     min-width: 300px;
-    max-width: 400px;
+    max-width: 400px; */
     /* height: 600px; */
-    background-color: white;
+    width: 500px;
+    height: 550px;
+    background-color: #FBF8F1;
+}
+.pause-details-container {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    height: 450px;
+}
+
+.pause-deco {
+    width: 80%;
+}
+.content {
+    height: 100%;
+}
+.content ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
 }
 
 .pause-container .title {
     margin: 0;
     padding: 20px;
-    font-size: 1.5rem;
     text-align: center;
-}
-
-.pause-container .content {
-    
 }
 
 .pause-container .content ul {
@@ -85,17 +114,21 @@ function toggleRules() {
     margin: 0;
     padding: 0;
     text-align: center;
-    font-size: 1.2rem;
+    font-family: 'Urbanist', 'Inter', sans-serif;
+    font-size: 2rem;
     /* remove the padding of the li */
 }
 
 .pause-container .content ul li {
-    padding: 10px 0;
+    padding: 10px 20px;
     cursor: pointer;
-    font-weight: bold;
+    transition: 0.3s;
 }
 
 .pause-container .content ul li:hover {
-    background-color: #f2f2f2;
+    background-color: black;
+    color: #FBF8F1;
+    border-radius: 20px 0px;
+    transition: 0.3s;
 }
 </style>
