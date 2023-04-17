@@ -185,7 +185,7 @@
                     "impact": [
                         {"ressource": "education", "level": -10},
                         {"ressource": "lifeLand", "level": -20},
-                        {"ressource": "partnership", "level": -10},
+                        {"ressource": "partnership", "level": -10}
                         
                     ]
                 }
@@ -326,7 +326,7 @@
                         {"ressource": "poverty", "level": 20},
                         {"ressource": "water", "level": -10},
                         {"ressource": "inovation", "level": -20},
-                        {"ressource": "lifeAquatic", "level": -10},
+                        {"ressource": "lifeAquatic", "level": -10}
                         
                         
                     ]
@@ -344,7 +344,7 @@
                     "impact": [
                         {"ressource": "water", "level": 30},
                         {"ressource": "health", "level": 30},
-                        {"ressource": "poverty", "level": -20},
+                        {"ressource": "poverty", "level": -20}
                     ]
                 },
                 {
