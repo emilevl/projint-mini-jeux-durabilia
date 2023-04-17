@@ -1,7 +1,7 @@
 <script setup>
 import tiles from '../../assets/data/tiles.json'
 import anime from 'animejs/lib/anime.es.js';
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import sound from '../../assets/sounds/Impact_Concrete_Hit_By_Solid_Metal_Bar_02.wav'
 //import sound from '../../assets/sounds/Liquid_Water_Filling_Up_Pool_07.wav'
 
@@ -23,7 +23,7 @@ const props = defineProps({
 const correctTile = computed(() => findTile())
 const isEnabled = ref(true)
 
-let initRotation = ref(props.rotation)
+let initRotation = props.rotation
 //img.style.transform = `rotate(${props.rotation}deg)`;
 
 /* anime({
@@ -50,16 +50,16 @@ function rotate(evt) {
         complete: function (anim) {
             zIndex.value = 1
             isEnabled.value = true
+            initRotation += 90;
         }
     }).add({
         scale: [1.1],
     }).add({
-        rotate: [initRotation.value, '+=90'],
+        rotate: '+=90',
     }).add({
         scale: [1],
     })
 
-    initRotation.value += 90;
     playAudio(sound)
 }
 
@@ -73,7 +73,7 @@ function playAudio(url) {
 <template>
     <div
         @click="isEnabled && rotate($event)" :style="{zIndex: zIndex}">
-        <img :src="correctTile.svg" :style="`transform: rotate(${initRotation}deg)`"> <!--  -->
+        <img :src="correctTile.svg" :style="`transform: rotate(${initRotation}deg)`"> <!-- -->
     </div>
 </template>
 
