@@ -4,8 +4,8 @@ import anime from 'animejs/lib/anime.es.js';
 
 
 const props = defineProps({
-  name: String,
-  description: String,
+  title: String,
+  question: String,
   index: Number,
   ressources: Array,
   response: String
@@ -57,8 +57,8 @@ onMounted(() => {
     <div class="flip-card-inner">
       <div class="flip-card-front"></div>
       <div class="flip-card-back">
-        <h1>{{ name }}</h1>
-        <p>{{ description }}</p>
+        <h1>{{ title }}</h1>
+        <p>{{ question }}</p>
         <div class="flip-card-ressources">
           <div v-for="ressource of props.ressources" class="ressource-icon-wrapper">
             <img :src="`src/assets/icons/${ressource.ressource}.svg`">

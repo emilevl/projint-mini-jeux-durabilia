@@ -43,7 +43,7 @@ const cardMoved = ref(false);
 
 
 // create a new array with 5 of the dataCards objects
-for (let i = 0; i < dataCards.cards.length; i++) {
+for (let i = 0; i < 5; i++) {
   // add the card from the dataCards object to the CARDS array
   CARDS.value.push(dataCards.cards[i]);
   
@@ -273,7 +273,7 @@ function infoPlayer() {
     <h1 id="main-title">Tribunal</h1>
     <div id="clickable-part">
       <div id="description-current-card">
-        <h1>Description</h1>
+        <h2>Description</h2>
         <p>{{CARDS[iCurrentCard].context}}</p>
       </div>
     </div>
@@ -281,15 +281,15 @@ function infoPlayer() {
       <img src="src/assets/icons/pause.svg" />
     </p>
     
-    <div class="bottom-text">
-      <p>Choix {{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}</p>
+    <div class="cardNo-onNo">
+      <h1>{{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}</h1>
     </div>
 
     <div id="cards">
       <Card
         v-for="(card, index) of CARDS"
-        :name="card.name"
-        :description="card.question"
+        :title="card.title"
+        :question="card.question"
         @click="turnCard()"
         :index="index"
         ref="cards"
@@ -305,7 +305,7 @@ function infoPlayer() {
   
 <style>
   :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: 'Limelight', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
 
@@ -317,19 +317,35 @@ function infoPlayer() {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
+    background-color: #FDFCFC;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    margin: 0;
   }
 
+  h2 {
+    font-size: 2.5rem;
+    margin: 0;
+  }
+
+  h3 {
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  p {
+    font-size: 1.5rem;
+    font-family : 'Urbanist', 'Inter', sans-serif;
+    margin: 0;
+  }
   #description-current-card {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-left: 20px;
     max-width: 500px;
-  }
-
-  #description-current-card h1 {
-      font-size: 1.5rem;
-      margin: 0;
   }
 
   #description-current-card p {
@@ -380,15 +396,17 @@ function infoPlayer() {
     height: 40px;
   }
 
-  .bottom-text {
+  .cardNo-onNo {
     position: absolute;
-    bottom: 10px;
-    width: 100%;
+    top: 10px;
+    left: 0px;
+    width: 90%;
   }
 
-  .bottom-text p {
-    margin: 0;
+  .cardNo-onNo h1 {
+    margin: 0 0 0 5% ;
     text-align: center;
+    text-align: left;
   }
   /* #cards {
         display: flex;
