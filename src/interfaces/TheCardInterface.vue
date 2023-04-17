@@ -128,11 +128,11 @@ onMounted(() => {
     // If the person tilts on the left, we'll show the first response
     if (event.clientX < windowCenterX - 200) {
       iChoice.value = 0;
-      band.style.height = "15%";
+      band.style.height = "100px";
       cardMoved.value = true;
     } else if (event.clientX > windowCenterX + 200) {
       iChoice.value = 1;
-      band.style.height = "15%";
+      band.style.height = "100px";
       cardMoved.value = true;
     } else {
       band.style.height = "0%";
@@ -140,9 +140,7 @@ onMounted(() => {
     }
     const tiltRange = 7; // You can adjust the tilt range as needed
     const tilt = ((event.clientX - windowCenterX) / windowCenterX) * tiltRange;
-    card.style.transform = `rotate(${tilt}deg) translate(-50%, calc(-50% + ${
-      15 * iCurrentCard.value
-    }px))`;
+    card.style.transform = `rotate(${tilt}deg) translate(calc(-50% - ${ 7 * iCurrentCard.value}px), calc(-60% + ${ 2 * iCurrentCard.value }px))`;
   };
 
   touchMoveHandler = (e) => {
@@ -157,11 +155,11 @@ onMounted(() => {
       // show the band when needed
       if (touch.clientX < windowCenterX - 25) {
         iChoice.value = 0;
-        band.style.height = "20%";
+        band.style.height = "100px";
         cardMoved.value = true;
       } else if (touch.clientX > windowCenterX + 25) {
         iChoice.value = 1;
-        band.style.height = "20%";
+        band.style.height = "100px";
         cardMoved.value = true;
       } else {
         band.style.height = "0%";
@@ -300,6 +298,17 @@ function infoPlayer() {
     </div>
     <!-- <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div> -->
   </div>
+  <div class="ressources-impact">
+      <div v-for="ressource of CARDS[iCurrentCard].responses[iChoice].impact" class="ressource-icon-wrapper">
+      <img :src="`src/assets/icons/${ressource.ressource}.svg`">
+
+      <div class="circle" :style="{
+        height: `${((Math.abs(ressource.level)/100)*15)+5}px`,
+        width: `${((Math.abs(ressource.level)/100)*15)+5}px`
+      }"></div>
+    </div>
+  </div>
+  
   <popupCardEnd v-if="endGame" :cardSelection="cardSelection"></popupCardEnd>
   <ThePause v-if="pauseGame" @resumeGame="togglePauseGame"></ThePause>
 </template>
@@ -433,7 +442,30 @@ function infoPlayer() {
     margin: 0 auto;
   }
 
-  @media (max-width: 900px) {
+  .ressources-impact {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    /* position: absolute; */
+    bottom: 10px;
+    margin: 35px auto;
+  }
+
+  .ressources-impact .circle {
+    background-color: #000;
+    border-radius: 50%;
+    position: relative;
+    top: -80px;
+    right: -90px;
+  }
+
+  .ressources-impact img {
+    height: 70px;
+  }
+
+
+  /* @media (max-width: 900px) {
 
     #main-title {
       font-size: 1.5rem;
@@ -464,6 +496,6 @@ function infoPlayer() {
         font-size: 0.9em;
         margin: 5px 0 0;
     }
-}
+} */
 </style>
   
