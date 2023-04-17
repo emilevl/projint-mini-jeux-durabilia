@@ -4,7 +4,7 @@ import { ressourceGlobal } from '../utils/store';
 import popupRules from "../components/popupRules.vue"
 
 const props = defineProps({
-
+    transformer: Object
 })
 
 const emit = defineEmits([
@@ -46,7 +46,7 @@ function toggleRules() {
             </div>
         </div>
     </div>
-    <popupRules v-if="showRules" @emitToggleRules="toggleRules()"></popupRules>
+    <popupRules v-if="showRules" :transformer="props.transformer" @emitToggleRules="toggleRules()"></popupRules>
 </template>
 
 <style scoped>
@@ -91,7 +91,7 @@ function toggleRules() {
 }
 
 .pause-deco {
-    width: 80%;
+    width: 100%;
 }
 .content {
     height: 100%;
