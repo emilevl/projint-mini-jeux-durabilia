@@ -31,6 +31,7 @@ let totalImpact = ref([
     { ressource: "partnership", impact: 0, currentLevel: 0 },
     { ressource: "peaceJustice", impact: 0, currentLevel: 0 },
     { ressource: "poverty", impact: 0, currentLevel: 0 },
+    { ressource: "time", impact: 0, currentLevel: 0 },
     { ressource: "water", impact: 0, currentLevel: 0 },
 ])
 
