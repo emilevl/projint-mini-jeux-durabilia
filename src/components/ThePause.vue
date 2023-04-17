@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { ressourceGlobal } from '../utils/store';
+import popupRules from "../components/popupRules.vue"
 
 const props = defineProps({
     
@@ -19,9 +20,12 @@ function leaveGame() {
     }
 }
 
-function showRules() {
+const showRules = ref(false)
+function toggleRules() {
     // show the rules
     console.log('show the rules')
+    showRules.value = !showRules.value
+    
 }
 
 </script>
@@ -34,11 +38,12 @@ function showRules() {
         <div class="content">
             <ul>
                 <li @click="$emit('resumeGame')">Reprendre</li>
-                <li @click="showRules()">Règles</li>
+                <li @click="toggleRules()">Règles</li>
                 <li @click="leaveGame()">Quitter</li>
             </ul>
         </div>
     </div>
+    <popupRules v-if="showRules" @emitToggleRules="toggleRules()"></popupRules>
 </template>
 
 <style scoped>
