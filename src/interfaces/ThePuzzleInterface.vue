@@ -4,12 +4,11 @@ import Grid from '../components/puzzle/grid.vue';
 import TheMenu from '../components/theMenu.vue';
 import TheChrono from '../components/puzzle/theChrono.vue';
 import { menuOpened } from "../store.js"
-import {generateMatrix} from '../utils/generateRandomPath.js';
-
 
 function onToggleMenu() {
     menuOpened.value = !menuOpened.value
 }
+
 </script>
 
 <template>
@@ -25,12 +24,14 @@ function onToggleMenu() {
 
 :root {
     --darkgrey: #2E2E2E;
-    --lightgrey: #D9D9D9
+    --lightgrey: #D9D9D9;
+    --white: #FDFCFC;
 }
 
 body {
     font-family: 'Inter', sans-serif;
-    color: var(--darkgrey);;
+    color: var(--white);
+    background-color: #12313C;
 }
 
 .aside {

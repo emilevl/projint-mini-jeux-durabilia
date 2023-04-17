@@ -2,31 +2,31 @@
     {
         "type": "0",
         "sides": [0,0,0,0],
-        "svg": "src/assets/icons/curvedPipe.svg"
+        "svg": "src/assets/icons/tiles/tile0.svg"
     },
     {
         "type": "1",
         "sides": [1,0,0,0],
-        "svg": "src/assets/icons/curvedPipe.svg"
+        "svg": "src/assets/icons/tiles/tile1.svg"
     },
     {
         "type": "2a",
         "sides": [1,0,1,0],
-        "svg": "src/assets/icons/curvedPipe.svg"
+        "svg": "src/assets/icons/tiles/tile2a.svg"
     },
     {
         "type": "2b",
         "sides": [1,1,0,0],
-        "svg": "src/assets/icons/curvedPipe.svg"
+        "svg": "src/assets/icons/tiles/tile2b.svg"
     },
     {
         "type": "3",
         "sides": [1,1,1,0],
-        "svg": "src/assets/icons/curvedPipe.svg"
+        "svg": "src/assets/icons/tiles/tile3.svg"
     },
     {
         "type": "4",
         "sides": [1,1,1,1],
-        "svg": "icons/curvedPipe.svg"
+        "svg": "src/assets/icons/tiles/tile4.svg"
     }
 ]

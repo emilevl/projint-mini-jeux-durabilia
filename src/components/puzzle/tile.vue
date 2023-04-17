@@ -23,11 +23,14 @@ const props = defineProps({
 const correctTile = computed(() => findTile())
 const isEnabled = ref(true)
 
+let initRotation = ref(props.rotation)
+//img.style.transform = `rotate(${props.rotation}deg)`;
 
-const styleObject = reactive({
-    //   transform: `rotate(${props.rotation}deg)`,
-    zIndex: '1'
-})
+/* anime({
+    targets: ''
+}) */
+
+const zIndex = ref(1)
 
 function findTile() {
     return tiles.find(tile => tile.type === props.tileType)
@@ -41,23 +44,23 @@ function rotate(evt) {
         easing: 'linear',
         duration: 150,
         begin: function(anim) {
-            styleObject.zIndex = 999
+            zIndex.value = 999
             isEnabled.value = false
         },
         complete: function (anim) {
-            styleObject.zIndex = 1
+            zIndex.value = 1
             isEnabled.value = true
         }
     }).add({
         scale: [1.1],
     }).add({
-        rotate: '+=90',
+        rotate: [initRotation.value, '+=90'],
     }).add({
         scale: [1],
     })
 
+    initRotation.value += 90;
     playAudio(sound)
-
 }
 
 function playAudio(url) {
@@ -69,8 +72,8 @@ function playAudio(url) {
 
 <template>
     <div
-        @click="isEnabled && rotate($event)">
-        <img :src="correctTile.svg" :style="styleObject">
+        @click="isEnabled && rotate($event)" :style="{zIndex: zIndex}">
+        <img :src="correctTile.svg" :style="`transform: rotate(${initRotation}deg)`"> <!--  -->
     </div>
 </template>
 
@@ -79,5 +82,6 @@ img {
     max-width: 100%;
     max-height: 100%;
     cursor: pointer;
+    z-index: 1;
 }
 </style>

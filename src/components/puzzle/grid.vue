@@ -1,42 +1,31 @@
 <script setup>
 import Tile from '../puzzle/tile.vue'
+import { generateMatrix } from '../../utils/generateRandomPath.js';
 
 const nbCols = 5;
 const nbRows = nbCols;
 const nbTiles = nbCols * nbRows
+const arrival = [nbCols - 1, nbRows - 1]
+const lengthPath = 10; //entre 8 et 10 p.ex
 
 const nbColsCss = `repeat(${nbCols}, 1fr)`
 
-let sizeGrid = window.innerHeight * 0.7;
-let sizeTile = sizeGrid / nbCols;
-let sizeTileCss = `${sizeTile}px`
 
-let path = []
+const matrix = generateMatrix(arrival, nbRows, nbCols, lengthPath)
+const flatMatrix = matrix.flat()
+//console.log(flatMatrix);
 
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
-}
+const rotations = [0, 90, 180, 270]
+const randomRotation = Math.floor(Math.random() * rotations.length);
+//console.log(rotations[Math.floor(Math.random() * rotations.length)]);
 
-for (let i = 0; i < nbTiles; i++) {
-    //let rot = getRandomInt(0, 4)
-    path.push({
-        tileType: 1,
-        position: [0, 1],
-        rotation: 0
-    })
-}
+
 </script>
 
 <template>
     <div id="grid" class="grid-container">
-        <div v-for="(tile, i) in nbTiles" class="grid-item">
-            <tile
-                :tileType="'2b'"
-                :position="i++"
-                :rotation="90"
-            ></tile>
+        <div v-for="(tile, i) in flatMatrix" class="grid-item">
+            <tile :tileType="tile" :position="i++" :rotation="rotations[Math.floor(Math.random() * rotations.length)]"></tile>
         </div>
     </div>
 </template>
@@ -45,8 +34,6 @@ for (let i = 0; i < nbTiles; i++) {
 .grid-container {
     display: grid;
     grid-template-columns: v-bind(nbColsCss);
-    /* background-color: #2196F3; */
-    /* padding: 2%; */
     margin: 0 auto;
 
     height: fit-content;
@@ -56,20 +43,18 @@ for (let i = 0; i < nbTiles; i++) {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    /* padding: 2%; */
 }
 
 .grid-item {
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #12313C;
     width: 16vh;
     height: 16vh;
 }
 
 @media (orientation: portrait) {
-  .grid-item {
-    width: 16vw;
-    height: 16vw;
-  }
+    .grid-item {
+        width: 16vw;
+        height: 16vw;
+    }
 }
 </style>
