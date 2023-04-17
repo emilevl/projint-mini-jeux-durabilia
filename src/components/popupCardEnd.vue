@@ -417,9 +417,5 @@ button:focus-visible {
     .recap-container{
         width: 750px;
     }
-
-    .bar-container {
-        
-    }
 }
 </style>
