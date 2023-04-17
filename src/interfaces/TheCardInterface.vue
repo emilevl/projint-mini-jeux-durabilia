@@ -128,11 +128,11 @@ onMounted(() => {
     // If the person tilts on the left, we'll show the first response
     if (event.clientX < windowCenterX - 200) {
       iChoice.value = 0;
-      band.style.height = "20%";
+      band.style.height = "15%";
       cardMoved.value = true;
     } else if (event.clientX > windowCenterX + 200) {
       iChoice.value = 1;
-      band.style.height = "20%";
+      band.style.height = "15%";
       cardMoved.value = true;
     } else {
       band.style.height = "0%";
@@ -207,7 +207,8 @@ onMounted(() => {
 
   
   // check if we are on a desktop or a mobile device
-  if (window.innerWidth > 1080) {
+  // if (window.innerWidth > 1080) {
+  if (window.innerWidth > 500) {
     document.addEventListener("mousemove", mouseMoveHandler);
     document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
   } else {
@@ -404,7 +405,7 @@ function infoPlayer() {
     position: absolute;
     top: 10px;
     left: 0px;
-    width: 90%;
+    width: 30%;
     margin: 0 0 0 5% ;
   }
 
