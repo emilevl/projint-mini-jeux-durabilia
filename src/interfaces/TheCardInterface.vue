@@ -6,29 +6,10 @@ import popupCardEnd from "../components/popupCardEnd.vue";
 import ressource from "../components/ressource.vue";
 import dataCards from "../assets/dataCards.json";
 import anime from "animejs/lib/anime.es";
-import { ressourceGlobal } from '../utils/store.js';
+import { ressourceGlobal, transformers } from '../utils/store.js';
 import ThePause from "../components/ThePause.vue";
 
-//Les noms et les niveaux pour chaque ressources (Les niveaux sont en pourcents)
-let RESSOURCES_NAMES = ref([
-  { name: "climateActions", level: 0 },
-  { name: "communities", level: 0 },
-  { name: "consumption", level: 0 },
-  { name: "decentWork", level: 0 },
-  { name: "education", level: 0 },
-  { name: "energy", level: 0 },
-  { name: "genderEquality", level: 0 },
-  { name: "health", level: 0 },
-  { name: "hunger", level: 0 },
-  { name: "inequality", level: 0 },
-  { name: "innovation", level: 0 },
-  { name: "lifeAquatic", level: 0 },
-  { name: "lifeLand", level: 0 },
-  { name: "partnership", level: 0 },
-  { name: "peaceJustice", level: 0 },
-  { name: "poverty", level: 0 },
-  { name: "water", level: 0 },
-]);
+const CURRENT_TRANSFORMER = transformers.value.find(transformer => transformer.name == "Tribunal")
 
 const CARDS = ref([]);
 const TOTAL_CARDS = 5;
@@ -310,7 +291,7 @@ function infoPlayer() {
   </div>
   
   <popupCardEnd v-if="endGame" :cardSelection="cardSelection"></popupCardEnd>
-  <ThePause v-if="pauseGame" @resumeGame="togglePauseGame"></ThePause>
+  <ThePause v-if="pauseGame" :transformer="CURRENT_TRANSFORMER" @resumeGame="togglePauseGame"></ThePause>
 </template>
   
 <style>
