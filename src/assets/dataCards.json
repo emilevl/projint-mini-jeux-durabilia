@@ -97,7 +97,7 @@
         },
                                 {
             "id": 5,
-            "title": "Améliorer les conditions de travail des infirmières et infirmiers",
+            "title": "Conditions de travail des infirmier·ère·s",
             "question": "Voulez-vous améliorer les conditions de travail (salaire, formation) du corps soignant ?",
             "context": "Le personnel soignant est mis à lourde contribution et n'est pas suffisamment soutenu",
             "responses": [
@@ -194,7 +194,7 @@
         
               {
             "id": 9,
-            "title": "Représentation des femmes dans les organes de prise de décision",
+            "title": "Représentation des femmes",
             "question": "Voulez-vous mettre en place des quotas pour garantir une représentation égale des femmes dans les organes de prise de décision ?",
             "context": "La mise ne place de quotas obligent les entreprises à passer à l'action pour une égalité des sexes et favorises la diversité des genres dans les organes de décision. Cela peut être contraignant pour les entreprises.",
             "responses": [
@@ -220,7 +220,7 @@
         
          {
             "id": 10,
-            "title": "Programme contre les violences faites aux femmes",
+            "title": "Violences faites aux femmes",
             "question": "Voulez-vous mettre en place des programmes pour lutter contre les violences faites aux femmes ?",
             "context": "Les féminicides ne diminuent pas et des programmes de prévention peuvent réduire le nombre de victimes. Mais cela coûte de l'argent.",
             "responses": [
@@ -248,7 +248,7 @@
         
                  {
             "id": 11,
-            "title": "Énergie renouvelable pour réduire les émissions de C02",
+            "title": "Énergie renouvelable & réduction du C02",
             "question": "Voulez-vous encourager la production d'énergie à partir de sources renouvelables pour réduire les émissions de gaz à effet de serre ?",
             "context": "Diminuer les émissions de C02 passe par une production d'énergie renouvelable. À l'heure actuelle, cette transition est très onéreuse.",
             "responses": [
@@ -278,7 +278,7 @@
                 
                  {
             "id": 12,
-            "title": "Recherche & Développement des énergies renouvelables",
+            "title": "R&D d'énergies renouvelables",
             "question": "Voulez-vous encourager la recherche et le développement de technologies énergétiques propres ?",
             "context": "Les énergies renouvelables sont propres, mais elles ne sont pas très rentables. Ivestir dans la R&D permettrait d'améliorer leur rendement.",
             "responses": [
@@ -335,7 +335,7 @@
         },
                                 {
             "id": 14,
-            "title": "Toilettes pour tous et réduction des contaminations",
+            "title": "Toilettes pour tous",
             "question": "Voulez-vous garantir l'accès à des toilettes pour tous pour réduire la contamination de l'eau ?",
             "context": "Beaucoup de maladies se transmettent par les eaux usées, il est donc important de permettre à tous d'avoir accès à des toilettes propres.",
             "responses": [
@@ -437,7 +437,7 @@
         
                             {
             "id": 18,
-            "title": "Programme d'aide alimentaire pour les personnes en situation précaire",
+            "title": "Aide alimentaire",
             "question": "Voulez-vous investir dans des programmes de nutrition pour réduire la malnutrition et la sous-alimentation ?",
             "context": "Il est possible d'aider les plus défavorisés en lançant un nouveau programme d'aide alimentaire. Cependant, cela nécessite des fonds.",
             "responses": [
