@@ -285,10 +285,13 @@ function infoPlayer() {
   </div>
   <div class="ressources-impact">
       <div v-for="ressource of CARDS[iCurrentCard].responses[iChoice].impact" class="ressource-icon-wrapper">
-      <div class="circle" :style="{
-        height: `${((Math.abs(ressource.level)/100)*20)+5}px`,
-        width: `${((Math.abs(ressource.level)/100)*20)+5}px`
-      }"></div>
+      <div class="circle-container">
+          <div class="circle" :style="{
+          height: `${((Math.abs(ressource.level)/100)*20)+5}px`,
+          width: `${((Math.abs(ressource.level)/100)*20)+5}px`}">
+        </div>
+      </div>
+      
       <img :src="`src/assets/icons/${ressource.ressource}.svg`">
 
       
@@ -452,6 +455,14 @@ function infoPlayer() {
   .ressources-impact .circle {
     background-color: #000;
     border-radius: 50%;
+  }
+
+  .ressources-impact .circle-container {
+    height: 20px;
+    width: 20px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
   }
 
   .ressources-impact img {

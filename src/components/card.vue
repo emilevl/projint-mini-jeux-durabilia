@@ -74,16 +74,6 @@ onMounted(() => {
         <h3 class="card-title">{{ title }}</h3>
         <img src="src/assets/img/separator-card.svg" alt="separator">
         <p class="card-question">{{ question }}</p>
-        <div class="flip-card-ressources">
-          <!-- <div v-for="ressource of props.ressources" class="ressource-icon-wrapper">
-            <img :src="`src/assets/icons/${ressource.ressource}.svg`">
-
-            <div class="circle" :style="{
-              height: `${((Math.abs(ressource.level)/100)*15)+5}px`,
-              width: `${((Math.abs(ressource.level)/100)*15)+5}px`
-            }"></div>
-          </div> -->
-        </div>
         <div class="flip-card-band">
           <p class="flip-card-response">{{ response }}</p>
         </div>
@@ -183,20 +173,6 @@ onMounted(() => {
     font-weight: 600;
   }
 
-  .flip-card-ressources {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: grid;
-    align-items: center;
-    justify-items: center;
-    grid-template-columns: repeat(v-bind(ressourceTemplating), 1fr);
-  }
-
-  .flip-card-band-ressources {
-    align-self: center;
-  }
-
   .ressource-icon-wrapper {
     display: flex;
     flex-direction: column;
@@ -239,14 +215,6 @@ onMounted(() => {
     .flip-card-back .flip-card-band .flip-card-response {
       font-size: 0.8rem;
     }
-
-    .flip-card-back .flip-card-ressources {
-      margin-top: 1rem;
-    }
-
-    .flip-card-back .flip-card-ressources img{
-      height: 35px;
-    }
   }
 
   @media (max-width: 900px) {
@@ -271,16 +239,8 @@ onMounted(() => {
       font-size: 0.8rem;
     }
 
-    .flip-card-back .flip-card-ressources img{
-      height: 25px;
-    }
-
     .flip-card-back .flip-card-band .flip-card-response {
       font-size: 0.6rem;
-    }
-
-    .flip-card-back .flip-card-ressources {
-      top: 30%;
     }
   } */
 </style>
