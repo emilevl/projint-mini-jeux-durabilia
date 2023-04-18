@@ -92,6 +92,6 @@ img {
     max-width: 100%;
     max-height: 100%;
     cursor: pointer;
-    z-index: 1;
+    position: relative;
 }
 </style>
