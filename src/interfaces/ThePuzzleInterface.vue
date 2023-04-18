@@ -31,12 +31,7 @@ function onToggleMenu() {
 body {
     font-family: 'Limelight', cursive;
     color: var(--white);
-
-    /* background-color: #12313c; */
-
-    /*background-image: url(../assets/decor/texture_background.png), radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
-    background-size: cover; */
-
+    background-color: #12313c;
     background: radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
 }
 
@@ -50,7 +45,6 @@ body::after {
     z-index: -1;
     background-color: #12313c;
     background-image: url(../assets/decor/texture_background.png);
-    /* background-size: cover; */
     opacity: 0.2;
 }
 

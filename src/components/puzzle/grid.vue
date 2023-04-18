@@ -41,6 +41,10 @@ function randomizeFreeze() {
 </script>
 
 <template>
+    <img id="pipe_start" src="../../assets/decor/pipe_left.png">
+    <img id="img_start" src="../../assets/decor/freeze_left.png">
+    <img id="pipe_end" src="../../assets/decor/pipe_right.png">
+    <img id="img_end" src="../../assets/decor/freeze_right.png">
     <div id="grid" class="grid-container">
         <div v-for="(tile, i) in flatMatrix" class="grid-item">
             <tile :tileType="tile" :position="i++" :rotation="randomizeRotation()" :frozen="randomizeFreeze()"></tile>
@@ -69,10 +73,57 @@ function randomizeFreeze() {
     height: 16vh;
 }
 
+img {
+    height: 48vh;
+    position: absolute;
+    margin: 0 auto;
+}
+
+#img_start {
+    top: 10vh;
+    left: 50%;
+    transform: translate(-300%, 0%);
+}
+
+#img_end {
+    bottom: 10vh;
+    right: 50%;
+    transform: translate(300%, 0%);
+}
+
+#pipe_start {
+    top: 10vh;
+    left: 50%;
+    transform: translate(-180%, 0%);
+}
+
+#pipe_end {
+    bottom: 10vh;
+    right: 50%;
+    transform: translate(180%, 0%);
+}
+
+
 @media (orientation: portrait) {
     .grid-item {
         width: 16vw;
         height: 16vw;
     }
+
+    img {
+        height: 48vw;
+    }
+
+    /* #img_start {
+        top: 10vw;
+        left: 50%;
+        transform: translate(-213%, 0%);
+    }
+
+    #img_end {
+        bottom: 10vw;
+        right: 50%;
+        transform: translate(213%, 0%);
+    } */
 }
 </style>
