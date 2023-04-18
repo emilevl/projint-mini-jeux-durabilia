@@ -1,7 +1,8 @@
 <script setup>
 import tiles from '../../assets/data/tiles.json'
 import anime from 'animejs/lib/anime.es.js';
-import { ref, computed, reactive, onMounted } from 'vue'
+import { ref, computed, reactive, watchEffect } from 'vue'
+import { menuOpened } from "../../store.js"
 import sound from '../../assets/sounds/Impact_Concrete_Hit_By_Solid_Metal_Bar_02.wav'
 //import sound from '../../assets/sounds/Liquid_Water_Filling_Up_Pool_07.wav'
 
@@ -22,16 +23,23 @@ const props = defineProps({
 
 const correctTile = computed(() => findTile())
 const isEnabled = ref(true)
-
-let initRotation = props.rotation
-//img.style.transform = `rotate(${props.rotation}deg)`;
-
-/* anime({
-    targets: ''
-}) */
-
 const zIndex = ref(1)
+const cursorType = ref('pointer')
 
+let currentRotation = props.rotation
+
+// Disable tile clicks when the menu is opened
+watchEffect(() => {
+    if(menuOpened.value) {
+        isEnabled.value = false
+        cursorType.value = 'default'
+    } else {
+        isEnabled.value = true
+        cursorType.value = 'pointer'
+    }
+})
+
+// Get the tile type to display the correct image
 function findTile() {
     return tiles.find(tile => tile.type === props.tileType)
 }
@@ -50,7 +58,7 @@ function rotate(evt) {
         complete: function (anim) {
             zIndex.value = 1
             isEnabled.value = true
-            initRotation += 90;
+            currentRotation += 90;
         }
     }).add({
         scale: [1.1],
@@ -65,15 +73,17 @@ function rotate(evt) {
 
 function playAudio(url) {
     new Audio(url).play();
-    //console.log(url)
 }
 
 </script>
 
 <template>
     <div
-        @click="isEnabled && rotate($event)" :style="{zIndex: zIndex}">
-        <img :src="correctTile.svg" :style="`transform: rotate(${initRotation}deg)`"> <!-- -->
+        @click="isEnabled && rotate($event)">
+        <img 
+            :src="correctTile.svg"
+            :style="{transform: `rotate(${currentRotation}deg)`, zIndex: zIndex, cursor: cursorType}"
+        >
     </div>
 </template>
 
@@ -82,6 +92,6 @@ img {
     max-width: 100%;
     max-height: 100%;
     cursor: pointer;
-    z-index: 1;
+    position: relative;
 }
 </style>
