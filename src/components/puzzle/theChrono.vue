@@ -49,8 +49,7 @@ function startTimer(newDate) {
     }, 0)
 }
 
-watchEffect(() =>
-{
+watchEffect(() => {
     if (!menuOpened.value) {
         const newDate = new Date(Date.now() + timer.value);
         startTimer(newDate)
@@ -63,23 +62,29 @@ watchEffect(() =>
 
 <template>
     <div id="chrono">
-        <img src="../../assets/icons/chrono.svg">
+        <img id="chrono-top" src="../../assets/decor/chrono_top.svg">
         <p id="counter">{{ time }}</p>
-        <!-- <button @click="paused = !paused">pause</button> -->
+        <img id="chrono-bottom" src="../../assets/decor/chrono_bottom.svg">
     </div>
 </template>
 
 <style scoped>
 img {
-    height: 3vw;
+    height: 2vw;
     margin: 0;
     display: inline;
 }
 
 #counter {
     display: inline-block;
-    font-weight: 600;
     font-size: 3vw;
-    margin: 0 0 0 10px;
+    margin: auto;
+}
+
+#chrono {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width:fit-content;
 }
 </style>

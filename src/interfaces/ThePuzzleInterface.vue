@@ -12,30 +12,38 @@ function onToggleMenu() {
 </script>
 
 <template>
-    <div class="aside">
-        <the-chrono></the-chrono>
-        <the-menu @toggle-menu="onToggleMenu"></the-menu>
+    <div id="puzzleInterface">
+        <div class="aside">
+            <the-chrono></the-chrono>
+            <the-menu @toggle-menu="onToggleMenu"></the-menu>
+        </div>
+        <grid id="grid"></grid>
     </div>
-    <grid id="grid"></grid>
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
 
 :root {
-    --darkgrey: #2E2E2E;
-    --lightgrey: #D9D9D9;
     --white: #FDFCFC;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Limelight', cursive;
     color: var(--white);
-    background-color: #12313C;
+    
+    background: radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
+    background-color: #12313c;
+
+    /* background-image: url(../assets/decor/texture_background.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
 }
 
 .aside {
-    padding: 25px 25px 0 0;
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
 }
 </style>
