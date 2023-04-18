@@ -18,8 +18,14 @@ const props = defineProps({
     rotation: {
         type: Number,
         required: true
+    },
+    frozen: {
+        type: Boolean,
+        required: true
     }
 })
+
+const IMG_PATH = 'src/assets/icons/tiles/'
 
 const correctTile = computed(() => findTile())
 const isEnabled = ref(true)
@@ -28,9 +34,9 @@ const cursorType = ref('pointer')
 
 let currentRotation = props.rotation
 
-// Disable tile clicks when the menu is opened
+// Disable tile clicks when the menu is opened or if the tile is frozen
 watchEffect(() => {
-    if(menuOpened.value) {
+    if(menuOpened.value || props.frozen) {
         isEnabled.value = false
         cursorType.value = 'default'
     } else {
@@ -41,7 +47,14 @@ watchEffect(() => {
 
 // Get the tile type to display the correct image
 function findTile() {
-    return tiles.find(tile => tile.type === props.tileType)
+    const tile = tiles.find(tile => tile.type === props.tileType)
+    let name = IMG_PATH + tile.svg
+
+    props.frozen ?
+        name += '-frozen.svg' :
+        name += '.svg'
+
+    return name
 }
 
 // Rotate target 90 degrees clockwise
@@ -79,9 +92,9 @@ function playAudio(url) {
 
 <template>
     <div
-        @click="isEnabled && rotate($event)">
+        @click="isEnabled && !props.frozen && rotate($event)">
         <img 
-            :src="correctTile.svg"
+            :src="correctTile"
             :style="{transform: `rotate(${currentRotation}deg)`, zIndex: zIndex, cursor: cursorType}"
         >
     </div>

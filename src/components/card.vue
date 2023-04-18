@@ -10,7 +10,7 @@ const props = defineProps({
 })
 
 onMounted(() => {
-  console.log(props.index)
+
   anime({
     targets: '.flip-card .flip-card-inner',
     keyframes: [
