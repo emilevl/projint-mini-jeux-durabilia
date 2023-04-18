@@ -31,14 +31,27 @@ function onToggleMenu() {
 body {
     font-family: 'Limelight', cursive;
     color: var(--white);
-    
-    background: radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
-    background-color: #12313c;
 
-    /* background-image: url(../assets/decor/texture_background.png);
-    background-position: center;
-    background-repeat: no-repeat;
+    /* background-color: #12313c; */
+
+    /*background-image: url(../assets/decor/texture_background.png), radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
     background-size: cover; */
+
+    background: radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    background-color: #12313c;
+    background-image: url(../assets/decor/texture_background.png);
+    /* background-size: cover; */
+    opacity: 0.2;
 }
 
 .aside {
