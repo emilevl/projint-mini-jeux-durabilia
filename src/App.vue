@@ -1,10 +1,24 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Card from './components/card.vue';
 import ressource from './components/ressource.vue';
 import TheCardInterface from './interfaces/TheCardInterface.vue';
 import ThePlancheInterface from './interfaces/ThePlancheInterface.vue';
 import ThePuzzleInterface from './interfaces/ThePuzzleInterface.vue';
+import dataCards from "./assets/dataCards.json";
+
+
+onMounted(() => {
+  initializeDataCards();
+});
+
+function initializeDataCards() {
+      // Check if the dataCards item exists in the localStorage
+      if (!localStorage.getItem("dataCards")) {
+        // If not, set the dataCards item with the data imported from the JSON file
+        localStorage.setItem("dataCards", JSON.stringify(dataCards));
+      }
+    }
 
 //construction des routes
 const routes = {
