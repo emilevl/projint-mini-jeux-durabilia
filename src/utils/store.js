@@ -24,6 +24,7 @@ export const ressourceGlobal = ref([
 export const transformers = ref([
     {
         name: "Tribunal",
+        type: "Jeu de décision",
         description: "Prenez des décisions en balançant les cartes à gauche ou à droite. Ces décisions auront un petit ou un grand impact sur vos ressources. Vous aurez 5 choix à faire. Le 5ème choix affectera de manière plus conséquente vos ressources ou vos interactions sur la carte.",
         ressourceNecessaire: { name: "Temps" , img: "time", level: -30 },
         ressourceRecue: { name: "Justice" , img: "peaceJustice", level: 30 },
@@ -31,6 +32,7 @@ export const transformers = ref([
     },
     {
         name: "Scierie",
+        type: "Jeu de plateforme",
         description: "Blablabla scierie",
         ressourceNecessaire: { name: "Eau" , img: "water", level: -10 },
         ressourceRecue: { name: "Monnaie" , img: "poverty", level: 15 },

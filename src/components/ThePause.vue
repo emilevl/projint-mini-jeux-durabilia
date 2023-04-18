@@ -46,7 +46,8 @@ function toggleRules() {
             </div>
         </div>
     </div>
-    <popupRules v-if="showRules" :transformer="props.transformer" @emitToggleRules="toggleRules()" @emitPlay="$emit('resumeGame')"></popupRules>
+    <popupRules v-if="showRules" :transformer="props.transformer" :gameLaunched="false" @emitToggleRules="toggleRules()"
+        @emitPlay="$emit('resumeGame')"></popupRules>
 </template>
 
 <style scoped>
@@ -74,28 +75,27 @@ function toggleRules() {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* width: 40%;
-    min-width: 300px;
-    max-width: 400px; */
-    /* height: 600px; */
     width: 500px;
     height: 550px;
     background-color: #FBF8F1;
 }
+
 .pause-details-container {
     padding: 50px;
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
     height: 450px;
 }
 
 .pause-deco {
     width: 100%;
 }
+
 .content {
     height: 100%;
 }
+
 .content ul {
     display: flex;
     flex-direction: column;
@@ -130,5 +130,54 @@ function toggleRules() {
     color: #FBF8F1;
     border-radius: 20px 0px;
     transition: 0.3s;
+}
+
+@media screen and (max-width: 800px) {
+    .pause-container {
+        width: 300px;
+        height: 300px;
+    }
+
+    .pause-details-container {
+        padding: 25px;
+        height: 250px;
+    }
+
+    .close-x {
+        padding: 25px;
+    }
+
+    .title {
+        font-size: 1.5em;
+    }
+
+    .pause-container .content ul {
+        font-size: 1rem
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    .pause-container {
+        width: 300px;
+        height: 300px;
+    }
+
+    .pause-details-container {
+        padding: 25px;
+        height: 250px;
+    }
+
+    .close-x {
+        padding: 25px;
+        font-size: 1.5em;
+    }
+
+    .title {
+        font-size: 1.5em;
+    }
+
+    .pause-container .content ul {
+        font-size: 1rem
+    }
 }
 </style>
