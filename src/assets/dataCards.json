@@ -4,10 +4,10 @@
             "id": 1,
             "title": "Installer un barrage",
             "question": "Voulez-vous approuver la construction du barrage du village ?",
-            "context": "Les villageois se préoccupent de la provenance de leur énergie et veulent de l'électricité propre. Ils souahitent construire un barrage dans la rivière. Cela aura pour sûr une influence sur la faune de la rivière. ",
+            "context": "Les villageoi·se·s se préoccupent de la provenance de leur énergie et veulent de l'électricité propre. Ils souahitent construire un barrage dans la rivière. Cela aura pour sûr une influence sur la faune de la rivière.",
             "responses": [
                 {
-                    "name": "Oui, construisons le barrage",
+                    "name": "Oui, construisons le barrage.",
                     "impact": [
                         {"ressource": "lifeAquatic", "level": -10},
                         {"ressource": "energy", "level": 20},
@@ -17,7 +17,7 @@
                     ]
                 },
                 {
-                    "name": "Non, ne touchons pas à la rivière",
+                    "name": "Non, ne touchons pas à la rivière.",
                     "impact": [
                         {"ressource": "lifeAquatic", "level": 10},
                         {"ressource": "energy", "level": -10},
@@ -34,7 +34,7 @@
             "context": "La pêche de masse, bien que profitable pour le prix et la quantité du poisson, ravage la biodiversité marine de certaines zones et en empêche le développement sain des espèces.",
             "responses": [
                 {
-                    "name": "Oui, arrêtons la pêche de masse",
+                    "name": "Oui, arrêtons la pêche de masse.",
                     "impact": [
                         {"ressource": "hunger", "level": -20},
                         {"ressource": "poverty", "level": -20},
@@ -55,7 +55,7 @@
             "id": 3,
             "title": "Augmenter le salaire minimum",
             "question": "Voulez-vous augmenter le salaire minimum pour aider à réduire la pauvreté ?",
-            "context": "Le salaire minimum sert à protéger les travailleurs d'une potentielle exploitation au travail. Cependant, cela coûte de l'argent aux entreprises et à l'Etat",
+            "context": "Le salaire minimum sert à protéger les travailleur·euse·s d'une potentielle exploitation au travail. Cependant, cela coûte de l'argent aux entreprises et à l'État",
             "responses": [
                 {
                     "name": "Bien sûr, il faut augmenter le salaire minimum.",
@@ -76,8 +76,8 @@
                         {
             "id": 4,
             "title": "Création de nouveaux emplois",
-            "question": "Voulez-vous rénover les infrastructures dans le but de créer de nouveaux emplois?",
-            "context": "Créer de nouveaux emplois permet d'augmenter le pouvoir d'achat de nouvelles personnes. Cependant, cela représente un grand endettement de l'Etat",
+            "question": "Voulez-vous rénover les infrastructures dans le but de créer de nouveaux emplois ?",
+            "context": "Créer de nouveaux emplois permet d'augmenter le pouvoir d'achat de nouvelles personnes. Cependant, cela représente un grand endettement de l'État",
             "responses": [
                 {
                     "name": "Rénovons nos routes et créons des chantiers !",
@@ -99,7 +99,7 @@
             "id": 5,
             "title": "Conditions de travail des infirmier·ère·s",
             "question": "Voulez-vous améliorer les conditions de travail (salaire, formation) du corps soignant ?",
-            "context": "Le personnel soignant est mis à lourde contribution et n'est pas suffisamment soutenu",
+            "context": "Le personnel soignant est mis à lourde contribution et n'est pas suffisamment soutenu. Investir dans ce domaine est-il vraiment la priorité ?",
             "responses": [
                 {
                     "name": "Oui, aidons le corps médical.",
@@ -110,7 +110,7 @@
                     ]
                 },
                 {
-                    "name": "Non, ce n'est pas possible pour le moment",
+                    "name": "Non, ce n'est pas possible pour le moment.",
                     "impact": [
                         {"ressource": "health", "level": -20},
                         {"ressource": "communities", "level": -10}
@@ -122,10 +122,10 @@
             "id": 6,
             "title": "Prévention de santé mentale",
             "question": "Voulez-vous accorder les fonds à une association de prévention à la santé mentale ?",
-            "context": "Une association souhaite faire de visites au sein de certaines entreprises pour sensibiliser les citoyens à la santé mentale",
+            "context": "Une association souhaite faire des visites au sein de certaines entreprises pour sensibiliser les citoyens à la santé mentale.",
             "responses": [
                 {
-                    "name": "Oui, accordons les fonds",
+                    "name": "Oui, accordons les fonds.",
                     "impact": [
                         {"ressource": "poverty", "level": -10},
                         {"ressource": "health", "level": 30},
@@ -133,7 +133,7 @@
                     ]
                 },
                 {
-                    "name": "Non, il y a déjà assez d'actions dans ce sens-là",
+                    "name": "Non, il y a déjà assez d'actions dans ce sens-là.",
                     "impact": [
                         {"ressource": "health", "level": -20},
                         {"ressource": "poverty", "level": 10},
@@ -147,7 +147,7 @@
             "id": 7,
             "title": "École pour tous",
             "question": "Voulez-vous créer des classes de soutien pour les personnes qui ne parlent pas français ?",
-            "context": "Le nombre de personnes illettrées ne cesse d'augmenter ces dernières années. Une des solutions serait de créer des classes, aux dépens de la charge de travail des professeurs ",
+            "context": "Le nombre de personnes illettrées ne cesse d'augmenter ces dernières années. Une des solutions serait de créer des classes, aux dépens de la charge de travail des professeurs.",
             "responses": [
                 {
                     "name": "Oui, créons des classes.",
@@ -158,7 +158,7 @@
                     ]
                 },
                 {
-                    "name": "Non, il y a déjà assez d'actions dans ce sens-là",
+                    "name": "Non, il y a déjà assez d'actions dans ce sens-là.",
                     "impact": [
                         {"ressource": "education", "level": -20},
                         {"ressource": "inequality", "level": -10}
@@ -170,22 +170,22 @@
                    {
             "id": 8,
             "title": "Préservation de la biodiversité",
-            "question": "Voulez-vous sensibiliser les citoyens à l'importance de la préservation de la biodiversité terrestre ?",
-            "context": "",
+            "question": "Voulez-vous sensibiliser les citoyen·ne·s à l'importance de la préservation de la biodiversité terrestre ?",
+            "context": "Une campagne de prévention (slogans, documentaires, expositions) permettrait de mettre ces problématiques sur le devant de la scène. Cependant, sommes-nous certain·e·s de son impact ?",
             "responses": [
                 {
-                    "name": "Oui, sensibilisons les citoyens",
+                    "name": "Oui, sensibilisons les citoyen·ne·s.",
                     "impact": [
                         {"ressource": "education", "level": 30},
                         {"ressource": "lifeLand", "level": 20},
                         {"ressource": "partnership", "level": 10}                   ]
                 },
                 {
-                    "name": "Non, cela pourrait être nocif pour la jeunesse.",
+                    "name": "Non, la sensibilisation ne permettrait pas de faire changer les comportements.",
                     "impact": [
                         {"ressource": "education", "level": -10},
                         {"ressource": "lifeLand", "level": -20},
-                        {"ressource": "partnership", "level": -10},
+                        {"ressource": "partnership", "level": -10}
                         
                     ]
                 }
@@ -196,10 +196,10 @@
             "id": 9,
             "title": "Représentation des femmes",
             "question": "Voulez-vous mettre en place des quotas pour garantir une représentation égale des femmes dans les organes de prise de décision ?",
-            "context": "La mise ne place de quotas obligent les entreprises à passer à l'action pour une égalité des sexes et favorises la diversité des genres dans les organes de décision. Cela peut être contraignant pour les entreprises.",
+            "context": "La mise ne place de quotas oblige les entreprises à passer à l'action pour une égalité des sexes et favorise la diversité des genres dans les organes de décision. Cela peut être contraignant pour les entreprises.",
             "responses": [
                 {
-                    "name": "Oui, imposons des quotas",
+                    "name": "Oui, imposons des quotas.",
                     "impact": [
                         {"ressource": "genderEquality", "level": 30},
                         {"ressource": "communities", "level": 10}
@@ -207,7 +207,7 @@
                     ]
                 },
                 {
-                    "name": "Non, ça pourrait aussi discriminer les hommes, ça n'avance rien",
+                    "name": "Non, ça pourrait aussi discriminer les hommes, ça n'avance rien.",
                     "impact": [
                         {"ressource": "genderEquality", "level": -10},
                         {"ressource": "partnership", "level": -10},
@@ -225,7 +225,7 @@
             "context": "Les féminicides ne diminuent pas et des programmes de prévention peuvent réduire le nombre de victimes. Mais cela coûte de l'argent.",
             "responses": [
                 {
-                    "name": "Oui, mettons en place ce type de programmes",
+                    "name": "Oui, mettons en place ce type de programmes.",
                     "impact": [
                         {"ressource": "genderEquality", "level": 30},
                         {"ressource": "partnership", "level": 10},
@@ -253,7 +253,7 @@
             "context": "Diminuer les émissions de C02 passe par une production d'énergie renouvelable. À l'heure actuelle, cette transition est très onéreuse.",
             "responses": [
                 {
-                    "name": "Oui, investissons dans les énergies vertes",
+                    "name": "Oui, investissons dans les énergies vertes.",
                     "impact": [
                         {"ressource": "climateActions", "level": 30},
                         {"ressource": "consumption", "level": 20},
@@ -283,7 +283,7 @@
             "context": "Les énergies renouvelables sont propres, mais elles ne sont pas très rentables. Ivestir dans la R&D permettrait d'améliorer leur rendement.",
             "responses": [
                 {
-                    "name": "Oui, investissons dans les énergies vertes",
+                    "name": "Oui, investissons dans les énergies vertes.",
                     "impact": [
                         {"ressource": "climateActions", "level": 30},
                         {"ressource": "consumption", "level": 20},
@@ -292,7 +292,7 @@
                     ]
                 },
                 {
-                    "name": "Non, les résultats ne sont pas garantis",
+                    "name": "Non, les résultats ne sont pas garantis.",
                     "impact": [
                         {"ressource": "poverty", "level": 20},
                         {"ressource": "decentWork", "level": 20},
@@ -326,7 +326,7 @@
                         {"ressource": "poverty", "level": 20},
                         {"ressource": "water", "level": -10},
                         {"ressource": "inovation", "level": -20},
-                        {"ressource": "lifeAquatic", "level": -10},
+                        {"ressource": "lifeAquatic", "level": -10}
                         
                         
                     ]
@@ -337,18 +337,18 @@
             "id": 14,
             "title": "Toilettes pour tous",
             "question": "Voulez-vous garantir l'accès à des toilettes pour tous pour réduire la contamination de l'eau ?",
-            "context": "Beaucoup de maladies se transmettent par les eaux usées, il est donc important de permettre à tous d'avoir accès à des toilettes propres.",
+            "context": "Beaucoup de maladies se transmettent par les eaux usées, il est donc important de permettre à tous d'avoir accès à des toilettes propres. Mais serait-il possible de trouver une autre solution ?",
             "responses": [
                 {
-                    "name": "Oui, permettons à tous d'avoir accès à des toilettes",
+                    "name": "Oui, permettons à tous d'avoir accès à des toilettes.",
                     "impact": [
                         {"ressource": "water", "level": 30},
                         {"ressource": "health", "level": 30},
-                        {"ressource": "poverty", "level": -20},
+                        {"ressource": "poverty", "level": -20}
                     ]
                 },
                 {
-                    "name": "Non, trouvons une autre solution",
+                    "name": "Non, trouvons une autre solution.",
                     "impact": [
                         {"ressource": "health", "level": -20},
                         {"ressource": "water", "level": -20},
@@ -363,7 +363,7 @@
             "id": 15,
             "title": "Aider les petites entreprises locales",
             "question": "Voulez-vous aider financièrement les petites entreprises pour leur survie et leur indépendance.",
-            "context": "Les grandes entreprises sont celles qui bénéficient du plus d'avantages de l'État ce qui restreint l'économie localisée.",
+            "context": "Les grandes entreprises sont celles qui bénéficient du plus d'avantages de l'État, ce qui restreint l'économie localisée.",
             "responses": [
                 {
                     "name": "Oui, soutenons les petites entreprises locales.",
@@ -374,7 +374,7 @@
                     ]
                 },
                 {
-                    "name": "Non, les grandes entreprisent créent plus d'emplois",
+                    "name": "Non, les grandes entreprisent créent plus d'emplois.",
                     "impact": [
                         {"ressource": "decentWork", "level": -10},
                         {"ressource": "communities", "level": -10},
@@ -387,11 +387,11 @@
                           {
             "id": 16,
             "title": "Protection des travailleurs",
-            "question": "Voulez-vous garantir la protection des travailleurs contre l'exploitation et la discrimination ?",
-            "context": "Certaines entreprises jouent avec les limites de l'exploitation, nous pourrions les encadrer davantage.",
+            "question": "Voulez-vous garantir la protection des travailleur·euse·s contre l'exploitation et la discrimination ?",
+            "context": "Certaines entreprises jouent avec les limites de l'exploitation, nous pourrions les encadrer davantage. Néamoins, une telle démarche est coûteuse en ressources (temps et argent).",
             "responses": [
                 {
-                    "name": "Oui, protégeons les travailleurs",
+                    "name": "Oui, protégeons les travailleur·euse·s.",
                     "impact": [
                         {"ressource": "decentWork", "level": 30},
                         {"ressource": "health", "level": 10},
@@ -399,7 +399,7 @@
                     ]
                 },
                 {
-                    "name": "Non, les grandes entreprises créent plus d'emplois",
+                    "name": "Non, cela mettrait en péril les entreprises actuelles.",
                     "impact": [
                         {"ressource": "decentWork", "level": -10},
                         {"ressource": "communities", "level": -10},
@@ -412,11 +412,11 @@
                     {
             "id": 17,
             "title": "Lutter contre les discriminations",
-            "question": "Voulez-vous mettre en place des politiques pour lutter contre la discrimination fondée sur la religion, l'origine ou l'orientation sexuelle ?",
+            "question": "Voulez-vous mettre en place des politiques pour lutter contre les discriminations fondées sur la religion, l'origine ou l'orientation sexuelle ?",
             "context": "De nos jours, certaines personnes sont toujours discriminées à cause de leur religion, origine et/ou orientation sexuelle. La mise en place de politiques, bien que considérée comme à contre-courant des traditions, pénaliserait les comportements discriminants.",
             "responses": [
                 {
-                    "name": "Oui, il faut agir pour protéger les minorités",
+                    "name": "Oui, il faut agir pour protéger les minorités.",
                     "impact": [
                         {"ressource": "partnership", "level": 10},
                         {"ressource": "communities", "level": 20},
@@ -442,7 +442,7 @@
             "context": "Il est possible d'aider les plus défavorisés en lançant un nouveau programme d'aide alimentaire. Cependant, cela nécessite des fonds.",
             "responses": [
                 {
-                    "name": "Oui, la faim dans le monde doit être éradiquée",
+                    "name": "Oui, la faim dans le monde doit être éradiquée !",
                     "impact": [
                         {"ressource": "hunger", "level": 30},
                         {"ressource": "health", "level": 20},
@@ -450,7 +450,7 @@
                     ]
                 },
                 {
-                    "name": "Non, c'est trop dur d'essayer de régler un problème si vaste",
+                    "name": "Non, c'est trop dur d'essayer de régler un problème si vaste.",
                     "impact": [
                         {"ressource": "hunger", "level": -20},
                         {"ressource": "health", "level": -20},
@@ -464,10 +464,10 @@
             "id": 19,
             "title": "Gaspillage et surconsommation alimentaire",
             "question": "Voulez-vous mettre en place des politiques pour lutter contre le gaspillage alimentaire et la surconsommation pour réduire la faim ?",
-            "context": "Beaucoup des ressources alimentaires sont mal réparties, cela amène à du gaspillage inutile et de la faim. Mais ce problème est difficile à affronter.",
+            "context": "Beaucoup des ressources alimentaires sont mal réparties, cela amène à du gaspillage inutile et de la faim. Cependant ce problème est difficile à affronter.",
             "responses": [
                 {
-                    "name": "Oui, la faim dans le monde doit être éradiquée",
+                    "name": "Oui, lutter contre le gaspillage est un bon début !",
                     "impact": [
                         {"ressource": "hunger", "level": 30},
                         {"ressource": "consumption", "level": 20},
@@ -475,7 +475,7 @@
                     ]
                 },
                 {
-                    "name": "Non, c'est trop dur d'essayer de régler un problème si vaste.",
+                    "name": "Non, cela demanderait trop d'effort pour peu de bénéfice.",
                     "impact": [
                         {"ressource": "hunger", "level": -20},
                         {"ressource": "consumption", "level": -20},
@@ -489,10 +489,10 @@
         "id": 20,
             "title": "Braconnage",
             "question": "Voulez-vous mettre en place des politiques pour lutter contre le braconnage et le commerce illégal d'espèces sauvages ?",
-            "context": "Beaucoup d'espèces en voie de disparition sont chassées illégalement, menaçant ainsi leur vie et toute leur espèce. Il est cependant difficle de trouver les auteurs de ces crimes.",
+            "context": "Beaucoup d'espèces en voie de disparition sont chassées illégalement, menaçant ainsi leur vie et toute leur espèce. Il est cependant difficle de trouver les auteur·trice·s de ces crimes.",
             "responses": [
                 {
-                    "name": "Oui, protégeons les espèces menacées",
+                    "name": "Oui, protégeons les espèces menacées.",
                     "impact": [
                         {"ressource": "lifeLand", "level": 30},
                         {"ressource": "lifeAquatic", "level": 30},
@@ -500,7 +500,7 @@
                     ]
                 },
                 {
-                    "name": "Non, il est trop difficile de mener des actions efficaces pour ce domaine",
+                    "name": "Non, il est trop difficile de mener des actions efficaces pour ce domaine.",
                     "impact": [
                         {"ressource": "lifeLand", "level": -20},
                         {"ressource": "lifeAquatic", "level": -20},

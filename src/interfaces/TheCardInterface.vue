@@ -6,34 +6,16 @@ import popupCardEnd from "../components/popupCardEnd.vue";
 import ressource from "../components/ressource.vue";
 import dataCards from "../assets/dataCards.json";
 import anime from "animejs/lib/anime.es";
-import { ressourceGlobal } from '../utils/store.js';
+import { ressourceGlobal, transformers } from '../utils/store.js';
 import ThePause from "../components/ThePause.vue";
 
-//Les noms et les niveaux pour chaque ressources (Les niveaux sont en pourcents)
-let RESSOURCES_NAMES = ref([
-  { name: "climateActions", level: 0 },
-  { name: "communities", level: 0 },
-  { name: "consumption", level: 0 },
-  { name: "decentWork", level: 0 },
-  { name: "education", level: 0 },
-  { name: "energy", level: 0 },
-  { name: "genderEquality", level: 0 },
-  { name: "health", level: 0 },
-  { name: "hunger", level: 0 },
-  { name: "inequality", level: 0 },
-  { name: "innovation", level: 0 },
-  { name: "lifeAquatic", level: 0 },
-  { name: "lifeLand", level: 0 },
-  { name: "partnership", level: 0 },
-  { name: "peaceJustice", level: 0 },
-  { name: "poverty", level: 0 },
-  { name: "water", level: 0 },
-]);
+const CURRENT_TRANSFORMER = transformers.value.find(transformer => transformer.name == "Tribunal")
 
 const CARDS = ref([]);
 const TOTAL_CARDS = 5;
 // choices are from the dataCards object: 0 = choice 1, 1 = choice -> cards.responses[choice]
 const iChoice = ref(0);
+const choosing = ref(false);
 let mouseMoveHandler;
 let touchMoveHandler;
 let cardSelection = ref([]);
@@ -43,7 +25,7 @@ const cardMoved = ref(false);
 
 
 // create a new array with 5 of the dataCards objects
-for (let i = 0; i < dataCards.cards.length; i++) {
+for (let i = 0; i < 5; i++) {
   // add the card from the dataCards object to the CARDS array
   CARDS.value.push(dataCards.cards[i]);
   
@@ -92,7 +74,7 @@ function decisionDone() {
     anime({
       targets: card,
       translateX: -700,
-      translateY: -250,
+      translateY: 250,
       rotate: '-90deg',
       opacity: [1, 0.7, 0.5, 0],
       duration: 250
@@ -127,22 +109,23 @@ onMounted(() => {
     
     // If the person tilts on the left, we'll show the first response
     if (event.clientX < windowCenterX - 200) {
+      choosing.value = true;
       iChoice.value = 0;
-      band.style.height = "20%";
+      band.style.height = "100px";
       cardMoved.value = true;
     } else if (event.clientX > windowCenterX + 200) {
+      choosing.value = true;
       iChoice.value = 1;
-      band.style.height = "20%";
+      band.style.height = "100px";
       cardMoved.value = true;
     } else {
+      choosing.value = false;
       band.style.height = "0%";
       cardMoved.value = false;
     }
     const tiltRange = 7; // You can adjust the tilt range as needed
     const tilt = ((event.clientX - windowCenterX) / windowCenterX) * tiltRange;
-    card.style.transform = `rotate(${tilt}deg) translate(-50%, calc(-50% + ${
-      15 * iCurrentCard.value
-    }px))`;
+    card.style.transform = `rotate(${tilt}deg) translate(calc(-50% - ${ 7 * iCurrentCard.value}px), calc(-60% + ${ 2 * iCurrentCard.value }px))`;
   };
 
   touchMoveHandler = (e) => {
@@ -157,11 +140,11 @@ onMounted(() => {
       // show the band when needed
       if (touch.clientX < windowCenterX - 25) {
         iChoice.value = 0;
-        band.style.height = "20%";
+        band.style.height = "100px";
         cardMoved.value = true;
       } else if (touch.clientX > windowCenterX + 25) {
         iChoice.value = 1;
-        band.style.height = "20%";
+        band.style.height = "100px";
         cardMoved.value = true;
       } else {
         band.style.height = "0%";
@@ -207,7 +190,8 @@ onMounted(() => {
 
   
   // check if we are on a desktop or a mobile device
-  if (window.innerWidth > 1080) {
+  // if (window.innerWidth > 1080) {
+  if (window.innerWidth > 500) {
     document.addEventListener("mousemove", mouseMoveHandler);
     document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
   } else {
@@ -270,26 +254,26 @@ function infoPlayer() {
 
 <template>
   <div class="main-page">
-    <h1 id="main-title">Tribunal</h1>
+    <!-- <h1 id="main-title">Tribunal</h1> -->
     <div id="clickable-part">
       <div id="description-current-card">
-        <h1>Description</h1>
+        <h2>Description</h2>
         <p>{{CARDS[iCurrentCard].context}}</p>
       </div>
     </div>
-    <p to="/" class="pause-game" @click="togglePauseGame()">
-      <img src="src/assets/icons/pause.svg" />
-    </p>
+    <h1 to="/" class="pause-game" @click="togglePauseGame()">
+      Menu
+    </h1>
     
-    <div class="bottom-text">
-      Choix {{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}
+    <div class="cardNo-onNo">
+      <h1>{{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}</h1>
     </div>
 
     <div id="cards">
       <Card
         v-for="(card, index) of CARDS"
-        :name="card.name"
-        :description="card.question"
+        :title="card.title"
+        :question="card.question"
         @click="turnCard()"
         :index="index"
         ref="cards"
@@ -297,15 +281,30 @@ function infoPlayer() {
         :response="card.responses[iChoice].name"
       ></Card>
     </div>
-    <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div>
+    <!-- <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div> -->
   </div>
+  <div class="ressources-impact">
+      <div v-for="ressource of CARDS[iCurrentCard].responses[iChoice].impact" class="ressource-icon-wrapper">
+      <div class="circle-container">
+          <div class="circle" :style="{
+          height: `${((Math.abs(ressource.level)/100)*20)+5}px`,
+          width: `${((Math.abs(ressource.level)/100)*20)+5}px`}">
+        </div>
+      </div>
+      
+      <img :src="`src/assets/icons/${ressource.ressource}.svg`">
+
+      
+    </div>
+  </div>
+  
   <popupCardEnd v-if="endGame" :cardSelection="cardSelection"></popupCardEnd>
-  <ThePause v-if="pauseGame" @resumeGame="togglePauseGame"></ThePause>
+  <ThePause v-if="pauseGame" :transformer="CURRENT_TRANSFORMER" @resumeGame="togglePauseGame"></ThePause>
 </template>
   
 <style>
   :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: 'Limelight', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
 
@@ -317,23 +316,50 @@ function infoPlayer() {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
+    /* background-color: #FDFCFC; */
+    background-image: url('src/assets/img/background-gradient.jpg');
+    background-size: 100% auto;
+    background-position: center;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: 2rem;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  p {
+    font-size: 1.2rem;
+    font-family : 'Urbanist', 'Inter', sans-serif;
+    margin: 0;
   }
 
   #description-current-card {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: center;
     margin-left: 20px;
-    max-width: 500px;
-  }
-
-  #description-current-card h1 {
-      font-size: 1.5rem;
-      margin: 0;
+    max-width: 500px; */
+    position: absolute;
+    left: 0;
+    margin: 0 0 0 5%;
+    bottom: 100px;
+    max-width: 434px;
   }
 
   #description-current-card p {
-      font-size: 0.9em;
       margin: 10px 0 0;
   }
 
@@ -364,14 +390,13 @@ function infoPlayer() {
     height: 70vh;
     display: flex;
   }
+
   .pause-game {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    margin: 20px;
+    top: 10px;
+    right: 0px;
+    margin: 0 5% 0 0;
     cursor: pointer;
-    width: 50px;
-    height: 50px;
   }
 
   .pause-game img {
@@ -379,12 +404,17 @@ function infoPlayer() {
     height: 40px;
   }
 
-  .bottom-text {
+  .cardNo-onNo {
     position: absolute;
-    bottom: 10px;
-    width: 100%;
-    margin: 20px;
+    top: 10px;
+    left: 0px;
+    width: 30%;
+    margin: 0 0 0 5% ;
+  }
+
+  .cardNo-onNo h1 {
     text-align: center;
+    text-align: left;
   }
   /* #cards {
         display: flex;
@@ -405,5 +435,73 @@ function infoPlayer() {
     top: 10px;
     margin: 0 auto;
   }
+
+  .ressources-impact {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    /* position: absolute; */
+    bottom: 10px;
+    margin: 35px auto;
+  }
+
+  .ressource-icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
+
+  .ressources-impact .circle {
+    background-color: #000;
+    border-radius: 50%;
+  }
+
+  .ressources-impact .circle-container {
+    height: 20px;
+    width: 20px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+
+  .ressources-impact img {
+    height: 60px;
+    margin-top: 7px;
+  }
+
+
+  /* @media (max-width: 900px) {
+
+    #main-title {
+      font-size: 1.5rem;
+      margin: 5px 0 0;
+    }
+
+    .bottom-text {
+        bottom: 5px;
+    }
+    
+    .bottom-text p {
+        font-size: 0.9em;
+    }
+
+    #description-current-card {
+      margin-left: 5px;
+      max-width: 275px;
+      position: absolute;
+      top: 50px;
+    }
+
+    #description-current-card h1 {
+        font-size: 1.3rem;
+        margin: 0;
+    }
+
+    #description-current-card p {
+        font-size: 0.9em;
+        margin: 5px 0 0;
+    }
+} */
 </style>
   

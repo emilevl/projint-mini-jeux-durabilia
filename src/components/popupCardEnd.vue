@@ -31,6 +31,7 @@ let totalImpact = ref([
     { ressource: "partnership", impact: 0, currentLevel: 0 },
     { ressource: "peaceJustice", impact: 0, currentLevel: 0 },
     { ressource: "poverty", impact: 0, currentLevel: 0 },
+    { ressource: "time", impact: 0, currentLevel: 0 },
     { ressource: "water", impact: 0, currentLevel: 0 },
 ])
 
@@ -126,7 +127,8 @@ function showChange() {
             bar.style.height = `${(Math.abs(impact.level) / 100) * 200}px`
             if (impact.level < 0) {
                 bar.style.backgroundColor = "red"
-                bar.style.transform = `translate(0, ${(Math.abs(impact.level) / 100) * 200}px)`
+                barPrincipal.style.transition = "all 1s ease 0s" //For animation transition
+                barPrincipal.style.height = `${parseInt(barPrincipal.style.height) - ((Math.abs(impact.level) / 100) * 200)}px` //Diminish the black bar to let the red bar go over it
             }
             if (impact.level > 0) bar.style.backgroundColor = "green"
         }
@@ -156,10 +158,20 @@ function changeSection(id) {
         setTimeout(() => showChange(), 300)
     }
 }
+
+function setNewRessources() {
+    totalImpact.value.forEach(ressource => {
+        ressourceGlobal.value.forEach(glob => {
+            if(glob.name == ressource.ressource){
+              //glob.currentLevel += ressource.impact
+            }
+        })
+    });
+}
 </script>
 
 <template>
-    <div class="background" @click="$emit('closeRecap')"></div>
+    <div class="background"></div>
     <div class="recap-container">
         <h2 class="title">Modification des ressources</h2>
 
@@ -189,19 +201,8 @@ function changeSection(id) {
                 v-show="activeSection == `choix-${n}`">
                 <div class="card-container">
                     <div class="card-back">
-                        <h1>{{ props.cardSelection[n - 1].title }}</h1>
-                        <p>{{ props.cardSelection[n - 1].question }}</p>
-                        <div class="card-ressources">
-                            <div v-for="ressource of props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].impact"
-                                class="ressource-icon-wrapper">
-                                <img class="card-icons" :src="`src/assets/icons/${ressource.ressource}.svg`">
-
-                                <div class="circle" :style="{
-                                    height: `${((Math.abs(ressource.level) / 100) * 15) + 5}px`,
-                                    width: `${((Math.abs(ressource.level) / 100) * 15) + 5}px`
-                                }"></div>
-                            </div>
-                        </div>
+                        <h3 class="card-title">{{ props.cardSelection[n - 1].title }}</h3>
+                        <p class="card-description">{{ props.cardSelection[n - 1].question }}</p>
                         <div class="card-band">
                             <p class="card-response">{{
                                 props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].name }}</p>
@@ -223,7 +224,7 @@ function changeSection(id) {
             </section>
         </div>
 
-        <button class="back-to-map" @click="$emit('closeRecap')">Retour à la carte</button>
+        <button class="back-to-map" @click="$emit('closeRecap'); setNewRessources()">Retour à la carte</button>
     </div>
 </template>
 
@@ -335,7 +336,7 @@ function changeSection(id) {
     color: white;
 }
 
-/* CARDS */
+/* --------------------------- CARDS --------------------------------------- */
 .card-container {
     display: flex;
     justify-content: center;
@@ -348,47 +349,33 @@ function changeSection(id) {
     position: absolute;
     height: 300px;
     width: 180px;
-    font-size: 0.7em;
 }
 
 .card-band {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 10%;
+    height: 20%;
     background-color: lightblue;
+}
+
+.card-title {
+    padding: 5px;
+    font-size: 1em;
+}
+
+.card-description {
+    font-size: 0.75em;
 }
 
 .card-response {
     position: absolute;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    line-height: 250%;
-}
-
-.card-ressources {
-    position: absolute;
+    left: 50%;
     top: 50%;
-    width: 100%;
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-}
-
-.ressource-icon-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.card-icons {
-    margin-bottom: 20px;
-}
-
-.circle {
-    background-color: #000;
-    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    height: 90%;
+    width: 90%;
+    font-size: 0.75em;
 }
 
 button {
@@ -410,5 +397,11 @@ button:hover {
 button:focus,
 button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (max-width: 1100px) {
+    .recap-container{
+        width: 750px;
+    }
 }
 </style>
