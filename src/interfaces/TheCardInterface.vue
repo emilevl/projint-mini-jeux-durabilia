@@ -34,6 +34,7 @@ const CARDS = ref([]);
 const TOTAL_CARDS = 5;
 // choices are from the dataCards object: 0 = choice 1, 1 = choice -> cards.responses[choice]
 const iChoice = ref(0);
+const choosing = ref(false);
 let mouseMoveHandler;
 let touchMoveHandler;
 let cardSelection = ref([]);
@@ -127,14 +128,17 @@ onMounted(() => {
     
     // If the person tilts on the left, we'll show the first response
     if (event.clientX < windowCenterX - 200) {
+      choosing.value = true;
       iChoice.value = 0;
       band.style.height = "100px";
       cardMoved.value = true;
     } else if (event.clientX > windowCenterX + 200) {
+      choosing.value = true;
       iChoice.value = 1;
       band.style.height = "100px";
       cardMoved.value = true;
     } else {
+      choosing.value = false;
       band.style.height = "0%";
       cardMoved.value = false;
     }
@@ -300,12 +304,13 @@ function infoPlayer() {
   </div>
   <div class="ressources-impact">
       <div v-for="ressource of CARDS[iCurrentCard].responses[iChoice].impact" class="ressource-icon-wrapper">
+      <div class="circle" :style="{
+        height: `${((Math.abs(ressource.level)/100)*20)+5}px`,
+        width: `${((Math.abs(ressource.level)/100)*20)+5}px`
+      }"></div>
       <img :src="`src/assets/icons/${ressource.ressource}.svg`">
 
-      <div class="circle" :style="{
-        height: `${((Math.abs(ressource.level)/100)*15)+5}px`,
-        width: `${((Math.abs(ressource.level)/100)*15)+5}px`
-      }"></div>
+      
     </div>
   </div>
   
@@ -327,26 +332,32 @@ function infoPlayer() {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
-    background-color: #FDFCFC;
+    /* background-color: #FDFCFC; */
+    background-image: url('src/assets/img/background-gradient.jpg');
+    background-size: 100% auto;
+    background-position: center;
   }
   
   h1 {
     font-size: 3rem;
     margin: 0;
+    text-transform: uppercase;
   }
 
   h2 {
     font-size: 2.5rem;
     margin: 0;
+    text-transform: uppercase;
   }
 
   h3 {
     font-size: 2rem;
     margin: 0;
+    text-transform: uppercase;
   }
 
   p {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-family : 'Urbanist', 'Inter', sans-serif;
     margin: 0;
   }
@@ -361,11 +372,10 @@ function infoPlayer() {
     left: 0;
     margin: 0 0 0 5%;
     bottom: 100px;
-    max-width: 30%;
+    max-width: 434px;
   }
 
   #description-current-card p {
-      font-size: 0.9em;
       margin: 10px 0 0;
   }
 
@@ -452,16 +462,20 @@ function infoPlayer() {
     margin: 35px auto;
   }
 
+  .ressource-icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
+
   .ressources-impact .circle {
     background-color: #000;
     border-radius: 50%;
-    position: relative;
-    top: -80px;
-    right: -90px;
   }
 
   .ressources-impact img {
-    height: 70px;
+    height: 60px;
+    margin-top: 7px;
   }
 
 
