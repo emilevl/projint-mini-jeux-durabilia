@@ -46,7 +46,7 @@ function toggleRules() {
             </div>
         </div>
     </div>
-    <popupRules v-if="showRules" :transformer="props.transformer" @emitToggleRules="toggleRules()"></popupRules>
+    <popupRules v-if="showRules" :transformer="props.transformer" @emitToggleRules="toggleRules()" @emitPlay="$emit('resumeGame')"></popupRules>
 </template>
 
 <style scoped>
