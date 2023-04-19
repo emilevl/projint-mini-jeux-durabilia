@@ -87,8 +87,8 @@ onMounted(() => {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 450px;
-    height: 600px;
+    width: 412.5px;
+    height: 550px;
     color: #FFD7B2;
     /* width: calc(64vh * 0.64);
     max-width: 480px;
@@ -185,16 +185,15 @@ onMounted(() => {
     align-items: center;
   }
 
-  img {
-    height: 70px;
-    margin-bottom: 50px;
-  }
 
-  .circle {
-    background-color: #000;
-    border-radius: 50%;
+  /*------------------------ MOBILE ------------------- */
+  @media screen and (max-width: 1050px) {
+    .flip-card {
+      width: 225px;
+      height: 300px;
+    }
+    
   }
-
   /* @media (max-width: 1080px) {
 
     /* Apply different styles for small screens */
