@@ -21,16 +21,19 @@ function leaveGame() {
     }
 }
 
+
+
+
 const showRules = ref(false)
 function toggleRules() {
-    // show the rules
-    console.log('show the rules')
     showRules.value = !showRules.value
 
 }
 
-function launchCinematique(){
+function launchCinematique() {
     console.log("cinématique lancée")
+    const sound = new Audio('/assets/sounds/card-selection.wav')
+    sound.play()
 }
 
 </script>

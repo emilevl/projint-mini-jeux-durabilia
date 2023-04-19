@@ -366,4 +366,10 @@ function setNewRessources() {
     height: 17%;
     bottom: unset;
 }
+
+/* ------------------------------- MOBILE ----------------------------------- */
+
+@media screen and (max-width: 1050px) {
+    
+}
 </style>
