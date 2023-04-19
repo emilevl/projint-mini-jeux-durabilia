@@ -11,7 +11,11 @@ const props = defineProps({
   response: String
 })
 
+// define emit function with the event name "cardLoaded"
+const emit = defineEmits(['cardLoaded'])
+
 let ressourceTemplating = ref(props.ressources.length)
+
 
 onMounted(() => {
   anime({
@@ -22,9 +26,11 @@ onMounted(() => {
     duration: 500,
     delay: anime.stagger(500),
     easing: 'spring(1, 80, 10, 0)',
-    // complete: function(anim) {
-    //   changeBackgroundCards();
-    // }
+    complete: function(anim) {
+      if (anim.id === 4) {
+        emit('cardLoaded');
+      }
+    }
   });
 
   // function changeBackgroundCards() {
@@ -72,7 +78,7 @@ onMounted(() => {
       <div class="flip-card-front"></div>
       <div class="flip-card-back">
         <h3 class="card-title">{{ title }}</h3>
-        <img src="src/assets/img/separator-card.svg" alt="separator">
+        <img src="/assets/img/separator-card.svg" alt="separator">
         <p class="card-question">{{ question }}</p>
         <div class="flip-card-band">
           <p class="flip-card-response">{{ response }}</p>
@@ -130,7 +136,7 @@ onMounted(() => {
 
   .flip-card-front {
     /* background-color: #912727; */
-    background-image: url('src/assets/img/back-card.jpg');
+    background-image: url('/assets/img/back-card.jpg');
     background-size: cover;
     background-position: center;
   }

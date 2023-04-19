@@ -52,10 +52,6 @@ onMounted(() => {
   //       // this.deviceType = 'unknown';
   //       console.log("unknown")
   //   }
-
-  setTimeout(() => {
-    turnCard();
-  }, 2750);
   //select the #app element
 });
 
@@ -275,6 +271,16 @@ function turnCard() {
   }
 }
 
+function cardLoaded() {
+  setTimeout(() => {
+    turnCard();
+  }, 250);
+  console.log("card loaded");
+  // if (iCurrentCard.value === 0) {
+  //   setListeners();
+  // }
+}
+
 function togglePauseGame() {
   console.log("pause");
   if (pauseGame.value) {
@@ -335,6 +341,7 @@ onUnmounted(() => {
         ref="cards"
         :ressources="card.responses[iChoice].impact"
         :response="card.responses[iChoice].name"
+        @card-loaded="cardLoaded"
       ></Card>
     </div>
     <!-- <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div> -->
@@ -354,7 +361,7 @@ onUnmounted(() => {
         ></div>
       </div>
 
-      <img :src="`src/assets/icons/${ressource.ressource}.svg`" />
+      <img :src="`/assets/icons/${ressource.ressource}.svg`" />
     </div>
   </div>
 
@@ -382,7 +389,7 @@ onUnmounted(() => {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   /* background-color: #FDFCFC; */
-  background-image: url("src/assets/img/background-gradient.jpg");
+  background-image: url("/assets/img/background-gradient.jpg");
   background-size: 100% auto;
   background-position: center;
 }
