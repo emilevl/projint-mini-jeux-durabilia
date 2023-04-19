@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, onBeforeMount } from "vue";
 /* add icons to the library */
 import Card from "../components/card.vue";
 import popupCardEnd from "../components/popupCardEnd.vue";
 import ressource from "../components/ressource.vue";
-import dataCards from "../assets/dataCards.json";
+import dataCardsJson from "../assets/dataCards.json";
 import anime from "animejs/lib/anime.es";
 import { ressourceGlobal, transformers } from "../utils/store.js";
 import ThePause from "../components/ThePause.vue";
@@ -13,7 +13,12 @@ const CURRENT_TRANSFORMER = transformers.value.find(
   (transformer) => transformer.name == "Tribunal"
 );
 
+
+const iCurrentCard = ref(4);
 const handCards = ref([]);
+const cardsDrawn = ref(false);
+const handCardsCopy = ref([]);
+const dataCards = ref([]);
 const TOTAL_CARDS = 5;
 // choices are from the dataCards object: 0 = choice 1, 1 = choice -> cards.responses[choice]
 const iChoice = ref(0);
@@ -24,11 +29,14 @@ let cardSelection = ref([]);
 const endGame = ref(false);
 const pauseGame = ref(false);
 const cardMoved = ref(false);
+loadDataCards();
 
 
 onMounted(() => {
   setListeners();
-
+  iCurrentCard.value = handCards.value.length - 1;
+  console.log(iCurrentCard.value);
+  
   // TODO: Detect if the user is on a mobile device or not
   // const platform = navigator.platform.toLowerCase();
   //   if (/(android|webos|iphone|ipad|ipod|blackberry|windows phone)/.test(platform)) {
@@ -51,16 +59,38 @@ onMounted(() => {
   //select the #app element
 });
 
-// create a new array with 5 of the dataCards objects
-for (let i = 0; i < 5; i++) {
-  // add the card from the dataCards object to the handCards array
-  handCards.value.push(dataCards.cards[i]);
-
-  // dataCards.cards[i].id = i
+function loadDataCards() {
+  dataCards.value = dataCardsJson;
 }
-const iCurrentCard = ref(handCards.value.length - 1);
+
+function drawCards() {
+  // Create a copy of the dataCards array to avoid modifying the original array
+  const tempCards = [...dataCards.value.cards];
+
+  // Draw 5 random cards
+  for (let i = 0; i < 5; i++) {
+    const randomIndex = Math.floor(Math.random() * tempCards.length);
+    handCards.value.push(tempCards[randomIndex]);
+    tempCards.splice(randomIndex, 1);
+  }
+  cardsDrawn.value = true;
+
+  // for(const card of handCardsCopy.value) {
+  //   console.log("test")
+  //   console.log(card)
+  // }
+}
+
+drawCards();
+// create a new array with 5 of the dataCards objects
+// for (let i = 0; i < 5; i++) {
+//   // add the card from the dataCards object to the handCards array
+//   handCards.value.push(dataCardsJson.cards[i]);
+//   // dataCards.cards[i].id = i
+// }
 
 function decisionDone() {
+
   if (!cardMoved.value) return;
 
   // add the decision to the choice array
@@ -89,8 +119,9 @@ function decisionDone() {
   // animate the card to leave the page from the left or right, down
   // console.log(iCurrentCard.value)
   const card = document.querySelector(
-    `#card-${iCurrentCard.value} .flip-card-inner`
+    `#card-${iCurrentCard.value} .flip-card-inner`    
   );
+  
   if (iChoice.value === 0) {
     // anime the card so it rotates fluently to the left bottom of the screen
     anime({
@@ -265,6 +296,14 @@ function infoPlayer() {
   console.log("info player");
 }
 
+function donePlaying() {
+  // Remove the drawn cards from the deck
+  dataCards.value = dataCards.value.filter(card => !handCards.value.includes(card));
+
+  // Clear the handCards array
+  handCards.value = [];
+}
+
 onUnmounted(() => {
   document.removeEventListener("mousemove", mouseMoveHandler);
 });
@@ -301,7 +340,7 @@ onUnmounted(() => {
     <!-- <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div> -->
   </div>
   <div class="ressources-impact">
-    <div
+    <div v-if="cardsDrawn"
       v-for="ressource of handCards[iCurrentCard].responses[iChoice].impact"
       class="ressource-icon-wrapper"
     >
