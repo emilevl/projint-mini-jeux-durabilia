@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted} from 'vue';
 import anime from 'animejs/lib/anime.es.js';
+import CardBack from './card-back.vue';
 
 
 const props = defineProps({
@@ -76,14 +77,7 @@ onMounted(() => {
   }">
     <div class="flip-card-inner">
       <div class="flip-card-front"></div>
-      <div class="flip-card-back">
-        <h3 class="card-title">{{ title }}</h3>
-        <img src="/assets/img/separator-card.svg" alt="separator">
-        <p class="card-question">{{ question }}</p>
-        <div class="flip-card-band">
-          <p class="flip-card-response">{{ response }}</p>
-        </div>
-      </div>
+      <CardBack :title="title" :question="question" :response="response"></CardBack>
     </div>
   </div>
 </template>
