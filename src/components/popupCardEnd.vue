@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { ressourceGlobal } from '../utils/store';
 import ButtonComponent from './ButtonComponent.vue';
+import CardBack from './card-back.vue';
 
 const props = defineProps({
     cardSelection: Array
@@ -163,8 +164,8 @@ function changeSection(id) {
 function setNewRessources() {
     totalImpact.value.forEach(ressource => {
         ressourceGlobal.value.forEach(glob => {
-            if(glob.img == ressource.ressource){
-              //glob.currentLevel += ressource.impact
+            if (glob.img == ressource.ressource) {
+                //glob.currentLevel += ressource.impact
             }
         })
     });
@@ -201,16 +202,13 @@ function setNewRessources() {
             </section>
             <section v-for="n in 5" class="detail-section choice-section" :id="`choix-${n}-section`"
                 v-show="activeSection == `choix-${n}`">
+                <!-- CARDS -->
                 <div class="card-container">
-                    <div class="card-back">
-                        <h3 class="card-title">{{ props.cardSelection[n - 1].title }}</h3>
-                        <p class="card-description">{{ props.cardSelection[n - 1].question }}</p>
-                        <div class="card-band">
-                            <p class="card-response">{{
-                                props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].name }}</p>
-                        </div>
-                    </div>
+                    <CardBack :title="props.cardSelection[n - 1].title" :question="props.cardSelection[n - 1].question"
+                        :response="props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].name">
+                    </CardBack>
                 </div>
+                <!-- BAR PROGRESSION -->
                 <div class="bar-container">
                     <div class="detail-progression" v-for="impact of playerChoices[n - 1]">
                         <img class="icon" :src="`/assets/icons/${impact.ressource}.svg`">
@@ -226,7 +224,8 @@ function setNewRessources() {
             </section>
         </div>
 
-        <ButtonComponent class="back-to-map" @click="$emit('closeRecap'); setNewRessources()">Retour à la carte</ButtonComponent>
+        <ButtonComponent class="back-to-map" @click="$emit('closeRecap'); setNewRessources()">Retour à la carte
+        </ButtonComponent>
     </div>
 </template>
 
@@ -313,6 +312,7 @@ function setNewRessources() {
     height: 0;
     transition: 1s;
 }
+
 .progression-bar-number {
     font-size: 1rem;
 }
@@ -329,44 +329,13 @@ function setNewRessources() {
 }
 
 /* --------------------------- CARDS --------------------------------------- */
-.card-container {
-    display: flex;
-    justify-content: center;
+.flip-card-back {
+    transform: unset;
+    position: unset;
+    width: 300px;
+    height: 400px;
 }
-
-.card-back {
-    margin-top: 50px;
-    background-color: white;
-    color: #000;
-    position: absolute;
-    height: 300px;
-    width: 180px;
-}
-
-.card-band {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 20%;
-    background-color: lightblue;
-}
-
-.card-title {
-    padding: 5px;
-    font-size: 1em;
-}
-
-.card-description {
-    font-size: 0.75em;
-}
-
-.card-response {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    height: 90%;
-    width: 90%;
-    font-size: 0.75em;
+.flip-card-band {
+    height: 100px;
 }
 </style>
