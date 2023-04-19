@@ -102,7 +102,7 @@ ressourceConsequenceLevel_MOBILE.value = `${(consequenceTemp / 100) * 100}px`
         <div class="rules-full-container">
             <h2 class="title">{{ props.transformer.name }}</h2>
             <p class="type-game">{{ props.transformer.type }}</p>
-            <img class="pause-deco" src="src/assets/icons/rules-deco.svg">
+            <img class="pause-deco" src="/assets/icons/rules-deco.svg">
             <div class="rules-container">
                 <h3 class="subtitle">Règles</h3>
                 <p class="rules-p">{{ props.transformer.description }}</p>
@@ -112,7 +112,7 @@ ressourceConsequenceLevel_MOBILE.value = `${(consequenceTemp / 100) * 100}px`
                         <div class="ressources-progression">
                             <div class="ressources-info">
                                 <img class="ressources-icon"
-                                    :src="`src/assets/icons/${props.transformer.ressourceNecessaire.img}.svg`">
+                                    :src="`/assets/icons/${props.transformer.ressourceNecessaire.img}.svg`">
                                 <p class="ressources-name">{{ props.transformer.ressourceNecessaire.name }}</p>
                             </div>
                             <div class="progression-bar-container">
@@ -130,7 +130,7 @@ ressourceConsequenceLevel_MOBILE.value = `${(consequenceTemp / 100) * 100}px`
                         <div class="ressources-progression">
                             <div class="ressources-info">
                                 <img class="ressources-icon"
-                                    :src="`src/assets/icons/${props.transformer.ressourceRecue.img}.svg`">
+                                    :src="`/assets/icons/${props.transformer.ressourceRecue.img}.svg`">
                                 <p class="ressources-name">{{ props.transformer.ressourceRecue.name }}</p>
                             </div>
                             <div class="progression-bar-container">
@@ -148,7 +148,7 @@ ressourceConsequenceLevel_MOBILE.value = `${(consequenceTemp / 100) * 100}px`
                         <div class="ressources-progression">
                             <div class="ressources-info">
                                 <img class="ressources-icon"
-                                    :src="`src/assets/icons/${props.transformer.consequence.img}.svg`">
+                                    :src="`/assets/icons/${props.transformer.consequence.img}.svg`">
                                 <p class="ressources-name">{{ props.transformer.consequence.name }}</p>
                             </div>
                             <div class="progression-bar-container">
@@ -185,7 +185,7 @@ ressourceConsequenceLevel_MOBILE.value = `${(consequenceTemp / 100) * 100}px`
         <div class="rules-full-container">
             <h2 class="title">{{ props.transformer.name }}</h2>
             <p class="type-game">{{ props.transformer.type }}</p>
-            <img class="pause-deco" src="src/assets/icons/rules-deco.svg">
+            <img class="pause-deco" src="/assets/icons/rules-deco.svg">
             <div v-if="showFirstSection" class="section-1">
                 <div class="rules-container">
                     <div class="next-section-button" @click="toggleSectionMobile()">
@@ -217,7 +217,7 @@ ressourceConsequenceLevel_MOBILE.value = `${(consequenceTemp / 100) * 100}px`
                             <div class="ressources-progression">
                                 <div class="ressources-info">
                                     <img class="ressources-icon"
-                                        :src="`src/assets/icons/${props.transformer.ressourceNecessaire.img}.svg`">
+                                        :src="`/assets/icons/${props.transformer.ressourceNecessaire.img}.svg`">
                                     <p class="ressources-name">{{ props.transformer.ressourceNecessaire.name }}</p>
                                 </div>
                                 <div class="progression-bar-container">
@@ -237,7 +237,7 @@ ressourceConsequenceLevel_MOBILE.value = `${(consequenceTemp / 100) * 100}px`
                             <div class="ressources-progression">
                                 <div class="ressources-info">
                                     <img class="ressources-icon"
-                                        :src="`src/assets/icons/${props.transformer.ressourceRecue.img}.svg`">
+                                        :src="`/assets/icons/${props.transformer.ressourceRecue.img}.svg`">
                                     <p class="ressources-name">{{ props.transformer.ressourceRecue.name }}</p>
                                 </div>
                                 <div class="progression-bar-container">
@@ -255,7 +255,7 @@ ressourceConsequenceLevel_MOBILE.value = `${(consequenceTemp / 100) * 100}px`
                             <div class="ressources-progression">
                                 <div class="ressources-info">
                                     <img class="ressources-icon"
-                                        :src="`src/assets/icons/${props.transformer.consequence.img}.svg`">
+                                        :src="`/assets/icons/${props.transformer.consequence.img}.svg`">
                                     <p class="ressources-name">{{ props.transformer.consequence.name }}</p>
                                 </div>
                                 <div class="progression-bar-container">
