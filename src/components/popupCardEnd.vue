@@ -204,7 +204,8 @@ function setNewRessources() {
                 v-show="activeSection == `choix-${n}`">
                 <!-- CARDS -->
                 <div class="card-container">
-                    <CardBack :title="props.cardSelection[n - 1].title" :question="props.cardSelection[n - 1].question"
+                    <CardBack class="card-details" :title="props.cardSelection[n - 1].title"
+                        :question="props.cardSelection[n - 1].question"
                         :response="props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].name">
                     </CardBack>
                 </div>
@@ -277,12 +278,17 @@ function setNewRessources() {
 .card-container,
 .bar-container {
     width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .bar-container {
-    display: flex;
-    justify-content: center;
     gap: 25px;
+}
+
+.card-container {
+    align-items: center;
 }
 
 .detail-progression {
@@ -319,6 +325,7 @@ function setNewRessources() {
 
 .choice-section {
     display: flex;
+    height: 400px;
 }
 
 .back-to-map {
@@ -327,15 +334,36 @@ function setNewRessources() {
     margin-bottom: 50px;
     transform: translate(-50%, 0);
 }
+.active {
+    background-color: black;
+        color: #FBF8F1;
+        border-radius: 20px 0px;
+}
 
 /* --------------------------- CARDS --------------------------------------- */
-.flip-card-back {
+.card-details {
     transform: unset;
     position: unset;
-    width: 300px;
-    height: 400px;
+    width: 250px;
+    height: 350px;
 }
-.flip-card-band {
-    height: 100px;
+
+.card-details:deep(.card-title) {
+    font-size: 1.2em;
+    padding: 15px 15px 0 15px;
+}
+
+.card-details:deep(.card-question) {
+    font-size: 0.8em;
+    padding: 0px 15px;
+}
+.card-details:deep(.flip-card-response) {
+    font-size: 0.8em;
+}
+
+.card-details:deep(.flip-card-band) {
+    position: relative;
+    height: 17%;
+    bottom: unset;
 }
 </style>
