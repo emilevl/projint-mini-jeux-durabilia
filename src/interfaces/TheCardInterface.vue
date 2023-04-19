@@ -302,6 +302,11 @@ function infoPlayer() {
   console.log("info player");
 }
 
+function getRessourceNameByImg(imgName) {
+  const ressource = ressourceGlobal.value.find((r) => r.img === imgName);
+  return ressource ? ressource.name : '';
+}
+
 function donePlaying() {
   // Remove the drawn cards from the deck
   dataCards.value = dataCards.value.filter(card => !handCards.value.includes(card));
@@ -362,6 +367,8 @@ onUnmounted(() => {
       </div>
 
       <img :src="`/assets/icons/${ressource.ressource}.svg`" />
+
+      <p> {{ getRessourceNameByImg(ressource.ressource) }}</p>
     </div>
   </div>
 
@@ -527,6 +534,13 @@ p {
 .ressources-impact .circle {
   background-color: #000;
   border-radius: 50%;
+}
+
+.ressource-icon-wrapper p {
+  font-size: 1.1rem;
+  justify-self: center;
+  align-self: center;
+  padding-top: 10px;
 }
 
 .ressources-impact .circle-container {
