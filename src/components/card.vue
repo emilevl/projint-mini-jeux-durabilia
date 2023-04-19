@@ -136,12 +136,18 @@ onMounted(() => {
   }
 
   .flip-card-back .card-title {
-    height: 153px;
+    /* height: 153px; */
+    height: 25.5%;
     padding: 25px 25px 0 25px;
   }
 
+  .flip-card-back img {
+    width: 93%
+  }
+
   .flip-card-back .card-question {
-    height: 207px;
+    /* height: 207px; */
+    height: 34.5%;
     padding: 0 25px;
     text-align: left; 
   }

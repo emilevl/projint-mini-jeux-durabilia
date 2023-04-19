@@ -173,12 +173,12 @@ function setListeners() {
       if (event.clientX < windowCenterX - 200) {
         choosing.value = true;
         iChoice.value = 0;
-        band.style.height = "100px";
+        band.style.height = "17%";
         cardMoved.value = true;
       } else if (event.clientX > windowCenterX + 200) {
         choosing.value = true;
         iChoice.value = 1;
-        band.style.height = "100px";
+        band.style.height = "17%";
         cardMoved.value = true;
       } else {
         choosing.value = false;
@@ -204,11 +204,11 @@ function setListeners() {
         // show the band when needed
         if (touch.clientX < windowCenterX - 25) {
           iChoice.value = 0;
-          band.style.height = "100px";
+          band.style.height = "17%";
           cardMoved.value = true;
         } else if (touch.clientX > windowCenterX + 25) {
           iChoice.value = 1;
-          band.style.height = "100px";
+          band.style.height = "17%";
           cardMoved.value = true;
         } else {
           band.style.height = "0%";
