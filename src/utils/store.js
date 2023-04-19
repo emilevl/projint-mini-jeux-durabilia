@@ -31,7 +31,7 @@ export const transformers = ref([
     },
     {
         name: "Scierie",
-        description: "Prenez des décisions en balançant les cartes à gauche ou à droite. Ces décisions auront un petit ou un grand impact sur vos ressources. Vous aurez 5 choix à faire. Le 5ème choix affectera de manière plus conséquente vos ressources ou vos interactions sur la carte.",
+        description: "Description du jeu blablabla",
         ressourceNecessaire: { name: "time", level: -30 },
         ressourceRecue: { name: "inequality", level: 30 },
         consequence: { name: "water", level: 20 }
