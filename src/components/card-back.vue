@@ -80,4 +80,15 @@ const props = defineProps({
     flex-direction: column;
     align-items: center;
   }
+
+  /*------------------------ MOBILE ------------------- */
+  @media screen and (max-width: 1050px) {
+    .flip-card-back h3 {
+      font-size: 1rem;
+    }
+    
+    .flip-card-back p {
+      font-size: 0.9rem;
+    }
+  }
 </style>

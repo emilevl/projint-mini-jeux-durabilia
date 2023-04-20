@@ -96,15 +96,9 @@ function decisionDone() {
 
   // remove the event listeners
   document.removeEventListener("mousemove", mouseMoveHandler);
-  document
-    .querySelector("#clickable-part")
-    .removeEventListener("click", updateCardDecision);
-  document
-    .querySelector(`#card-${iCurrentCard.value} .flip-card-inner`)
-    .removeEventListener("touchmove", touchMoveHandler);
-  document
-    .querySelector(`#card-${iCurrentCard.value} .flip-card-inner`)
-    .removeEventListener("touchend", decisionDone);
+  document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
+  document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchmove", touchMoveHandler);
+  document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchend", decisionDone);
 
   if (iCurrentCard.value === 0) {
     // end of the game
@@ -148,15 +142,9 @@ function decisionDone() {
     turnCard();
 
     document.addEventListener("mousemove", mouseMoveHandler);
-    document
-      .querySelector("#clickable-part")
-      .addEventListener("click", updateCardDecision);
-    document
-      .querySelector(`#card-${iCurrentCard.value} .flip-card-inner`)
-      .addEventListener("touchmove", touchMoveHandler);
-    document
-      .querySelector(`#card-${iCurrentCard.value} .flip-card-inner`)
-      .addEventListener("touchend", decisionDone);
+    document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
+    document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchmove", touchMoveHandler);
+    document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchend", decisionDone);
   }, 250);
 }
 
@@ -230,28 +218,25 @@ function setListeners() {
       };
 
       // when the user stops touching the screen
-      document
-        .querySelector(`#card-${iCurrentCard.value} .flip-card-inner`)
-        .addEventListener("touchend", decisionDone);
+      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchend", decisionDone);
     };
 
     // check if we are on a desktop or a mobile device
     // if (window.innerWidth > 1080) {
     if (window.innerWidth > 500) {
       document.addEventListener("mousemove", mouseMoveHandler);
-      document
-        .querySelector("#clickable-part")
-        .addEventListener("click", updateCardDecision);
+      document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
     } else {
       // select the #app element
       // document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
-      document
-        .querySelector(`#card-${iCurrentCard.value} .flip-card-inner`)
+      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`)
         .addEventListener("touchmove", touchMoveHandler);
     }
   }
 
 function updateCardDecision(event) {
+  const sound = new Audio('/assets/sounds/card-selection.wav')
+    sound.play()
   if (event.clientX < windowCenterX - 200) {
     decisionDone(0);
   } else if (event.clientX > windowCenterX + 200) {
@@ -302,6 +287,11 @@ function infoPlayer() {
   console.log("info player");
 }
 
+function getRessourceNameByImg(imgName) {
+  const ressource = ressourceGlobal.value.find((r) => r.img === imgName);
+  return ressource ? ressource.name : '';
+}
+
 function donePlaying() {
   // Remove the drawn cards from the deck
   dataCards.value = dataCards.value.filter(card => !handCards.value.includes(card));
@@ -309,6 +299,9 @@ function donePlaying() {
   // Clear the handCards array
   handCards.value = [];
 }
+
+
+// TODO: Function to remove / add all the event listeners in one time ? 
 
 onUnmounted(() => {
   document.removeEventListener("mousemove", mouseMoveHandler);
@@ -362,6 +355,8 @@ onUnmounted(() => {
       </div>
 
       <img :src="`/assets/icons/${ressource.ressource}.svg`" />
+
+      <p> {{ getRessourceNameByImg(ressource.ressource) }}</p>
     </div>
   </div>
 
@@ -484,6 +479,13 @@ onUnmounted(() => {
 .ressources-impact .circle {
   background-color: #000;
   border-radius: 50%;
+}
+
+.ressource-icon-wrapper p {
+  font-size: 1.1rem;
+  justify-self: center;
+  align-self: center;
+  padding-top: 10px;
 }
 
 .ressources-impact .circle-container {
