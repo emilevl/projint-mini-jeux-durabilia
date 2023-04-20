@@ -49,7 +49,7 @@ function launchCinematique() {
             </div>
         </div>
     </div>
-    <popupRules v-if="showRules" :transformer="props.transformer" :gameLaunched="false" @emitToggleRules="toggleRules()"
+    <popupRules v-if="showRules" :transformer="props.transformer" :gameLaunched="true" @emitToggleRules="toggleRules()"
         @emitPlay="$emit('resumeGame')"></popupRules>
 </template>
 

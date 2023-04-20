@@ -2,54 +2,34 @@
 import { onMounted, ref } from 'vue';
 import { transformers } from '../utils/store';
 
-const D_TRANSFORMER_MIN = 100
+const D_TRANSFORMER_MIN = 150
 const D_TRANSFORMER_MAX = 200
-
-const X_TRANSFORMER_MIN = D_TRANSFORMER_MAX
-const X_TRANSFORMER_MAX = window.innerWidth - D_TRANSFORMER_MAX
-
-const Y_TRANSFORMER_MIN = D_TRANSFORMER_MAX
-const Y_TRANSFORMER_MAX = window.innerHeight - D_TRANSFORMER_MAX
+const coords = [[300, 180], [750, 250], [500, 550]]
 
 onMounted(() => {
     const transformerSelector = document.querySelectorAll(".transformer")
-    let x = 0
-    let y = 0
-    let prevValue = [[0, 0]]
+    let i = 0
     transformerSelector.forEach(transformer => {
         //Random rayon for the transformers
         const d = Math.floor(Math.random() * (D_TRANSFORMER_MAX - D_TRANSFORMER_MIN + 1) + D_TRANSFORMER_MIN)
         transformer.style.height = `${d}px`
         transformer.style.width = `${d}px`
-        //Random position for the transformers (And they dont superpose or are too near to each other)
-        let correctCoord = false
-        do {
-            x = Math.floor(Math.random() * (X_TRANSFORMER_MAX - X_TRANSFORMER_MIN + 1) + X_TRANSFORMER_MIN)
-            y = Math.floor(Math.random() * (Y_TRANSFORMER_MAX - Y_TRANSFORMER_MIN + 1) + Y_TRANSFORMER_MIN)
-            prevValue.forEach(point => {
-                correctCoord = false
-                if (Math.abs(point[0] - x) > (D_TRANSFORMER_MAX) + 50 && Math.abs(point[1] - y) > (D_TRANSFORMER_MAX) + 50) {
-                    correctCoord = true
-                }
-            })
-        } while (!correctCoord);
-        prevValue.push([x, y])
-
-        transformer.style.left = `${x}px`
-        transformer.style.top = `${y}px`
+        transformer.style.top = `${coords[i][1]}px`
+        transformer.style.left = `${coords[i][0]}px`
+        i++
     })
 })
 
-function changeHash(e){
-    console.log(e.target.id)
-    if(e.target.id == "Tribunal") window.location.hash = "#card"
-    if(e.target.id == "Scierie") window.location.hash = "#planche"
-    if(e.target.id == "Tuyauterie") window.location.hash = "#puzzle"
+function changeHash(e) {
+    if (e.target.id == "Tribunal") window.location.hash = "#card"
+    if (e.target.id == "Scierie") window.location.hash = "#planche"
+    if (e.target.id == "Tuyauterie") window.location.hash = "#puzzle"
 }
 
 </script>
 
 <template>
+    <h1 class="title">Durabilia</h1>
     <div v-for="transformer of transformers" class="transformer" :id="`${transformer.name}`" @click="changeHash($event)">
         {{ transformer.name }}
     </div>
@@ -66,5 +46,10 @@ function changeHash(e){
     justify-content: center;
     align-items: center;
     cursor: pointer;
+}
+
+.title {
+    text-align: center;
+    padding-top: 30px;
 }
 </style>
