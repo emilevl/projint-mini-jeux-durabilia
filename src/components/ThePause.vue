@@ -15,9 +15,7 @@ const emit = defineEmits([
 function leaveGame() {
     // ask for confirmation
     if (confirm('Voulez-vous vraiment quitter la partie ?', 'Oui', 'Non')) {
-        // reset the ressourceGlobal
-        // redirect to the home page
-        console.log('redirect to the map')
+        window.location.hash = ""
     }
 }
 
