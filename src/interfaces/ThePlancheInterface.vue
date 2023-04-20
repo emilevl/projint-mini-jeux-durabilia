@@ -92,13 +92,13 @@ let game = new Phaser.Game(config);
 function preload ()
 {
     // load the PNG file
-	this.load.image('base_tiles', 'assets/scierie/tilesNew/tiles.png')
+	this.load.image('base_tiles', 'assets/scierie/tiles/tiles.png')
 
     // load the JSON file
-    this.load.tilemapTiledJSON('tilemap', 'assets/scierie/tilesNew/map.json')
+    this.load.tilemapTiledJSON('tilemap', 'assets/scierie/tiles/map.json')
 
     // Load Player assets
-    this.load.spritesheet('player', 'assets/scierie/playerNew.png', { frameWidth: 63.9, frameHeight: 57 });
+    this.load.spritesheet('player', 'assets/scierie/player.png', { frameWidth: 63.9, frameHeight: 57 });
     this.load.spritesheet('playerJump', 'assets/scierie/playerJump.png', { frameWidth: 63.9, frameHeight: 69.7 });
     this.load.spritesheet('playerKilled', 'assets/scierie/playerKilled.png', { frameWidth: 69, frameHeight: 69 });
     
@@ -112,7 +112,7 @@ function preload ()
     this.load.image('movingPlatform', 'assets/scierie/platform.jpg');
 
     // Load log asset
-    this.load.image('log', 'assets/scierie/logNew.png');
+    this.load.image('log', 'assets/scierie/log.png');
 
     // Load saw assets
     this.load.image('bigSaw', 'assets/scierie/bigSaw.png');
