@@ -38,6 +38,7 @@ function randomizeFreeze() {
 
     return frozen
 }
+console.log(matrix);
 </script>
 
 <template>
