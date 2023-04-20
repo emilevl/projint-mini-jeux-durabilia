@@ -39,6 +39,9 @@ function randomizeFreeze() {
     return frozen
 }
 console.log(matrix);
+
+let matrice = generateMatrix([4, 4], 5, 5, 9);
+console.log("la matrice sjdhsdjsd", matrice);
 </script>
 
 <template>

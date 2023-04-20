@@ -151,11 +151,16 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
     for (let n = 0; n < columsSize; n++) {
       if (matrix[i][n] == 0) {
         // let tileType = randomProperty(tilesType);
-        matrix[i][n] = {
-          type: Alltiles[Math.floor(Math.random() * Alltiles.length)],
-          sides: tiles.filter((element) => element.type == matrix[i][n])[0].sides,
-        };
+        matrix[i][n] = Alltiles[Math.floor(Math.random() * Alltiles.length)];
       }
+    }
+  }
+
+  //tiles.filter((element) => element.type == matrix[i][n])[0].sides,
+
+  for (let i = 0; i < matrix.length; i++) {
+    for (let n = 0; n < matrix[i].length; n++) {
+      matrix[i][n] = { type: matrix[i][n], sides: tiles.filter((element) => element.type == matrix[i][n])[0].sides };
     }
   }
 
