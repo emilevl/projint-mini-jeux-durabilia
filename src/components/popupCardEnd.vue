@@ -1,6 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { ressourceGlobal } from '../utils/store';
+import ButtonComponent from './ButtonComponent.vue';
+import CardBack from './card-back.vue';
 
 const props = defineProps({
     cardSelection: Array
@@ -48,7 +50,7 @@ function updateImpactData() {
     for (let dataEntry of totalImpact.value) {
         //Get ressources level
         for (let ressource of ressourceGlobal.value) {
-            if (dataEntry.ressource == ressource.name) {
+            if (dataEntry.ressource == ressource.img) {
                 dataEntry.currentLevel = ressource.currentLevel
             }
         }
@@ -75,14 +77,14 @@ function showBars() {
     for (let impact of totalImpact.value) {
         const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
         for (let ressource of ressourceGlobal.value) {
-            if (ressource.name == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
+            if (ressource.img == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
         }
     }
     for (let i = 0; i < 5; i++) {
         for (let impact of playerChoices.value[i]) {
             const barPrincipal = document.querySelector(`#barGlob-choice${i + 1}-${impact.ressource}`)
             for (let ressource of ressourceGlobal.value) {
-                if (ressource.name == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
+                if (ressource.img == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
             }
         }
     }
@@ -162,8 +164,8 @@ function changeSection(id) {
 function setNewRessources() {
     totalImpact.value.forEach(ressource => {
         ressourceGlobal.value.forEach(glob => {
-            if(glob.name == ressource.ressource){
-              //glob.currentLevel += ressource.impact
+            if (glob.img == ressource.ressource) {
+                //glob.currentLevel += ressource.impact
             }
         })
     });
@@ -173,58 +175,58 @@ function setNewRessources() {
 <template>
     <div class="background"></div>
     <div class="recap-container">
-        <h2 class="title">Modification des ressources</h2>
+        <h2 class="title">Ressources impactées</h2>
+        <img class="pause-deco" src="/assets/icons/rules-deco.svg">
 
         <div class="content">
             <div class="navbar">
-                <div class="navbar-option" id="recap" :class="{ active: activeSection == 'recap' }"
-                    @click="changeSection($event.target.id)">Recap</div>
-                <div class="navbar-option" v-for="n in 5" :id="`choix-${n}`"
-                    :class="{ active: activeSection == `choix-${n}` }" @click="changeSection($event.target.id)"> Choix {{ n
-                    }}</div>
+                <buttonComponent class="navbar-option button" id="recap" :class="{ active: activeSection == 'recap' }"
+                    @click="changeSection($event.target.id)">Résumé</buttonComponent>
+                <buttonComponent class="navbar-option button" v-for="n in 5" :id="`choix-${n}`"
+                    :class="{ active: activeSection == `choix-${n}` }" @click="changeSection($event.target.id)">Carte {{ n
+                    }}</buttonComponent>
             </div>
 
             <section class="detail-section" id="recap-section" v-show="activeSection == 'recap'">
                 <div class="detail-progression" v-for="impact of totalImpact">
-                    <img class="icon" :src="`src/assets/icons/${impact.ressource}.svg`">
+                    <img class="icon" :src="`/assets/icons/${impact.ressource}.svg`">
                     <div class="progression-bar-container">
                         <div class="progression-bar-current" :id="`barGlob-${impact.ressource}`">
                         </div>
                         <div class="progression-bar-impact" :id="`${impact.ressource}`"></div>
                     </div>
-                    <div v-if="impact.impact > 0" class="progression-bar-number">+{{ impact.impact }}</div>
-                    <div v-if="impact.impact < 0" class="progression-bar-number">{{ impact.impact }}</div>
-                    <div v-if="impact.impact == 0" class="progression-bar-number">-</div>
+                    <p v-if="impact.impact > 0" class="progression-bar-number">+{{ impact.impact }}</p>
+                    <p v-if="impact.impact < 0" class="progression-bar-number">{{ impact.impact }}</p>
+                    <p v-if="impact.impact == 0" class="progression-bar-number">-</p>
                 </div>
             </section>
             <section v-for="n in 5" class="detail-section choice-section" :id="`choix-${n}-section`"
                 v-show="activeSection == `choix-${n}`">
+                <!-- CARDS -->
                 <div class="card-container">
-                    <div class="card-back">
-                        <h3 class="card-title">{{ props.cardSelection[n - 1].title }}</h3>
-                        <p class="card-description">{{ props.cardSelection[n - 1].question }}</p>
-                        <div class="card-band">
-                            <p class="card-response">{{
-                                props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].name }}</p>
-                        </div>
-                    </div>
+                    <CardBack class="card-details" :title="props.cardSelection[n - 1].title"
+                        :question="props.cardSelection[n - 1].question"
+                        :response="props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].name">
+                    </CardBack>
                 </div>
+                <!-- BAR PROGRESSION -->
                 <div class="bar-container">
                     <div class="detail-progression" v-for="impact of playerChoices[n - 1]">
-                        <img class="icon" :src="`src/assets/icons/${impact.ressource}.svg`">
+                        <img class="icon" :src="`/assets/icons/${impact.ressource}.svg`">
                         <div class="progression-bar-container">
                             <div class="progression-bar-current" :id="`barGlob-choice${n}-${impact.ressource}`"></div>
                             <div class="progression-bar-impact" :id="`choice${n}-${impact.ressource}`"></div>
                         </div>
-                        <div v-if="impact.level > 0" class="progression-bar-number">+{{ impact.level }}</div>
-                        <div v-if="impact.level < 0" class="progression-bar-number">{{ impact.level }}</div>
-                        <div v-if="impact.level == 0" class="progression-bar-number">-</div>
+                        <p v-if="impact.level > 0" class="progression-bar-number">+{{ impact.level }}</p>
+                        <p v-if="impact.level < 0" class="progression-bar-number">{{ impact.level }}</p>
+                        <p v-if="impact.level == 0" class="progression-bar-number">-</p>
                     </div>
                 </div>
             </section>
         </div>
 
-        <button class="back-to-map" @click="$emit('closeRecap'); setNewRessources()">Retour à la carte</button>
+        <ButtonComponent class="back-to-map" @click="$emit('closeRecap'); setNewRessources()">Retour à la carte
+        </ButtonComponent>
     </div>
 </template>
 
@@ -246,38 +248,27 @@ function setNewRessources() {
     transform: translate(-50%, -50%);
     width: 1000px;
     height: 600px;
-    background-color: white;
+    background-color: #FBF8F1;
     text-align: center;
+    padding: 50px;
+}
+
+.pause-deco {
+    width: 100%;
 }
 
 .content {
-    position: absolute;
-    bottom: 0;
-    height: 85%;
     width: 100%;
 }
 
 .navbar {
     display: flex;
     flex-direction: row;
-    gap: 15px;
     justify-content: center;
-}
-
-.navbar-option {
-    width: 15%;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    background-color: #D9D9D9;
-    cursor: pointer;
-}
-
-.active {
-    background-color: #F9F7F7;
+    justify-content: space-evenly;
 }
 
 .detail-section {
-    background-color: #F9F7F7;
     height: 95%;
     display: flex;
     justify-content: center;
@@ -287,12 +278,17 @@ function setNewRessources() {
 .card-container,
 .bar-container {
     width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .bar-container {
-    display: flex;
-    justify-content: center;
     gap: 25px;
+}
+
+.card-container {
+    align-items: center;
 }
 
 .detail-progression {
@@ -323,85 +319,57 @@ function setNewRessources() {
     transition: 1s;
 }
 
+.progression-bar-number {
+    font-size: 1rem;
+}
+
 .choice-section {
     display: flex;
+    height: 400px;
 }
 
 .back-to-map {
     position: absolute;
     bottom: 0;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     transform: translate(-50%, 0);
+}
+.active {
     background-color: black;
-    color: white;
+        color: #FBF8F1;
+        border-radius: 20px 0px;
 }
 
 /* --------------------------- CARDS --------------------------------------- */
-.card-container {
-    display: flex;
-    justify-content: center;
+.card-details {
+    transform: unset;
+    position: unset;
+    width: 250px;
+    height: 350px;
 }
 
-.card-back {
-    margin-top: 50px;
-    background-color: white;
-    color: #000;
-    position: absolute;
-    height: 300px;
-    width: 180px;
+.card-details:deep(.card-title) {
+    font-size: 1.2em;
+    padding: 15px 15px 0 15px;
 }
 
-.card-band {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 20%;
-    background-color: lightblue;
+.card-details:deep(.card-question) {
+    font-size: 0.8em;
+    padding: 0px 15px;
+}
+.card-details:deep(.flip-card-response) {
+    font-size: 0.8em;
 }
 
-.card-title {
-    padding: 5px;
-    font-size: 1em;
+.card-details:deep(.flip-card-band) {
+    position: relative;
+    height: 17%;
+    bottom: unset;
 }
 
-.card-description {
-    font-size: 0.75em;
-}
+/* ------------------------------- MOBILE ----------------------------------- */
 
-.card-response {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    height: 90%;
-    width: 90%;
-    font-size: 0.75em;
-}
-
-button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-}
-
-button:hover {
-    border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (max-width: 1100px) {
-    .recap-container{
-        width: 750px;
-    }
+@media screen and (max-width: 1050px) {
+    
 }
 </style>

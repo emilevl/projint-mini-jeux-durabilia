@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted} from 'vue';
 import anime from 'animejs/lib/anime.es.js';
+import CardBack from './card-back.vue';
 
 
 const props = defineProps({
@@ -11,7 +12,11 @@ const props = defineProps({
   response: String
 })
 
+// define emit function with the event name "cardLoaded"
+const emit = defineEmits(['cardLoaded'])
+
 let ressourceTemplating = ref(props.ressources.length)
+
 
 onMounted(() => {
   anime({
@@ -22,9 +27,11 @@ onMounted(() => {
     duration: 500,
     delay: anime.stagger(500),
     easing: 'spring(1, 80, 10, 0)',
-    // complete: function(anim) {
-    //   changeBackgroundCards();
-    // }
+    complete: function(anim) {
+      if (anim.id === 4) {
+        emit('cardLoaded');
+      }
+    }
   });
 
   // function changeBackgroundCards() {
@@ -70,14 +77,7 @@ onMounted(() => {
   }">
     <div class="flip-card-inner">
       <div class="flip-card-front"></div>
-      <div class="flip-card-back">
-        <h3 class="card-title">{{ title }}</h3>
-        <img src="src/assets/img/separator-card.svg" alt="separator">
-        <p class="card-question">{{ question }}</p>
-        <div class="flip-card-band">
-          <p class="flip-card-response">{{ response }}</p>
-        </div>
-      </div>
+      <CardBack :title="title" :question="question" :response="response"></CardBack>
     </div>
   </div>
 </template>
@@ -87,8 +87,8 @@ onMounted(() => {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 450px;
-    height: 600px;
+    width: 412.5px;
+    height: 550px;
     color: #FFD7B2;
     /* width: calc(64vh * 0.64);
     max-width: 480px;
@@ -130,18 +130,24 @@ onMounted(() => {
 
   .flip-card-front {
     /* background-color: #912727; */
-    background-image: url('src/assets/img/back-card.jpg');
+    background-image: url('/assets/img/back-card.jpg');
     background-size: cover;
     background-position: center;
   }
 
   .flip-card-back .card-title {
-    height: 153px;
+    /* height: 153px; */
+    height: 25.5%;
     padding: 25px 25px 0 25px;
   }
 
+  .flip-card-back img {
+    width: 93%
+  }
+
   .flip-card-back .card-question {
-    height: 207px;
+    /* height: 207px; */
+    height: 34.5%;
     padding: 0 25px;
     text-align: left; 
   }
@@ -179,16 +185,15 @@ onMounted(() => {
     align-items: center;
   }
 
-  img {
-    height: 70px;
-    margin-bottom: 50px;
-  }
 
-  .circle {
-    background-color: #000;
-    border-radius: 50%;
+  /*------------------------ MOBILE ------------------- */
+  @media screen and (max-width: 1050px) {
+    .flip-card {
+      width: 225px;
+      height: 300px;
+    }
+    
   }
-
   /* @media (max-width: 1080px) {
 
     /* Apply different styles for small screens */

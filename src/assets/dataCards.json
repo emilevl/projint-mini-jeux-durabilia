@@ -325,10 +325,8 @@
                     "impact": [
                         {"ressource": "poverty", "level": 20},
                         {"ressource": "water", "level": -10},
-                        {"ressource": "inovation", "level": -20},
+                        {"ressource": "innovation", "level": -20},
                         {"ressource": "lifeAquatic", "level": -10}
-                        
-                        
                     ]
                 }
             ]
