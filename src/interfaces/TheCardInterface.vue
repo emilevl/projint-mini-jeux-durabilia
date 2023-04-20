@@ -8,6 +8,7 @@ import dataCardsJson from "../assets/dataCards.json";
 import anime from "animejs/lib/anime.es";
 import { ressourceGlobal, transformers } from "../utils/store.js";
 import ThePause from "../components/ThePause.vue";
+import popupRules from "../components/popupRules.vue";
 
 const CURRENT_TRANSFORMER = transformers.value.find(
   (transformer) => transformer.name == "Tribunal"
@@ -300,6 +301,10 @@ function donePlaying() {
   handCards.value = [];
 }
 
+const activeRules = ref(true)
+function toggleRules(){
+  activeRules.value = !activeRules.value
+}
 
 // TODO: Function to remove / add all the event listeners in one time ? 
 
@@ -311,7 +316,6 @@ onUnmounted(() => {
 
 <template>
   <div class="main-page">
-    <!-- <h1 id="main-title">Tribunal</h1> -->
     <div id="clickable-part">
       <div id="description-current-card">
         <h2>Description</h2>
@@ -366,6 +370,7 @@ onUnmounted(() => {
     :transformer="CURRENT_TRANSFORMER"
     @resumeGame="togglePauseGame"
   ></ThePause>
+  <popupRules v-if="activeRules" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false" @emitPlay="toggleRules()"></popupRules>
 </template>
   
 <style>

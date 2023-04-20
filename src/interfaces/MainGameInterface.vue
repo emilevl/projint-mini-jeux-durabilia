@@ -29,6 +29,7 @@ function changeHash(e) {
 </script>
 
 <template>
+    <h1 class="title">Durabilia</h1>
     <div v-for="transformer of transformers" class="transformer" :id="`${transformer.name}`" @click="changeHash($event)">
         {{ transformer.name }}
     </div>
@@ -45,5 +46,10 @@ function changeHash(e) {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+}
+
+.title {
+    text-align: center;
+    padding-top: 30px;
 }
 </style>
