@@ -22,17 +22,17 @@ onMounted(() => {
         transformer.style.height = `${d}px`
         transformer.style.width = `${d}px`
         //Random position for the transformers (And they dont superpose or are too near to each other)
-        let incorrectValue = true
+        let correctCoord = false
         do {
             x = Math.floor(Math.random() * (X_TRANSFORMER_MAX - X_TRANSFORMER_MIN + 1) + X_TRANSFORMER_MIN)
             y = Math.floor(Math.random() * (Y_TRANSFORMER_MAX - Y_TRANSFORMER_MIN + 1) + Y_TRANSFORMER_MIN)
             prevValue.forEach(point => {
-                if (Math.abs(point[0] - x) > (D_TRANSFORMER_MAX)+50 && Math.abs(point[1] - y) > (D_TRANSFORMER_MAX)+50){
-                    console.log("valeur ok!" + point[0]+ " " + x)
-                    incorrectValue = false
-                } 
+                correctCoord = false
+                if (Math.abs(point[0] - x) > (D_TRANSFORMER_MAX) + 50 && Math.abs(point[1] - y) > (D_TRANSFORMER_MAX) + 50) {
+                    correctCoord = true
+                }
             })
-        } while (incorrectValue);
+        } while (!correctCoord);
         prevValue.push([x, y])
 
         transformer.style.left = `${x}px`

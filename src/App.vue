@@ -48,14 +48,15 @@ const routes = {
 //Get current Hash
 const hash = ref(window.location.hash);
 window.addEventListener('hashchange', () => hash.value = window.location.hash);
-const curHash = computed(() => routes[hash.value] ? hash.value : Object.keys(routes)[0]);
+const curHash = computed(() => routes[hash.value] ? hash.value : '');
 
 </script>
 
 <template>
+  
   <main>
     <template v-for="(route, hash) of routes">
-      <div v-show="hash == curHash">
+      <div v-if="hash == curHash">
         <component :is="route.component" />
       </div>
     </template>
