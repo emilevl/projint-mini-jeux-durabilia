@@ -42,14 +42,15 @@ const routes = {
 //Get current Hash
 const hash = ref(window.location.hash);
 window.addEventListener('hashchange', () => hash.value = window.location.hash);
-const curHash = computed(() => routes[hash.value] ? hash.value : Object.keys(routes)[0]);
+const curHash = computed(() => routes[hash.value] ? hash.value : '');
 
 </script>
 
 <template>
+  
   <main>
     <template v-for="(route, hash) of routes">
-      <div v-show="hash == curHash">
+      <div v-if="hash == curHash">
         <component :is="route.component" />
       </div>
     </template>
@@ -57,4 +58,53 @@ const curHash = computed(() => routes[hash.value] ? hash.value : Object.keys(rou
 </template>
 
 <style scoped>
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: url("assets/img/background-gradient.jpg");
+    width: 100vw;
+    font-family: 'Urbanist', 'Inter', sans-serif;
+    font-size: 3rem;
+  }
+
+  .container .nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+  }
+
+  .container .nav li {
+    padding: 100px;
+    margin: 30px;
+  }
+
+  .container .nav li a {
+    all: unset;
+    font-size: 2.5rem;
+    padding: 30px 15px;
+    margin: 30px 30px;
+    font-family: 'Limelight', 'Inter', sans-serif;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+  }
+
+  .container .nav li:hover a{
+    background-color: black;
+    color: #FBF8F1;
+    border-radius: 10px 0px;
+    transition: 0.3s;
+}
+
+  /* .container .nav li a {
+    text-decoration: none;
+    color: black;
+  } */
+  
 </style>
