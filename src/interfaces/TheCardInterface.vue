@@ -369,49 +369,6 @@ onUnmounted(() => {
 </template>
   
 <style>
-:root {
-  font-family: "Limelight", Inter, system-ui, Avenir, Helvetica, Arial,
-    sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  /* color-scheme: light dark; */
-  color: rgba(0, 0, 0, 0.87);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-  /* background-color: #FDFCFC; */
-  background-image: url("/assets/img/background-gradient.jpg");
-  background-size: 100% auto;
-  background-position: center;
-}
-
-h1 {
-  font-size: 3rem;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-h2 {
-  font-size: 2.5rem;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-h3 {
-  font-size: 2rem;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-p {
-  font-size: 1.2rem;
-  font-family: "Urbanist", "Inter", sans-serif;
-  margin: 0;
-}
 
 #description-current-card {
   /* display: flex;
@@ -424,6 +381,7 @@ p {
   margin: 0 0 0 5%;
   bottom: 100px;
   max-width: 434px;
+  height: 200px;
 }
 
 #description-current-card p {
@@ -544,6 +502,66 @@ p {
   margin-top: 7px;
 }
 
+/*------------------------ MOBILE ------------------- */
+@media screen and (max-width: 1050px) {
+  .pause-game {
+    font-size: 1.6rem;
+  }
+
+  .cardNo-onNo h1 {
+    text-align: center;
+    text-align: left;
+    font-size: 1.6rem;
+  }
+
+  #description-current-card {
+    position: absolute;
+    left: 65%;
+    bottom: 65px;
+    max-width: 210px;
+    height: 100px;
+  }
+
+  #description-current-card p {
+    font-size: 0.7rem;
+  }
+
+  #description-current-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .ressources-impact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    position: absolute;
+    bottom: 5px;
+    margin: 10px auto;
+  }
+
+  .ressources-impact .ressource-icon-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ressources-impact .ressource-icon-wrapper img {
+    margin-top: 0;
+    height: 25px;
+  }
+
+  .ressources-impact .ressource-icon-wrapper p {
+    font-size: 0.8rem;
+  }
+
+  .ressources-impact .circle-container {
+    height: 20px;
+    width: 95%;
+    justify-content: right;
+    display: flex;
+    align-items: end;
+  }
+}
 /* @media (max-width: 900px) {
 
     #main-title {

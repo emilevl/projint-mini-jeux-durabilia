@@ -88,7 +88,13 @@ const props = defineProps({
     }
     
     .flip-card-back p {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
+
+    .flip-card-band {
+      position: absolute;
+      bottom: 8px;
+      left: 5%;
+  }
   }
 </style>

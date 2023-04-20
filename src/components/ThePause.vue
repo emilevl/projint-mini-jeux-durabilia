@@ -32,8 +32,6 @@ function toggleRules() {
 
 function launchCinematique() {
     console.log("cinématique lancée")
-    const sound = new Audio('/assets/sounds/card-selection.wav')
-    sound.play()
 }
 
 </script>
