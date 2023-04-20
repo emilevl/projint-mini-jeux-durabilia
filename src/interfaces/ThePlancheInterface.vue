@@ -43,7 +43,7 @@ let config = {
 //let chronoH1 = document.getElementById('chrono');
 
 // 400 300
-const spawnPoint = {x: 8500, y: 300};
+const spawnPoint = {x: 400, y: 300};
 
 
 let deathCount = 0;
@@ -304,7 +304,7 @@ function create ()
 
 
     timer = this.time.addEvent({
-          delay: 1000,
+          delay: 10,
           callback: addSecond,
           callbackScope: this,
           loop: true
@@ -533,9 +533,10 @@ function addSecond() {
 
 // Function to format the time for the timer
 function formatTime(time) {
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60;
-    let formatedTime = minutes.toString().padStart(2, '0') + "'" + seconds.toString().padStart(2, '0');
+    let minutes = Math.floor(time / 3600) % 60;
+    let seconds = Math.floor(time / 60) % 60;
+    let miliseconds = time % 100
+    let formatedTime = minutes.toString().padStart(2, '0') + "'" + seconds.toString().padStart(2, '0') + "'" + miliseconds.toString().padStart(2, '0');
     return formatedTime;
 }
 
@@ -614,7 +615,7 @@ function endGame(player, endMachine) {
         :transformer="CURRENT_TRANSFORMER"
         @resumeGame="togglePauseGame"
     ></ThePause>
-    <h1 id="chrono">{{ chrono }}</h1>
+    <h1 id="chrono">{{ formatTime(chrono) }}</h1>
 </template>
 
 <style scoped>
@@ -625,5 +626,14 @@ h1 {
     position: absolute;
     left: 1rem;
     font-family: "Limelight", cursive;
+}
+.pause-game {
+  position: absolute;
+  max-width: 2rem;
+  top: 10px;
+  right: 1rem;
+  left: auto;
+  margin: 0 8rem 0 0;
+  cursor: pointer;
 }
 </style>
