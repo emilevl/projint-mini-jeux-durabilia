@@ -48,7 +48,7 @@ const routes = {
 //Get current Hash
 const hash = ref(window.location.hash);
 window.addEventListener('hashchange', () => hash.value = window.location.hash);
-const curHash = computed(() => routes[hash.value] ? hash.value : '');
+const curHash = computed(() => routes[hash.value] ? hash.value : Object.keys(routes)[0]);
 
 </script>
 
