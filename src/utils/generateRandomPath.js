@@ -109,6 +109,7 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
   }
 
   let tiles = { curved: ['2b', '3', '4'], right: ['2a', '3', '4'], useless: ['0', '1'] };
+  let Alltiles = ['2b', '3', '4', '2a', '0', '1'];
 
   if (history[1][0] != history[0][0]) {
     matrix[history[0][0]][history[0][1]] = tiles.curved[Math.floor(Math.random() * 3)];
@@ -149,7 +150,7 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
     for (let n = 0; n < columsSize; n++) {
       if (matrix[i][n] == 0) {
         let tileType = randomProperty(tiles);
-        matrix[i][n] = tileType[Math.floor(Math.random() * tileType.length)];
+        matrix[i][n] = Alltiles[Math.floor(Math.random() * Alltiles.length)];
       }
     }
   }
