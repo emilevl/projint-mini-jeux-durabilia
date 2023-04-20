@@ -17,24 +17,24 @@ let playerChoices = ref([[], [], [], [], []])
 
 //Get the total impact of the player choices
 let totalImpact = ref([
-    { ressource: "climateActions", impact: 0, currentLevel: 0 },
-    { ressource: "communities", impact: 0, currentLevel: 0 },
-    { ressource: "consumption", impact: 0, currentLevel: 0 },
-    { ressource: "decentWork", impact: 0, currentLevel: 0 },
-    { ressource: "education", impact: 0, currentLevel: 0 },
-    { ressource: "energy", impact: 0, currentLevel: 0 },
-    { ressource: "genderEquality", impact: 0, currentLevel: 0 },
-    { ressource: "health", impact: 0, currentLevel: 0 },
-    { ressource: "hunger", impact: 0, currentLevel: 0 },
-    { ressource: "inequality", impact: 0, currentLevel: 0 },
-    { ressource: "innovation", impact: 0, currentLevel: 0 },
-    { ressource: "lifeAquatic", impact: 0, currentLevel: 0 },
-    { ressource: "lifeLand", impact: 0, currentLevel: 0 },
-    { ressource: "partnership", impact: 0, currentLevel: 0 },
-    { ressource: "peaceJustice", impact: 0, currentLevel: 0 },
-    { ressource: "poverty", impact: 0, currentLevel: 0 },
-    { ressource: "time", impact: 0, currentLevel: 0 },
-    { ressource: "water", impact: 0, currentLevel: 0 },
+    { ressource: "poverty", color: "#D33A42", currentLevel: 0, impact: 0 },
+    { ressource: "hunger", color: "#D5A950", currentLevel: 0, impact: 0 },
+    { ressource: "health", color: "#629C47", currentLevel: 0, impact: 0 },
+    { ressource: "education", color: "#B52E34", currentLevel: 0, impact: 0 },
+    { ressource: "genderEquality", color: "#DC5239", currentLevel: 0, impact: 0 },
+    { ressource: "water", color: "#5ABBDE", currentLevel: 0, impact: 0 },
+    { ressource: "energy", color: "#F2B843", currentLevel: 0, impact: 0 },
+    { ressource: "decentWork", color: "#822438", currentLevel: 0, impact: 0 },
+    { ressource: "innovation", color: "#E27439", currentLevel: 0, impact: 0 },
+    { ressource: "inequality", color: "#CB3267", currentLevel: 0, impact: 0 },
+    { ressource: "communities", color: "#EB9F43", currentLevel: 0, impact: 0 },
+    { ressource: "consumption", color: "#B78C41", currentLevel: 0, impact: 0 },
+    { ressource: "climateActions", color: "#4F7C4A", currentLevel: 0, impact: 0 },
+    { ressource: "lifeAquatic", color: "#4296D3", currentLevel: 0, impact: 0 },
+    { ressource: "lifeLand", color: "#73BD46", currentLevel: 0, impact: 0 },
+    { ressource: "peaceJustice", color: "#2A6799", currentLevel: 0, impact: 0 },
+    { ressource: "partnership", color: "#254867", currentLevel: 0, impact: 0 },
+    { ressource: "time", color: "#BDBDBD", currentLevel: 0, impact: 0 }
 ])
 
 //Store the impacts of the player choices
@@ -76,15 +76,26 @@ onMounted(() => {
 function showBars() {
     for (let impact of totalImpact.value) {
         const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
+        //Set the bars to the color of the sdgs
+        barPrincipal.style.transition = "all 0s ease 0s"
+        barPrincipal.style.backgroundColor = impact.color
         for (let ressource of ressourceGlobal.value) {
-            if (ressource.img == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
+            if (ressource.img == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 75}px`
         }
     }
     for (let i = 0; i < 5; i++) {
         for (let impact of playerChoices.value[i]) {
             const barPrincipal = document.querySelector(`#barGlob-choice${i + 1}-${impact.ressource}`)
+            //Set the bars to the color of the sdgs
+            barPrincipal.style.transition = "all 0s ease 0s"
+            //For the color
             for (let ressource of ressourceGlobal.value) {
-                if (ressource.img == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 200}px`
+                if (impact.ressource == ressource.img) {
+                    barPrincipal.style.backgroundColor = ressource.color
+                }
+            }
+            for (let ressource of ressourceGlobal.value) {
+                if (ressource.img == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 75}px`
             }
         }
     }
@@ -95,6 +106,8 @@ function showChange() {
     //For totalImpacts (full recap)
     for (let impact of totalImpact.value) {
         const bar = document.querySelector(`#${impact.ressource}`)
+        bar.style.backgroundColor = impact.color
+        bar.style.opacity = 0.7
         const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
 
         //Manage the case where we pass the bar limit (0 -> 100)
@@ -104,19 +117,24 @@ function showChange() {
             impact.impact = - parseInt(barPrincipal.style.height) / 2
         }
 
-        bar.style.height = `${(Math.abs(impact.impact) / 100) * 200}px` //Sets the height for the change bar
+        bar.style.height = `${(Math.abs(impact.impact) / 100) * 75}px` //Sets the height for the change bar
         if (impact.impact < 0) {
-            bar.style.backgroundColor = "red"
             barPrincipal.style.transition = "all 1s ease 0s" //For animation transition
-            barPrincipal.style.height = `${parseInt(barPrincipal.style.height) - ((Math.abs(impact.impact) / 100) * 200)}px` //Diminish the black bar to let the red bar go over it
+            barPrincipal.style.height = `${parseInt(barPrincipal.style.height) - ((Math.abs(impact.impact) / 100) * 75)}px` //Diminish the black bar to let the red bar go over it
         }
-        if (impact.impact > 0) bar.style.backgroundColor = "green"
     }
 
     //For the choices
     for (let i = 0; i < 5; i++) {
         for (let impact of playerChoices.value[i]) {
             const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
+            //For the color
+            for (let ressource of ressourceGlobal.value) {
+                if (impact.ressource == ressource.img) {
+                    bar.style.backgroundColor = ressource.color
+                    bar.style.opacity = 0.7
+                }
+            }
             const barPrincipal = document.querySelector(`#barGlob-choice${i + 1}-${impact.ressource}`)
 
             //Manage the case where we pass the bar limit (0 -> 100)
@@ -126,13 +144,11 @@ function showChange() {
                 impact.level = - parseInt(barPrincipal.style.height) / 2
             }
 
-            bar.style.height = `${(Math.abs(impact.level) / 100) * 200}px`
+            bar.style.height = `${(Math.abs(impact.level) / 100) * 75}px`
             if (impact.level < 0) {
-                bar.style.backgroundColor = "red"
                 barPrincipal.style.transition = "all 1s ease 0s" //For animation transition
-                barPrincipal.style.height = `${parseInt(barPrincipal.style.height) - ((Math.abs(impact.level) / 100) * 200)}px` //Diminish the black bar to let the red bar go over it
+                barPrincipal.style.height = `${parseInt(barPrincipal.style.height) - ((Math.abs(impact.level) / 100) * 75)}px` //Diminish the black bar to let the red bar go over it
             }
-            if (impact.level > 0) bar.style.backgroundColor = "green"
         }
     }
 }
@@ -257,8 +273,14 @@ function setNewRessources() {
     width: 100%;
 }
 
+.icon {
+    height: 30px;
+    z-index: 1000;
+}
+
 .content {
     width: 100%;
+    height: 450px;
 }
 
 .navbar {
@@ -269,10 +291,9 @@ function setNewRessources() {
 }
 
 .detail-section {
-    height: 95%;
-    display: flex;
-    justify-content: center;
-    gap: 25px;
+    height: 400px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 .card-container,
@@ -292,17 +313,15 @@ function setNewRessources() {
 }
 
 .detail-progression {
-    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    width: 25px;
+    justify-content: center;
 }
 
 .progression-bar-container {
-    height: 200px;
-    width: 20px;
+    height: 75px;
+    width: 75px;
     border: 1px solid black;
     display: flex;
     flex-direction: column-reverse;
@@ -310,7 +329,6 @@ function setNewRessources() {
 }
 
 .progression-bar-current {
-    background-color: black;
     transition: 1s;
 }
 
@@ -334,10 +352,11 @@ function setNewRessources() {
     margin-bottom: 50px;
     transform: translate(-50%, 0);
 }
+
 .active {
     background-color: black;
-        color: #FBF8F1;
-        border-radius: 20px 0px;
+    color: #FBF8F1;
+    border-radius: 20px 0px;
 }
 
 /* --------------------------- CARDS --------------------------------------- */
@@ -357,6 +376,7 @@ function setNewRessources() {
     font-size: 0.8em;
     padding: 0px 15px;
 }
+
 .card-details:deep(.flip-card-response) {
     font-size: 0.8em;
 }
@@ -369,7 +389,5 @@ function setNewRessources() {
 
 /* ------------------------------- MOBILE ----------------------------------- */
 
-@media screen and (max-width: 1050px) {
-    
-}
+@media screen and (max-width: 1050px) {}
 </style>
