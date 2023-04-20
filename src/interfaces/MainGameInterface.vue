@@ -40,10 +40,17 @@ onMounted(() => {
     })
 })
 
+function changeHash(e){
+    console.log(e.target.id)
+    if(e.target.id == "Tribunal") window.location.hash = "#card"
+    if(e.target.id == "Scierie") window.location.hash = "#planche"
+    if(e.target.id == "Tuyauterie") window.location.hash = "#puzzle"
+}
+
 </script>
 
 <template>
-    <div v-for="transformer of transformers" class="transformer" :id="`transformer-${transformer.name}`">
+    <div v-for="transformer of transformers" class="transformer" :id="`${transformer.name}`" @click="changeHash($event)">
         {{ transformer.name }}
     </div>
 </template>
