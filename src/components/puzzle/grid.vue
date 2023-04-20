@@ -1,7 +1,7 @@
 <script setup>
 import Tile from '../puzzle/tile.vue'
 import { generateMatrix } from '../../utils/generateRandomPath.js';
-import { computed } from 'vue'
+import { computed, watchEffect, ref } from 'vue'
 
 const nbCols = 5;
 const nbRows = nbCols;
@@ -17,15 +17,21 @@ const nbColsCss = `repeat(${nbCols}, 1fr)`
 
 
 const matrix = generateMatrix(arrival, nbRows, nbCols, lengthPath)
-console.log(matrix);
-
-const flatMatrix = matrix.flat()
-//console.log(flatMatrix);
 
 const rotations = [0, 90, 180, 270]
 
-function randomizeRotation() {
-    return rotations[Math.floor(Math.random() * rotations.length)]
+function randomizeRotation(position) {
+    //let randomInt = Math.floor(Math.random() * rotations.length)
+    let randomInt = 1
+    let i = 0
+
+    while (i < randomInt) {
+        rotateSides(position)
+        i++
+    }
+
+    console.log(matrix);
+    return rotations[randomInt]
 }
 
 function randomizeFreeze() {
@@ -42,28 +48,37 @@ function randomizeFreeze() {
 }
 
 function rotateSides(position) {
-    console.log(position);
+    //console.log(position);
+    //console.log(matrix[position[0]][position[1]].sides);
+
+    let last = matrix[position[0]][position[1]].sides.pop();
+    matrix[position[0]][position[1]].sides.unshift(last);
+
+    //console.log(matrix[position[0]][position[1]].sides);
     
-    /* let last = matrix[position[0]]     [position[1]].pop();
-    arr.unshift(last);
-    return arr; */
 
+    //console.log(matrix[position[0]][position[1]].sides);
 }
-console.log(matrix);
+watchEffect(() => {
+    console.log(matrix);
+})
 
-let matrice = generateMatrix([4, 4], 5, 5, 9);
-console.log("la matrice sjdhsdjsd", matrice);
 </script>
 
 <template>
-    <img id="pipe_start" src="../../assets/decor/pipe_left.png">
-    <img id="img_start" src="../../assets/decor/freeze_left.png">
-    <img id="pipe_end" src="../../assets/decor/pipe_right.png">
-    <img id="img_end" src="../../assets/decor/freeze_right.png">
-    <div id="grid" class="grid-container">
-        <div v-for="(tile, i) in flatMatrix" class="grid-item">
-            <tile :tileType="tile" :position="i++" :rotation="randomizeRotation(position)" @rotate="rotateSides()"></tile>
-            <!-- :frozen="randomizeFreeze()" -->
+    <div>
+        <img id="pipe_start" src="../../assets/decor/pipe_left.png">
+        <img id="img_start" src="../../assets/decor/freeze_left.png">
+        <img id="pipe_end" src="../../assets/decor/pipe_right.png">
+        <img id="img_end" src="../../assets/decor/freeze_right.png">
+        <div id="grid" class="grid-container">
+            <template v-for="(row, r) in matrix">
+                <div v-for="(col, c) in row" class="grid-item">
+                    <tile :tileType="col.type" :rotation="randomizeRotation([r, c])" @rotate="rotateSides([r, c])">
+                    </tile>
+                    <!-- :frozen="randomizeFreeze()" -->
+                </div>
+            </template>
         </div>
     </div>
 </template>

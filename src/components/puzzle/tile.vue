@@ -11,10 +11,6 @@ const props = defineProps({
         type: String,
         required: true
     },
-    position: {
-        type: Number, //Array
-        required: true
-    },
     rotation: {
         type: Number,
         required: true
@@ -83,7 +79,7 @@ function rotate(evt) {
         scale: [1],
     })
 
-    emit('rotate', props.position)
+    emit('rotate')
 
     playAudio(sound)
 }
