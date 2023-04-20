@@ -1,3 +1,4 @@
+import tiles from '../assets/data/tiles.json';
 function noGoingBack(ListPossibles, matrix) {
   let CurrposNoPath = [];
   ListPossibles.forEach((element) => {
@@ -108,13 +109,13 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
     }
   }
 
-  let tiles = { curved: ['2b', '3', '4'], right: ['2a', '3', '4'], useless: ['0', '1'] };
+  let tilesType = { curved: ['2b', '3', '4'], right: ['2a', '3', '4'], useless: ['0', '1'] };
   let Alltiles = ['2b', '3', '4', '2a', '0', '1'];
 
   if (history[1][0] != history[0][0]) {
-    matrix[history[0][0]][history[0][1]] = tiles.curved[Math.floor(Math.random() * 3)];
+    matrix[history[0][0]][history[0][1]] = tilesType.curved[Math.floor(Math.random() * 3)];
   } else {
-    matrix[history[0][0]][history[0][1]] = tiles.right[Math.floor(Math.random() * 3)];
+    matrix[history[0][0]][history[0][1]] = tilesType.right[Math.floor(Math.random() * 3)];
   }
 
   for (let i = 1; i < history.length - 2; i++) {
@@ -122,15 +123,15 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
       (history[i + 1][0] == history[i - 1][0] && history[i + 1][1] != history[i - 1][1]) ||
       (history[i + 1][0] != history[i - 1][0] && history[i + 1][1] == history[i - 1][1])
     ) {
-      matrix[history[i][0]][history[i][1]] = tiles.right[Math.floor(Math.random() * 3)];
+      matrix[history[i][0]][history[i][1]] = tilesType.right[Math.floor(Math.random() * 3)];
     } else {
-      matrix[history[i][0]][history[i][1]] = tiles.curved[Math.floor(Math.random() * 3)];
+      matrix[history[i][0]][history[i][1]] = tilesType.curved[Math.floor(Math.random() * 3)];
     }
   }
   if (history[history.length - 2][0] != history[history.length - 3][0]) {
-    matrix[history[history.length - 2][0]][history[history.length - 2][1]] = tiles.curved[Math.floor(Math.random() * 3)];
+    matrix[history[history.length - 2][0]][history[history.length - 2][1]] = tilesType.curved[Math.floor(Math.random() * 3)];
   } else {
-    matrix[history[history.length - 2][0]][history[history.length - 2][1]] = tiles.right[Math.floor(Math.random() * 3)];
+    matrix[history[history.length - 2][0]][history[history.length - 2][1]] = tilesType.right[Math.floor(Math.random() * 3)];
   }
 
   // matrix.forEach((element) => {
@@ -138,7 +139,7 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
   //     console.log('dans la boucle', elem2);
   //     if (elem2 == 0) {
   //       console.log('oui');
-  //       let tileType = randomProperty(tiles);
+  //       let tileType = randomProperty(tilesType);
   //       console.log('ça marche', tileType.length);
   //       elem2 = 'bonjour';
   //       //elem2 = tileType[Math.floor(Math.random() * tilesType.length)];
@@ -149,8 +150,11 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
   for (let i = 0; i < rowSize; i++) {
     for (let n = 0; n < columsSize; n++) {
       if (matrix[i][n] == 0) {
-        let tileType = randomProperty(tiles);
-        matrix[i][n] = Alltiles[Math.floor(Math.random() * Alltiles.length)];
+        // let tileType = randomProperty(tilesType);
+        matrix[i][n] = {
+          type: Alltiles[Math.floor(Math.random() * Alltiles.length)],
+          sides: tiles.filter((element) => element.type == matrix[i][n])[0].sides,
+        };
       }
     }
   }

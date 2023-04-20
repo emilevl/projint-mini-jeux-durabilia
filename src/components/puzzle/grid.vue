@@ -49,6 +49,7 @@ function rotateSides(position) {
     return arr; */
 
 }
+console.log(matrix);
 </script>
 
 <template>
