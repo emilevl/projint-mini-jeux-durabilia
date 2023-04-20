@@ -43,7 +43,7 @@ let config = {
 //let chronoH1 = document.getElementById('chrono');
 
 // 400 300
-const spawnPoint = {x: 400, y: 300};
+const spawnPoint = {x: 8500, y: 300};
 
 
 let deathCount = 0;
@@ -54,8 +54,8 @@ let player;
 let canDoubleJump = true;
 let canJump = false;
 
-let triangle;
-let graphics;
+let logs1;
+let logs2;
 
 let movingPlatform;
 
@@ -85,6 +85,9 @@ let playerActualVelocity = 100;
 const playerJumpVelocity = 600;
 
 let pad1;
+
+// Audio
+let bonk;
 
 
 let game = new Phaser.Game(config);
@@ -123,8 +126,8 @@ function preload ()
     this.load.image('endMachine', 'assets/scierie/endMachine.png');
 
 
-    // AUDIO
-    //this.load.audio("bonk", 'assets/scierie/audio/bonk.mp3');
+    // Audio
+    this.load.audio("bonk", 'assets/scierie/audio/bonk.mp3');
 }
 
 function create ()
@@ -134,8 +137,9 @@ function create ()
         this.cameras.main.zoom = 0.6
     }
 
-    //let bonk = this.sound.add("bonk", { loop: true });
-    //bonk.play();
+    bonk = this.sound.add("bonk", { loop: false });
+    
+
     
     this.cameras.main.setBounds(0, 0, 1000000, 100000);
     this.physics.world.setBounds(0, 0, 1000000, 100000);
@@ -234,11 +238,11 @@ function create ()
     this.physics.add.collider(player, saw, hitSaws, null, this);
 
     // Logs
-    let logs1 = this.physics.add.group();
+    logs1 = this.physics.add.group();
     this.physics.add.collider(logs1, platform);
     this.physics.add.collider(player, logs1, hitLogs, null, this);
 
-    let logs2 = this.physics.add.group();
+    logs2 = this.physics.add.group();
     this.physics.add.collider(logs2, platform);
     this.physics.add.collider(player, logs2, hitLogs, null, this);
 
@@ -332,14 +336,14 @@ function update ()
     // First phase of logs dropping
     if (player.x > 8800 && player.x < 9800) {
         //console.log(logs.children.entries[0]);
-        if (logs.children.size < 1) {
-            let log = logs.create(9250 + (Math.random(250) * (250 - 20) + 20), 300, 'log');
+        if (logs1.children.size < 1) {
+            let log = logs1.create(9250 + (Math.random(250) * (250 - 20) + 20), 300, 'log');
             log.setBounce(0.2);
             log.setCollideWorldBounds(true);
             log.setMaxVelocity(0, 800)
             
         } else {
-            logs.children.entries.forEach((log)=>{
+            logs1.children.entries.forEach((log)=>{
                 if (log.body.blocked.down) {
                     log.destroy()
                 }
@@ -554,7 +558,8 @@ function replaceObjects(){
 
 // Function to handle player hitted by a log
 function hitLogs (player, log)
-{
+{   
+    bonk.play();
     this.physics.pause();
     
     deathCount++;
