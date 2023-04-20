@@ -89,41 +89,41 @@ let game = new Phaser.Game(config);
 
 function preload() {
     // load the PNG file
-    this.load.image("base_tiles", "src/assets/scierie/tilesNew/tiles.png");
+    this.load.image("base_tiles", "assets/scierie/tilesNew/tiles.png");
 
     // load the JSON file
-    this.load.tilemapTiledJSON("tilemap", "src/assets/scierie/tilesNew/map.json");
+    this.load.tilemapTiledJSON("tilemap", "assets/scierie/tilesNew/map.json");
 
     // Load Player assets
-    this.load.spritesheet("player", "src/assets/scierie/playerNew.png", {
+    this.load.spritesheet("player", "assets/scierie/playerNew.png", {
         frameWidth: 63.9,
         frameHeight: 57,
     });
-    this.load.spritesheet("playerJump", "src/assets/scierie/playerJump.png", {
+    this.load.spritesheet("playerJump", "assets/scierie/playerJump.png", {
         frameWidth: 67,
         frameHeight: 57,
     });
-    this.load.spritesheet("playerKilled", "src/assets/scierie/playerKilled.png", {
+    this.load.spritesheet("playerKilled", "assets/scierie/playerKilled.png", {
         frameWidth: 69,
         frameHeight: 69,
     });
 
-    this.load.image("particle", "src/assets/scierie/particle.png");
+    this.load.image("particle", "assets/scierie/particle.png");
 
     // Load control buttons
     //this.load.image('leftB', 'src/assets/scierie/leftButton.png');
     //this.load.image('RightB', 'src/assets/scierie/rightButton.png');
 
     // Load moving platform asset
-    this.load.image("movingPlatform", "src/assets/scierie/platform.jpg");
+    this.load.image("movingPlatform", "assets/scierie/platform.jpg");
 
     // Load log asset
     this.load.image("log", "src/assets/scierie/logNew.png");
 
     // Load saw assets
-    this.load.image("bigSaw", "src/assets/scierie/bigSaw.png");
-    this.load.image("littleSaw", "src/assets/scierie/littleSaw.png");
-    this.load.image("saw", "src/assets/scierie/saw.png");
+    this.load.image("bigSaw", "assets/scierie/bigSaw.png");
+    this.load.image("littleSaw", "assets/scierie/littleSaw.png");
+    this.load.image("saw", "assets/scierie/saw.png");
 }
 
 function create() {
