@@ -381,6 +381,7 @@ onUnmounted(() => {
   margin: 0 0 0 5%;
   bottom: 100px;
   max-width: 434px;
+  height: 200px;
 }
 
 #description-current-card p {
@@ -501,6 +502,66 @@ onUnmounted(() => {
   margin-top: 7px;
 }
 
+/*------------------------ MOBILE ------------------- */
+@media screen and (max-width: 1050px) {
+  .pause-game {
+    font-size: 1.6rem;
+  }
+
+  .cardNo-onNo h1 {
+    text-align: center;
+    text-align: left;
+    font-size: 1.6rem;
+  }
+
+  #description-current-card {
+    position: absolute;
+    left: 65%;
+    bottom: 65px;
+    max-width: 210px;
+    height: 100px;
+  }
+
+  #description-current-card p {
+    font-size: 0.7rem;
+  }
+
+  #description-current-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .ressources-impact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    position: absolute;
+    bottom: 5px;
+    margin: 10px auto;
+  }
+
+  .ressources-impact .ressource-icon-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ressources-impact .ressource-icon-wrapper img {
+    margin-top: 0;
+    height: 25px;
+  }
+
+  .ressources-impact .ressource-icon-wrapper p {
+    font-size: 0.8rem;
+  }
+
+  .ressources-impact .circle-container {
+    height: 20px;
+    width: 95%;
+    justify-content: right;
+    display: flex;
+    align-items: end;
+  }
+}
 /* @media (max-width: 900px) {
 
     #main-title {
