@@ -370,6 +370,10 @@ onUnmounted(() => {
   
 <style>
 
+.pause-menu {
+  z-index: 999999;
+}
+
 #description-current-card {
   /* display: flex;
     flex-direction: column;
