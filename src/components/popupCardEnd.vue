@@ -248,6 +248,7 @@ function setNewRessources() {
 
 <style scoped>
 .background {
+    z-index: 2;
     position: absolute;
     top: 0;
     left: 0;
@@ -258,6 +259,7 @@ function setNewRessources() {
 }
 
 .recap-container {
+    z-index: 3;
     position: absolute;
     top: 50%;
     left: 50%;
