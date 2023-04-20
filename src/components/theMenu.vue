@@ -15,7 +15,7 @@ function toggleMenu() {
 </script>
 
 <template>
-    <div>
+    <div id="menuBtn">
         <p @click="$emit('toggleMenu')">MENU</p>
     </div>
 </template>
@@ -24,7 +24,20 @@ function toggleMenu() {
 p {
     font-weight: 600;
     font-size: 3vw;
-    margin: 5px 0 0 0;
+    margin: 0.5vw 3.6vw 0.5vw 3.6vw;
     cursor: pointer;
 }
+
+#menuBtn {
+    margin-top: auto;
+    margin-bottom: auto;
+
+    background-image: url(../assets/decor/menu.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: fit-content;
+    width: fit-content;
+}
+
 </style>
