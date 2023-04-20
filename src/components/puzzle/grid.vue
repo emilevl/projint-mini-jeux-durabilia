@@ -17,6 +17,8 @@ const nbColsCss = `repeat(${nbCols}, 1fr)`
 
 
 const matrix = generateMatrix(arrival, nbRows, nbCols, lengthPath)
+console.log(matrix);
+
 const flatMatrix = matrix.flat()
 //console.log(flatMatrix);
 
@@ -29,14 +31,23 @@ function randomizeRotation() {
 function randomizeFreeze() {
     let frozen = false
 
-    if(frozenTilesCounter >= maxFrozenTiles) return frozen
+    if (frozenTilesCounter >= maxFrozenTiles) return frozen
 
-    if(Math.random() <= freezeFrequency) {
+    if (Math.random() <= freezeFrequency) {
         frozen = true
         frozenTilesCounter++
     }
 
     return frozen
+}
+
+function rotateSides(position) {
+    console.log(position);
+    
+    /* let last = matrix[position[0]]     [position[1]].pop();
+    arr.unshift(last);
+    return arr; */
+
 }
 console.log(matrix);
 
@@ -51,7 +62,8 @@ console.log("la matrice sjdhsdjsd", matrice);
     <img id="img_end" src="../../assets/decor/freeze_right.png">
     <div id="grid" class="grid-container">
         <div v-for="(tile, i) in flatMatrix" class="grid-item">
-            <tile :tileType="tile" :position="i++" :rotation="randomizeRotation()" :frozen="randomizeFreeze()"></tile>
+            <tile :tileType="tile" :position="i++" :rotation="randomizeRotation(position)" @rotate="rotateSides()"></tile>
+            <!-- :frozen="randomizeFreeze()" -->
         </div>
     </div>
 </template>
