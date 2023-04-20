@@ -192,11 +192,11 @@ function setListeners() {
         // show the band when needed
         if (touch.clientX < windowCenterX - 25) {
           iChoice.value = 0;
-          band.style.height = "17%";
+          band.style.height = "15%";
           cardMoved.value = true;
         } else if (touch.clientX > windowCenterX + 25) {
           iChoice.value = 1;
-          band.style.height = "17%";
+          band.style.height = "15%";
           cardMoved.value = true;
         } else {
           band.style.height = "0%";
@@ -223,7 +223,7 @@ function setListeners() {
 
     // check if we are on a desktop or a mobile device
     // if (window.innerWidth > 1080) {
-    if (window.innerWidth > 500) {
+    if (window.innerWidth > 1080) {
       document.addEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
     } else {
@@ -320,9 +320,9 @@ onUnmounted(() => {
     </div>
     <h1 to="/" class="pause-game" @click="togglePauseGame()">Menu</h1>
 
-    <div class="cardNo-onNo">
+    <!-- <div class="cardNo-onNo">
       <h1>{{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}</h1>
-    </div>
+    </div> -->
 
     <div id="cards">
       <Card
