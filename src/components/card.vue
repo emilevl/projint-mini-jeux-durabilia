@@ -90,6 +90,7 @@ onMounted(() => {
     width: 412.5px;
     height: 550px;
     color: #FFD7B2;
+    z-index: 1;
     /* width: calc(64vh * 0.64);
     max-width: 480px;
     max-height: 750px;
