@@ -5,7 +5,7 @@ const neighbors = (matrix, [a, b]) => {
   let rowSize = matrix.length;
   let columsSize = matrix[0].length;
   let neighbors = [];
-  console.log('row taille', rowSize, columsSize);
+  // console.log('row taille', rowSize, columsSize);
   if (a < rowSize - 1 && a > 0 && b < columsSize - 1 && b > 0) {
     neighbors.push([a - 1, b], [a, b - 1], [a, b + 1], [a + 1, b]);
   } else {
@@ -60,7 +60,7 @@ function flowFieldTo(row, col, matrix) {
   while (frontier.length > 0) {
     const cell = frontier.shift();
 
-    console.log('la cell', cell);
+    // console.log('la cell', cell);
     connexTiles(matrix, [cell.row, cell.col]).forEach((next) => {
       if (flowMap[next.row][next.col] === false) {
         frontier.push(next);
@@ -136,6 +136,7 @@ function VerifyMatrix(matrix, finish = [4, 4]) {
         solved = true;
       }
     }
+    console.log(`solved: ${solved}`)
     return [map, solved];
   }
 }

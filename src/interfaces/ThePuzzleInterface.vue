@@ -17,7 +17,7 @@ function onToggleMenu() {
             <the-chrono></the-chrono>
             <the-menu @toggle-menu="onToggleMenu"></the-menu>
         </div>
-        <grid id="grid"></grid>
+        <grid></grid>
     </div>
 </template>
 
@@ -33,6 +33,7 @@ body {
     color: var(--white);
     background-color: #12313c;
     background: radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
+    margin: 0;
 }
 
 body::after {
@@ -52,5 +53,9 @@ body::after {
     display: flex;
     justify-content: space-between;
     padding: 25px;
+}
+
+#puzzleInterface {
+    overflow: hidden;
 }
 </style>
