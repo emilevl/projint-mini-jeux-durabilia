@@ -15,7 +15,7 @@ let config = {
         default: "arcade",
         arcade: {
             gravity: { y: 2000 },
-            debug: false,
+            debug: true,
         },
     },
     input: {
@@ -29,8 +29,8 @@ let config = {
     antialias: true,
 };
 
-// 400 300
-const spawnPoint = { x: 250, y: 300 };
+// 250 300
+const spawnPoint = { x: 10350, y: 800 };
 
 // Death management
 let deathCount = 0;
@@ -67,13 +67,16 @@ let bigSawsSpawnX = -150;
 let movingSaws = [];
 let saws = [];
 let sawsCoordinates = [
-    { x: 1472, y: 320 },
-    { x: 2240, y: 448 },
-    { x: 2560, y: 448 },
-    { x: 5760, y: 832 },
-    { x: 5952, y: 832 },
-    { x: 6528, y: 1088 },
-    { x: 6976, y: 960 },
+    { x: 1472, y: 320, cut: 0 },
+    { x: 2240, y: 448, cut: 0 },
+    { x: 2560, y: 448, cut: 0 },
+    { x: 5760, y: 832, cut: 0 },
+    { x: 5952, y: 832, cut: 0 },
+    { x: 6528, y: 1088, cut: 0 },
+    { x: 6976, y: 960, cut: 0 },
+    { x: 9152, y: 960, cut: 2 },
+    { x: 10176, y: 1280, cut: 1 },
+    { x: 10048, y: 1408, cut: 1 },
 ];
 
 // Saws speed
@@ -150,6 +153,7 @@ function preload() {
 }
 
 function create() {
+    
     chronoStartTime = new Date();
 
     if (window.innerWidth <= 1050) {
@@ -297,12 +301,31 @@ function create() {
         saw.setGravity(0).setImmovable(true).setVelocityX(0);
     });
 
+    let graphics = this.add.graphics();
+    graphics.fillStyle(0x00ff00, 0);
+
     // Fixed saws
     sawsCoordinates.forEach((co, i) => {
         saws[i] = this.physics.add.sprite(co.x, co.y, "saw");
         this.physics.add.collider(player, saws[i], hitSaws, null, this);
         saws[i].body.setAllowGravity(false).isCircle = true;
         saws[i].setGravity(0).setImmovable(true).setVelocityX(0);
+
+        let rect, mask;
+        switch (co.cut) {
+            case 1:
+                rect = graphics.fillRect(co.x-64, co.y-64, 64, 128);
+                mask = rect.createGeometryMask();
+                saws[i].setMask(mask);
+                break;
+            case 2: 
+                rect = graphics.fillRect(co.x, co.y-64, 64, 128);
+                mask = rect.createGeometryMask();
+                saws[i].setMask(mask);
+                break;
+            default:
+                break;
+        }
     });
 
     // End machine
@@ -323,6 +346,10 @@ function create() {
         //'pad' is a reference to the gamepad that was just connected
         pad1 = pad;
     });
+
+
+    
+
 }
 
 function update() {
