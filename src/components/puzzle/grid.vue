@@ -49,8 +49,8 @@ function rotateSides(position) {
 
     let last = matrix[position[0]][position[1]].sides.pop();
     matrix[position[0]][position[1]].sides.unshift(last);
-
-    console.log(VerifyMatrix(matrix));
+    VerifyMatrix(matrix)
+    //console.log();
 }
 
 </script>
