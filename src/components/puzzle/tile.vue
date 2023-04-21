@@ -26,7 +26,7 @@ const props = defineProps({
 
 const emit = defineEmits(['rotate'])
 
-const IMG_PATH = 'src/assets/icons/tiles/'
+const IMG_PATH = 'assets/tiles/'
 
 const correctTile = computed(() => findTile())
 const isEnabled = ref(true)
