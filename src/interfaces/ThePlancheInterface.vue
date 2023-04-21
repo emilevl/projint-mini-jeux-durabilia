@@ -111,7 +111,7 @@ function preload ()
     // Load Player assets
     this.load.spritesheet('player', 'assets/scierie/player.png', { frameWidth: 63.9, frameHeight: 57 });
     this.load.spritesheet('playerJump', 'assets/scierie/playerJump.png', { frameWidth: 63.9, frameHeight: 69.7 });
-    this.load.spritesheet('playerKilled', 'assets/scierie/playerKilled.png', { frameWidth: 69, frameHeight: 69 });
+    this.load.spritesheet('playerKilled', 'assets/scierie/playerKilled.png', { frameWidth: 63.9, frameHeight: 57 });
     
     this.load.image('particle', 'assets/scierie/particle.png');
 

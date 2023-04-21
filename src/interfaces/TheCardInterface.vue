@@ -34,9 +34,87 @@ loadDataCards();
 
 
 onMounted(() => {
-  setListeners();
+
   iCurrentCard.value = handCards.value.length - 1;
-  console.log(iCurrentCard.value);
+
+  
+  
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  
+  
+  mouseMoveHandler = (event) => {
+    console.log("touchCArds")
+    const card = document.querySelector(`#card-${iCurrentCard.value}`);
+    const band = card.querySelector(`.flip-card-band`);
+    if (!card) return;
+    
+    // If the person tilts on the left, we'll show the first response
+    if (event.clientX < windowCenterX - 200) {
+      choosing.value = true;
+      iChoice.value = 0;
+      band.style.height = "17%";
+      cardMoved.value = true;
+    } else if (event.clientX > windowCenterX + 200) {
+      choosing.value = true;
+      iChoice.value = 1;
+      band.style.height = "17%";
+      cardMoved.value = true;
+    } else {
+      choosing.value = false;
+      band.style.height = "0%";
+      cardMoved.value = false;
+    }
+    const tiltRange = 7; // You can adjust the tilt range as needed
+    const tilt =
+      ((event.clientX - windowCenterX) / windowCenterX) * tiltRange;
+    card.style.transform = `rotate(${tilt}deg) translate(calc(-50% - ${
+      7 * iCurrentCard.value
+    }px), calc(-60% + ${2 * iCurrentCard.value}px))`;
+  };
+  
+  
+  touchMoveHandler = (e) => {
+    e.preventDefault();
+    const card = document.querySelector(`#card-${iCurrentCard.value}`);
+    const band = card.querySelector(`.flip-card-band`);
+    if (!card) return;
+    const touch = e.touches[0];
+
+    // Calculate the position of the card relative to the touch position
+    const cardX = touch.clientX - card.clientWidth / 2;
+    const cardY = touch.clientY - card.clientHeight / 2;
+
+    // Set the card position
+    card.style.position = "absolute";
+    card.style.left = cardX + "px";
+    card.style.top = cardY + "px";
+
+    // Calculate tilt based on touch position
+    const tiltRange = 7;
+    const tilt = ((touch.clientX - windowCenterX) / windowCenterX) * tiltRange;
+
+    // Apply the tilt effect to the card
+    card.style.transform = `rotate(${tilt}deg)`;
+
+    // Show the band when needed
+    if (touch.clientX < windowCenterX - 25) {
+      iChoice.value = 0;
+      band.style.height = "15%";
+      cardMoved.value = true;
+    } else if (touch.clientX > windowCenterX + 25) {
+      iChoice.value = 1;
+      band.style.height = "15%";
+      cardMoved.value = true;
+    } else {
+      band.style.height = "0%";
+      cardMoved.value = false;
+    }
+  };
+    setEventListeners();
+  });
   
   // TODO: Detect if the user is on a mobile device or not
   // const platform = navigator.platform.toLowerCase();
@@ -54,7 +132,7 @@ onMounted(() => {
   //       console.log("unknown")
   //   }
   //select the #app element
-});
+
 
 function loadDataCards() {
   dataCards.value = dataCardsJson;
@@ -95,11 +173,7 @@ function decisionDone() {
   currentCard.decision = iChoice.value;
   cardSelection.value.push(currentCard);
 
-  // remove the event listeners
-  document.removeEventListener("mousemove", mouseMoveHandler);
-  document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
-  document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchmove", touchMoveHandler);
-  document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchend", decisionDone);
+  removeEventListener();
 
   if (iCurrentCard.value === 0) {
     // end of the game
@@ -141,97 +215,33 @@ function decisionDone() {
     iCurrentCard.value--;
     handCards.value.pop();
     turnCard();
-
-    document.addEventListener("mousemove", mouseMoveHandler);
-    document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
-    document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchmove", touchMoveHandler);
-    document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchend", decisionDone);
+    setEventListeners();
+    
   }, 250);
 }
 
 const windowCenterX = window.innerWidth / 2;
 
 
-function setListeners() {
-    mouseMoveHandler = (event) => {
-      const card = document.querySelector(`#card-${iCurrentCard.value}`);
-      const band = card.querySelector(`.flip-card-band`);
-      if (!card) return;
-
-      // If the person tilts on the left, we'll show the first response
-      if (event.clientX < windowCenterX - 200) {
-        choosing.value = true;
-        iChoice.value = 0;
-        band.style.height = "17%";
-        cardMoved.value = true;
-      } else if (event.clientX > windowCenterX + 200) {
-        choosing.value = true;
-        iChoice.value = 1;
-        band.style.height = "17%";
-        cardMoved.value = true;
-      } else {
-        choosing.value = false;
-        band.style.height = "0%";
-        cardMoved.value = false;
-      }
-      const tiltRange = 7; // You can adjust the tilt range as needed
-      const tilt =
-        ((event.clientX - windowCenterX) / windowCenterX) * tiltRange;
-      card.style.transform = `rotate(${tilt}deg) translate(calc(-50% - ${
-        7 * iCurrentCard.value
-      }px), calc(-60% + ${2 * iCurrentCard.value}px))`;
-
-      touchMoveHandler = (e) => {
-        // e.preventDefault();
-        console.log("touchmove");
-        // move the card following the finger
-        const card = document.querySelector(`#card-${iCurrentCard.value}`);
-        const band = card.querySelector(`.flip-card-band`);
-        if (!card) return;
-        const touch = e.touches[0];
-
-        // show the band when needed
-        if (touch.clientX < windowCenterX - 25) {
-          iChoice.value = 0;
-          band.style.height = "15%";
-          cardMoved.value = true;
-        } else if (touch.clientX > windowCenterX + 25) {
-          iChoice.value = 1;
-          band.style.height = "15%";
-          cardMoved.value = true;
-        } else {
-          band.style.height = "0%";
-          cardMoved.value = false;
-        }
-
-        card.style.position = "absolute";
-        // the center of the card is centered on the finger
-        card.style.left = touch.clientX - card.clientWidth / 2 + "px";
-        card.style.top = touch.clientY - card.clientHeight / 2 + "px";
-        // card.style.transform = "none";
-        // console log the width of the card
-        // console.log(card.clientWidth)
-
-        const tiltRange = 7; // You can adjust the tilt range as needed
-        const tilt =
-          ((touch.clientX - windowCenterX) / windowCenterX) * tiltRange;
-        card.style.transform = `rotate(${tilt}deg)`;
-      };
-
-      // when the user stops touching the screen
-      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchend", decisionDone);
-    };
-
-    // check if we are on a desktop or a mobile device
-    // if (window.innerWidth > 1080) {
-    if (window.innerWidth > 1080) {
+  function setEventListeners() {
+    if (window.innerWidth > 1050) {
       document.addEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
     } else {
       // select the #app element
       // document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
-      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`)
-        .addEventListener("touchmove", touchMoveHandler);
+      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchmove", touchMoveHandler);
+        document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchend", decisionDone);
+    }
+  }
+
+  function removeEventListener() {
+    if (window.innerWidth > 1050) {
+      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
+    } else {
+      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchmove", touchMoveHandler);
+      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchend", decisionDone);
     }
   }
 
