@@ -87,6 +87,9 @@ img {
     display: flex;
     flex-direction: column;
     align-items: start;
-    width:fit-content;
+    width: fit-content;
+    padding: 25px;
+
+    align-self: flex-start;
 }
 </style>

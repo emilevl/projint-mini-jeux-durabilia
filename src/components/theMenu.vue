@@ -40,6 +40,9 @@ p {
     background-size: cover;
     height: fit-content;
     width: fit-content;
+
+    margin: 25px;
+    align-self: flex-end;
 }
 
 </style>

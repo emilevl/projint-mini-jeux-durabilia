@@ -14,16 +14,14 @@ function onToggleMenu() {
 <template>
     <div id="puzzleInterface">
         <div class="aside">
-            <the-chrono></the-chrono>
             <the-menu @toggle-menu="onToggleMenu"></the-menu>
+            <the-chrono></the-chrono>
         </div>
         <grid></grid>
     </div>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
-
 /* :root {
     --white: #FDFCFC;
 } */
@@ -56,6 +54,7 @@ function onToggleMenu() {
 .aside {
     display: flex;
     justify-content: space-between;
-    padding: 25px;
+    height: 100%;
 }
+
 </style>
