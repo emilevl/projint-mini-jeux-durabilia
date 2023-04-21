@@ -1,7 +1,9 @@
 <script setup>
 import Tile from '../puzzle/tile.vue'
 import { generateMatrix } from '../../utils/generateRandomPath.js';
+import { VerifyMatrix } from '../../utils/verifyPuzzle.js';
 import { computed, watchEffect, ref } from 'vue'
+import {VerifyMatrix} from '../../utils/verifyPuzzle.js'
 
 const nbCols = 5;
 const nbRows = nbCols;
@@ -15,21 +17,18 @@ const freezeFrequency = 0.05; // how often tile freeze happens
 
 const nbColsCss = `repeat(${nbCols}, 1fr)`
 
-
 const matrix = generateMatrix(arrival, nbRows, nbCols, lengthPath)
 
 const rotations = [0, 90, 180, 270]
 
 function randomizeRotation(position) {
     let randomInt = Math.floor(Math.random() * rotations.length)
-    // let randomInt = 0
     let i = 0
 
     while (i < randomInt) {
         rotateSides(position)
         i++
     }
-
     return rotations[randomInt]
 }
 
@@ -47,16 +46,11 @@ function randomizeFreeze() {
 }
 
 function rotateSides(position) {
-    console.log(matrix);
-    //console.log(matrix[position[0]][position[1]].sides);
 
     let last = matrix[position[0]][position[1]].sides.pop();
     matrix[position[0]][position[1]].sides.unshift(last);
 
-    //console.log(matrix[position[0]][position[1]].sides);
-    
-
-    //console.log(matrix[position[0]][position[1]].sides);
+    VerifyMatrix(matrix)
 }
 
 </script>

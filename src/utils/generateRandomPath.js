@@ -109,13 +109,13 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
     }
   }
 
-  let tilesType = { curved: ['2b', '3', '4'], right: ['2a', '3', '4'], useless: ['0', '1'] };
-  let Alltiles = ['2b', '3', '4', '2a', '0', '1'];
+  let tilesType = { curved: ['2b', '3', '4', '2b', '2b', '2b'], right: ['2a', '3', '4', '2a', '2a', '2a'], useless: ['0', '1'] };
+  let Alltiles = ['2b', '3', '4', '2a', '1', '0', '2a', '2a', '2b', '2b', '2a', '2b'];
 
   if (history[1][0] != history[0][0]) {
-    matrix[history[0][0]][history[0][1]] = tilesType.curved[Math.floor(Math.random() * 3)];
+    matrix[history[0][0]][history[0][1]] = tilesType.curved[Math.floor(Math.random() * 6)];
   } else {
-    matrix[history[0][0]][history[0][1]] = tilesType.right[Math.floor(Math.random() * 3)];
+    matrix[history[0][0]][history[0][1]] = tilesType.right[Math.floor(Math.random() * 6)];
   }
 
   for (let i = 1; i < history.length - 2; i++) {
@@ -123,15 +123,15 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
       (history[i + 1][0] == history[i - 1][0] && history[i + 1][1] != history[i - 1][1]) ||
       (history[i + 1][0] != history[i - 1][0] && history[i + 1][1] == history[i - 1][1])
     ) {
-      matrix[history[i][0]][history[i][1]] = tilesType.right[Math.floor(Math.random() * 3)];
+      matrix[history[i][0]][history[i][1]] = tilesType.right[Math.floor(Math.random() * 6)];
     } else {
-      matrix[history[i][0]][history[i][1]] = tilesType.curved[Math.floor(Math.random() * 3)];
+      matrix[history[i][0]][history[i][1]] = tilesType.curved[Math.floor(Math.random() * 6)];
     }
   }
   if (history[history.length - 2][0] != history[history.length - 3][0]) {
-    matrix[history[history.length - 2][0]][history[history.length - 2][1]] = tilesType.curved[Math.floor(Math.random() * 3)];
+    matrix[history[history.length - 2][0]][history[history.length - 2][1]] = tilesType.curved[Math.floor(Math.random() * 6)];
   } else {
-    matrix[history[history.length - 2][0]][history[history.length - 2][1]] = tilesType.right[Math.floor(Math.random() * 3)];
+    matrix[history[history.length - 2][0]][history[history.length - 2][1]] = tilesType.right[Math.floor(Math.random() * 6)];
   }
 
   // matrix.forEach((element) => {
