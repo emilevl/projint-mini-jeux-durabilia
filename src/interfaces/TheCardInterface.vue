@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let initialTouchY = null;
   let initialCardX = null;
   let initialCardY = null;
+  
   touchStartHandler = (e) => {
     const touch = e.touches[0];
     initialTouchX = touch.clientX;
@@ -114,12 +115,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Apply the tilt effect to the card
     card.style.transform = `rotate(${tilt}deg)`;
 
+    const cardRect = card.getBoundingClientRect();
+
+
     // Show the band when needed
-    if (touch.clientX < windowCenterX - 25) {
+    if (cardRect.left + cardRect.width / 2 < windowCenterX - 25) {
       iChoice.value = 0;
       band.style.height = "15%";
       cardMoved.value = true;
-    } else if (touch.clientX > windowCenterX + 25) {
+    } else if (cardRect.left + cardRect.width / 2 > windowCenterX + 25) {
       iChoice.value = 1;
       band.style.height = "15%";
       cardMoved.value = true;
@@ -370,7 +374,7 @@ onUnmounted(() => {
     <!-- <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div> -->
   </div>
   <div class="ressources-impact">
-    <div v-if="cardsDrawn"
+    <div v-if="cardsDrawn && cardMoved"
       v-for="ressource of handCards[iCurrentCard].responses[iChoice].impact"
       class="ressource-icon-wrapper"
     >
