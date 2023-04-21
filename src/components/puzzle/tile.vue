@@ -19,9 +19,6 @@ const props = defineProps({
         type: Boolean,
         // required: false
     },
-    matrix: {
-        type: Array
-    },
     position: {
         type: Array
     }
@@ -51,7 +48,7 @@ let currentRotation = props.rotation
 
 // Get the tile type to display the correct image
 function findTile() {
-    const tile = tiles.find(tile => tile.type === props.matrix[props.position[0]][props.position[1]].type)
+    const tile = tiles.find(tile => tile.type === props.tileType)
     let name = IMG_PATH + tile.svg
 
     props.frozen ?
@@ -63,7 +60,6 @@ function findTile() {
 
 // Rotate target 90 degrees clockwise
 function rotate(evt) {
-    console.log(props.matrix)
 
     anime.timeline({
         targets: evt.target,
@@ -86,26 +82,13 @@ function rotate(evt) {
         scale: [1],
     })
 
-    rotateSides(props.position)
+    emit('rotate')
 
     playAudio(sound)
 }
 
 function playAudio(url) {
     new Audio(url).play();
-}
-
-function rotateSides(position) {
-    //console.log(position);
-    //console.log(matrix[position[0]][position[1]].sides);
-
-    let last = props.matrix[position[0]][position[1]].sides.pop();
-    props.matrix[position[0]][position[1]].sides.unshift(last);
-
-    //console.log(matrix[position[0]][position[1]].sides);
-    
-
-    //console.log(matrix[position[0]][position[1]].sides);
 }
 
 </script>

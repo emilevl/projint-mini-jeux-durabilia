@@ -160,7 +160,8 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
 
   for (let i = 0; i < matrix.length; i++) {
     for (let n = 0; n < matrix[i].length; n++) {
-      matrix[i][n] = { type: matrix[i][n], sides: tiles.filter((element) => element.type == matrix[i][n])[0].sides };
+      const sides = tiles.filter((element) => element.type == matrix[i][n])[0].sides
+      matrix[i][n] = { type: matrix[i][n], sides: JSON.parse(JSON.stringify(sides)) };
     }
   }
 
