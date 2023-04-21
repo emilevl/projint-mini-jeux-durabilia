@@ -599,7 +599,9 @@ async function hitSaws(player, saw)
     replaceObjects();
 
     playerDead.value = false;
+    timer.paused = false;
     this.physics.resume();
+    
     
 
     /* setInterval(function () {
