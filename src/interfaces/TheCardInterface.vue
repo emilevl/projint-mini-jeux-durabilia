@@ -570,7 +570,7 @@ onUnmounted(() => {
 }
 
 .ressource-icon-wrapper.ressource-icon-green .circle, .ressource-icon-wrapper.ressource-icon-green path .circle, .ressource-icon-wrapper.ressource-icon-red .circle, .ressource-icon-wrapper.ressource-icon-red path {
-  transition: all 0.2s ease;
+  transition: all 0.1s ease;
 }
 
 .ressource-icon-wrapper.ressource-icon-red path {
@@ -630,7 +630,7 @@ onUnmounted(() => {
     gap: 2px;
     position: absolute;
     bottom: 5px;
-    margin: 10px auto;
+    margin: 10px 10px;
   }
 
   .ressources-impact .ressource-icon-wrapper {
