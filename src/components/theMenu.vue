@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watchEffect } from "vue";
-import { menuOpened } from "../store.js"
+import { menuOpened } from "../utils/store.js"
 
 // let menuOpened = ref(false)
 
@@ -24,6 +24,7 @@ function toggleMenu() {
 p {
     font-family: "Limelight", Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
+    color: #FDFCFC;
     font-weight: 600;
     font-size: 3vw;
     margin: 0.05vw 3.6vw 0.05vw 3.6vw;
