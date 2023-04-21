@@ -15,7 +15,7 @@ let config = {
         default: "arcade",
         arcade: {
             gravity: { y: 2000 },
-            debug: true,
+            debug: false,
         },
     },
     input: {
@@ -30,7 +30,7 @@ let config = {
 };
 
 // 250 300
-const spawnPoint = { x: 10250, y: 300 };
+const spawnPoint = { x: 250, y: 300 };
 
 // Death management
 let deathCount = 0;
@@ -640,10 +640,10 @@ function endGame(player, endMachine) {
     this.input.enabled = false;
 
     // Stop chrono
-    timer.paused = true;
+    //timer.paused = true;
     const finalTime = formatTime(chrono.value);
 
-    console.log(finalTime);
+    
 }
 
 /* setInterval(function () {
