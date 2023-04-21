@@ -22,8 +22,8 @@ const matrix = generateMatrix(arrival, nbRows, nbCols, lengthPath)
 const rotations = [0, 90, 180, 270]
 
 function randomizeRotation(position) {
-    //let randomInt = Math.floor(Math.random() * rotations.length)
-    let randomInt = 1
+    let randomInt = Math.floor(Math.random() * rotations.length)
+    // let randomInt = 0
     let i = 0
 
     while (i < randomInt) {
@@ -31,7 +31,6 @@ function randomizeRotation(position) {
         i++
     }
 
-    console.log(matrix);
     return rotations[randomInt]
 }
 
@@ -48,9 +47,18 @@ function randomizeFreeze() {
     return frozen
 }
 
-watchEffect(() => {
+function rotateSides(position) {
     console.log(matrix);
-})
+    //console.log(matrix[position[0]][position[1]].sides);
+
+    let last = matrix[position[0]][position[1]].sides.pop();
+    matrix[position[0]][position[1]].sides.unshift(last);
+
+    //console.log(matrix[position[0]][position[1]].sides);
+    
+
+    //console.log(matrix[position[0]][position[1]].sides);
+}
 
 </script>
 
@@ -63,8 +71,7 @@ watchEffect(() => {
         <div id="grid" class="grid-container">
             <template v-for="(row, r) in matrix">
                 <div v-for="(col, c) in row" class="grid-item">
-                    <tile :matrix="matrix" :position="[r,c]">
-                    <!-- <tile :tileType="col.type" :rotation="randomizeRotation([r, c])" @rotate="rotateSides([r, c])"> -->
+                    <tile :tileType="col.type" :rotation="randomizeRotation([r, c])" @rotate="rotateSides([r, c])">
                     </tile>
                     <!-- :frozen="randomizeFreeze()" -->
                 </div>
