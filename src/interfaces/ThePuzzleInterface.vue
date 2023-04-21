@@ -33,6 +33,8 @@ body {
     color: var(--white);
     background-color: #12313c;
     background: radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
+    width: 100%;
+    overflow: hidden;
 }
 
 body::after {
