@@ -30,7 +30,7 @@ let config = {
 };
 
 // 250 300
-const spawnPoint = { x: 10350, y: 800 };
+const spawnPoint = { x: 250, y: 300 };
 
 // Death management
 let deathCount = 0;
