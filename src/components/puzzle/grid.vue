@@ -47,18 +47,6 @@ function randomizeFreeze() {
     return frozen
 }
 
-function rotateSides(position) {
-    //console.log(position);
-    //console.log(matrix[position[0]][position[1]].sides);
-
-    let last = matrix[position[0]][position[1]].sides.pop();
-    matrix[position[0]][position[1]].sides.unshift(last);
-
-    //console.log(matrix[position[0]][position[1]].sides);
-    
-
-    //console.log(matrix[position[0]][position[1]].sides);
-}
 watchEffect(() => {
     console.log(matrix);
 })
@@ -74,7 +62,8 @@ watchEffect(() => {
         <div id="grid" class="grid-container">
             <template v-for="(row, r) in matrix">
                 <div v-for="(col, c) in row" class="grid-item">
-                    <tile :tileType="col.type" :rotation="randomizeRotation([r, c])" @rotate="rotateSides([r, c])">
+                    <tile :matrix="matrix" :position="[r,c]">
+                    <!-- <tile :tileType="col.type" :rotation="randomizeRotation([r, c])" @rotate="rotateSides([r, c])"> -->
                     </tile>
                     <!-- :frozen="randomizeFreeze()" -->
                 </div>
