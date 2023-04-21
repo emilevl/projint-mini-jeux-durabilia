@@ -15,7 +15,7 @@ let config = {
         default: "arcade",
         arcade: {
             gravity: { y: 2000 },
-            debug: false,
+            debug: true,
         },
     },
     input: {
@@ -30,7 +30,7 @@ let config = {
 };
 
 // 250 300
-const spawnPoint = { x: 250, y: 300 };
+const spawnPoint = { x: 10250, y: 300 };
 
 // Death management
 let deathCount = 0;
@@ -317,11 +317,13 @@ function create() {
                 rect = graphics.fillRect(co.x-64, co.y-64, 64, 128);
                 mask = rect.createGeometryMask();
                 saws[i].setMask(mask);
+                saws[i].setScale(0.9)
                 break;
             case 2: 
                 rect = graphics.fillRect(co.x, co.y-64, 64, 128);
                 mask = rect.createGeometryMask();
                 saws[i].setMask(mask);
+                saws[i].setScale(0.9)
                 break;
             default:
                 break;
