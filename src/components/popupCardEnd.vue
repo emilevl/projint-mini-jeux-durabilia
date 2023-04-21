@@ -1,0 +1,395 @@
+<script setup>
+import { onMounted, ref } from 'vue';
+import { ressourceGlobal } from '../utils/store';
+import ButtonComponent from './ButtonComponent.vue';
+import CardBack from './card-back.vue';
+
+const props = defineProps({
+    cardSelection: Array
+})
+
+const emit = defineEmits([
+    'closeRecap',
+]);
+
+//Store the impact of the cards from the choices of the player
+let playerChoices = ref([[], [], [], [], []])
+
+//Get the total impact of the player choices
+let totalImpact = ref([
+    { ressource: "poverty", color: "#D33A42", currentLevel: 0, impact: 0 },
+    { ressource: "hunger", color: "#D5A950", currentLevel: 0, impact: 0 },
+    { ressource: "health", color: "#629C47", currentLevel: 0, impact: 0 },
+    { ressource: "education", color: "#B52E34", currentLevel: 0, impact: 0 },
+    { ressource: "genderEquality", color: "#DC5239", currentLevel: 0, impact: 0 },
+    { ressource: "water", color: "#5ABBDE", currentLevel: 0, impact: 0 },
+    { ressource: "energy", color: "#F2B843", currentLevel: 0, impact: 0 },
+    { ressource: "decentWork", color: "#822438", currentLevel: 0, impact: 0 },
+    { ressource: "innovation", color: "#E27439", currentLevel: 0, impact: 0 },
+    { ressource: "inequality", color: "#CB3267", currentLevel: 0, impact: 0 },
+    { ressource: "communities", color: "#EB9F43", currentLevel: 0, impact: 0 },
+    { ressource: "consumption", color: "#B78C41", currentLevel: 0, impact: 0 },
+    { ressource: "climateActions", color: "#4F7C4A", currentLevel: 0, impact: 0 },
+    { ressource: "lifeAquatic", color: "#4296D3", currentLevel: 0, impact: 0 },
+    { ressource: "lifeLand", color: "#73BD46", currentLevel: 0, impact: 0 },
+    { ressource: "peaceJustice", color: "#2A6799", currentLevel: 0, impact: 0 },
+    { ressource: "partnership", color: "#254867", currentLevel: 0, impact: 0 },
+    { ressource: "time", color: "#BDBDBD", currentLevel: 0, impact: 0 }
+])
+
+//Store the impacts of the player choices
+function getPlayerChoices() {
+    for (let [index, card] of props.cardSelection.entries()) {
+        for (let impact of card.responses[card.decision].impact) {
+            playerChoices.value[index].push(impact)
+        }
+    }
+}
+//Calculate all the impacts of the cards chosen
+function updateImpactData() {
+    for (let dataEntry of totalImpact.value) {
+        //Get ressources level
+        for (let ressource of ressourceGlobal.value) {
+            if (dataEntry.ressource == ressource.img) {
+                dataEntry.currentLevel = ressource.currentLevel
+            }
+        }
+        //Get choices player
+        for (let choice of playerChoices.value) {
+            for (let impact of choice) {
+                if (impact.ressource == dataEntry.ressource) {
+                    dataEntry.impact += impact.level
+                }
+            }
+        }
+    }
+}
+
+onMounted(() => {
+    setTimeout(() => getPlayerChoices(), 10)
+    setTimeout(() => updateImpactData(), 10)
+    setTimeout(() => showBars(), 10)
+    setTimeout(() => showChange(), 300)
+})
+
+//Sets the bar of the current level of ressources (black bars)
+function showBars() {
+    for (let impact of totalImpact.value) {
+        const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
+        //Set the bars to the color of the sdgs
+        barPrincipal.style.transition = "all 0s ease 0s"
+        barPrincipal.style.backgroundColor = impact.color
+        for (let ressource of ressourceGlobal.value) {
+            if (ressource.img == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 75}px`
+        }
+    }
+    for (let i = 0; i < 5; i++) {
+        for (let impact of playerChoices.value[i]) {
+            const barPrincipal = document.querySelector(`#barGlob-choice${i + 1}-${impact.ressource}`)
+            //Set the bars to the color of the sdgs
+            barPrincipal.style.transition = "all 0s ease 0s"
+            //For the color
+            for (let ressource of ressourceGlobal.value) {
+                if (impact.ressource == ressource.img) {
+                    barPrincipal.style.backgroundColor = ressource.color
+                }
+            }
+            for (let ressource of ressourceGlobal.value) {
+                if (ressource.img == impact.ressource) barPrincipal.style.height = `${(Math.abs(ressource.currentLevel) / 100) * 75}px`
+            }
+        }
+    }
+}
+
+//Set changes for the full recap of total impacts
+function showChange() {
+    //For totalImpacts (full recap)
+    for (let impact of totalImpact.value) {
+        const bar = document.querySelector(`#${impact.ressource}`)
+        bar.style.backgroundColor = impact.color
+        bar.style.opacity = 0.7
+        const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
+
+        //Manage the case where we pass the bar limit (0 -> 100)
+        if (impact.impact + parseInt(barPrincipal.style.height) / 2 >= 100) {
+            impact.impact = 100 - parseInt(barPrincipal.style.height) / 2
+        } else if (impact.impact + parseInt(barPrincipal.style.height) / 2 <= 0) {
+            impact.impact = - parseInt(barPrincipal.style.height) / 2
+        }
+
+        bar.style.height = `${(Math.abs(impact.impact) / 100) * 75}px` //Sets the height for the change bar
+        if (impact.impact < 0) {
+            barPrincipal.style.transition = "all 1s ease 0s" //For animation transition
+            barPrincipal.style.height = `${parseInt(barPrincipal.style.height) - ((Math.abs(impact.impact) / 100) * 75)}px` //Diminish the black bar to let the red bar go over it
+        }
+    }
+
+    //For the choices
+    for (let i = 0; i < 5; i++) {
+        for (let impact of playerChoices.value[i]) {
+            const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
+            //For the color
+            for (let ressource of ressourceGlobal.value) {
+                if (impact.ressource == ressource.img) {
+                    bar.style.backgroundColor = ressource.color
+                    bar.style.opacity = 0.7
+                }
+            }
+            const barPrincipal = document.querySelector(`#barGlob-choice${i + 1}-${impact.ressource}`)
+
+            //Manage the case where we pass the bar limit (0 -> 100)
+            if (impact.level + parseInt(barPrincipal.style.height) / 2 >= 100) {
+                impact.level = 100 - parseInt(barPrincipal.style.height) / 2
+            } else if (impact.level + parseInt(barPrincipal.style.height) / 2 <= 0) {
+                impact.level = - parseInt(barPrincipal.style.height) / 2
+            }
+
+            bar.style.height = `${(Math.abs(impact.level) / 100) * 75}px`
+            if (impact.level < 0) {
+                barPrincipal.style.transition = "all 1s ease 0s" //For animation transition
+                barPrincipal.style.height = `${parseInt(barPrincipal.style.height) - ((Math.abs(impact.level) / 100) * 75)}px` //Diminish the black bar to let the red bar go over it
+            }
+        }
+    }
+}
+
+//Manage the nav between the choices
+let activeSection = ref("recap")
+function changeSection(id) {
+    if (activeSection.value != id) {
+        activeSection.value = id
+        for (let impact of totalImpact.value) {
+            const bar = document.querySelector(`#${impact.ressource}`)
+            const barPrincipal = document.querySelector(`#barGlob-${impact.ressource}`)
+            bar.style.height = `0px`
+            bar.style.transform = `translate(0,0)`
+            barPrincipal.style.transition = "all 0s ease 0s"
+        }
+        for (let i = 0; i < 5; i++) {
+            for (let impact of playerChoices.value[i]) {
+                const bar = document.querySelector(`#choice${i + 1}-${impact.ressource}`)
+                bar.style.height = `0px`
+                bar.style.transform = `translate(0,0)`
+            }
+        }
+        showBars()
+        setTimeout(() => showChange(), 300)
+    }
+}
+
+function setNewRessources() {
+    totalImpact.value.forEach(ressource => {
+        ressourceGlobal.value.forEach(glob => {
+            if (glob.img == ressource.ressource) {
+                //glob.currentLevel += ressource.impact
+            }
+        })
+    });
+}
+</script>
+
+<template>
+    <div class="background"></div>
+    <div class="recap-container">
+        <h2 class="title">Ressources impactées</h2>
+        <img class="pause-deco" src="/assets/icons/rules-deco.svg">
+
+        <div class="content">
+            <div class="navbar">
+                <buttonComponent class="navbar-option button" id="recap" :class="{ active: activeSection == 'recap' }"
+                    @click="changeSection($event.target.id)">Résumé</buttonComponent>
+                <buttonComponent class="navbar-option button" v-for="n in 5" :id="`choix-${n}`"
+                    :class="{ active: activeSection == `choix-${n}` }" @click="changeSection($event.target.id)">Carte {{ n
+                    }}</buttonComponent>
+            </div>
+
+            <section class="detail-section" id="recap-section" v-show="activeSection == 'recap'">
+                <div class="detail-progression" v-for="impact of totalImpact">
+                    <img class="icon" :src="`/assets/icons/${impact.ressource}.svg`">
+                    <div class="progression-bar-container">
+                        <div class="progression-bar-current" :id="`barGlob-${impact.ressource}`">
+                        </div>
+                        <div class="progression-bar-impact" :id="`${impact.ressource}`"></div>
+                    </div>
+                    <p v-if="impact.impact > 0" class="progression-bar-number">+{{ impact.impact }}</p>
+                    <p v-if="impact.impact < 0" class="progression-bar-number">{{ impact.impact }}</p>
+                    <p v-if="impact.impact == 0" class="progression-bar-number">-</p>
+                </div>
+            </section>
+            <section v-for="n in 5" class="detail-section choice-section" :id="`choix-${n}-section`"
+                v-show="activeSection == `choix-${n}`">
+                <!-- CARDS -->
+                <div class="card-container">
+                    <CardBack class="card-details" :title="props.cardSelection[n - 1].title"
+                        :question="props.cardSelection[n - 1].question"
+                        :response="props.cardSelection[n - 1].responses[props.cardSelection[n - 1].decision].name">
+                    </CardBack>
+                </div>
+                <!-- BAR PROGRESSION -->
+                <div class="bar-container">
+                    <div class="detail-progression" v-for="impact of playerChoices[n - 1]">
+                        <img class="icon" :src="`/assets/icons/${impact.ressource}.svg`">
+                        <div class="progression-bar-container">
+                            <div class="progression-bar-current" :id="`barGlob-choice${n}-${impact.ressource}`"></div>
+                            <div class="progression-bar-impact" :id="`choice${n}-${impact.ressource}`"></div>
+                        </div>
+                        <p v-if="impact.level > 0" class="progression-bar-number">+{{ impact.level }}</p>
+                        <p v-if="impact.level < 0" class="progression-bar-number">{{ impact.level }}</p>
+                        <p v-if="impact.level == 0" class="progression-bar-number">-</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <ButtonComponent class="back-to-map" @click="$emit('closeRecap'); setNewRessources()">Retour à la carte
+        </ButtonComponent>
+    </div>
+</template>
+
+<style scoped>
+.background {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 50%;
+}
+
+.recap-container {
+    z-index: 3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 600px;
+    background-color: #FBF8F1;
+    text-align: center;
+    padding: 50px;
+}
+
+.pause-deco {
+    width: 100%;
+}
+
+.icon {
+    height: 30px;
+    z-index: 1000;
+}
+
+.content {
+    width: 100%;
+    height: 450px;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-content: space-evenly;
+}
+
+.detail-section {
+    height: 400px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.card-container,
+.bar-container {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.bar-container {
+    gap: 25px;
+}
+
+.card-container {
+    align-items: center;
+}
+
+.detail-progression {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.progression-bar-container {
+    height: 75px;
+    width: 75px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: end;
+}
+
+.progression-bar-current {
+    transition: 1s;
+}
+
+.progression-bar-impact {
+    height: 0;
+    transition: 1s;
+}
+
+.progression-bar-number {
+    font-size: 1rem;
+}
+
+.choice-section {
+    display: flex;
+    height: 400px;
+}
+
+.back-to-map {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 50px;
+    transform: translate(-50%, 0);
+}
+
+.active {
+    background-color: black;
+    color: #FBF8F1;
+    border-radius: 20px 0px;
+}
+
+/* --------------------------- CARDS --------------------------------------- */
+.card-details {
+    transform: unset;
+    position: unset;
+    width: 250px;
+    height: 350px;
+}
+
+.card-details:deep(.card-title) {
+    font-size: 1.2em;
+    padding: 15px 15px 0 15px;
+}
+
+.card-details:deep(.card-question) {
+    font-size: 0.8em;
+    padding: 0px 15px;
+}
+
+.card-details:deep(.flip-card-response) {
+    font-size: 0.8em;
+}
+
+.card-details:deep(.flip-card-band) {
+    position: relative;
+    height: 17%;
+    bottom: unset;
+}
+
+/* ------------------------------- MOBILE ----------------------------------- */
+
+@media screen and (max-width: 1050px) {}
+</style>

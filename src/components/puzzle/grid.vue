@@ -58,7 +58,7 @@ function rotateSides(position) {
 </script>
 
 <template>
-    <div>
+    <div id="grid-box">
         <img id="pipe_start" src="../../assets/decor/pipe_left.png">
         <img id="img_start" src="../../assets/decor/freeze_left.png">
         <img id="pipe_end" src="../../assets/decor/pipe_right.png">
@@ -76,6 +76,13 @@ function rotateSides(position) {
 </template>
 
 <style scoped>
+
+/* #grid-box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+} */
 .grid-container {
     display: grid;
     grid-template-columns: v-bind(nbColsCss);

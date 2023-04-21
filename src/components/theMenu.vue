@@ -22,9 +22,11 @@ function toggleMenu() {
 
 <style scoped>
 p {
+    font-family: "Limelight", Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
     font-weight: 600;
     font-size: 3vw;
-    margin: 0.5vw 3.6vw 0.5vw 3.6vw;
+    margin: 0.05vw 3.6vw 0.05vw 3.6vw;
     cursor: pointer;
 }
 

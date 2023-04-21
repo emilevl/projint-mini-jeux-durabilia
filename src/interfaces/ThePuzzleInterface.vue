@@ -21,24 +21,26 @@ function onToggleMenu() {
     </div>
 </template>
 
-<style>
+<style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
 
-:root {
+/* :root {
     --white: #FDFCFC;
-}
+} */
 
-body {
+#puzzleInterface {
     font-family: 'Limelight', cursive;
-    color: var(--white);
+    color: #FDFCFC;
     background-color: #12313c;
     background: radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
     overflow: hidden;
     margin: 0;
 }
 
-body::after {
+#puzzleInterface::after {
     content: '';
     position: fixed;
     top: 0;
@@ -55,9 +57,5 @@ body::after {
     display: flex;
     justify-content: space-between;
     padding: 25px;
-}
-
-#puzzleInterface {
-    overflow: hidden;
 }
 </style>

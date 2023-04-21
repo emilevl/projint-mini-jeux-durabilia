@@ -6,7 +6,7 @@ const props = defineProps({
     level: Number,
     size: String
 })
-const url = `src/assets/icons/${props.name}.svg`
+const url = `/assets/icons/${props.name}.svg`
 
 let percentToPX = computed(() => (parseInt(props.level) / 100) * parseInt(props.size))
 let sizeLevel = computed(() => `${percentToPX.value}px`) //Taille de remplissage de l'icon de la ressource
@@ -38,7 +38,7 @@ img {
 .icon {
     overflow: hidden;
     height: v-bind(size);
-    width: v-bind(size);
+    width: auto;
     grid-column: 1 / 1;
     grid-row: 1 / 1;
 }
