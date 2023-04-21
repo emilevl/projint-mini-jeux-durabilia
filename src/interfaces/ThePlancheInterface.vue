@@ -42,7 +42,7 @@ let config = {
 
 
 // 400 300
-const spawnPoint = {x: 400, y: 300};
+const spawnPoint = {x: 250, y: 300};
 
 // Death management
 let deathCount = 0;
@@ -66,6 +66,7 @@ let movingPlatform;
 
 let cursors;
 let bigSaws = [];
+let bigSawsSpawnX = -150
 let movingSaws = [];
 let saws = [];
 let sawsCoordinates = [
@@ -218,7 +219,7 @@ function create ()
 
     this.anims.create({
         key: 'playerKilled',
-        frames: this.anims.generateFrameNumbers('playerKilled', { start: 0, end: 4 }),
+        frames: this.anims.generateFrameNumbers('playerKilled', { start: 0, end: 6 }),
         frameRate: 120,
         repeat: 0
     });
@@ -258,7 +259,7 @@ function create ()
 
     // Big saw
     for (let i = 0; i < 3; i++) {
-        bigSaws[i] = this.physics.add.sprite(0, (i+1)*400, "bigSaw").setScale(0.5);
+        bigSaws[i] = this.physics.add.sprite(bigSawsSpawnX, (i+1)*400, "bigSaw").setScale(0.5);
         bigSaws[i].body.setAllowGravity(false)
         bigSaws[i].body.isCircle = true;
         bigSaws[i].setGravity(0).setImmovable(true).setVelocityX(bigSawSpeed)
@@ -551,7 +552,7 @@ function formatTime(time) {
 function replaceObjects(){
     // Replace big saws
     bigSaws.forEach((bigSaw)=>{
-        bigSaw.x = 0;
+        bigSaw.x = bigSawsSpawnX;
     })
 
     // Replace moving platform
@@ -591,7 +592,7 @@ async function hitSaws(player, saw)
     timer.paused = true;
     deathCount++;
     
-    await delay(1000);
+    await delay(200);
 
     chrono.value = 0;
     
