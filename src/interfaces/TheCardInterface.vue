@@ -26,6 +26,7 @@ const iChoice = ref(0);
 const choosing = ref(false);
 let mouseMoveHandler;
 let touchMoveHandler;
+let touchStartHandler;
 let cardSelection = ref([]);
 const endGame = ref(false);
 const pauseGame = ref(false);
@@ -75,7 +76,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }px), calc(-60% + ${2 * iCurrentCard.value}px))`;
   };
   
-  
+  let initialTouchX = null;
+  let initialTouchY = null;
+  let initialCardX = null;
+  let initialCardY = null;
+  touchStartHandler = (e) => {
+    const touch = e.touches[0];
+    initialTouchX = touch.clientX;
+    initialTouchY = touch.clientY;
+
+    const card = document.querySelector(`#card-${iCurrentCard.value}`);
+    const cardRect = card.getBoundingClientRect();
+    initialCardX = cardRect.left;
+    initialCardY = cardRect.top;
+  };
+
   touchMoveHandler = (e) => {
     e.preventDefault();
     const card = document.querySelector(`#card-${iCurrentCard.value}`);
@@ -83,9 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!card) return;
     const touch = e.touches[0];
 
-    // Calculate the position of the card relative to the touch position
-    const cardX = touch.clientX - card.clientWidth / 2;
-    const cardY = touch.clientY - card.clientHeight / 2;
+    // Calculate the position of the card based on the difference between the initial and current touch positions
+    const cardX = initialCardX + touch.clientX - initialTouchX;
+    const cardY = initialCardY + touch.clientY - initialTouchY;
 
     // Set the card position
     card.style.position = "absolute";
@@ -228,6 +243,7 @@ const windowCenterX = window.innerWidth / 2;
       document.addEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
     } else {
+      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchstart", touchStartHandler);
       // select the #app element
       // document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
       document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchmove", touchMoveHandler);
