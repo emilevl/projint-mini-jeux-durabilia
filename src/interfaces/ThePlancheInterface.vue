@@ -40,17 +40,22 @@ let config = {
     antialias: true
 };
 
-//let chronoH1 = document.getElementById('chrono');
 
 // 400 300
 const spawnPoint = {x: 400, y: 300};
 
-
+// Death management
 let deathCount = 0;
+let playerDead = ref(false);
+let deatCountdown = ref(0);
+
+// Chrono management
 let chrono = ref(0)
 let timer;
 
 let player;
+
+// Jump variables
 let canDoubleJump = true;
 let canJump = false;
 
@@ -60,7 +65,6 @@ let logs2;
 let movingPlatform;
 
 let cursors;
-let bigSaw;
 let bigSaws = [];
 let movingSaws = [];
 let saws = [];
@@ -74,17 +78,20 @@ let sawsCoordinates = [
     {x:6976,y:960}
 ]
 
+// Saws speed
 const bigSawSpeed = 80;
 const movingSawsSpeed = 80;
 
-let buttonControllerPressed = false;
-let buttonControllerReleased = false;
 
+// Player attributes
 const playerVelocity = 800;
 let playerActualVelocity = 100;
 const playerJumpVelocity = 600;
 
+// Gamepad
 let pad1;
+let buttonControllerPressed = false;
+let buttonControllerReleased = false;
 
 // Audio
 let bonk;
@@ -212,7 +219,7 @@ function create ()
     this.anims.create({
         key: 'playerKilled',
         frames: this.anims.generateFrameNumbers('playerKilled', { start: 0, end: 4 }),
-        frameRate: 20,
+        frameRate: 120,
         repeat: 0
     });
 
@@ -575,19 +582,31 @@ function hitLogs (player, log)
 }
 
 // Function to handle if the player hits a saw
-function hitSaws(player, saw)
+async function hitSaws(player, saw)
 {
+    playerDead.value = true;
     this.physics.pause();
-    chrono.value = 0;
-
-    player.anims.play('playerKilled', true).once('animationcomplete', () => {
-        player.setPosition(spawnPoint.x, spawnPoint.y);
-        replaceObjects();
-
-        this.physics.resume();
-    });
-
+    player.anims.play('playerKilled', false);
+    
+    timer.paused = true;
     deathCount++;
+    
+    await delay(1000);
+
+    chrono.value = 0;
+    
+    player.setPosition(spawnPoint.x, spawnPoint.y);
+    replaceObjects();
+
+    playerDead.value = false;
+    this.physics.resume();
+    
+
+    /* setInterval(function () {
+        console.log("test");
+    }, 3000);
+    */
+    
 }
 
 function endGame(player, endMachine) {
@@ -602,6 +621,17 @@ function endGame(player, endMachine) {
     console.log(finalTime);
 
 }
+
+/* setInterval(function () {
+        console.log("test");
+}, 1000); */
+
+function delay(milliseconds){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
 </script>
 
 <template>
@@ -616,16 +646,18 @@ function endGame(player, endMachine) {
         @resumeGame="togglePauseGame"
     ></ThePause>
     <h1 id="chrono">{{ formatTime(chrono) }}</h1>
+    <h2 v-if="playerDead" id="death-message">Touché</h2>
 </template>
 
 <style scoped>
 body {
     margin: 0;
 }
-h1 {
+h1, h2 {
     position: absolute;
     left: 1rem;
     font-family: "Limelight", cursive;
+    font-size: 2.5rem;
 }
 .pause-game {
   position: absolute;
@@ -635,5 +667,14 @@ h1 {
   left: auto;
   margin: 0 8rem 0 0;
   cursor: pointer;
+}
+
+#death-message {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 3rem;
 }
 </style>
