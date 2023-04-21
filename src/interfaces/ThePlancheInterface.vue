@@ -6,18 +6,7 @@ import { computed } from "@vue/reactivity";
 const CURRENT_TRANSFORMER = transformers.value.find((transformer) => transformer.name == "Scierie");
 
 const pauseGame = ref(false);
-function togglePauseGame() {
-    console.log("pause");
-    if (pauseGame.value) {
-        // document.addEventListener("mousemove", mouseMoveHandler);
-        // document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
-        pauseGame.value = false;
-    } else {
-        // document.removeEventListener("mousemove", mouseMoveHandler);
-        // document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
-        pauseGame.value = true;
-    }
-}
+
 
 let config = {
     type: Phaser.AUTO,
@@ -112,6 +101,10 @@ let bonk;
 
 let game = new Phaser.Game(config);
 
+function togglePauseGame() {
+    pauseGame.value = !pauseGame.value;
+}
+
 function preload() {
     // load the PNG file
     this.load.image("base_tiles", "assets/scierie/tiles/tiles.png");
@@ -159,7 +152,7 @@ function preload() {
 
 function create() {
 
-chronoStartTime = new Date()
+    chronoStartTime = new Date()
 
     if (window.innerWidth <= 1050) {
         this.cameras.main.zoom = 0.6;
@@ -335,6 +328,12 @@ chronoStartTime = new Date()
 }
 
 function update() {
+    if(pauseGame.value) {
+        this.physics.pause();
+    } else {
+        this.physics.resume();
+    }
+
     let currentTime = new Date()
     chrono.value = currentTime - chronoStartTime
     // Rotate the big saws
@@ -592,6 +591,11 @@ async function hitSaws(player, saw) {
     }, 3000);
     */
 }
+
+function pausePhaser() {
+    this.physics.pause();
+}
+
 
 function endGame(player, endMachine) {
     // Stop physics and controls
