@@ -543,7 +543,7 @@ onUnmounted(() => {
 .ressource-icon-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: center;
   visibility: visible;
   opacity: 1;
   transition: visibility 0s, opacity 0.2s linear;
@@ -585,7 +585,7 @@ onUnmounted(() => {
 .ressources-impact .circle-container {
   height: 20px;
   width: 20px;
-  justify-content: center;
+  justify-content: end;
   display: flex;
   align-items: center;
 }
