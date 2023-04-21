@@ -3,7 +3,7 @@ import Tile from '../puzzle/tile.vue'
 import { generateMatrix } from '../../utils/generateRandomPath.js';
 import { VerifyMatrix } from '../../utils/verifyPuzzle.js';
 import { computed, watchEffect, ref } from 'vue'
-import {VerifyMatrix} from '../../utils/verifyPuzzle.js'
+//import {VerifyMatrix} from '../../utils/verifyPuzzle.js'
 
 const nbCols = 5;
 const nbRows = nbCols;
@@ -50,7 +50,7 @@ function rotateSides(position) {
     let last = matrix[position[0]][position[1]].sides.pop();
     matrix[position[0]][position[1]].sides.unshift(last);
 
-    VerifyMatrix(matrix)
+    console.log(VerifyMatrix(matrix));
 }
 
 </script>
