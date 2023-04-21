@@ -326,7 +326,7 @@ function create() {
 }
 
 function update() {
-    if (pauseGame.value) {
+    if (pauseGame.value || playerDead.value) {
         this.physics.pause();
     } else {
         this.physics.resume();
@@ -603,10 +603,6 @@ async function hitSaws(player, saw) {
         console.log("test");
     }, 3000);
     */
-}
-
-function pausePhaser() {
-    this.physics.pause();
 }
 
 function endGame(player, endMachine) {
