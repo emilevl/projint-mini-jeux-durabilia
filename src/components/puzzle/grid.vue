@@ -8,7 +8,7 @@ import { computed, watchEffect, ref } from 'vue'
 const nbCols = 5;
 const nbRows = nbCols;
 const nbTiles = nbCols * nbRows
-const arrival = [nbCols - 1, nbRows - 1]
+const arrival = [nbCols-1 , nbRows -1]
 const lengthPath = 10; //entre 8 et 10 p.ex
 
 const maxFrozenTiles = 2; // maximum number of frozen tiles on the grid
@@ -52,6 +52,8 @@ function rotateSides(position) {
     VerifyMatrix(matrix)
     //console.log();
 }
+
+
 
 </script>
 

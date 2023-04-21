@@ -132,7 +132,7 @@ function VerifyMatrix(matrix, finish = [4, 4]) {
     let map = flowFieldTo(0, 0, matrix);
     //console.log('map', map[4][4]);
     let solved = false;
-    if (map[matrix.length - 1][matrix[0].length - 1] != false) {
+    if (map[matrix.length - 1][matrix[0].length - 1] != false && matrix[matrix.length - 1][matrix[0].length - 1].sides[1] == 1) {
       solved = true;
     }
     console.log(`solved: ${solved}`);
