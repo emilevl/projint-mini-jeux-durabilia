@@ -7,7 +7,6 @@ const CURRENT_TRANSFORMER = transformers.value.find((transformer) => transformer
 
 const pauseGame = ref(false);
 
-
 let config = {
     type: Phaser.AUTO,
     width: window.innerWidth,
@@ -40,19 +39,14 @@ let deatCountdown = ref(0);
 
 // Chrono management
 let chronoStartTime;
+let timeBeforePause = 0;
 let chrono = ref();
 let chronoDisplay = computed(() => {
-    // console.log(chrono.value)
-    // console.log(time.value);
-    var milliseconds = chrono.value % 1000;
-    var seconds = Math.floor((chrono.value / 1000) % 60);
-    var minutes = Math.floor((chrono.value / (60 * 1000)) % 60);
-    let formatedTime = minutes.toString().padStart(2, '0') + "'" + seconds.toString().padStart(2, '0') + "'" + milliseconds.toString().padStart(3, '0');    // let minutes = Math.floor(time.value / 3600) % 60;
-    // let seconds = Math.floor(time.value / 60) % 60;
-    // let miliseconds = time.value % 100
-    // let formatedTime = minutes.toString().padStart(2, '0') + "'" + seconds.toString().padStart(2, '0') + "'" + miliseconds.toString().padStart(2, '0');
-    // let formatedTime = chrono.value.getSeconds + ' : ' + chrono.value.getMilliseconds
-    return formatedTime;
+    if (!pauseGame.value) {
+        return formatTime(chrono.value);
+    } else {
+        return formatTime(timeBeforePause);
+    }
 });
 let timer;
 
@@ -102,6 +96,11 @@ let bonk;
 let game = new Phaser.Game(config);
 
 function togglePauseGame() {
+    if (pauseGame.value) {
+        chronoStartTime = new Date();
+    } else {
+        timeBeforePause = chrono.value;
+    }
     pauseGame.value = !pauseGame.value;
 }
 
@@ -151,8 +150,7 @@ function preload() {
 }
 
 function create() {
-
-    chronoStartTime = new Date()
+    chronoStartTime = new Date();
 
     if (window.innerWidth <= 1050) {
         this.cameras.main.zoom = 0.6;
@@ -328,14 +326,14 @@ function create() {
 }
 
 function update() {
-    if(pauseGame.value) {
+    if (pauseGame.value) {
         this.physics.pause();
     } else {
         this.physics.resume();
     }
 
-    let currentTime = new Date()
-    chrono.value = currentTime - chronoStartTime
+    let currentTime = new Date();
+    chrono.value = currentTime - chronoStartTime + timeBeforePause;
     // Rotate the big saws
     bigSaws.forEach((bigSaw) => {
         bigSaw.rotation += 0.05;
@@ -537,6 +535,19 @@ function update() {
     }
 }
 
+function formatTime(time) {
+    let milliseconds = time % 1000;
+    let seconds = Math.floor((time / 1000) % 60);
+    let minutes = Math.floor((time / (60 * 1000)) % 60);
+    let formatedTime =
+        minutes.toString().padStart(2, "0") +
+        "'" +
+        seconds.toString().padStart(2, "0") +
+        "'" +
+        milliseconds.toString().padStart(3, "0");
+    return formatedTime;
+}
+
 // Function to reset object location
 function replaceObjects() {
     // Replace big saws
@@ -559,7 +570,8 @@ function hitLogs(player, log) {
     this.physics.pause();
 
     deathCount++;
-    chronoStartTime = new Date()
+    chronoStartTime = new Date();
+    timeBeforePause = 0
     //deathCountText.setText('Death: ' + deathCount);
 
     player.setPosition(spawnPoint.x, spawnPoint.y);
@@ -578,7 +590,8 @@ async function hitSaws(player, saw) {
     deathCount++;
 
     await delay(200);
-    chronoStartTime = new Date()
+    chronoStartTime = new Date();
+    timeBeforePause = 0
 
     player.setPosition(spawnPoint.x, spawnPoint.y);
     replaceObjects();
@@ -595,7 +608,6 @@ async function hitSaws(player, saw) {
 function pausePhaser() {
     this.physics.pause();
 }
-
 
 function endGame(player, endMachine) {
     // Stop physics and controls
