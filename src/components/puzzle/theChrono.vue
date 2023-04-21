@@ -76,6 +76,8 @@ img {
 }
 
 #counter {
+    font-family: "Limelight", Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
     display: inline-block;
     font-size: 3vw;
     margin: auto;
