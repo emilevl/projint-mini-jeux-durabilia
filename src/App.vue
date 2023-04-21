@@ -80,8 +80,6 @@ const curHash = computed(() => routes[hash.value] ? hash.value : Object.keys(rou
   -webkit-text-size-adjust: 100%;
   /* background-color: #FDFCFC; */
   background-image: url("/assets/img/background-gradient.jpg");
-  background-size: 100% auto;
-  background-position: center;
 }
 
 h1 {
