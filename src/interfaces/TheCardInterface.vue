@@ -39,6 +39,7 @@ loadDataCards();
 onMounted(() => {
 
   iCurrentCard.value = handCards.value.length - 1;
+  setEventListeners();
 });
 
 watchEffect(() => {
@@ -55,11 +56,10 @@ watchEffect(() => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+// document.addEventListener("DOMContentLoaded", () => {
   
   
   mouseMoveHandler = (event) => {
-    console.log("touchCArds")
     const card = document.querySelector(`#card-${iCurrentCard.value}`);
     const band = card.querySelector(`.flip-card-band`);
     if (!card) return;
@@ -144,8 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
       cardMoved.value = false;
     }
   };
-    setEventListeners();
-  });
+    // setEventListeners();
+  // });
   
   // TODO: Detect if the user is on a mobile device or not
   // const platform = navigator.platform.toLowerCase();
@@ -180,20 +180,9 @@ function drawCards() {
     tempCards.splice(randomIndex, 1);
   }
   cardsDrawn.value = true;
-
-  // for(const card of handCardsCopy.value) {
-  //   console.log("test")
-  //   console.log(card)
-  // }
 }
 
 drawCards();
-// create a new array with 5 of the dataCards objects
-// for (let i = 0; i < 5; i++) {
-//   // add the card from the dataCards object to the handCards array
-//   handCards.value.push(dataCardsJson.cards[i]);
-//   // dataCards.cards[i].id = i
-// }
 
 function decisionDone() {
 
@@ -201,7 +190,7 @@ function decisionDone() {
 
   // add a style to the ressources to make their fill color
   // change to the color of the decision
-  removeEventListener();
+  unsetEventListener();
 
   iconColored.value = true;
   
@@ -261,6 +250,7 @@ const windowCenterX = window.innerWidth / 2;
 
 
   function setEventListeners() {
+    //TODO: matchmedia. 
     if (window.innerWidth > 1050) {
       document.addEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
@@ -273,11 +263,12 @@ const windowCenterX = window.innerWidth / 2;
     }
   }
 
-  function removeEventListener() {
+  function unsetEventListener() {
     if (window.innerWidth > 1050) {
       document.removeEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
     } else {
+      if (endGame.value) return;
       document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchmove", touchMoveHandler);
       document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchend", decisionDone);
     }
@@ -310,9 +301,6 @@ function cardLoaded() {
     turnCard();
   }, 500);
   console.log("card loaded");
-  // if (iCurrentCard.value === 0) {
-  //   setListeners();
-  // }
 }
 
 function togglePauseGame() {
@@ -358,7 +346,8 @@ async function  fetchSvgContent(icon) {
 // TODO: Function to remove / add all the event listeners in one time ? 
 
 onUnmounted(() => {
-  document.removeEventListener("mousemove", mouseMoveHandler);
+  unsetEventListener();
+  // document.removeEventListener("mousemove", mouseMoveHandler);
 });
 </script>
 
@@ -373,10 +362,6 @@ onUnmounted(() => {
     </div>
     <h1 to="/" class="pause-game" @click="togglePauseGame()">Menu</h1>
 
-    <!-- <div class="cardNo-onNo">
-      <h1>{{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}</h1>
-    </div> -->
-
     <div id="cards">
       <Card
         v-for="(card, index) of handCards"
@@ -390,7 +375,7 @@ onUnmounted(() => {
         @card-loaded="cardLoaded"
       ></Card>
     </div>
-    <!-- <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div> -->
+
   </div>
   <div class="ressources-impact">
     <div
@@ -433,11 +418,6 @@ onUnmounted(() => {
 }
 
 #description-current-card {
-  /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 20px;
-    max-width: 500px; */
   position: absolute;
   left: 0;
   margin: 0 0 0 5%;
@@ -507,15 +487,6 @@ onUnmounted(() => {
   text-align: center;
   text-align: left;
 }
-/* #cards {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: normal;
-        align-items: normal;
-        align-content: normal;
-        gap: 32px;
-      } */
 
 #ressources {
   display: flex;
@@ -647,7 +618,7 @@ onUnmounted(() => {
 
   .ressources-impact .ressource-icon-wrapper p {
     font-size: 0.8rem;
-    padding-top: 5px;
+    padding-top: 0px;
   }
 
   .ressources-impact .circle-container {
@@ -658,37 +629,5 @@ onUnmounted(() => {
     align-items: end;
   }
 }
-/* @media (max-width: 900px) {
-
-    #main-title {
-      font-size: 1.5rem;
-      margin: 5px 0 0;
-    }
-
-    .bottom-text {
-        bottom: 5px;
-    }
-    
-    .bottom-text p {
-        font-size: 0.9em;
-    }
-
-    #description-current-card {
-      margin-left: 5px;
-      max-width: 275px;
-      position: absolute;
-      top: 50px;
-    }
-
-    #description-current-card h1 {
-        font-size: 1.3rem;
-        margin: 0;
-    }
-
-    #description-current-card p {
-        font-size: 0.9em;
-        margin: 5px 0 0;
-    }
-} */
 </style>
   

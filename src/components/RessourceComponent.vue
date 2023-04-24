@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, watchEffect } from 'vue';
 import { ressourceGlobal } from '../utils/store';
+import { hexToHSL } from '../utils/hexToHSL'
 
 const props = defineProps({
     img: String,
@@ -14,6 +15,8 @@ const sizeCSS = ref(`${props.ressourceSize}px`)
 const name = ref("")
 const currentLevel = ref(0)
 const color = ref("")
+const colorImpact = ref("")
+const impactOpacity = ref(1)
 
 ressourceGlobal.value.forEach(ressource => {
     if (ressource.img == props.img) {
@@ -58,8 +61,13 @@ function setImpactLevel() {
     }
 
     impactHeight.value = `${(Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize}px`
+    impactOpacity.value = 1
+    colorImpact.value = `${hexToHSL(color.value).split("%")[0]}%,70%)`
+
     //Manage the negative impact
     if (props.impactLevel < 0) {
+        impactOpacity.value = 0.5
+        colorImpact.value = color.value
         transitionPrincip.value = "all 1s ease 0s"
         principHeight.value = `${parseInt(principHeight.value) - ((Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize)}px` //Diminish the principal bar
     }
@@ -70,8 +78,14 @@ function setImpactLevel() {
 <template>
     <div class="detail-progression">
         <div class="progression-bar-container">
-            <div class="progression-bar-current" :id="`barGlob-${props.img}`"></div>
-            <div class="progression-bar-impact" :id="`${props.img}`"></div>
+            <!-- <div class="progression-bar-current" :id="`barGlob-${props.img}`"></div> -->
+            <svg class="progression-bar-current" :id="`barGlob-${props.img}`">
+                <path d="M 10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" stroke="green" fill="red"/>
+            </svg>
+            <svg class="progression-bar-impact" :id="`${props.img}`">
+
+            </svg>
+            <!-- <div class="progression-bar-impact" :id="`${props.img}`"></div> -->
         </div>
         <div class="icon-container">
             <p class="progression-bar-title">{{ name }}</p>
@@ -124,8 +138,8 @@ function setImpactLevel() {
 }
 
 .progression-bar-impact {
-    opacity: 0.5;
-    background-color: v-bind(color);
+    opacity: v-bind(impactOpacity);
+    background-color: v-bind(colorImpact);
     height: v-bind(impactHeight);
     transition: v-bind(transitionImpact);
 }
@@ -140,13 +154,13 @@ function setImpactLevel() {
 
     .progression-bar-number,
     .progression-bar-title {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
 
     .icon {
-    height: 25px;
-    z-index: 10;
-    filter: brightness(0) invert(1);
-}
+        height: 20px;
+        z-index: 10;
+        filter: brightness(0) invert(1);
+    }
 }
 </style>

@@ -236,7 +236,6 @@ function toggleRessourceReset() {
 /* --------------------------- CARDS --------------------------------------- */
 .card-details {
     transform: unset;
-    position: unset;
     width: 250px;
     height: 350px;
 }
@@ -256,9 +255,7 @@ function toggleRessourceReset() {
 }
 
 .card-details:deep(.flip-card-band) {
-    position: relative;
     height: 17%;
-    bottom: 0px;
 }
 
 /* ------------------------------- MOBILE ----------------------------------- */
@@ -306,7 +303,6 @@ function toggleRessourceReset() {
     /* Cards */
     .card-details {
         transform: unset;
-        position: unset;
         width: 150px;
         height: 200px;
     }
@@ -326,9 +322,7 @@ function toggleRessourceReset() {
     }
 
     .card-details:deep(.flip-card-band) {
-        position: relative;
         height: 17%;
-        bottom: unset;
     }
 
     .card-container,
