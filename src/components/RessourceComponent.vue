@@ -140,11 +140,11 @@ function setImpactLevel() {
 
     .progression-bar-number,
     .progression-bar-title {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
 
     .icon {
-    height: 25px;
+    height: 20px;
     z-index: 10;
     filter: brightness(0) invert(1);
 }
