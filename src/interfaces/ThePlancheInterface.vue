@@ -93,6 +93,9 @@ let pad1;
 let buttonControllerPressed = false;
 let buttonControllerReleased = false;
 
+// Mobile buttons
+let leftButton, rightButton, jumpButton;
+
 // Audio
 let bonk;
 
@@ -130,9 +133,6 @@ function preload() {
 
     this.load.image("particle", "assets/scierie/particle.png");
 
-    // Load control buttons
-    //this.load.image('leftB', 'assets/leftButton.png');
-    //this.load.image('RightB', 'assets/rightButton.png');
 
     // Load moving platform asset
     this.load.image("movingPlatform", "assets/scierie/platform.jpg");
@@ -147,6 +147,11 @@ function preload() {
 
     // Load end machine
     this.load.image("endMachine", "assets/scierie/endMachine.png");
+
+    // Load mobile buttons
+    this.load.image("leftButton", "assets/scierie/leftButton.png");
+    this.load.image("rightButton", "assets/scierie/rightButton.png");
+    this.load.image("jumpButton", "assets/scierie/jumpButton.png");
 
     // Audio
     this.load.audio("bonk", "assets/scierie/audio/bonk.mp3");
@@ -189,8 +194,6 @@ function create() {
         .setCollideWorldBounds(true)
         .setBounce(0);
 
-    //graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x00ff00 } });
-
     //  Our player animations, walking left and walking right.
     this.anims.create({
         key: "left",
@@ -206,21 +209,21 @@ function create() {
 
     this.anims.create({
         key: "jump",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 11 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 12 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "jumpRight",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 11 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 12 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "jumpLeft",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 12, end: 23 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 13, end: 24 }),
         frameRate: 81,
         repeat: 0,
     });
@@ -242,6 +245,7 @@ function create() {
     movingPlatform.body.setAllowGravity(false).setGravity(0).setImmovable(true);
     movingPlatform.startPoint = 2080;
     movingPlatform.endPoint = 2400;
+
     // Add collide with moving platform and reset jump
     this.physics.add.collider(
         player,
@@ -329,7 +333,6 @@ function create() {
     endMachine.body.setAllowGravity(false);
     endMachine.setGravity(0).setImmovable(true).setVelocityX(0);
     this.physics.add.collider(player, endMachine, endGame, null, this);
-    console.log(endMachine);
 
     player.depth = 10;
 
@@ -344,8 +347,14 @@ function create() {
     });
 
 
-    console.log(this.sys.game.device.os.iOS || this.sys.game.device.os.android);
-
+    //console.log(this.sys.game.device.os.iOS || this.sys.game.device.os.android);
+    if(this.sys.game.device.os.iOS || this.sys.game.device.os.android) {
+        leftButton = this.add.sprite(game.config.width/4,200,"leftButton").setScale(0.8);
+        rightButton = this.add.sprite(game.config.width*1/2,200,"rightButton").setScale(0.8);
+        jumpButton = this.add.sprite(game.config.width,200,"jumpButton").setScale(0.8);
+    }
+    
+    
 }
 
 function update() {
@@ -353,6 +362,18 @@ function update() {
         this.physics.pause();
     } else {
         this.physics.resume();
+    }
+
+    // Replace mobile buttons
+    if(this.sys.game.device.os.iOS || this.sys.game.device.os.android) {
+        leftButton.setPosition(this.cameras.main.midPoint.x - game.config.width/1.8)
+        rightButton.x = this.cameras.main.midPoint.x - game.config.width / 3.2
+        jumpButton.x = this.cameras.main.midPoint.x + game.config.width/2
+
+        let buttonsY = this.cameras.main.midPoint.y + game.config.height/2
+        leftButton.y = buttonsY;
+        rightButton.y = buttonsY;
+        jumpButton.y = buttonsY;
     }
 
     let currentTime = new Date();
