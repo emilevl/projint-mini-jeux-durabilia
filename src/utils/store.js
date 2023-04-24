@@ -42,7 +42,7 @@ export const transformers = ref([
     {
         name: "STEP",
         type: "Jeu de puzzle",
-        description: "Faites pivotez et connectez les tuyaux dans le temps imparti, afin de guider les eaux usées à travers la station d'épuration.",
+        description: "Faites pivotez et connectez les tuyaux dans le temps imparti, afin de guider les eaux usées à travers la station d'épuration. Mode de jeu : clicker les tuyaux pour les faire tourner",
         ressourceNecessaire: { name: "Eau" , img: "water", level: -10 },
         ressourceRecue: { name: "Monnaie" , img: "poverty", level: 15 },
         consequence: { name: "Engagement" , img: "partnership", level: [30] }
