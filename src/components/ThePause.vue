@@ -36,7 +36,7 @@ function toggleQuit() {
         <h3 class="close-x" @click="$emit('resumeGame')">X</h3>
         <div class="pause-details-container">
             <h2 class="title">PAUSE</h2>
-            <img class="pause-deco" src="/assets/icons/pause-deco.svg">
+            <img class="pause-deco" src="/assets/icons/rules-deco.svg">
             <div class="content">
                 <ButtonComponent class="menu-option" @click="$emit('resumeGame')">Reprendre</ButtonComponent>
                 <ButtonComponent class="menu-option" @click="toggleRules()">Règles</ButtonComponent>
@@ -85,8 +85,8 @@ function toggleQuit() {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
-    height: 550px;
+    width: 1000px;
+    height: 600px;
     background-color: #FBF8F1;
 }
 
@@ -112,7 +112,7 @@ function toggleQuit() {
 
 .title {
     margin: 0;
-    padding: 20px;
+    padding-bottom: 24px;
     text-align: center;
 }
 
