@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, onBeforeMount } from "vue";
+import { ref, onMounted, onUnmounted, onBeforeMount, watchEffect } from "vue";
 /* add icons to the library */
 import Card from "../components/card.vue";
 import popupCardEnd from "../components/popupCardEnd.vue";
@@ -21,11 +21,14 @@ const cardsDrawn = ref(false);
 const handCardsCopy = ref([]);
 const dataCards = ref([]);
 const TOTAL_CARDS = 5;
+const svgContent = ref({});
+const iconColored = ref(false);
 // choices are from the dataCards object: 0 = choice 1, 1 = choice -> cards.responses[choice]
 const iChoice = ref(0);
 const choosing = ref(false);
 let mouseMoveHandler;
 let touchMoveHandler;
+let touchStartHandler;
 let cardSelection = ref([]);
 const endGame = ref(false);
 const pauseGame = ref(false);
@@ -34,9 +37,115 @@ loadDataCards();
 
 
 onMounted(() => {
-  setListeners();
+
   iCurrentCard.value = handCards.value.length - 1;
-  console.log(iCurrentCard.value);
+});
+
+watchEffect(() => {
+  handCards.value.forEach(async (card) => {
+    
+    for(let i= 0; i < card.responses[iChoice.value].impact.length; i++){
+      const ressource = card.responses[iChoice.value].impact[i].ressource;
+      if (!svgContent.value[ressource]) {
+        const response = await fetch(`/assets/icons/${ressource}.svg`);
+        const text = await response.text();
+        svgContent.value[ressource] = text;
+      }
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  
+  
+  mouseMoveHandler = (event) => {
+    console.log("touchCArds")
+    const card = document.querySelector(`#card-${iCurrentCard.value}`);
+    const band = card.querySelector(`.flip-card-band`);
+    if (!card) return;
+    
+    // If the person tilts on the left, we'll show the first response
+    if (event.clientX < windowCenterX - 200) {
+      choosing.value = true;
+      iChoice.value = 0;
+      band.style.height = "17%";
+      cardMoved.value = true;
+    } else if (event.clientX > windowCenterX + 200) {
+      choosing.value = true;
+      iChoice.value = 1;
+      band.style.height = "17%";
+      cardMoved.value = true;
+    } else {
+      choosing.value = false;
+      band.style.height = "0%";
+      cardMoved.value = false;
+    }
+    const tiltRange = 7; // You can adjust the tilt range as needed
+    const tilt =
+      ((event.clientX - windowCenterX) / windowCenterX) * tiltRange;
+    card.style.transform = `rotate(${tilt}deg) translate(calc(-50% - ${
+      7 * iCurrentCard.value
+    }px), calc(-60% + ${2 * iCurrentCard.value}px))`;
+  };
+  
+  let initialTouchX = null;
+  let initialTouchY = null;
+  let initialCardX = null;
+  let initialCardY = null;
+  
+  touchStartHandler = (e) => {
+    const touch = e.touches[0];
+    initialTouchX = touch.clientX;
+    initialTouchY = touch.clientY;
+
+    const card = document.querySelector(`#card-${iCurrentCard.value}`);
+    const cardRect = card.getBoundingClientRect();
+    initialCardX = cardRect.left;
+    initialCardY = cardRect.top;
+  };
+
+  touchMoveHandler = (e) => {
+    e.preventDefault();
+    const card = document.querySelector(`#card-${iCurrentCard.value}`);
+    const band = card.querySelector(`.flip-card-band`);
+    if (!card) return;
+    const touch = e.touches[0];
+
+    // Calculate the position of the card based on the difference between the initial and current touch positions
+    const cardX = initialCardX + touch.clientX - initialTouchX;
+    const cardY = initialCardY + touch.clientY - initialTouchY;
+
+    // Set the card position
+    card.style.position = "absolute";
+    card.style.left = cardX + "px";
+    card.style.top = cardY + "px";
+
+    // Calculate tilt based on touch position
+    const tiltRange = 7;
+    const tilt = ((touch.clientX - windowCenterX) / windowCenterX) * tiltRange;
+
+    // Apply the tilt effect to the card
+    card.style.transform = `rotate(${tilt}deg)`;
+
+    const cardRect = card.getBoundingClientRect();
+
+
+    // Show the band when needed
+    if (cardRect.left + cardRect.width / 2 < windowCenterX - 25) {
+      iChoice.value = 0;
+      band.style.height = "15%";
+      cardMoved.value = true;
+    } else if (cardRect.left + cardRect.width / 2 > windowCenterX + 25) {
+      iChoice.value = 1;
+      band.style.height = "15%";
+      cardMoved.value = true;
+    } else {
+      band.style.height = "0%";
+      cardMoved.value = false;
+    }
+  };
+    setEventListeners();
+  });
   
   // TODO: Detect if the user is on a mobile device or not
   // const platform = navigator.platform.toLowerCase();
@@ -54,7 +163,7 @@ onMounted(() => {
   //       console.log("unknown")
   //   }
   //select the #app element
-});
+
 
 function loadDataCards() {
   dataCards.value = dataCardsJson;
@@ -90,16 +199,18 @@ function decisionDone() {
 
   if (!cardMoved.value) return;
 
+  // add a style to the ressources to make their fill color
+  // change to the color of the decision
+  removeEventListener();
+
+  iconColored.value = true;
+  
+  
   // add the decision to the choice array
   const currentCard = handCards.value[iCurrentCard.value];
   currentCard.decision = iChoice.value;
   cardSelection.value.push(currentCard);
 
-  // remove the event listeners
-  document.removeEventListener("mousemove", mouseMoveHandler);
-  document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
-  document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchmove", touchMoveHandler);
-  document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchend", decisionDone);
 
   if (iCurrentCard.value === 0) {
     // end of the game
@@ -134,104 +245,41 @@ function decisionDone() {
       duration: 250,
     });
   }
-
   // wait for the animation to finish
   setTimeout(() => {
     // remove the card from the handCards array
     iCurrentCard.value--;
     handCards.value.pop();
     turnCard();
-
-    document.addEventListener("mousemove", mouseMoveHandler);
-    document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
-    document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchmove", touchMoveHandler);
-    document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchend", decisionDone);
-  }, 250);
+    setEventListeners();
+    iconColored.value = false;
+  }, 500);
+  
 }
 
 const windowCenterX = window.innerWidth / 2;
 
 
-function setListeners() {
-    mouseMoveHandler = (event) => {
-      const card = document.querySelector(`#card-${iCurrentCard.value}`);
-      const band = card.querySelector(`.flip-card-band`);
-      if (!card) return;
-
-      // If the person tilts on the left, we'll show the first response
-      if (event.clientX < windowCenterX - 200) {
-        choosing.value = true;
-        iChoice.value = 0;
-        band.style.height = "17%";
-        cardMoved.value = true;
-      } else if (event.clientX > windowCenterX + 200) {
-        choosing.value = true;
-        iChoice.value = 1;
-        band.style.height = "17%";
-        cardMoved.value = true;
-      } else {
-        choosing.value = false;
-        band.style.height = "0%";
-        cardMoved.value = false;
-      }
-      const tiltRange = 7; // You can adjust the tilt range as needed
-      const tilt =
-        ((event.clientX - windowCenterX) / windowCenterX) * tiltRange;
-      card.style.transform = `rotate(${tilt}deg) translate(calc(-50% - ${
-        7 * iCurrentCard.value
-      }px), calc(-60% + ${2 * iCurrentCard.value}px))`;
-
-      touchMoveHandler = (e) => {
-        // e.preventDefault();
-        console.log("touchmove");
-        // move the card following the finger
-        const card = document.querySelector(`#card-${iCurrentCard.value}`);
-        const band = card.querySelector(`.flip-card-band`);
-        if (!card) return;
-        const touch = e.touches[0];
-
-        // show the band when needed
-        if (touch.clientX < windowCenterX - 25) {
-          iChoice.value = 0;
-          band.style.height = "17%";
-          cardMoved.value = true;
-        } else if (touch.clientX > windowCenterX + 25) {
-          iChoice.value = 1;
-          band.style.height = "17%";
-          cardMoved.value = true;
-        } else {
-          band.style.height = "0%";
-          cardMoved.value = false;
-        }
-
-        card.style.position = "absolute";
-        // the center of the card is centered on the finger
-        card.style.left = touch.clientX - card.clientWidth / 2 + "px";
-        card.style.top = touch.clientY - card.clientHeight / 2 + "px";
-        // card.style.transform = "none";
-        // console log the width of the card
-        // console.log(card.clientWidth)
-
-        const tiltRange = 7; // You can adjust the tilt range as needed
-        const tilt =
-          ((touch.clientX - windowCenterX) / windowCenterX) * tiltRange;
-        card.style.transform = `rotate(${tilt}deg)`;
-      };
-
-      // when the user stops touching the screen
-      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchend", decisionDone);
-    };
-
-    // check if we are on a desktop or a mobile device
-    // if (window.innerWidth > 1080) {
-    if (window.innerWidth > 500) {
+  function setEventListeners() {
+    if (window.innerWidth > 1050) {
       document.addEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
     } else {
+      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchstart", touchStartHandler);
       // select the #app element
       // document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
-      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`)
-        .addEventListener("touchmove", touchMoveHandler);
+      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchmove", touchMoveHandler);
+        document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).addEventListener("touchend", decisionDone);
+    }
+  }
+
+  function removeEventListener() {
+    if (window.innerWidth > 1050) {
+      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
+    } else {
+      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchmove", touchMoveHandler);
+      document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchend", decisionDone);
     }
   }
 
@@ -260,7 +308,7 @@ function turnCard() {
 function cardLoaded() {
   setTimeout(() => {
     turnCard();
-  }, 250);
+  }, 500);
   console.log("card loaded");
   // if (iCurrentCard.value === 0) {
   //   setListeners();
@@ -306,6 +354,12 @@ function toggleRules(){
   activeRules.value = !activeRules.value
 }
 
+async function  fetchSvgContent(icon) {
+    const response = await fetch(`/assets/icons/${icon}.svg`);
+    const content = await response.text();
+    return content;
+  }
+
 // TODO: Function to remove / add all the event listeners in one time ? 
 
 onUnmounted(() => {
@@ -324,9 +378,9 @@ onUnmounted(() => {
     </div>
     <h1 to="/" class="pause-game" @click="togglePauseGame()">Menu</h1>
 
-    <div class="cardNo-onNo">
+    <!-- <div class="cardNo-onNo">
       <h1>{{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}</h1>
-    </div>
+    </div> -->
 
     <div id="cards">
       <Card
@@ -344,21 +398,23 @@ onUnmounted(() => {
     <!-- <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div> -->
   </div>
   <div class="ressources-impact">
-    <div v-if="cardsDrawn"
+    <div
       v-for="ressource of handCards[iCurrentCard].responses[iChoice].impact"
-      class="ressource-icon-wrapper"
+      :class="`ressource-icon-wrapper ${iconColored ? ressource.level > 0 ? 'ressource-icon-red' : 'ressource-icon-green': ''} ${cardsDrawn && cardMoved ? '' : 'display-none'}`"
     >
       <div class="circle-container">
         <div
           class="circle"
           :style="{
-            height: `${(Math.abs(ressource.level) / 100) * 20 + 5}px`,
-            width: `${(Math.abs(ressource.level) / 100) * 20 + 5}px`,
+            height: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
+            width: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
           }"
         ></div>
       </div>
 
-      <img :src="`/assets/icons/${ressource.ressource}.svg`" />
+      <div 
+        v-html="svgContent[ressource.ressource]"
+      ></div>
 
       <p> {{ getRessourceNameByImg(ressource.ressource) }}</p>
     </div>
@@ -397,6 +453,10 @@ onUnmounted(() => {
   margin: 10px 0 0;
 }
 
+.display-none {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
 #main-title {
   position: absolute;
   font-size: 3rem;
@@ -483,7 +543,10 @@ onUnmounted(() => {
 .ressource-icon-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: center;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s linear;
 }
 
 .ressources-impact .circle {
@@ -498,10 +561,31 @@ onUnmounted(() => {
   padding-top: 10px;
 }
 
+.ressource-icon-wrapper.ressource-icon-red .circle {
+  background-color: #e82d2d;
+}
+
+.ressource-icon-wrapper.ressource-icon-green .circle {
+  background-color: #19ac19;
+}
+
+.ressource-icon-wrapper.ressource-icon-green .circle, .ressource-icon-wrapper.ressource-icon-green path .circle, .ressource-icon-wrapper.ressource-icon-red .circle, .ressource-icon-wrapper.ressource-icon-red path {
+  transition: all 0.1s ease;
+}
+
+.ressource-icon-wrapper.ressource-icon-red path {
+  fill: #e82d2d;
+}
+
+.ressource-icon-wrapper.ressource-icon-green path {
+  fill: #19ac19
+}
+
+
 .ressources-impact .circle-container {
   height: 20px;
   width: 20px;
-  justify-content: center;
+  justify-content: end;
   display: flex;
   align-items: center;
 }
@@ -546,7 +630,7 @@ onUnmounted(() => {
     gap: 2px;
     position: absolute;
     bottom: 5px;
-    margin: 10px auto;
+    margin: 10px 10px;
   }
 
   .ressources-impact .ressource-icon-wrapper {

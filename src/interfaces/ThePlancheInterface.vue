@@ -2,21 +2,10 @@
 import { ref } from "vue";
 import { transformers } from "../utils/store.js";
 import ThePause from "../components/ThePause.vue";
+import { computed } from "@vue/reactivity";
 const CURRENT_TRANSFORMER = transformers.value.find((transformer) => transformer.name == "Scierie");
 
 const pauseGame = ref(false);
-function togglePauseGame() {
-    console.log("pause");
-    if (pauseGame.value) {
-        // document.addEventListener("mousemove", mouseMoveHandler);
-        // document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
-        pauseGame.value = false;
-    } else {
-        // document.removeEventListener("mousemove", mouseMoveHandler);
-        // document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
-        pauseGame.value = true;
-    }
-}
 
 let config = {
     type: Phaser.AUTO,
@@ -40,93 +29,139 @@ let config = {
     antialias: true,
 };
 
-// let chronoH1 = document.getElementById("chrono");
+// 250 300
+const spawnPoint = { x: 250, y: 300 };
 
-// 400 300
-const spawnPoint = { x: 400, y: 300 };
-
+// Death management
 let deathCount = 0;
-let chrono = ref(0);
+let playerDead = ref(false);
+let deatCountdown = ref(0);
+
+// Chrono management
+let chronoStartTime;
+let timeBeforePause = 0;
+let chrono = ref();
+let chronoDisplay = computed(() => {
+    if (!pauseGame.value) {
+        return formatTime(chrono.value);
+    } else {
+        return formatTime(timeBeforePause);
+    }
+});
 let timer;
 
 let player;
+
+// Jump variables
 let canDoubleJump = true;
 let canJump = false;
 
-let triangle;
-let graphics;
+let logs1;
+let logs2;
 
 let movingPlatform;
 
 let cursors;
-let bigSaw;
 let bigSaws = [];
+let bigSawsSpawnX = -150;
 let movingSaws = [];
 let saws = [];
 let sawsCoordinates = [
-    { x: 1472, y: 320 },
-    { x: 2240, y: 448 },
-    { x: 2560, y: 448 },
-    { x: 5760, y: 832 },
-    { x: 5952, y: 832 },
-    { x: 6528, y: 1088 },
-    { x: 6976, y: 960 },
+    { x: 1472, y: 320, cut: 0 },
+    { x: 2240, y: 448, cut: 0 },
+    { x: 2560, y: 448, cut: 0 },
+    { x: 5760, y: 832, cut: 0 },
+    { x: 5952, y: 832, cut: 0 },
+    { x: 6528, y: 1088, cut: 0 },
+    { x: 6976, y: 960, cut: 0 },
+    { x: 9152, y: 960, cut: 2 },
+    { x: 10176, y: 1280, cut: 1 },
+    { x: 10048, y: 1408, cut: 1 },
 ];
 
-let logs;
-let logs2;
-
-const bigSawSpeed = 100;
+// Saws speed
+const bigSawSpeed = 80;
 const movingSawsSpeed = 80;
 
+// Player attributes
 const playerVelocity = 800;
 let playerActualVelocity = 100;
 const playerJumpVelocity = 600;
 
+// Gamepad
 let pad1;
+let buttonControllerPressed = false;
+let buttonControllerReleased = false;
+
+// Audio
+let bonk;
 
 let game = new Phaser.Game(config);
 
+function togglePauseGame() {
+    if (pauseGame.value) {
+        chronoStartTime = new Date();
+    } else {
+        timeBeforePause = chrono.value;
+    }
+    pauseGame.value = !pauseGame.value;
+}
+
 function preload() {
     // load the PNG file
-    this.load.image("base_tiles", "assets/scierie/tilesNew/tiles.png");
+    this.load.image("base_tiles", "assets/scierie/tiles/tiles.png");
 
     // load the JSON file
-    this.load.tilemapTiledJSON("tilemap", "assets/scierie/tilesNew/map.json");
+    this.load.tilemapTiledJSON("tilemap", "assets/scierie/tiles/map.json");
 
     // Load Player assets
-    this.load.spritesheet("player", "assets/scierie/playerNew.png", {
+    this.load.spritesheet("player", "assets/scierie/player.png", {
         frameWidth: 63.9,
         frameHeight: 57,
     });
     this.load.spritesheet("playerJump", "assets/scierie/playerJump.png", {
-        frameWidth: 67,
-        frameHeight: 57,
+        frameWidth: 63.9,
+        frameHeight: 69.7,
     });
     this.load.spritesheet("playerKilled", "assets/scierie/playerKilled.png", {
-        frameWidth: 69,
-        frameHeight: 69,
+        frameWidth: 63.9,
+        frameHeight: 57,
     });
 
     this.load.image("particle", "assets/scierie/particle.png");
 
     // Load control buttons
-    //this.load.image('leftB', 'src/assets/scierie/leftButton.png');
-    //this.load.image('RightB', 'src/assets/scierie/rightButton.png');
+    //this.load.image('leftB', 'assets/leftButton.png');
+    //this.load.image('RightB', 'assets/rightButton.png');
 
     // Load moving platform asset
     this.load.image("movingPlatform", "assets/scierie/platform.jpg");
 
     // Load log asset
-    this.load.image("log", "src/assets/scierie/logNew.png");
+    this.load.image("log", "assets/scierie/log.png");
 
     // Load saw assets
     this.load.image("bigSaw", "assets/scierie/bigSaw.png");
     this.load.image("littleSaw", "assets/scierie/littleSaw.png");
     this.load.image("saw", "assets/scierie/saw.png");
+
+    // Load end machine
+    this.load.image("endMachine", "assets/scierie/endMachine.png");
+
+    // Audio
+    this.load.audio("bonk", "assets/scierie/audio/bonk.mp3");
 }
 
 function create() {
+    
+    chronoStartTime = new Date();
+
+    if (window.innerWidth <= 1050) {
+        this.cameras.main.zoom = 0.6;
+    }
+
+    bonk = this.sound.add("bonk", { loop: false });
+
     this.cameras.main.setBounds(0, 0, 1000000, 100000);
     this.physics.world.setBounds(0, 0, 1000000, 100000);
 
@@ -156,7 +191,7 @@ function create() {
 
     //graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x00ff00 } });
 
-    //  Our player animations, turning, walking left and walking right.
+    //  Our player animations, walking left and walking right.
     this.anims.create({
         key: "left",
         frames: [{ key: "player", frame: 0 }],
@@ -164,42 +199,36 @@ function create() {
     });
 
     this.anims.create({
-        key: "turn",
-        frames: [{ key: "player", frame: 2 }],
-        frameRate: 20,
-    });
-
-    this.anims.create({
         key: "right",
-        frames: [{ key: "player", frame: 4 }],
+        frames: [{ key: "player", frame: 1 }],
         frameRate: 10,
     });
 
     this.anims.create({
         key: "jump",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 9 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 11 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "jumpRight",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 10, end: 19 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 11 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "jumpLeft",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 20, end: 29 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 12, end: 23 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "playerKilled",
-        frames: this.anims.generateFrameNumbers("playerKilled", { start: 0, end: 4 }),
-        frameRate: 20,
+        frames: this.anims.generateFrameNumbers("playerKilled", { start: 0, end: 6 }),
+        frameRate: 120,
         repeat: 0,
     });
 
@@ -226,27 +255,27 @@ function create() {
 
     // Death on saw touch
     saw.setCollisionByExclusion([-1]);
-    this.physics.add.collider(player, saw, hitSaws, null, this);
+    this.physics.add.collider(player, saw, killPlayer, null, this);
 
     // Logs
-    logs = this.physics.add.group();
-    this.physics.add.collider(logs, platform);
-    this.physics.add.collider(player, logs, hitLogs, null, this);
+    logs1 = this.physics.add.group();
+    this.physics.add.collider(logs1, platform);
+    this.physics.add.collider(player, logs1, killPlayer, null, this);
 
     logs2 = this.physics.add.group();
     this.physics.add.collider(logs2, platform);
-    this.physics.add.collider(player, logs2, hitLogs, null, this);
+    this.physics.add.collider(player, logs2, killPlayer, null, this);
 
     // Big saw
     for (let i = 0; i < 3; i++) {
-        bigSaws[i] = this.physics.add.sprite(0, (i + 1) * 400, "bigSaw").setScale(0.5);
+        bigSaws[i] = this.physics.add.sprite(bigSawsSpawnX, (i + 1) * 400, "bigSaw").setScale(0.5);
         bigSaws[i].body.setAllowGravity(false);
         bigSaws[i].body.isCircle = true;
         bigSaws[i].setGravity(0).setImmovable(true).setVelocityX(bigSawSpeed);
     }
 
     bigSaws.forEach((bigSaw) => {
-        this.physics.add.collider(player, bigSaw, hitSaws, null, this);
+        this.physics.add.collider(player, bigSaw, killPlayer, null, this);
     });
 
     // Little saws
@@ -260,43 +289,75 @@ function create() {
 
     movingSaws.forEach((saw) => {
         saw.setScale(0.7);
-        this.physics.add.collider(player, saw, hitSaws, null, this);
+        this.physics.add.collider(player, saw, killPlayer, null, this);
         saw.body.setAllowGravity(false);
         saw.body.isCircle = true;
         saw.setGravity(0).setImmovable(true).setVelocityX(0);
     });
 
+    let graphics = this.add.graphics();
+    graphics.fillStyle(0x00ff00, 0);
+
     // Fixed saws
     sawsCoordinates.forEach((co, i) => {
         saws[i] = this.physics.add.sprite(co.x, co.y, "saw");
-        this.physics.add.collider(player, saws[i], hitSaws, null, this);
+        this.physics.add.collider(player, saws[i], killPlayer, null, this);
         saws[i].body.setAllowGravity(false).isCircle = true;
         saws[i].setGravity(0).setImmovable(true).setVelocityX(0);
+
+        let rect, mask;
+        switch (co.cut) {
+            case 1:
+                rect = graphics.fillRect(co.x-64, co.y-64, 64, 128);
+                mask = rect.createGeometryMask();
+                saws[i].setMask(mask);
+                saws[i].setScale(0.9)
+                break;
+            case 2: 
+                rect = graphics.fillRect(co.x, co.y-64, 64, 128);
+                mask = rect.createGeometryMask();
+                saws[i].setMask(mask);
+                saws[i].setScale(0.9)
+                break;
+            default:
+                break;
+        }
     });
+
+    // End machine
+    let endMachine = this.physics.add.sprite(12900, 1400, "endMachine");
+    endMachine.body.setAllowGravity(false);
+    endMachine.setGravity(0).setImmovable(true).setVelocityX(0);
+    this.physics.add.collider(player, endMachine, endGame, null, this);
+    console.log(endMachine);
+
+    player.depth = 10;
 
     // Camera
     this.cameras.main.setBounds(0, 0, bg.displayWidth, bg.displayHeight);
     this.cameras.main.startFollow(player);
 
-    timer = this.time.addEvent({
-        delay: 1000,
-        callback: addSecond,
-        callbackScope: this,
-        loop: true,
-    });
-
     // Gamepad support
-    //this.input.gamepad.start();
-    //pad1 = game.input.gamepad;
-    //console.log(this.input);
     this.input.gamepad.once("connected", function (pad) {
         //'pad' is a reference to the gamepad that was just connected
         pad1 = pad;
     });
+
+
+    console.log(this.sys.game.device.os.iOS || this.sys.game.device.os.android);
+
 }
 
 function update() {
-    // Rotate the big saw
+    if (pauseGame.value || playerDead.value) {
+        this.physics.pause();
+    } else {
+        this.physics.resume();
+    }
+
+    let currentTime = new Date();
+    chrono.value = currentTime - chronoStartTime + timeBeforePause;
+    // Rotate the big saws
     bigSaws.forEach((bigSaw) => {
         bigSaw.rotation += 0.05;
     });
@@ -309,13 +370,13 @@ function update() {
     // First phase of logs dropping
     if (player.x > 8800 && player.x < 9800) {
         //console.log(logs.children.entries[0]);
-        if (logs.children.size < 1) {
-            let log = logs.create(9250 + (Math.random(250) * (250 - 20) + 20), 300, "log");
+        if (logs1.children.size < 1) {
+            let log = logs1.create(9250 + (Math.random(250) * (250 - 20) + 20), 300, "log");
             log.setBounce(0.2);
             log.setCollideWorldBounds(true);
             log.setMaxVelocity(0, 800);
         } else {
-            logs.children.entries.forEach((log) => {
+            logs1.children.entries.forEach((log) => {
                 if (log.body.blocked.down) {
                     log.destroy();
                 }
@@ -385,12 +446,9 @@ function update() {
         if (player.body.blocked.down) {
             player.anims.play("right", true);
         }
-    } else {
+    } else if (!this.input.pointer1.isDown && !this.input.pointer2.isDown) {
         playerActualVelocity = 0;
         player.setVelocityX(0);
-        if (player.body.blocked.down) {
-            player.anims.play("turn");
-        }
     }
 
     // Jump
@@ -431,16 +489,26 @@ function update() {
             (this.input.pointer2.position.x < game.config.width / 4 &&
                 this.input.pointer2.position.x > 0)
         ) {
-            player.setVelocityX(-playerVelocity);
-            player.anims.play("left", true);
+            if (playerActualVelocity < playerVelocity) {
+                playerActualVelocity += 50;
+            }
+            player.setVelocityX(-playerActualVelocity);
+            if (player.body.blocked.down) {
+                player.anims.play("left", true);
+            }
         } else if (
             (this.input.pointer1.position.x > game.config.width / 4 &&
                 this.input.pointer1.position.x < game.config.width / 2) ||
             (this.input.pointer2.position.x > game.config.width / 4 &&
                 this.input.pointer2.position.x < game.config.width / 2)
         ) {
-            player.setVelocityX(playerVelocity);
-            player.anims.play("right", true);
+            if (playerActualVelocity < playerVelocity) {
+                playerActualVelocity += 50;
+            }
+            player.setVelocityX(playerActualVelocity);
+            if (player.body.blocked.down) {
+                player.anims.play("right", true);
+            }
         }
 
         if (
@@ -461,52 +529,42 @@ function update() {
     // Gamepad controls
     if (pad1) {
         player.setVelocityX(playerVelocity * pad1.axes[0].getValue());
-        if (pad1.buttons[0].value) {
-            console.log(Phaser.Input.Gamepad.Gamepad);
-            if (!player.body.blocked.down && canJump) {
-                canJump = false;
-                player.setVelocityY(-playerJumpVelocity);
-                player.anims.play("jump", true);
+
+        if (player.body.blocked.down) {
+            buttonControllerPressed = false;
+        }
+
+        if (pad1.buttons[0].pressed) {
+            if (!player.body.blocked.down) {
+                buttonControllerPressed = true;
             }
 
-            if (player.body.blocked.down) {
+            if (!buttonControllerPressed) {
+                player.setVelocityY(-playerJumpVelocity);
+                buttonControllerPressed = true;
                 canDoubleJump = true;
+            } else if (buttonControllerReleased && canDoubleJump) {
                 player.setVelocityY(-playerJumpVelocity);
-                player.anims.play("jump", true);
-                if (cursors.right.isDown) {
-                    player.anims.play("jumpRight", true);
-                }
-                if (cursors.left.isDown) {
-                    player.anims.play("jumpLeft", true);
-                }
-            } else if (!player.body.blocked.down && canDoubleJump) {
                 canDoubleJump = false;
-                player.setVelocityY(-playerJumpVelocity);
-                player.anims.play("jump", true);
-                if (cursors.right.isDown) {
-                    player.anims.play("jumpRight", true);
-                }
-                if (cursors.left.isDown) {
-                    player.anims.play("jumpLeft", true);
-                }
             }
+
+            buttonControllerReleased = false;
+        } else if (!pad1.buttons[0].pressed) {
+            buttonControllerReleased = true;
         }
     }
 }
 
-// function to increase the timer
-function addSecond() {
-    chrono.value++;
-    // console.log(chrono.value)
-    // chronoH1.innerHTML = formatTime(chrono);
-}
-
-// Function to format the time for the timer
 function formatTime(time) {
-    let minutes = Math.floor(time / 60);
-    let seconds = time % 60;
+    let milliseconds = time % 1000;
+    let seconds = Math.floor((time / 1000) % 60);
+    let minutes = Math.floor((time / (60 * 1000)) % 60);
     let formatedTime =
-        minutes.toString().padStart(2, "0") + "'" + seconds.toString().padStart(2, "0");
+        minutes.toString().padStart(2, "0") +
+        "'" +
+        seconds.toString().padStart(2, "0") +
+        "'" +
+        milliseconds.toString().padStart(3, "0");
     return formatedTime;
 }
 
@@ -514,7 +572,7 @@ function formatTime(time) {
 function replaceObjects() {
     // Replace big saws
     bigSaws.forEach((bigSaw) => {
-        bigSaw.x = 0;
+        bigSaw.x = bigSawsSpawnX;
     });
 
     // Replace moving platform
@@ -526,13 +584,60 @@ function replaceObjects() {
     });
 }
 
+async function killPlayer(player, hitter) {
+    // Disable input
+    this.input.enabled = false;
+
+    // Death sound
+    if(hitter.texture != undefined) {
+        switch (hitter.texture.key) {
+        case "log":
+            bonk.play();
+            break;
+        default:
+            break;
+        }
+    }
+    
+    
+    playerDead.value = true;
+    this.physics.pause();
+
+    player.anims.play("playerKilled", false).once('animationcomplete', async ()=>{
+        if (hitter.texture != undefined && hitter.texture.key == "log") {
+        hitter.destroy();
+    }
+
+        deathCount++;
+
+        await delay(500);
+        chronoStartTime = new Date();
+        timeBeforePause = 0
+
+        player.setPosition(spawnPoint.x, spawnPoint.y);
+        replaceObjects();
+
+        playerDead.value = false;
+        this.input.enabled = true;
+        this.physics.resume();
+    });
+    
+    
+
+    
+
+    
+}
+
 // Function to handle player hitted by a log
-function hitLogs(player, log) {
+/* function hitLogs(player, log) {
+    console.log(log.texture.key);
+    bonk.play();
     this.physics.pause();
 
     deathCount++;
-    chrono.value = 0;
-    //deathCountText.setText('Death: ' + deathCount);
+    chronoStartTime = new Date();
+    timeBeforePause = 0
 
     player.setPosition(spawnPoint.x, spawnPoint.y);
     replaceObjects();
@@ -541,43 +646,86 @@ function hitLogs(player, log) {
     this.physics.resume();
 }
 
-// Function to handle if the player hits a saw
-function hitSaws(player, saw) {
+Function to handle if the player hits a saw
+async function hitSaws(player, saw) {
+    playerDead.value = true;
     this.physics.pause();
-    chrono.value = 0;
-
-    player.anims.play("playerKilled", true).once("animationcomplete", () => {
-        player.setPosition(spawnPoint.x, spawnPoint.y);
-        replaceObjects();
-
-        this.physics.resume();
-    });
+    player.anims.play("playerKilled", false);
 
     deathCount++;
+
+    await delay(200);
+    chronoStartTime = new Date();
+    timeBeforePause = 0
+
+    player.setPosition(spawnPoint.x, spawnPoint.y);
+    replaceObjects();
+
+    playerDead.value = false;
+    this.physics.resume();
+
+} */
+
+function endGame(player, endMachine) {
+    // Stop the scene
+    this.scene.pause();
+    
+    const finalTime = formatTime(chrono.value);
+
+    
+}
+
+/* setInterval(function () {
+        console.log("test");
+}, 1000); */
+
+function delay(milliseconds) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, milliseconds);
+    });
 }
 </script>
 
 <template>
     <!-- <h1>Planche</h1> -->
     <!-- <h1 id="chrono">00'00</h1> -->
-    <h1 to="/" class="pause-game" @click="togglePauseGame()">
-      Menu
-    </h1>
+    <h1 to="/" class="pause-game" @click="togglePauseGame()">Menu</h1>
     <ThePause
         v-if="pauseGame"
         :transformer="CURRENT_TRANSFORMER"
         @resumeGame="togglePauseGame"
     ></ThePause>
-    <h1 id="chrono">{{ chrono }}</h1>
+    <h1 id="chrono">{{ chronoDisplay }}</h1>
+    <h2 v-if="playerDead" id="death-message">Touché</h2>
 </template>
 
 <style scoped>
 body {
     margin: 0;
 }
-h1 {
+h1,
+h2 {
     position: absolute;
     left: 1rem;
     font-family: "Limelight", cursive;
+    font-size: 2.5rem;
+}
+.pause-game {
+    position: absolute;
+    max-width: 2rem;
+    top: 10px;
+    right: 1rem;
+    left: auto;
+    margin: 0 8rem 0 0;
+    cursor: pointer;
+}
+
+#death-message {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 3rem;
 }
 </style>

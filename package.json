@@ -14,6 +14,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
+    "add-time": "^1.0.0",
     "animejs": "^3.2.1",
     "vue": "^3.2.47"
   },

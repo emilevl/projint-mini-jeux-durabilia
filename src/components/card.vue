@@ -19,6 +19,7 @@ let ressourceTemplating = ref(props.ressources.length)
 
 
 onMounted(() => {
+
   anime({
     targets: '.flip-card .flip-card-inner',
     keyframes: [
@@ -192,6 +193,9 @@ onMounted(() => {
     .flip-card {
       width: 225px;
       height: 300px;
+      position: absolute;
+      top: 195px;
+      left: 50%;
     }
     
   }

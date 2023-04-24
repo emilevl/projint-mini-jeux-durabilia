@@ -1,11 +1,83 @@
 <script setup>
+import { ref } from 'vue';
+import { ressourceGlobal, transformers } from "../utils/store.js";
+import Grid from '../components/puzzle/grid.vue';
+import TheMenu from '../components/theMenu.vue';
+import TheChrono from '../components/puzzle/theChrono.vue';
+import { menuOpened } from "../utils/store.js"
+import ThePause from "../components/ThePause.vue";
+import popupRules from "../components/popupRules.vue";
+
+const CURRENT_TRANSFORMER = transformers.value.find(
+  (transformer) => transformer.name == "STEP"
+)
+
+const activeRules = ref(true)
+function toggleRules(){
+  activeRules.value = !activeRules.value
+}
+
+
+function toggleMenu() {
+    menuOpened.value = !menuOpened.value
+}
 
 </script>
 
 <template>
-    <h1>Puzzle</h1>
+    <div id="puzzleInterface">
+        <div class="aside">
+            <the-menu @toggle-menu="toggleMenu"></the-menu>
+            <the-chrono></the-chrono>
+        </div>
+        <grid></grid>
+        <ThePause
+            v-if="menuOpened"
+            :transformer="CURRENT_TRANSFORMER"
+            @resumeGame="toggleMenu"
+        ></ThePause>
+        <popupRules 
+            v-if="activeRules" 
+            :transformer="CURRENT_TRANSFORMER"
+            :gameLaunched="false"
+            @emitPlay="toggleRules()"
+        ></popupRules>
+    </div>
 </template>
 
 <style scoped>
+/* :root {
+    --white: #FDFCFC;
+} */
+
+#puzzleInterface {
+    font-family: 'Limelight', cursive;
+    background-color: #12313c;
+    background: radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+}
+
+#puzzleInterface::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    background-color: #12313c;
+    background-image: url(../assets/decor/texture_background.png);
+    opacity: 0.2;
+}
+
+.aside {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
 
 </style>
