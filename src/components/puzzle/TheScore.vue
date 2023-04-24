@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { ressourceGlobal } from '../utils/store';
-import popupRules from "../components/popupRules.vue"
-import ButtonComponent from './ButtonComponent.vue';
-import popupQuit from "../components/popupQuit.vue"
+import { ressourceGlobal } from '../../utils/store';
+import popupRules from "../../components/popupRules.vue"
+import ButtonComponent from './../ButtonComponent.vue';
+// src/assets/sounds/Trumpet_Win.wav
 
 const props = defineProps({
     transformer: Object
@@ -20,51 +20,29 @@ function leaveGame() {
     }
 }
 
+
+
+
 const showRules = ref(false)
 function toggleRules() {
     showRules.value = !showRules.value
-    if (!showRules.value) {
-        emit("resumeGame")
-    }
-}
 
-function launchCinematique() {
-    console.log("cinématique lancée")
-}
-
-const showQuit = ref(false)
-function toggleQuit() {
-    showQuit.value = !showQuit.value
 }
 
 </script>
 
 <template>
     <div class="background" @click="$emit('resumeGame')"></div>
-    <div class="pause-container" v-if="!showQuit">
-        <h3 class="close-x" @click="$emit('resumeGame')">X</h3>
+    <div class="pause-container">
         <div class="pause-details-container">
-            <h2 class="title">PAUSE</h2>
-            <img class="pause-deco" src="/assets/icons/rules-deco.svg">
+            <h2 class="title">RESSOURCES IMPACTÉES</h2>
+            <img class="pause-deco" src="/assets/icons/pause-deco.svg">
+            <p>impacts</p>
             <div class="content">
-                <ButtonComponent class="menu-option" @click="$emit('resumeGame')">Reprendre</ButtonComponent>
-                <ButtonComponent class="menu-option" @click="toggleRules()">Règles</ButtonComponent>
-                <ButtonComponent class="menu-option" @click="launchCinematique()">Cinématique</ButtonComponent>
-                <ButtonComponent class="menu-option" @click="toggleQuit()">Quitter</ButtonComponent>
+                <ButtonComponent class="menu-option" @click="leaveGame()">Retour à la map</ButtonComponent>
             </div>
         </div>
     </div>
-    <popupRules 
-        v-if="showRules"
-        :transformer="props.transformer"
-        :gameLaunched="true"
-        @emitToggleRules="toggleRules()"
-        @emitPlay="$emit('resumeGame')"
-    ></popupRules>
-    <popupQuit
-        v-if="showQuit"
-        @emitToggleQuit="toggleQuit()"
-    ></popupQuit>
 </template>
 
 <style scoped>
@@ -79,23 +57,14 @@ function toggleQuit() {
     opacity: 50%;
 }
 
-.close-x {
-    cursor: pointer;
-    position: absolute;
-    left: 100%;
-    transform: translate(-100%, 0);
-    line-height: 1;
-    padding: 30px;
-}
-
 .pause-container {
     z-index: 3;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 1000px;
-    height: 600px;
+    width: 500px;
+    height: 550px;
     background-color: #FBF8F1;
 }
 
@@ -121,7 +90,7 @@ function toggleQuit() {
 
 .title {
     margin: 0;
-    padding-bottom: 2px;
+    padding: 20px;
     text-align: center;
 }
 
@@ -153,8 +122,8 @@ function toggleQuit() {
 
 @media screen and (max-width: 1050px) {
     .pause-container {
-        width: 600px;
-        height: 350px;
+        width: 300px;
+        height: 300px;
     }
 
     .pause-details-container {
