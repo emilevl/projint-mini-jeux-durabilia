@@ -209,21 +209,21 @@ function create() {
 
     this.anims.create({
         key: "jump",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 11 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 12 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "jumpRight",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 11 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 12 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "jumpLeft",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 12, end: 23 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 13, end: 24 }),
         frameRate: 81,
         repeat: 0,
     });
