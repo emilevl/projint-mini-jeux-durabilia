@@ -15,6 +15,8 @@ const CURRENT_TRANSFORMER = transformers.value.find(
     (transformer) => transformer.name == "STEP"
 )
 
+const win = ref(null);
+
 const activeRules = ref(true)
 function toggleRules() {
     activeRules.value = !activeRules.value
@@ -30,8 +32,10 @@ let finPartie = ref(false)
 function partieTerminee(reussi) {
     setTimeout(() => {
         if (reussi) {
+            win.value = true
             playAudio(winSound)
         } else {
+            win.value = false
             playAudio(loseSound)
         }
         finPartie.value = true
@@ -61,7 +65,11 @@ watchEffect(() => {
             :transformer="CURRENT_TRANSFORMER"
             @resumeGame="toggleMenu"
         ></ThePause>
-        <TheScore v-if="finPartie"></TheScore>
+        <TheScore 
+            v-if="finPartie"
+            :win="win"
+            :transformer="CURRENT_TRANSFORMER"
+        ></TheScore>
     </div>
 </template>
 
