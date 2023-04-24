@@ -1,5 +1,6 @@
 <script setup>
 import ButtonComponent from './ButtonComponent.vue';
+
 function leaveGame() {
     window.location.hash = ""
 }
