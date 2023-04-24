@@ -11,13 +11,8 @@ const props = defineProps({
         type: String,
         // required: true
     },
-    rotation: {
-        type: Number,
-        // required: true
-    },
-    frozen: {
-        type: Boolean,
-        // required: false
+    tileInfos: {
+        type: Object,
     },
     position: {
         type: Array
@@ -33,25 +28,25 @@ const isEnabled = ref(true)
 const zIndex = ref(1)
 const cursorType = ref('pointer')
 
-let currentRotation = props.rotation
+let currentRotation = props.tileInfos.rotation
 
 // Disable tile clicks when the menu is opened or if the tile is frozen
-/* watchEffect(() => {
-    if(menuOpened.value || props.frozen) {
+watchEffect(() => {
+    if(menuOpened.value || props.tileInfos.frozen) {
         isEnabled.value = false
         cursorType.value = 'default'
     } else {
         isEnabled.value = true
         cursorType.value = 'pointer'
     }
-}) */
+})
 
 // Get the tile type to display the correct image
 function findTile() {
     const tile = tiles.find(tile => tile.type === props.tileType)
     let name = IMG_PATH + tile.svg
 
-    props.frozen ?
+    props.tileInfos.frozen ?
         name += '-frozen.svg' :
         name += '.svg'
 

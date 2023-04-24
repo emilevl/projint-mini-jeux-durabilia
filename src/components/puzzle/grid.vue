@@ -3,7 +3,8 @@ import Tile from '../puzzle/tile.vue'
 import { generateMatrix } from '../../utils/generateRandomPath.js';
 import { VerifyMatrix } from '../../utils/verifyPuzzle.js';
 import { computed, watchEffect, ref } from 'vue'
-//import {VerifyMatrix} from '../../utils/verifyPuzzle.js'
+
+const emit = defineEmits(['partieTerminee'])
 
 const nbCols = 5;
 const nbRows = nbCols;
@@ -22,14 +23,20 @@ const matrix = generateMatrix(arrival, nbRows, nbCols, lengthPath)
 const rotations = [0, 90, 180, 270]
 
 function randomizeRotation(position) {
-    let randomInt = Math.floor(Math.random() * rotations.length)
+
+    const frozen = randomizeFreeze()
+
+    let randomInt = frozen ? 0 : Math.floor(Math.random() * rotations.length)
     let i = 0
 
     while (i < randomInt) {
         rotateSides(position)
         i++
     }
-    return rotations[randomInt]
+    return {
+        rotation: rotations[randomInt],
+        frozen: frozen
+    }
 }
 
 function randomizeFreeze() {
@@ -49,10 +56,18 @@ function rotateSides(position) {
 
     let last = matrix[position[0]][position[1]].sides.pop();
     matrix[position[0]][position[1]].sides.unshift(last);
+
+    //let verified = VerifyMatrix(matrix)
     let VerifiedMatrix = VerifyMatrix(matrix)
+
+    if (VerifiedMatrix != undefined && VerifiedMatrix[1] == true) {
+        //console.log('FINI')
+        emit('partieTerminee', true)
+    }
+
     for(let i=0; i<5; i++){
         for(let n=0; n<5; n++){
-            if(VerifiedMatrix[0][i][n]){
+            if(VerifiedMatrix != undefined && VerifiedMatrix[0][i][n]){
                 console.log("Sbonjour",i,n);
             }
         }
@@ -74,7 +89,7 @@ function rotateSides(position) {
         <div id="grid" class="grid-container">
             <template v-for="(row, r) in matrix">
                 <div v-for="(col, c) in row" class="grid-item">
-                    <tile :tileType="col.type" :rotation="randomizeRotation([r, c])" @rotate="rotateSides([r, c])">
+                    <tile :tileType="col.type" :tileInfos="randomizeRotation([r, c])" @rotate="rotateSides([r, c])">
                     </tile>
                     <!-- :frozen="randomizeFreeze()" -->
                 </div>
@@ -84,7 +99,6 @@ function rotateSides(position) {
 </template>
 
 <style scoped>
-
 /* #grid-box {
     position: absolute;
     width: 100%;

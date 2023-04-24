@@ -3,6 +3,19 @@ import { ref, watchEffect } from 'vue';
 import addTime from 'add-time';
 import { menuOpened } from "../../utils/store.js"
 
+const props = defineProps({
+    jeuReussi: {
+        type: Boolean,
+        required: true
+    },
+    rulesOpen: {
+        type: Boolean,
+        required: true
+    }
+})
+
+const emit = defineEmits(['partieTerminee'])
+
 const minCounter = 1  // nombre de minutes au timer
 let timer = ref(minCounter * 60000)
 
@@ -40,7 +53,14 @@ function startTimer(newDate) {
         if (distance <= 0) {
             clearInterval(interval)
             time.value = "FIN"
+            emit('partieTerminee', false)
         }
+
+        if (props.jeuReussi) {
+            clearInterval(interval)
+            time.value = "FIN"
+        }
+        
 
         if (menuOpened.value) {
             timer.value = distance
@@ -50,13 +70,11 @@ function startTimer(newDate) {
 }
 
 watchEffect(() => {
-    if (!menuOpened.value) {
+    if (!menuOpened.value && !props.rulesOpen) {
         const newDate = new Date(Date.now() + timer.value);
         startTimer(newDate)
     }
-}
-
-)
+})
 
 </script>
 
@@ -77,7 +95,7 @@ img {
 
 #counter {
     font-family: "Limelight", Inter, system-ui, Avenir, Helvetica, Arial,
-    sans-serif;
+        sans-serif;
     color: #FDFCFC;
     display: inline-block;
     font-size: 3vw;
