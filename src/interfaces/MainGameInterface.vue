@@ -6,6 +6,7 @@ import popupRules from '../components/popupRules.vue';
 const D_TRANSFORMER_MIN = 150
 const D_TRANSFORMER_MAX = 200
 const coords = [[300, 180], [750, 250], [500, 550]]
+const coordsMobile = [[100, 180], [700, 250], [500, 200]]
 
 onMounted(() => {
     const transformerSelector = document.querySelectorAll(".transformer")
@@ -17,6 +18,12 @@ onMounted(() => {
         transformer.style.width = `${d}px`
         transformer.style.top = `${coords[i][1]}px`
         transformer.style.left = `${coords[i][0]}px`
+        if (window.innerWidth < 1050) {
+            transformer.style.height = `${d / 2}px`
+            transformer.style.width = `${d / 2}px`
+            transformer.style.top = `${coordsMobile[i][1]}px`
+            transformer.style.left = `${coordsMobile[i][0]}px`
+        }
         i++
     })
 })
@@ -73,5 +80,14 @@ function changeHash(hash) {
 .title {
     text-align: center;
     padding-top: 30px;
+}
+
+@media screen and (max-width: 1050px) {
+    .title {
+        font-size: 1.5em;
+    }
+    .transformer {
+        font-size: 0.8em;
+    }
 }
 </style>
