@@ -250,8 +250,7 @@ const windowCenterX = window.innerWidth / 2;
 
 
   function setEventListeners() {
-    //TODO: matchmedia. 
-    if (window.innerWidth > 1050) {
+    if (window.matchMedia("(min-width: 1050px)").matches) {
       document.addEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
     } else {
@@ -264,7 +263,8 @@ const windowCenterX = window.innerWidth / 2;
   }
 
   function unsetEventListener() {
-    if (window.innerWidth > 1050) {
+    console.log(iCurrentCard.value)
+    if (window.matchMedia("(min-width: 1050px)").matches) {
       document.removeEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
     } else {
@@ -342,8 +342,6 @@ async function  fetchSvgContent(icon) {
     const content = await response.text();
     return content;
   }
-
-// TODO: Function to remove / add all the event listeners in one time ? 
 
 onUnmounted(() => {
   unsetEventListener();
