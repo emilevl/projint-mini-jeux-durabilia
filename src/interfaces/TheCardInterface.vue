@@ -190,7 +190,7 @@ function decisionDone() {
 
   // add a style to the ressources to make their fill color
   // change to the color of the decision
-  removeEventListener();
+  unsetEventListener();
 
   iconColored.value = true;
   
@@ -263,11 +263,12 @@ const windowCenterX = window.innerWidth / 2;
     }
   }
 
-  function removeEventListener() {
+  function unsetEventListener() {
     if (window.innerWidth > 1050) {
       document.removeEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
     } else {
+      if (endGame.value) return;
       document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchmove", touchMoveHandler);
       document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchend", decisionDone);
     }
@@ -345,7 +346,7 @@ async function  fetchSvgContent(icon) {
 // TODO: Function to remove / add all the event listeners in one time ? 
 
 onUnmounted(() => {
-  removeEventListener();
+  unsetEventListener();
   // document.removeEventListener("mousemove", mouseMoveHandler);
 });
 </script>
