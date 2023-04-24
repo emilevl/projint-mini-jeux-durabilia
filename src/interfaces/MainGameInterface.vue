@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { transformers } from '../utils/store';
+import popupRules from '../components/popupRules.vue';
 
 const D_TRANSFORMER_MIN = 150
 const D_TRANSFORMER_MAX = 200
@@ -20,19 +21,40 @@ onMounted(() => {
     })
 })
 
-function changeHash(e) {
-    if (e.target.id == "Tribunal") window.location.hash = "#card"
-    if (e.target.id == "Scierie") window.location.hash = "#planche"
-    if (e.target.id == "STEP") window.location.hash = "#puzzle"
+//For the rules, if empty means not showing any rules
+const activeRules = ref("")
+const CURRENT_TRANSFORMER = ref("")
+function toggleRules(e) {
+    //Get transformer that we clicked
+    CURRENT_TRANSFORMER.value = transformers.value.find(
+        (transformer) => transformer.name == e.target.id
+    );
+    //show the rules of hide
+    if (activeRules.value == "") {
+        activeRules.value = e.target.id
+    } else {
+        activeRules.value = ""
+    }
+}
+
+function changeHash(hash) {
+    activeRules.value = ""
+    window.location.hash = hash
 }
 
 </script>
 
 <template>
     <h1 class="title">Durabilia</h1>
-    <div v-for="transformer of transformers" class="transformer" :id="`${transformer.name}`" @click="changeHash($event)">
+    <div v-for="transformer of transformers" class="transformer" :id="`${transformer.name}`" @click="toggleRules($event)">
         {{ transformer.name }}
     </div>
+    <popupRules v-if="activeRules == 'Tribunal'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
+        @emitPlay="changeHash('#card')"></popupRules>
+    <popupRules v-if="activeRules == 'Scierie'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
+        @emitPlay="changeHash('#planche')"></popupRules>
+    <popupRules v-if="activeRules == 'STEP'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
+        @emitPlay="changeHash('#puzzle')"></popupRules>
 </template>
 
 <style scoped>
