@@ -248,7 +248,7 @@
         
                  {
             "id": 11,
-            "title": "Énergie renouvelable & réduction du C02",
+            "title": "Énergie renouvelable",
             "question": "Voulez-vous encourager la production d'énergie à partir de sources renouvelables pour réduire les émissions de gaz à effet de serre ?",
             "context": "Diminuer les émissions de C02 passe par une production d'énergie renouvelable. À l'heure actuelle, cette transition est très onéreuse.",
             "responses": [
@@ -262,7 +262,7 @@
                     ]
                 },
                 {
-                    "name": "Non, attendons que les sources renouvelables soient plus rentables.",
+                    "name": "Attendons que les sources renouvelables soient plus rentables.",
                     "impact": [
                         {"ressource": "energy", "level": 20},
                         {"ressource": "decentWork", "level": 20},
