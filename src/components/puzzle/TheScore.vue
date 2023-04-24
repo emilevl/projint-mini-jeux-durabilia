@@ -14,14 +14,8 @@ const emit = defineEmits([
 ]);
 
 function leaveGame() {
-    // ask for confirmation
-    if (confirm('Voulez-vous vraiment quitter la partie ?', 'Oui', 'Non')) {
-        window.location.hash = ""
-    }
+    window.location.hash = ""
 }
-
-
-
 
 const showRules = ref(false)
 function toggleRules() {
