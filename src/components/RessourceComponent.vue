@@ -23,6 +23,9 @@ ressourceGlobal.value.forEach(ressource => {
     }
 })
 
+const principHeight = ref("0px")
+const impactHeight = ref("0px")
+const impactLevelTemp = ref(0)
 
 setTimeout(() => setCurrentLevel(), 10)
 setTimeout(() => setImpactLevel(), 300)
@@ -39,15 +42,13 @@ watchEffect(() => {
 });
 
 ////////////////Transpose the % of the impact into pixels
-const principHeight = ref("0px")
 function setCurrentLevel() {
     transitionPrincip.value = "all 0s ease 0s"
     principHeight.value = `${(Math.abs(currentLevel.value) / 100) * props.ressourceSize}px`
 }
 
-const impactHeight = ref("0px")
-const impactLevelTemp = ref(props.impactLevel)
 function setImpactLevel() {
+    impactLevelTemp.value = props.impactLevel
     transitionImpact.value = "all 1s ease 0s"
     //Manage the case where we pass the bar limit (0 - 100)
     if (props.impactLevel + currentLevel.value >= 100) {
@@ -122,7 +123,7 @@ function setImpactLevel() {
 }
 
 .progression-bar-impact {
-    opacity: 0.7;
+    opacity: 0.5;
     background-color: v-bind(color);
     height: v-bind(impactHeight);
     transition: v-bind(transitionImpact);
