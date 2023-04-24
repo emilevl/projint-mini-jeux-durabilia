@@ -2,7 +2,7 @@
 import tiles from '../../assets/data/tiles.json'
 import anime from 'animejs/lib/anime.es.js';
 import { ref, computed, reactive, watchEffect } from 'vue'
-import { menuOpened } from "../../store.js"
+import { menuOpened } from "../../utils/store.js"
 import sound from '../../assets/sounds/Impact_Concrete_Hit_By_Solid_Metal_Bar_02.wav'
 //import sound from '../../assets/sounds/Liquid_Water_Filling_Up_Pool_07.wav'
 
@@ -26,7 +26,7 @@ const props = defineProps({
 
 const emit = defineEmits(['rotate'])
 
-const IMG_PATH = 'src/assets/icons/tiles/'
+const IMG_PATH = 'assets/tiles/'
 
 const correctTile = computed(() => findTile())
 const isEnabled = ref(true)

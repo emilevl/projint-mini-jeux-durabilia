@@ -98,7 +98,7 @@ ressourceConsequenceLevel_MOBILE.value = `${(consequenceTemp / 100) * 100}px`
 
     <!-- Desktop interface -->
     <div v-if="!mobileInterface" class="container">
-        <h3 v-if="props.gameLaunched" class="close-x" @click="$emit('emitToggleRules')">X</h3>
+        <h3 v-if="!props.gameLaunched" class="close-x" @click="$emit('emitToggleRules')">X</h3>
         <div class="rules-full-container">
             <h2 class="title">{{ props.transformer.name }}</h2>
             <p class="type-game">{{ props.transformer.type }}</p>
@@ -181,7 +181,7 @@ ressourceConsequenceLevel_MOBILE.value = `${(consequenceTemp / 100) * 100}px`
 
     <!-- Mobile interface -->
     <div v-if="mobileInterface" class="container">
-        <h3 v-if="props.gameLaunched" class="close-x" @click="$emit('emitToggleRules')">X</h3>
+        <h3 v-if="!props.gameLaunched" class="close-x" @click="$emit('emitToggleRules')">X</h3>
         <div class="rules-full-container">
             <h2 class="title">{{ props.transformer.name }}</h2>
             <p class="type-game">{{ props.transformer.type }}</p>

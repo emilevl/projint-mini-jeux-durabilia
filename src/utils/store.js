@@ -39,12 +39,14 @@ export const transformers = ref([
         consequence: { name: "CO2" , img: "climateActions", level: [20] }
     },
     {
-        name: "Tuyauterie",
+        name: "STEP",
         type: "Jeu de puzzle",
-        description: "Blablabla tuyauterie",
+        description: "Faites pivotez et connectez les tuyaux, afin de guider les eaux usées à travers la station d'épuration.",
         ressourceNecessaire: { name: "Eau" , img: "water", level: -10 },
         ressourceRecue: { name: "Monnaie" , img: "poverty", level: 15 },
         consequence: { name: "Engagement" , img: "partnership", level: [30] }
     }
 ])
+
+export const menuOpened = ref(false);
 

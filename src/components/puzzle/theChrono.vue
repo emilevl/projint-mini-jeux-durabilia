@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watchEffect } from 'vue';
 import addTime from 'add-time';
-import { menuOpened } from "../../store.js"
+import { menuOpened } from "../../utils/store.js"
 
 const minCounter = 1  // nombre de minutes au timer
 let timer = ref(minCounter * 60000)
@@ -78,6 +78,7 @@ img {
 #counter {
     font-family: "Limelight", Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
+    color: #FDFCFC;
     display: inline-block;
     font-size: 3vw;
     margin: auto;
@@ -87,6 +88,9 @@ img {
     display: flex;
     flex-direction: column;
     align-items: start;
-    width:fit-content;
+    width: fit-content;
+    padding: 25px;
+
+    align-self: flex-start;
 }
 </style>

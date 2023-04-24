@@ -68,9 +68,9 @@ function rotateSides(position) {
 <template>
     <div id="grid-box">
         <img id="pipe_start" src="../../assets/decor/pipe_left.png">
-        <img id="img_start" src="../../assets/decor/freeze_left.png">
+        <img id="img_start" src="../../assets/decor/frozen_left.png">
         <img id="pipe_end" src="../../assets/decor/pipe_right.png">
-        <img id="img_end" src="../../assets/decor/freeze_right.png">
+        <img id="img_end" src="../../assets/decor/frozen_right.png">
         <div id="grid" class="grid-container">
             <template v-for="(row, r) in matrix">
                 <div v-for="(col, c) in row" class="grid-item">
@@ -112,7 +112,7 @@ function rotateSides(position) {
 }
 
 img {
-    height: 48vh;
+    height: 32vh;
     position: absolute;
     margin: 0 auto;
 }

@@ -1,11 +1,24 @@
 <script setup>
 import { ref } from 'vue';
+import { ressourceGlobal, transformers } from "../utils/store.js";
 import Grid from '../components/puzzle/grid.vue';
 import TheMenu from '../components/theMenu.vue';
 import TheChrono from '../components/puzzle/theChrono.vue';
-import { menuOpened } from "../store.js"
+import { menuOpened } from "../utils/store.js"
+import ThePause from "../components/ThePause.vue";
+import popupRules from "../components/popupRules.vue";
 
-function onToggleMenu() {
+const CURRENT_TRANSFORMER = transformers.value.find(
+  (transformer) => transformer.name == "STEP"
+)
+
+const activeRules = ref(true)
+function toggleRules(){
+  activeRules.value = !activeRules.value
+}
+
+
+function toggleMenu() {
     menuOpened.value = !menuOpened.value
 }
 
@@ -14,23 +27,31 @@ function onToggleMenu() {
 <template>
     <div id="puzzleInterface">
         <div class="aside">
+            <the-menu @toggle-menu="toggleMenu"></the-menu>
             <the-chrono></the-chrono>
-            <the-menu @toggle-menu="onToggleMenu"></the-menu>
         </div>
         <grid></grid>
+        <ThePause
+            v-if="menuOpened"
+            :transformer="CURRENT_TRANSFORMER"
+            @resumeGame="toggleMenu"
+        ></ThePause>
+        <popupRules 
+            v-if="activeRules" 
+            :transformer="CURRENT_TRANSFORMER"
+            :gameLaunched="false"
+            @emitPlay="toggleRules()"
+        ></popupRules>
     </div>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
-
 /* :root {
     --white: #FDFCFC;
 } */
 
 #puzzleInterface {
     font-family: 'Limelight', cursive;
-    color: #FDFCFC;
     background-color: #12313c;
     background: radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
     height: 100vh;
@@ -56,6 +77,7 @@ function onToggleMenu() {
 .aside {
     display: flex;
     justify-content: space-between;
-    padding: 25px;
+    height: 100%;
 }
+
 </style>

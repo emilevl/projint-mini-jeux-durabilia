@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, onBeforeMount } from "vue";
+import { ref, onMounted, onUnmounted, onBeforeMount, watchEffect } from "vue";
 /* add icons to the library */
 import Card from "../components/card.vue";
 import popupCardEnd from "../components/popupCardEnd.vue";
@@ -21,6 +21,8 @@ const cardsDrawn = ref(false);
 const handCardsCopy = ref([]);
 const dataCards = ref([]);
 const TOTAL_CARDS = 5;
+const svgContent = ref({});
+const iconColored = ref(false);
 // choices are from the dataCards object: 0 = choice 1, 1 = choice -> cards.responses[choice]
 const iChoice = ref(0);
 const choosing = ref(false);
@@ -37,11 +39,21 @@ loadDataCards();
 onMounted(() => {
 
   iCurrentCard.value = handCards.value.length - 1;
-
-  
-  
 });
 
+watchEffect(() => {
+  handCards.value.forEach(async (card) => {
+    
+    for(let i= 0; i < card.responses[iChoice.value].impact.length; i++){
+      const ressource = card.responses[iChoice.value].impact[i].ressource;
+      if (!svgContent.value[ressource]) {
+        const response = await fetch(`/assets/icons/${ressource}.svg`);
+        const text = await response.text();
+        svgContent.value[ressource] = text;
+      }
+    }
+  });
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   
@@ -187,12 +199,18 @@ function decisionDone() {
 
   if (!cardMoved.value) return;
 
+  // add a style to the ressources to make their fill color
+  // change to the color of the decision
+  removeEventListener();
+
+  iconColored.value = true;
+  
+  
   // add the decision to the choice array
   const currentCard = handCards.value[iCurrentCard.value];
   currentCard.decision = iChoice.value;
   cardSelection.value.push(currentCard);
 
-  removeEventListener();
 
   if (iCurrentCard.value === 0) {
     // end of the game
@@ -227,7 +245,6 @@ function decisionDone() {
       duration: 250,
     });
   }
-
   // wait for the animation to finish
   setTimeout(() => {
     // remove the card from the handCards array
@@ -235,8 +252,9 @@ function decisionDone() {
     handCards.value.pop();
     turnCard();
     setEventListeners();
-    
-  }, 250);
+    iconColored.value = false;
+  }, 500);
+  
 }
 
 const windowCenterX = window.innerWidth / 2;
@@ -290,7 +308,7 @@ function turnCard() {
 function cardLoaded() {
   setTimeout(() => {
     turnCard();
-  }, 250);
+  }, 500);
   console.log("card loaded");
   // if (iCurrentCard.value === 0) {
   //   setListeners();
@@ -336,6 +354,12 @@ function toggleRules(){
   activeRules.value = !activeRules.value
 }
 
+async function  fetchSvgContent(icon) {
+    const response = await fetch(`/assets/icons/${icon}.svg`);
+    const content = await response.text();
+    return content;
+  }
+
 // TODO: Function to remove / add all the event listeners in one time ? 
 
 onUnmounted(() => {
@@ -374,21 +398,23 @@ onUnmounted(() => {
     <!-- <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div> -->
   </div>
   <div class="ressources-impact">
-    <div v-if="cardsDrawn && cardMoved"
+    <div
       v-for="ressource of handCards[iCurrentCard].responses[iChoice].impact"
-      class="ressource-icon-wrapper"
+      :class="`ressource-icon-wrapper ${iconColored ? ressource.level > 0 ? 'ressource-icon-red' : 'ressource-icon-green': ''} ${cardsDrawn && cardMoved ? '' : 'display-none'}`"
     >
       <div class="circle-container">
         <div
           class="circle"
           :style="{
-            height: `${(Math.abs(ressource.level) / 100) * 20 + 5}px`,
-            width: `${(Math.abs(ressource.level) / 100) * 20 + 5}px`,
+            height: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
+            width: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
           }"
         ></div>
       </div>
 
-      <img :src="`/assets/icons/${ressource.ressource}.svg`" />
+      <div 
+        v-html="svgContent[ressource.ressource]"
+      ></div>
 
       <p> {{ getRessourceNameByImg(ressource.ressource) }}</p>
     </div>
@@ -404,6 +430,9 @@ onUnmounted(() => {
 </template>
   
 <style>
+:root {
+  overflow: hidden;
+}
 
 .pause-menu {
   z-index: 999999;
@@ -427,6 +456,10 @@ onUnmounted(() => {
   margin: 10px 0 0;
 }
 
+.display-none {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
 #main-title {
   position: absolute;
   font-size: 3rem;
@@ -513,7 +546,11 @@ onUnmounted(() => {
 .ressource-icon-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: center;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s linear;
+  width: 120px;
 }
 
 .ressources-impact .circle {
@@ -528,10 +565,31 @@ onUnmounted(() => {
   padding-top: 10px;
 }
 
+.ressource-icon-wrapper.ressource-icon-red .circle {
+  background-color: #e82d2d;
+}
+
+.ressource-icon-wrapper.ressource-icon-green .circle {
+  background-color: #19ac19;
+}
+
+.ressource-icon-wrapper.ressource-icon-green .circle, .ressource-icon-wrapper.ressource-icon-green path .circle, .ressource-icon-wrapper.ressource-icon-red .circle, .ressource-icon-wrapper.ressource-icon-red path {
+  transition: all 0.1s ease;
+}
+
+.ressource-icon-wrapper.ressource-icon-red path {
+  fill: #e82d2d;
+}
+
+.ressource-icon-wrapper.ressource-icon-green path {
+  fill: #19ac19
+}
+
+
 .ressources-impact .circle-container {
   height: 20px;
   width: 20px;
-  justify-content: center;
+  justify-content: end;
   display: flex;
   align-items: center;
 }
@@ -576,12 +634,16 @@ onUnmounted(() => {
     gap: 2px;
     position: absolute;
     bottom: 5px;
-    margin: 10px auto;
+    margin: 10px 10px;
   }
 
   .ressources-impact .ressource-icon-wrapper {
     flex-direction: column;
     align-items: center;
+  }
+
+  .ressource-icon-wrapper {
+    width: 85px;
   }
 
   .ressources-impact .ressource-icon-wrapper img {
@@ -591,6 +653,7 @@ onUnmounted(() => {
 
   .ressources-impact .ressource-icon-wrapper p {
     font-size: 0.8rem;
+    padding-top: 5px;
   }
 
   .ressources-impact .circle-container {

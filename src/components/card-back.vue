@@ -36,7 +36,6 @@ const props = defineProps({
   }
 
   .flip-card-back .card-title {
-    height: 25.5%;
     padding: 25px 25px 0 25px;
   }
 
@@ -73,6 +72,7 @@ const props = defineProps({
     align-self: center;
     color: black;
     font-weight: 600;
+    padding: 0px 10px;
   }
 
   .ressource-icon-wrapper {
@@ -88,7 +88,11 @@ const props = defineProps({
     }
     
     .flip-card-back p {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
+    }
+
+    .flip-card-band .flip-card-response {
+      font-weight: 400;
     }
 
     .flip-card-band {
