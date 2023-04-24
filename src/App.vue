@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import Card from './components/card.vue';
 import ressource from './components/ressource.vue';
 import TheCardInterface from './interfaces/TheCardInterface.vue';
@@ -9,9 +9,27 @@ import dataCards from "./assets/dataCards.json";
 import MainGameInterface from './interfaces/MainGameInterface.vue';
 
 
+const isPortrait = ref(window.innerHeight > window.innerWidth)
+
 onMounted(() => {
   initializeDataCards();
+  checkDeviceOrientation();
+  window.addEventListener('resize', checkDeviceOrientation);
 });
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkDeviceOrientation);
+});
+
+const checkDeviceOrientation = () => {
+  isPortrait.value = window.innerHeight > window.innerWidth;
+  // const rotateDevice = document.querySelector('.rotate-device');
+  // if (isPortrait.value) {
+  //   rotateDevice.style.display = 'flex';
+  // } else {
+  //   rotateDevice.style.display = 'none';
+  // }
+};
 
 function initializeDataCards() {
   // Check if the dataCards item exists in the localStorage
@@ -55,7 +73,14 @@ const curHash = computed(() => routes[hash.value] ? hash.value : Object.keys(rou
 <template>
   
   <main>
-    <template v-for="(route, hash) of routes">
+    <div class="rotate-device" v-show="isPortrait">
+      <div class="rotate-device-content">
+        <h1>Merci de tourner ton appareil en mode paysage.</h1>
+        <img src="/assets/icons/rotate-device.png" alt="Rotate device" />
+        <!-- You can add an image or icon here if you prefer -->
+      </div>
+    </div>
+    <template v-for="(route, hash) of routes" v-show="!isPortrait">
       <div v-if="hash == curHash">
         <component :is="route.component" />
       </div>
@@ -107,5 +132,36 @@ p {
   font-size: 1.2rem;
   font-family: "Urbanist", "Inter", sans-serif;
   margin: 0;
+}
+
+.rotate-device {
+  display: flex;
+  position: fixed;
+  z-index: 99;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-image: url("/assets/img/background-gradient.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.rotate-device h1 {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.rotate-device .rotate-device-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.rotate-device .rotate-device-content img {
+  width: 100px;
+  height: 100px;
+  margin-top: 30px;
 }
 </style>
