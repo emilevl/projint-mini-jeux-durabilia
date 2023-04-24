@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { transformers } from "../utils/store.js";
 import ThePause from "../components/ThePause.vue";
+import TheScoreScierie from "../components/TheScoreScierie.vue";
 import { computed } from "@vue/reactivity";
 const CURRENT_TRANSFORMER = transformers.value.find((transformer) => transformer.name == "Scierie");
 
@@ -30,7 +31,7 @@ let config = {
 };
 
 // 250 300
-const spawnPoint = { x: 250, y: 300 };
+const spawnPoint = { x: 12500, y: 300 };
 
 // Death management
 let deathCount = 0;
@@ -98,6 +99,8 @@ let leftButton, rightButton, jumpButton;
 
 // Audio
 let bonk;
+
+let finishGame = ref(false)
 
 let game = new Phaser.Game(config);
 
@@ -693,11 +696,8 @@ async function hitSaws(player, saw) {
 
 function endGame(player, endMachine) {
     // Stop the scene
+    finishGame.value = true
     this.scene.pause();
-    
-    const finalTime = formatTime(chrono.value);
-
-    
 }
 
 /* setInterval(function () {
@@ -720,6 +720,11 @@ function delay(milliseconds) {
         :transformer="CURRENT_TRANSFORMER"
         @resumeGame="togglePauseGame"
     ></ThePause>
+    <TheScoreScierie 
+            v-if="finishGame"
+            :time="chronoDisplay"
+            :transformer="CURRENT_TRANSFORMER"
+    ></TheScoreScierie>
     <h1 id="chrono">{{ chronoDisplay }}</h1>
     <h2 v-if="playerDead" id="death-message">Touché</h2>
 </template>

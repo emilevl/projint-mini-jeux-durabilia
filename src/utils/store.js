@@ -36,7 +36,7 @@ export const transformers = ref([
         type: "Jeu de plateforme",
         description: "Atteignez la fin du niveau pour couper le courant de la scierie, tout en évitant les scies et les morceaux de bois qui tombent. ",
         ressourceNecessaire: { name: "Terradiversité" , img: "lifeLand", level: -15 },
-        ressourceRecue: { name: "Croissance" , img: "decentWork", level: 30 },
+        ressourceRecue: { name: "Croissance" , img: "decentWork", level: 10 },
         consequence: { name: "CO2" , img: "climateActions", level: [20] }
     },
     {
