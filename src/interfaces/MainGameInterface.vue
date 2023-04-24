@@ -23,7 +23,7 @@ onMounted(() => {
 function changeHash(e) {
     if (e.target.id == "Tribunal") window.location.hash = "#card"
     if (e.target.id == "Scierie") window.location.hash = "#planche"
-    if (e.target.id == "Tuyauterie") window.location.hash = "#puzzle"
+    if (e.target.id == "STEP") window.location.hash = "#puzzle"
 }
 
 </script>

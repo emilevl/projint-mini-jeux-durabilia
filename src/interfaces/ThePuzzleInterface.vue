@@ -18,7 +18,7 @@ function toggleRules(){
 }
 
 
-function onToggleMenu() {
+function toggleMenu() {
     menuOpened.value = !menuOpened.value
 }
 
@@ -27,13 +27,14 @@ function onToggleMenu() {
 <template>
     <div id="puzzleInterface">
         <div class="aside">
-            <the-menu @toggle-menu="onToggleMenu"></the-menu>
+            <the-menu @toggle-menu="toggleMenu"></the-menu>
             <the-chrono></the-chrono>
         </div>
         <grid></grid>
         <ThePause
             v-if="menuOpened"
             :transformer="CURRENT_TRANSFORMER"
+            @resumeGame="toggleMenu"
         ></ThePause>
         <popupRules 
             v-if="activeRules" 
