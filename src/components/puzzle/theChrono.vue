@@ -62,9 +62,7 @@ function startTimer(newDate) {
         }
         
 
-        if (menuOpened.value || props.rulesOpen) {
-            console.log("rules : " + props.rulesOpen + " | menu : " + menuOpened.value)
-
+        if (menuOpened.value) {
             timer.value = distance
             clearInterval(interval)
         }
@@ -72,7 +70,7 @@ function startTimer(newDate) {
 }
 
 watchEffect(() => {
-    if (!menuOpened.value) {
+    if (!menuOpened.value && !props.rulesOpen) {
         const newDate = new Date(Date.now() + timer.value);
         startTimer(newDate)
     }

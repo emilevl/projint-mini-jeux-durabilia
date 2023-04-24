@@ -67,6 +67,7 @@ watchEffect(() => {
             :gameLaunched="false"
             @emitPlay="toggleRules()"
         ></popupRules>
+        <TheScore v-if="finPartie"></TheScore>
     </div>
 </template>
 
