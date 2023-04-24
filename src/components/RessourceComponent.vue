@@ -29,6 +29,8 @@ ressourceGlobal.value.forEach(ressource => {
 const principHeight = ref("0px")
 const impactHeight = ref("0px")
 const impactLevelTemp = ref(0)
+const heightWave = ref("0px")
+const heightWaveImpact = ref("0px")
 
 setTimeout(() => setCurrentLevel(), 10)
 setTimeout(() => setImpactLevel(), 300)
@@ -56,8 +58,19 @@ function setImpactLevel() {
     //Manage the case where we pass the bar limit (0 - 100)
     if (props.impactLevel + currentLevel.value >= 100) {
         impactLevelTemp.value = 100 - currentLevel.value
+        heightWave.value = "1px"
+        heightWaveImpact.value = "1px"
     } else if (props.impactLevel + currentLevel.value <= 0) {
         impactLevelTemp.value = - currentLevel.value
+        heightWaveImpact.value = "5px"
+    } else if (props.impactLevel + currentLevel.value <= 0 && currentLevel == 0) {
+        heightWaveImpact.value = "0px"
+        heightWave.value = "0px"
+    } else if (props.impactLevel == 0) {
+        heightWave.value = "5px"
+    } else {
+        heightWave.value = "5px"
+        heightWaveImpact.value = "5px"
     }
 
     impactHeight.value = `${(Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize}px`
@@ -73,19 +86,22 @@ function setImpactLevel() {
     }
 }
 
+//Manage the waves for the progression bars
+const d = ref(`M 0 -5 Q ${props.ressourceSize / 4} -10, ${props.ressourceSize / 2} -5 Q ${3 * props.ressourceSize / 4} 0, ${props.ressourceSize} -5  L ${props.ressourceSize} 5 L 0 5 Z`)
+
 </script>
 
 <template>
     <div class="detail-progression">
         <div class="progression-bar-container">
-            <!-- <div class="progression-bar-current" :id="`barGlob-${props.img}`"></div> -->
-            <svg class="progression-bar-current" :id="`barGlob-${props.img}`">
-                <path d="M 10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" stroke="green" fill="red"/>
+            <div class="progression-bar-current" :id="`barGlob-${props.img}`"></div>
+            <svg class="progression-bar-current-svg">
+                <path :d=d :fill=color />
             </svg>
-            <svg class="progression-bar-impact" :id="`${props.img}`">
-
+            <div class="progression-bar-impact" :id="`${props.img}`"></div>
+            <svg class="progression-bar-impact-svg">
+                <path :d=d :fill=colorImpact :opacity=impactOpacity />
             </svg>
-            <!-- <div class="progression-bar-impact" :id="`${props.img}`"></div> -->
         </div>
         <div class="icon-container">
             <p class="progression-bar-title">{{ name }}</p>
@@ -129,12 +145,14 @@ function setImpactLevel() {
     display: flex;
     flex-direction: column-reverse;
     justify-content: end;
+    overflow: hidden;
 }
 
 .progression-bar-current {
     background-color: v-bind(color);
     height: v-bind(principHeight);
     transition: v-bind(transitionPrincip);
+    overflow: hidden;
 }
 
 .progression-bar-impact {
@@ -142,6 +160,19 @@ function setImpactLevel() {
     background-color: v-bind(colorImpact);
     height: v-bind(impactHeight);
     transition: v-bind(transitionImpact);
+    overflow: hidden;
+}
+
+.progression-bar-current-svg {
+    transition: 1s;
+    height: v-bind(heightWave);
+    overflow: visible;
+}
+
+.progression-bar-impact-svg {
+    transition: 1s;
+    height: v-bind(heightWaveImpact);
+    overflow: visible;
 }
 
 .progression-bar-number,
