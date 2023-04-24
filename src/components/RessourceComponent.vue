@@ -78,7 +78,8 @@ function setImpactLevel() {
             <img class="icon" :src="`/assets/icons/${props.img}.svg`">
             <p v-if="impactLevelTemp > 0" class="progression-bar-number">+{{ impactLevelTemp }}</p>
             <p v-if="impactLevelTemp < 0" class="progression-bar-number">{{ impactLevelTemp }}</p>
-            <p v-if="impactLevelTemp == 0" class="progression-bar-number">-</p>
+            <p v-if="impactLevelTemp == 0 && !(props.img == 'random')" class="progression-bar-number">-</p>
+            <p v-if="props.img == 'random'" class="progression-bar-number">de -20 à +50</p>
         </div>
     </div>
 </template>
@@ -133,5 +134,19 @@ function setImpactLevel() {
 .progression-bar-title {
     font-size: 0.9rem;
     color: white;
+}
+
+@media screen and (max-width: 1050px) {
+
+    .progression-bar-number,
+    .progression-bar-title {
+        font-size: 0.7rem;
+    }
+
+    .icon {
+    height: 25px;
+    z-index: 10;
+    filter: brightness(0) invert(1);
+}
 }
 </style>
