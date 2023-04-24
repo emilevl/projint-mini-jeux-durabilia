@@ -1,0 +1,153 @@
+<script setup>
+import { onMounted, ref } from 'vue';
+import { ressourceGlobal } from '../../utils/store';
+import popupRules from "../../components/popupRules.vue"
+import ButtonComponent from './../ButtonComponent.vue';
+// src/assets/sounds/Trumpet_Win.wav
+
+const props = defineProps({
+    transformer: Object
+})
+
+const emit = defineEmits([
+    'resumeGame',
+]);
+
+function leaveGame() {
+    // ask for confirmation
+    if (confirm('Voulez-vous vraiment quitter la partie ?', 'Oui', 'Non')) {
+        window.location.hash = ""
+    }
+}
+
+
+
+
+const showRules = ref(false)
+function toggleRules() {
+    showRules.value = !showRules.value
+
+}
+
+</script>
+
+<template>
+    <div class="background" @click="$emit('resumeGame')"></div>
+    <div class="pause-container">
+        <div class="pause-details-container">
+            <h2 class="title">RESSOURCES IMPACTÉES</h2>
+            <img class="pause-deco" src="/assets/icons/pause-deco.svg">
+            <p>impacts</p>
+            <div class="content">
+                <ButtonComponent class="menu-option" @click="leaveGame()">Retour à la map</ButtonComponent>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+.background {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 50%;
+}
+
+.pause-container {
+    z-index: 3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 550px;
+    background-color: #FBF8F1;
+}
+
+.pause-details-container {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 450px;
+}
+
+.pause-deco {
+    width: 100%;
+}
+
+.content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-size: 1.5rem;
+}
+
+.title {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+
+@media screen and (max-width: 800px) {
+    .pause-container {
+        width: 300px;
+        height: 300px;
+    }
+
+    .pause-details-container {
+        padding: 25px;
+        height: 250px;
+    }
+
+    .close-x {
+        padding: 25px;
+    }
+
+    .title {
+        font-size: 1.5em;
+        padding: 10px;
+    }
+
+    .content {
+        font-size: 1rem
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    .pause-container {
+        width: 300px;
+        height: 300px;
+    }
+
+    .pause-details-container {
+        padding: 25px;
+        height: 250px;
+    }
+
+    .close-x {
+        padding: 25px;
+        font-size: 1.5em;
+    }
+
+    .title {
+        font-size: 1.5em;
+        padding: 10px;
+    }
+
+    .content {
+        font-size: 1rem
+    }
+
+    .menu-option {
+        background-color: unset;
+        color: unset;
+    }
+}
+</style>

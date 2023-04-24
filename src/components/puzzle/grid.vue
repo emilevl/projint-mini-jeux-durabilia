@@ -3,12 +3,13 @@ import Tile from '../puzzle/tile.vue'
 import { generateMatrix } from '../../utils/generateRandomPath.js';
 import { VerifyMatrix } from '../../utils/verifyPuzzle.js';
 import { computed, watchEffect, ref } from 'vue'
-//import {VerifyMatrix} from '../../utils/verifyPuzzle.js'
+
+const emit = defineEmits(['partieTerminee'])
 
 const nbCols = 5;
 const nbRows = nbCols;
 const nbTiles = nbCols * nbRows
-const arrival = [nbCols-1 , nbRows -1]
+const arrival = [nbCols - 1, nbRows - 1]
 const lengthPath = 10; //entre 8 et 10 p.ex
 
 const maxFrozenTiles = 2; // maximum number of frozen tiles on the grid
@@ -49,8 +50,15 @@ function rotateSides(position) {
 
     let last = matrix[position[0]][position[1]].sides.pop();
     matrix[position[0]][position[1]].sides.unshift(last);
-    VerifyMatrix(matrix)
-    //console.log();
+
+    let verified = VerifyMatrix(matrix)
+
+    if (verified != undefined && verified[1] == true) {
+        //console.log('FINI')
+        emit('partieTerminee', true)
+    }
+
+    //console.log(VerifyMatrix(matrix));
 }
 
 
@@ -76,7 +84,6 @@ function rotateSides(position) {
 </template>
 
 <style scoped>
-
 /* #grid-box {
     position: absolute;
     width: 100%;

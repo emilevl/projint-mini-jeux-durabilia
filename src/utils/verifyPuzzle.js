@@ -135,7 +135,7 @@ function VerifyMatrix(matrix, finish = [4, 4]) {
     if (map[matrix.length - 1][matrix[0].length - 1] != false && matrix[matrix.length - 1][matrix[0].length - 1].sides[1] == 1) {
       solved = true;
     }
-    console.log(`solved: ${solved}`);
+    //console.log(`solved: ${solved}`);
     return [map, solved];
   }
 }

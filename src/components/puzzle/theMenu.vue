@@ -1,13 +1,6 @@
 <script setup>
 import { ref, watchEffect } from "vue";
-import { menuOpened } from "../utils/store.js"
-
-// let menuOpened = ref(false)
-
-/* watchEffect(() =>
-    //console.log("store" + menuOpen),
-    console.log("local" + menuOpened.value)
-) */
+import { menuOpened } from "../../utils/store.js"
 
 function toggleMenu() {
     menuOpened.value = !menuOpened.value
@@ -35,7 +28,7 @@ p {
     margin-top: auto;
     margin-bottom: auto;
 
-    background-image: url(../assets/decor/menu.svg);
+    background-image: url(../../assets/decor/menu.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
