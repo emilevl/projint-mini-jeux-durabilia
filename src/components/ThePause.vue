@@ -19,13 +19,12 @@ function leaveGame() {
     }
 }
 
-
-
-
 const showRules = ref(false)
 function toggleRules() {
     showRules.value = !showRules.value
-
+    if (!showRules.value) {
+        emit("resumeGame")
+    }
 }
 
 function launchCinematique() {
@@ -107,7 +106,7 @@ function launchCinematique() {
 
 .title {
     margin: 0;
-    padding-bottom: 24px;
+    padding-bottom: 2px;
     text-align: center;
 }
 
@@ -139,8 +138,8 @@ function launchCinematique() {
 
 @media screen and (max-width: 1050px) {
     .pause-container {
-        width: 300px;
-        height: 300px;
+        width: 600px;
+        height: 350px;
     }
 
     .pause-details-container {
