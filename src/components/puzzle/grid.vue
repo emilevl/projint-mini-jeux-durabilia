@@ -9,8 +9,8 @@ const emit = defineEmits(['partieTerminee'])
 const nbCols = 5;
 const nbRows = nbCols;
 const nbTiles = nbCols * nbRows
-const arrival = [nbCols - 1, nbRows - 1]
-const lengthPath = 10; //entre 8 et 10 p.ex
+const arrival = [nbCols-1 , nbRows -1]
+const lengthPath = 15; //entre 8 et 10 p.ex
 
 const maxFrozenTiles = 2; // maximum number of frozen tiles on the grid
 let frozenTilesCounter = 0;
@@ -51,14 +51,23 @@ function rotateSides(position) {
     let last = matrix[position[0]][position[1]].sides.pop();
     matrix[position[0]][position[1]].sides.unshift(last);
 
-    let verified = VerifyMatrix(matrix)
+    //let verified = VerifyMatrix(matrix)
+    let VerifiedMatrix = VerifyMatrix(matrix)
 
-    if (verified != undefined && verified[1] == true) {
+    if (VerifiedMatrix != undefined && VerifiedMatrix[1] == true) {
         //console.log('FINI')
         emit('partieTerminee', true)
     }
 
-    //console.log(VerifyMatrix(matrix));
+    for(let i=0; i<5; i++){
+        for(let n=0; n<5; n++){
+            if(VerifiedMatrix != undefined && VerifiedMatrix[0][i][n]){
+                console.log("Sbonjour",i,n);
+            }
+        }
+        
+    }
+    console.log(VerifyMatrix(matrix));
 }
 
 

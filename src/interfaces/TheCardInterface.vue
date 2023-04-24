@@ -430,6 +430,9 @@ onUnmounted(() => {
 </template>
   
 <style>
+:root {
+  overflow: hidden;
+}
 
 .pause-menu {
   z-index: 999999;
@@ -547,6 +550,7 @@ onUnmounted(() => {
   visibility: visible;
   opacity: 1;
   transition: visibility 0s, opacity 0.2s linear;
+  width: 120px;
 }
 
 .ressources-impact .circle {
@@ -638,6 +642,10 @@ onUnmounted(() => {
     align-items: center;
   }
 
+  .ressource-icon-wrapper {
+    width: 85px;
+  }
+
   .ressources-impact .ressource-icon-wrapper img {
     margin-top: 0;
     height: 25px;
@@ -645,6 +653,7 @@ onUnmounted(() => {
 
   .ressources-impact .ressource-icon-wrapper p {
     font-size: 0.8rem;
+    padding-top: 5px;
   }
 
   .ressources-impact .circle-container {

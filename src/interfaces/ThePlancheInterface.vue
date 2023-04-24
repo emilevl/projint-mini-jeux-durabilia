@@ -93,6 +93,9 @@ let pad1;
 let buttonControllerPressed = false;
 let buttonControllerReleased = false;
 
+// Mobile buttons
+let leftButton, rightButton, jumpButton;
+
 // Audio
 let bonk;
 
@@ -130,9 +133,6 @@ function preload() {
 
     this.load.image("particle", "assets/scierie/particle.png");
 
-    // Load control buttons
-    //this.load.image('leftB', 'assets/leftButton.png');
-    //this.load.image('RightB', 'assets/rightButton.png');
 
     // Load moving platform asset
     this.load.image("movingPlatform", "assets/scierie/platform.jpg");
@@ -147,6 +147,11 @@ function preload() {
 
     // Load end machine
     this.load.image("endMachine", "assets/scierie/endMachine.png");
+
+    // Load mobile buttons
+    this.load.image("leftButton", "assets/scierie/leftButton.png");
+    this.load.image("rightButton", "assets/scierie/rightButton.png");
+    this.load.image("jumpButton", "assets/scierie/jumpButton.png");
 
     // Audio
     this.load.audio("bonk", "assets/scierie/audio/bonk.mp3");
@@ -189,19 +194,11 @@ function create() {
         .setCollideWorldBounds(true)
         .setBounce(0);
 
-    //graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x00ff00 } });
-
-    //  Our player animations, turning, walking left and walking right.
+    //  Our player animations, walking left and walking right.
     this.anims.create({
         key: "left",
         frames: [{ key: "player", frame: 0 }],
         frameRate: 10,
-    });
-
-    this.anims.create({
-        key: "turn",
-        frames: [{ key: "player", frame: 1 }],
-        frameRate: 20,
     });
 
     this.anims.create({
@@ -212,21 +209,21 @@ function create() {
 
     this.anims.create({
         key: "jump",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 11 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 12 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "jumpRight",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 11 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 12 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "jumpLeft",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 12, end: 23 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 13, end: 24 }),
         frameRate: 81,
         repeat: 0,
     });
@@ -248,6 +245,7 @@ function create() {
     movingPlatform.body.setAllowGravity(false).setGravity(0).setImmovable(true);
     movingPlatform.startPoint = 2080;
     movingPlatform.endPoint = 2400;
+
     // Add collide with moving platform and reset jump
     this.physics.add.collider(
         player,
@@ -261,16 +259,16 @@ function create() {
 
     // Death on saw touch
     saw.setCollisionByExclusion([-1]);
-    this.physics.add.collider(player, saw, hitSaws, null, this);
+    this.physics.add.collider(player, saw, killPlayer, null, this);
 
     // Logs
     logs1 = this.physics.add.group();
     this.physics.add.collider(logs1, platform);
-    this.physics.add.collider(player, logs1, hitLogs, null, this);
+    this.physics.add.collider(player, logs1, killPlayer, null, this);
 
     logs2 = this.physics.add.group();
     this.physics.add.collider(logs2, platform);
-    this.physics.add.collider(player, logs2, hitLogs, null, this);
+    this.physics.add.collider(player, logs2, killPlayer, null, this);
 
     // Big saw
     for (let i = 0; i < 3; i++) {
@@ -281,7 +279,7 @@ function create() {
     }
 
     bigSaws.forEach((bigSaw) => {
-        this.physics.add.collider(player, bigSaw, hitSaws, null, this);
+        this.physics.add.collider(player, bigSaw, killPlayer, null, this);
     });
 
     // Little saws
@@ -295,7 +293,7 @@ function create() {
 
     movingSaws.forEach((saw) => {
         saw.setScale(0.7);
-        this.physics.add.collider(player, saw, hitSaws, null, this);
+        this.physics.add.collider(player, saw, killPlayer, null, this);
         saw.body.setAllowGravity(false);
         saw.body.isCircle = true;
         saw.setGravity(0).setImmovable(true).setVelocityX(0);
@@ -307,7 +305,7 @@ function create() {
     // Fixed saws
     sawsCoordinates.forEach((co, i) => {
         saws[i] = this.physics.add.sprite(co.x, co.y, "saw");
-        this.physics.add.collider(player, saws[i], hitSaws, null, this);
+        this.physics.add.collider(player, saws[i], killPlayer, null, this);
         saws[i].body.setAllowGravity(false).isCircle = true;
         saws[i].setGravity(0).setImmovable(true).setVelocityX(0);
 
@@ -335,7 +333,6 @@ function create() {
     endMachine.body.setAllowGravity(false);
     endMachine.setGravity(0).setImmovable(true).setVelocityX(0);
     this.physics.add.collider(player, endMachine, endGame, null, this);
-    console.log(endMachine);
 
     player.depth = 10;
 
@@ -350,8 +347,14 @@ function create() {
     });
 
 
+    //console.log(this.sys.game.device.os.iOS || this.sys.game.device.os.android);
+    if(this.sys.game.device.os.iOS || this.sys.game.device.os.android) {
+        leftButton = this.add.sprite(game.config.width/4,200,"leftButton").setScale(0.8);
+        rightButton = this.add.sprite(game.config.width*1/2,200,"rightButton").setScale(0.8);
+        jumpButton = this.add.sprite(game.config.width,200,"jumpButton").setScale(0.8);
+    }
     
-
+    
 }
 
 function update() {
@@ -359,6 +362,18 @@ function update() {
         this.physics.pause();
     } else {
         this.physics.resume();
+    }
+
+    // Replace mobile buttons
+    if(this.sys.game.device.os.iOS || this.sys.game.device.os.android) {
+        leftButton.setPosition(this.cameras.main.midPoint.x - game.config.width/1.8)
+        rightButton.x = this.cameras.main.midPoint.x - game.config.width / 3.2
+        jumpButton.x = this.cameras.main.midPoint.x + game.config.width/2
+
+        let buttonsY = this.cameras.main.midPoint.y + game.config.height/2
+        leftButton.y = buttonsY;
+        rightButton.y = buttonsY;
+        jumpButton.y = buttonsY;
     }
 
     let currentTime = new Date();
@@ -455,9 +470,6 @@ function update() {
     } else if (!this.input.pointer1.isDown && !this.input.pointer2.isDown) {
         playerActualVelocity = 0;
         player.setVelocityX(0);
-        if (player.body.blocked.down) {
-            player.anims.play("turn");
-        }
     }
 
     // Jump
@@ -593,15 +605,60 @@ function replaceObjects() {
     });
 }
 
+async function killPlayer(player, hitter) {
+    // Disable input
+    this.input.enabled = false;
+
+    // Death sound
+    if(hitter.texture != undefined) {
+        switch (hitter.texture.key) {
+        case "log":
+            bonk.play();
+            break;
+        default:
+            break;
+        }
+    }
+    
+    
+    playerDead.value = true;
+    this.physics.pause();
+
+    player.anims.play("playerKilled", false).once('animationcomplete', async ()=>{
+        if (hitter.texture != undefined && hitter.texture.key == "log") {
+        hitter.destroy();
+    }
+
+        deathCount++;
+
+        await delay(500);
+        chronoStartTime = new Date();
+        timeBeforePause = 0
+
+        player.setPosition(spawnPoint.x, spawnPoint.y);
+        replaceObjects();
+
+        playerDead.value = false;
+        this.input.enabled = true;
+        this.physics.resume();
+    });
+    
+    
+
+    
+
+    
+}
+
 // Function to handle player hitted by a log
-function hitLogs(player, log) {
+/* function hitLogs(player, log) {
+    console.log(log.texture.key);
     bonk.play();
     this.physics.pause();
 
     deathCount++;
     chronoStartTime = new Date();
     timeBeforePause = 0
-    //deathCountText.setText('Death: ' + deathCount);
 
     player.setPosition(spawnPoint.x, spawnPoint.y);
     replaceObjects();
@@ -610,7 +667,7 @@ function hitLogs(player, log) {
     this.physics.resume();
 }
 
-// Function to handle if the player hits a saw
+Function to handle if the player hits a saw
 async function hitSaws(player, saw) {
     playerDead.value = true;
     this.physics.pause();
@@ -628,19 +685,12 @@ async function hitSaws(player, saw) {
     playerDead.value = false;
     this.physics.resume();
 
-    /* setInterval(function () {
-        console.log("test");
-    }, 3000);
-    */
-}
+} */
 
 function endGame(player, endMachine) {
-    // Stop physics and controls
-    this.physics.pause();
-    this.input.enabled = false;
-
-    // Stop chrono
-    //timer.paused = true;
+    // Stop the scene
+    this.scene.pause();
+    
     const finalTime = formatTime(chrono.value);
 
     

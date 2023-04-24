@@ -36,7 +36,6 @@ const props = defineProps({
   }
 
   .flip-card-back .card-title {
-    height: 25.5%;
     padding: 25px 25px 0 25px;
   }
 

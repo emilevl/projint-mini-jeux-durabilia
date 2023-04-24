@@ -20,7 +20,8 @@ function toggleRules() {
     activeRules.value = !activeRules.value
 }
 
-function onToggleMenu() {
+
+function toggleMenu() {
     menuOpened.value = !menuOpened.value
 }
 
@@ -51,15 +52,21 @@ watchEffect(() => {
 <template>
     <div id="puzzleInterface">
         <div class="aside">
-            <the-menu @toggle-menu="onToggleMenu"></the-menu>
+            <the-menu @toggle-menu="toggleMenu"></the-menu>
             <the-chrono @partieTerminee="partieTerminee" :rulesOpen="activeRules" :jeuReussi="finPartie"></the-chrono>
         </div>
         <grid @partieTerminee="partieTerminee"></grid>
-        <ThePause v-if="menuOpened" :transformer="CURRENT_TRANSFORMER"></ThePause>
-        <popupRules v-if="activeRules" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false" @emitPlay="toggleRules()">
-        </popupRules>
-        <TheScore v-if="finPartie"></TheScore>
-
+        <ThePause
+            v-if="menuOpened"
+            :transformer="CURRENT_TRANSFORMER"
+            @resumeGame="toggleMenu"
+        ></ThePause>
+        <popupRules 
+            v-if="activeRules" 
+            :transformer="CURRENT_TRANSFORMER"
+            :gameLaunched="false"
+            @emitPlay="toggleRules()"
+        ></popupRules>
     </div>
 </template>
 
