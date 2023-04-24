@@ -262,7 +262,7 @@
                     ]
                 },
                 {
-                    "name": "Attendons que les sources renouvelables soient plus rentables.",
+                    "name": "Attendons qu'elles soient plus rentables.",
                     "impact": [
                         {"ressource": "energy", "level": 20},
                         {"ressource": "decentWork", "level": 20},
