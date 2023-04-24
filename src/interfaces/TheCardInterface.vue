@@ -406,8 +406,8 @@ onUnmounted(() => {
         <div
           class="circle"
           :style="{
-            height: `${(Math.abs(ressource.level) / 100) * 20 + 5}px`,
-            width: `${(Math.abs(ressource.level) / 100) * 20 + 5}px`,
+            height: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
+            width: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
           }"
         ></div>
       </div>

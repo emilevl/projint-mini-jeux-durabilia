@@ -29,7 +29,7 @@ let config = {
     antialias: true,
 };
 
-// 400 300
+// 250 300
 const spawnPoint = { x: 250, y: 300 };
 
 // Death management
@@ -67,13 +67,16 @@ let bigSawsSpawnX = -150;
 let movingSaws = [];
 let saws = [];
 let sawsCoordinates = [
-    { x: 1472, y: 320 },
-    { x: 2240, y: 448 },
-    { x: 2560, y: 448 },
-    { x: 5760, y: 832 },
-    { x: 5952, y: 832 },
-    { x: 6528, y: 1088 },
-    { x: 6976, y: 960 },
+    { x: 1472, y: 320, cut: 0 },
+    { x: 2240, y: 448, cut: 0 },
+    { x: 2560, y: 448, cut: 0 },
+    { x: 5760, y: 832, cut: 0 },
+    { x: 5952, y: 832, cut: 0 },
+    { x: 6528, y: 1088, cut: 0 },
+    { x: 6976, y: 960, cut: 0 },
+    { x: 9152, y: 960, cut: 2 },
+    { x: 10176, y: 1280, cut: 1 },
+    { x: 10048, y: 1408, cut: 1 },
 ];
 
 // Saws speed
@@ -150,6 +153,7 @@ function preload() {
 }
 
 function create() {
+    
     chronoStartTime = new Date();
 
     if (window.innerWidth <= 1050) {
@@ -187,17 +191,11 @@ function create() {
 
     //graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x00ff00 } });
 
-    //  Our player animations, turning, walking left and walking right.
+    //  Our player animations, walking left and walking right.
     this.anims.create({
         key: "left",
         frames: [{ key: "player", frame: 0 }],
         frameRate: 10,
-    });
-
-    this.anims.create({
-        key: "turn",
-        frames: [{ key: "player", frame: 1 }],
-        frameRate: 20,
     });
 
     this.anims.create({
@@ -257,16 +255,16 @@ function create() {
 
     // Death on saw touch
     saw.setCollisionByExclusion([-1]);
-    this.physics.add.collider(player, saw, hitSaws, null, this);
+    this.physics.add.collider(player, saw, killPlayer, null, this);
 
     // Logs
     logs1 = this.physics.add.group();
     this.physics.add.collider(logs1, platform);
-    this.physics.add.collider(player, logs1, hitLogs, null, this);
+    this.physics.add.collider(player, logs1, killPlayer, null, this);
 
     logs2 = this.physics.add.group();
     this.physics.add.collider(logs2, platform);
-    this.physics.add.collider(player, logs2, hitLogs, null, this);
+    this.physics.add.collider(player, logs2, killPlayer, null, this);
 
     // Big saw
     for (let i = 0; i < 3; i++) {
@@ -277,7 +275,7 @@ function create() {
     }
 
     bigSaws.forEach((bigSaw) => {
-        this.physics.add.collider(player, bigSaw, hitSaws, null, this);
+        this.physics.add.collider(player, bigSaw, killPlayer, null, this);
     });
 
     // Little saws
@@ -291,18 +289,39 @@ function create() {
 
     movingSaws.forEach((saw) => {
         saw.setScale(0.7);
-        this.physics.add.collider(player, saw, hitSaws, null, this);
+        this.physics.add.collider(player, saw, killPlayer, null, this);
         saw.body.setAllowGravity(false);
         saw.body.isCircle = true;
         saw.setGravity(0).setImmovable(true).setVelocityX(0);
     });
 
+    let graphics = this.add.graphics();
+    graphics.fillStyle(0x00ff00, 0);
+
     // Fixed saws
     sawsCoordinates.forEach((co, i) => {
         saws[i] = this.physics.add.sprite(co.x, co.y, "saw");
-        this.physics.add.collider(player, saws[i], hitSaws, null, this);
+        this.physics.add.collider(player, saws[i], killPlayer, null, this);
         saws[i].body.setAllowGravity(false).isCircle = true;
         saws[i].setGravity(0).setImmovable(true).setVelocityX(0);
+
+        let rect, mask;
+        switch (co.cut) {
+            case 1:
+                rect = graphics.fillRect(co.x-64, co.y-64, 64, 128);
+                mask = rect.createGeometryMask();
+                saws[i].setMask(mask);
+                saws[i].setScale(0.9)
+                break;
+            case 2: 
+                rect = graphics.fillRect(co.x, co.y-64, 64, 128);
+                mask = rect.createGeometryMask();
+                saws[i].setMask(mask);
+                saws[i].setScale(0.9)
+                break;
+            default:
+                break;
+        }
     });
 
     // End machine
@@ -323,6 +342,10 @@ function create() {
         //'pad' is a reference to the gamepad that was just connected
         pad1 = pad;
     });
+
+
+    console.log(this.sys.game.device.os.iOS || this.sys.game.device.os.android);
+
 }
 
 function update() {
@@ -426,9 +449,6 @@ function update() {
     } else if (!this.input.pointer1.isDown && !this.input.pointer2.isDown) {
         playerActualVelocity = 0;
         player.setVelocityX(0);
-        if (player.body.blocked.down) {
-            player.anims.play("turn");
-        }
     }
 
     // Jump
@@ -564,15 +584,60 @@ function replaceObjects() {
     });
 }
 
+async function killPlayer(player, hitter) {
+    // Disable input
+    this.input.enabled = false;
+
+    // Death sound
+    if(hitter.texture != undefined) {
+        switch (hitter.texture.key) {
+        case "log":
+            bonk.play();
+            break;
+        default:
+            break;
+        }
+    }
+    
+    
+    playerDead.value = true;
+    this.physics.pause();
+
+    player.anims.play("playerKilled", false).once('animationcomplete', async ()=>{
+        if (hitter.texture != undefined && hitter.texture.key == "log") {
+        hitter.destroy();
+    }
+
+        deathCount++;
+
+        await delay(500);
+        chronoStartTime = new Date();
+        timeBeforePause = 0
+
+        player.setPosition(spawnPoint.x, spawnPoint.y);
+        replaceObjects();
+
+        playerDead.value = false;
+        this.input.enabled = true;
+        this.physics.resume();
+    });
+    
+    
+
+    
+
+    
+}
+
 // Function to handle player hitted by a log
-function hitLogs(player, log) {
+/* function hitLogs(player, log) {
+    console.log(log.texture.key);
     bonk.play();
     this.physics.pause();
 
     deathCount++;
     chronoStartTime = new Date();
     timeBeforePause = 0
-    //deathCountText.setText('Death: ' + deathCount);
 
     player.setPosition(spawnPoint.x, spawnPoint.y);
     replaceObjects();
@@ -581,7 +646,7 @@ function hitLogs(player, log) {
     this.physics.resume();
 }
 
-// Function to handle if the player hits a saw
+Function to handle if the player hits a saw
 async function hitSaws(player, saw) {
     playerDead.value = true;
     this.physics.pause();
@@ -599,22 +664,15 @@ async function hitSaws(player, saw) {
     playerDead.value = false;
     this.physics.resume();
 
-    /* setInterval(function () {
-        console.log("test");
-    }, 3000);
-    */
-}
+} */
 
 function endGame(player, endMachine) {
-    // Stop physics and controls
-    this.physics.pause();
-    this.input.enabled = false;
-
-    // Stop chrono
-    timer.paused = true;
+    // Stop the scene
+    this.scene.pause();
+    
     const finalTime = formatTime(chrono.value);
 
-    console.log(finalTime);
+    
 }
 
 /* setInterval(function () {
