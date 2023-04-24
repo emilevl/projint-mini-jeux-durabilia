@@ -36,13 +36,13 @@ export const transformers = ref([
         type: "Jeu de plateforme",
         description: "Atteignez la fin du niveau pour couper le courant de la scierie, tout en évitant les scies et les morceaux de bois qui tombent. ",
         ressourceNecessaire: { name: "Terradiversité" , img: "lifeLand", level: -15 },
-        ressourceRecue: { name: "Croissance" , img: "decentWork", level: 30 },
+        ressourceRecue: { name: "Croissance" , img: "decentWork", level: 10 },
         consequence: { name: "CO2" , img: "climateActions", level: [20] }
     },
     {
         name: "STEP",
         type: "Jeu de puzzle",
-        description: "Faites pivotez et connectez les tuyaux dans le temps imparti, afin de guider les eaux usées à travers la station d'épuration.",
+        description: "Faites pivotez et connectez les tuyaux dans le temps imparti, afin de guider les eaux usées à travers la station d'épuration. Mode de jeu : clicker les tuyaux pour les faire tourner",
         ressourceNecessaire: { name: "Eau" , img: "water", level: -10 },
         ressourceRecue: { name: "Monnaie" , img: "poverty", level: 15 },
         consequence: { name: "Engagement" , img: "partnership", level: [30] }
