@@ -144,25 +144,7 @@ watchEffect(() => {
       cardMoved.value = false;
     }
   };
-    // setEventListeners();
-  // });
-  
-  // TODO: Detect if the user is on a mobile device or not
-  // const platform = navigator.platform.toLowerCase();
-  //   if (/(android|webos|iphone|ipad|ipod|blackberry|windows phone)/.test(platform)) {
-  //       // this.deviceType = 'mobile';
-  //       console.log("mobile")
-  //   } else if (/mac|win|linux/i.test(platform)) {
-  //       // this.deviceType = 'desktop';
-  //       console.log("desktop")
-  //   } else if (/tablet|ipad/i.test(platform)) {
-  //       // this.deviceType = 'tablet';
-  //       console.log("tablet")
-  //   } else {
-  //       // this.deviceType = 'unknown';
-  //       console.log("unknown")
-  //   }
-  //select the #app element
+
 
 
 function loadDataCards() {
@@ -208,7 +190,6 @@ function decisionDone() {
   }
 
   // animate the card to leave the page from the left or right, down
-  // console.log(iCurrentCard.value)
   const card = document.querySelector(
     `#card-${iCurrentCard.value} .flip-card-inner`    
   );
@@ -263,7 +244,6 @@ const windowCenterX = window.innerWidth / 2;
   }
 
   function unsetEventListener() {
-    console.log(iCurrentCard.value)
     if (window.matchMedia("(min-width: 1050px)").matches) {
       document.removeEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
@@ -300,11 +280,9 @@ function cardLoaded() {
   setTimeout(() => {
     turnCard();
   }, 500);
-  console.log("card loaded");
 }
 
 function togglePauseGame() {
-  console.log("pause");
   if (pauseGame.value) {
     document.addEventListener("mousemove", mouseMoveHandler);
     document
@@ -318,10 +296,6 @@ function togglePauseGame() {
       .removeEventListener("click", updateCardDecision);
     pauseGame.value = true;
   }
-}
-
-function infoPlayer() {
-  console.log("info player");
 }
 
 function getRessourceNameByImg(imgName) {
