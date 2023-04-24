@@ -61,12 +61,6 @@ watchEffect(() => {
             :transformer="CURRENT_TRANSFORMER"
             @resumeGame="toggleMenu"
         ></ThePause>
-        <popupRules 
-            v-if="activeRules" 
-            :transformer="CURRENT_TRANSFORMER"
-            :gameLaunched="false"
-            @emitPlay="toggleRules()"
-        ></popupRules>
         <TheScore v-if="finPartie"></TheScore>
     </div>
 </template>

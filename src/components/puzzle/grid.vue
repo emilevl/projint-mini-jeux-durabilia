@@ -23,14 +23,21 @@ const matrix = generateMatrix(arrival, nbRows, nbCols, lengthPath)
 const rotations = [0, 90, 180, 270]
 
 function randomizeRotation(position) {
-    let randomInt = Math.floor(Math.random() * rotations.length)
+
+    // const frozen = randomizeFreeze()
+    const frozen = false
+
+    let randomInt = frozen ? 0 : Math.floor(Math.random() * rotations.length)
     let i = 0
 
     while (i < randomInt) {
         rotateSides(position)
         i++
     }
-    return rotations[randomInt]
+    return {
+        rotation: rotations[randomInt],
+        frozen: frozen
+    }
 }
 
 function randomizeFreeze() {
@@ -83,7 +90,7 @@ function rotateSides(position) {
         <div id="grid" class="grid-container">
             <template v-for="(row, r) in matrix">
                 <div v-for="(col, c) in row" class="grid-item">
-                    <tile :tileType="col.type" :rotation="randomizeRotation([r, c])" @rotate="rotateSides([r, c])">
+                    <tile :tileType="col.type" :tileInfos="randomizeRotation([r, c])" @rotate="rotateSides([r, c])">
                     </tile>
                     <!-- :frozen="randomizeFreeze()" -->
                 </div>

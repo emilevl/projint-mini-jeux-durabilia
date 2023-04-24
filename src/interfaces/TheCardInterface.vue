@@ -349,11 +349,6 @@ function donePlaying() {
   handCards.value = [];
 }
 
-const activeRules = ref(true)
-function toggleRules(){
-  activeRules.value = !activeRules.value
-}
-
 async function  fetchSvgContent(icon) {
     const response = await fetch(`/assets/icons/${icon}.svg`);
     const content = await response.text();
@@ -426,7 +421,6 @@ onUnmounted(() => {
     :transformer="CURRENT_TRANSFORMER"
     @resumeGame="togglePauseGame"
   ></ThePause>
-  <popupRules v-if="activeRules" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false" @emitPlay="toggleRules()"></popupRules>
 </template>
   
 <style>

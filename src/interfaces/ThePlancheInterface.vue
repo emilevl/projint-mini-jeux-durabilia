@@ -174,6 +174,9 @@ function create() {
 
     this.physics.world.setFPS(120);
 
+    // Pause on esc key press
+    this.input.keyboard.on('keydown_ESC', togglePauseGame, this);
+
     // create the Tilemap
     const map = this.make.tilemap({ key: "tilemap" });
 
@@ -450,6 +453,7 @@ function update() {
     if (cursors.up.isDown) {
         console.log(player);
     }
+
 
     if (cursors.left.isDown) {
         if (playerActualVelocity < playerVelocity) {

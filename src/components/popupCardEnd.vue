@@ -9,14 +9,16 @@ const props = defineProps({
     cardSelection: Array
 })
 
-const emit = defineEmits([
-    'closeRecap',
-]);
-
 //Get current transformer
 const CURRENT_TRANSFORMER = transformers.value.find(
     (transformer) => transformer.name == "Tribunal"
 );
+
+//Set size of ressource
+const RESSOURCE_SIZE = ref(100)
+if (window.innerWidth < 1050) {
+    RESSOURCE_SIZE.value = 60
+}
 
 //Store the impact of the cards from the choices of the player
 let playerChoices = ref([[], [], [], [], []])
@@ -89,7 +91,7 @@ function changeSection(id) {
     }
 }
 
-function setNewRessources() {
+function endGame() {
     totalImpact.value.forEach(ressource => {
         ressourceGlobal.value.forEach(glob => {
             if (glob.img == ressource.ressource) {
@@ -97,10 +99,11 @@ function setNewRessources() {
             }
         })
     });
+    window.location.hash = ""
 }
 
 const ressourceReset = ref(false)
-function toggleRessourceReset(){
+function toggleRessourceReset() {
     ressourceReset.value = !ressourceReset.value
 }
 </script>
@@ -121,7 +124,8 @@ function toggleRessourceReset(){
             </div>
 
             <section class="detail-section" id="recap-section" v-show="activeSection == 'recap'">
-                <RessourceComponent v-for="impact of totalImpact" :img="impact.ressource" :impactLevel="impact.impact" :ressourceSize="100" :ressourceReset="ressourceReset"></RessourceComponent>
+                <RessourceComponent v-for="impact of totalImpact" :img="impact.ressource" :impactLevel="impact.impact"
+                    :ressourceSize="RESSOURCE_SIZE" :ressourceReset="ressourceReset"></RessourceComponent>
             </section>
             <section v-for="n in 5" class="detail-section choice-section" :id="`choix-${n}-section`"
                 v-show="activeSection == `choix-${n}`">
@@ -135,12 +139,13 @@ function toggleRessourceReset(){
 
                 <div class="bar-container">
                     <RessourceComponent v-for="impact of playerChoices[n - 1]" :img="impact.ressource"
-                        :impactLevel="impact.level" :ressourceSize="100" :ressourceReset="ressourceReset"></RessourceComponent>
+                        :impactLevel="impact.level" :ressourceSize="RESSOURCE_SIZE" :ressourceReset="ressourceReset">
+                    </RessourceComponent>
                 </div>
             </section>
         </div>
 
-        <ButtonComponent class="back-to-map" @click="$emit('closeRecap'); setNewRessources()">Retour à la carte
+        <ButtonComponent class="back-to-map" @click="endGame()">Retour à la carte
         </ButtonComponent>
     </div>
 </template>
@@ -253,9 +258,86 @@ function toggleRessourceReset(){
 .card-details:deep(.flip-card-band) {
     position: relative;
     height: 17%;
-    bottom: unset;
+    bottom: 0px;
 }
 
 /* ------------------------------- MOBILE ----------------------------------- */
 
-@media screen and (max-width: 1050px) {}</style>
+@media screen and (max-width: 1050px) {
+    .recap-container {
+        width: 600px;
+        height: 350px;
+        padding: 0px;
+    }
+
+    .button {
+        font-size: 0.8em;
+        color: black;
+        background-color: #FBF8F1;
+    }
+
+    .active {
+        background-color: black;
+        color: #FBF8F1;
+        border-radius: 10px 0px;
+    }
+
+    .title {
+        font-size: 1.2em;
+    }
+
+    .content {
+        width: 100%;
+        height: 300px;
+    }
+
+    .detail-section {
+        height: 200px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 15px;
+    }
+
+    .back-to-map {
+        margin-bottom: 15px;
+        font-size: 0.8em;
+    }
+
+    /* Cards */
+    .card-details {
+        transform: unset;
+        position: unset;
+        width: 150px;
+        height: 200px;
+    }
+
+    .card-details:deep(.card-title) {
+        font-size: 0.8em;
+        padding: 5px 5px 0 5px;
+    }
+
+    .card-details:deep(.card-question) {
+        font-size: 0.5em;
+        padding: 0px 15px;
+    }
+
+    .card-details:deep(.flip-card-response) {
+        font-size: 0.5em;
+    }
+
+    .card-details:deep(.flip-card-band) {
+        position: relative;
+        height: 17%;
+        bottom: unset;
+    }
+
+    .card-container,
+    .bar-container {
+        width: 40%;
+    }
+
+    .choice-section{
+        gap: 20px;
+    }
+}
+</style>
