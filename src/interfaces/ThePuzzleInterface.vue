@@ -56,7 +56,7 @@ watchEffect(() => {
             <the-chrono @partieTerminee="partieTerminee" :rulesOpen="activeRules" :jeuReussi="finPartie"></the-chrono>
         </div>
         <grid @partieTerminee="partieTerminee"></grid>
-        <ThePause
+        <!-- <ThePause
             v-if="menuOpened"
             :transformer="CURRENT_TRANSFORMER"
             @resumeGame="toggleMenu"
@@ -66,7 +66,7 @@ watchEffect(() => {
             :transformer="CURRENT_TRANSFORMER"
             :gameLaunched="false"
             @emitPlay="toggleRules()"
-        ></popupRules>
+        ></popupRules> -->
         <TheScore v-if="finPartie"></TheScore>
     </div>
 </template>
