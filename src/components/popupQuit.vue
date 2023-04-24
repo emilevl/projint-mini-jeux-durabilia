@@ -2,6 +2,10 @@
 import ButtonComponent from './ButtonComponent.vue';
 import { menuOpened } from '../utils/store.js'
 
+defineEmits([
+    'emitToggleQuit'
+]);
+
 function leaveGame() {
     window.location.hash = ""
     menuOpened.value = false
