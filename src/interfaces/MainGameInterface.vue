@@ -6,7 +6,7 @@ import popupRules from '../components/popupRules.vue';
 const D_TRANSFORMER_MIN = 150
 const D_TRANSFORMER_MAX = 200
 const coords = [[300, 180], [750, 250], [500, 550]]
-const coordsMobile = [[100, 180], [700, 250], [500, 200]]
+const coordsMobile = [[100, 180], [350, 250], [600, 200]]
 
 onMounted(() => {
     const transformerSelector = document.querySelectorAll(".transformer")
