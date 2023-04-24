@@ -24,7 +24,8 @@ const rotations = [0, 90, 180, 270]
 
 function randomizeRotation(position) {
 
-    const frozen = randomizeFreeze()
+    // const frozen = randomizeFreeze()
+    const frozen = false
 
     let randomInt = frozen ? 0 : Math.floor(Math.random() * rotations.length)
     let i = 0

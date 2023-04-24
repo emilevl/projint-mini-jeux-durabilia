@@ -1,7 +1,10 @@
 <script setup>
 import ButtonComponent from './ButtonComponent.vue';
+import { menuOpened } from '../utils/store.js'
+
 function leaveGame() {
     window.location.hash = ""
+    menuOpened.value = false
 }
 </script>
 

@@ -70,7 +70,7 @@ function startTimer(newDate) {
 }
 
 watchEffect(() => {
-    if (!menuOpened.value && !props.rulesOpen) {
+    if (!menuOpened.value) {
         const newDate = new Date(Date.now() + timer.value);
         startTimer(newDate)
     }

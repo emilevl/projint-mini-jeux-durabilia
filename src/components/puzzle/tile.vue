@@ -31,15 +31,15 @@ const cursorType = ref('pointer')
 let currentRotation = props.tileInfos.rotation
 
 // Disable tile clicks when the menu is opened or if the tile is frozen
-watchEffect(() => {
-    if(menuOpened.value || props.tileInfos.frozen) {
-        isEnabled.value = false
-        cursorType.value = 'default'
-    } else {
-        isEnabled.value = true
-        cursorType.value = 'pointer'
-    }
-})
+// watchEffect(() => {
+//     if(menuOpened.value || props.tileInfos.frozen) {
+//         isEnabled.value = false
+//         cursorType.value = 'default'
+//     } else {
+//         isEnabled.value = true
+//         cursorType.value = 'pointer'
+//     }
+// })
 
 // Get the tile type to display the correct image
 function findTile() {
