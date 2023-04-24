@@ -41,7 +41,7 @@ watchEffect(() => {
     if (props.ressourceReset) {
         transitionImpact.value = "all 0s ease 0s"
         impactHeight.value = "0px"
-        setTimeout(() => setCurrentLevel(), 10)
+        setTimeout(() => setCurrentLevel())
         setTimeout(() => setImpactLevel(), 300)
     }
 });
@@ -164,13 +164,11 @@ const d = ref(`M 0 -5 Q ${props.ressourceSize / 4} -10, ${props.ressourceSize / 
 }
 
 .progression-bar-current-svg {
-    transition: 1s;
     height: v-bind(heightWave);
     overflow: visible;
 }
 
 .progression-bar-impact-svg {
-    transition: 1s;
     height: v-bind(heightWaveImpact);
     overflow: visible;
 }

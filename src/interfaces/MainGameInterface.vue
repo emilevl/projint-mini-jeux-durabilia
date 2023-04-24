@@ -33,10 +33,13 @@ const activeRules = ref("")
 const CURRENT_TRANSFORMER = ref("")
 function toggleRules(e) {
     //Get transformer that we clicked
-    CURRENT_TRANSFORMER.value = transformers.value.find(
-        (transformer) => transformer.name == e.target.id
-    );
-    //show the rules of hide
+    if (e) {
+        CURRENT_TRANSFORMER.value = transformers.value.find(
+            (transformer) => transformer.name == e.target.id
+        );
+    }
+
+    //show the rules or hide
     if (activeRules.value == "") {
         activeRules.value = e.target.id
     } else {
@@ -57,11 +60,11 @@ function changeHash(hash) {
         {{ transformer.name }}
     </div>
     <popupRules v-if="activeRules == 'Tribunal'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#card')"></popupRules>
+        @emitPlay="changeHash('#card')" @emitToggleRules="toggleRules()"></popupRules>
     <popupRules v-if="activeRules == 'Scierie'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#planche')"></popupRules>
+        @emitPlay="changeHash('#planche')" @emitToggleRules="toggleRules()"></popupRules>
     <popupRules v-if="activeRules == 'STEP'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#puzzle')"></popupRules>
+        @emitPlay="changeHash('#puzzle')" @emitToggleRules="toggleRules()"></popupRules>
 </template>
 
 <style scoped>
@@ -86,6 +89,7 @@ function changeHash(hash) {
     .title {
         font-size: 1.5em;
     }
+
     .transformer {
         font-size: 0.8em;
     }
