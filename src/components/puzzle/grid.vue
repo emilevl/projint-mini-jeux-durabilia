@@ -131,36 +131,36 @@ function rotateSides(position) {
 .grid-item {
 
     background-color: #12313C;
-    width: 16vh;
-    height: 16vh;
+    width: 16dvh;
+    height: 16dvh;
 }
 
 img {
-    height: 32vh;
+    height: 32dvh;
     position: absolute;
     margin: 0 auto;
 }
 
 #img_start {
-    top: 10vh;
+    top: 10dvh;
     left: 50%;
     transform: translate(-300%, 0%);
 }
 
 #img_end {
-    bottom: 10vh;
+    bottom: 10dvh;
     right: 50%;
     transform: translate(300%, 0%);
 }
 
 #pipe_start {
-    top: 10vh;
+    top: 10dvh;
     left: 50%;
     transform: translate(-180%, 0%);
 }
 
 #pipe_end {
-    bottom: 10vh;
+    bottom: 10dvh;
     right: 50%;
     transform: translate(180%, 0%);
 }
@@ -168,12 +168,12 @@ img {
 
 @media (orientation: portrait) {
     .grid-item {
-        width: 16vw;
-        height: 16vw;
+        width: 16dvw;
+        height: 16dvw;
     }
 
     img {
-        height: 48vw;
+        height: 48dvw;
     }
 }
 </style>
