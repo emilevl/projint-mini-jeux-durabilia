@@ -121,6 +121,7 @@ window.addEventListener("click", (e) => {
     height: 100vh;
     width: 100vw;
     background-color: rgba(40, 40, 40, 0.35);
+    z-index: 5;
 }
 
 .background {
@@ -131,7 +132,7 @@ window.addEventListener("click", (e) => {
     height: 100%;
     background-size: cover;
     background-position: center;
-    z-index: -1;
+    z-index: 4;
 }
 
 .conversation {
@@ -139,6 +140,7 @@ window.addEventListener("click", (e) => {
     flex-wrap: wrap;
     justify-content: space-around;
     padding: 20px;
+    z-index: 6;
 }
 
 .dialog {
@@ -149,6 +151,7 @@ window.addEventListener("click", (e) => {
     background-size: cover;
     background-position: center;
     justify-content: center;
+    z-index: 6;
 }
 
 .dialog p {
@@ -158,6 +161,7 @@ window.addEventListener("click", (e) => {
     color: white;
     padding: 10px;
     padding: 30px;
+    z-index: 7;
 }
 
 .skip-button {
@@ -166,6 +170,7 @@ window.addEventListener("click", (e) => {
     right: 28px;
     width: 172px;
     cursor: pointer;
+    z-index: 6;
 }
 </style>
   

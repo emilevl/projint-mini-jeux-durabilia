@@ -4,6 +4,7 @@ import { ressourceGlobal } from '../utils/store';
 import popupRules from "../components/popupRules.vue"
 import ButtonComponent from './ButtonComponent.vue';
 import popupQuit from "../components/popupQuit.vue"
+import Cinematic from './Cinematic.vue';
 
 const props = defineProps({
     transformer: Object
@@ -25,8 +26,13 @@ function toggleRules() {
     showRules.value = !showRules.value
 }
 
-function launchCinematique() {
-    console.log("cinématique lancée")
+const showCinematique = ref("")
+function toggleCinematique() {
+    if (showCinematique.value == '') {
+        showCinematique.value = props.transformer.name
+    } else {
+        showCinematique.value = ''
+    }
 }
 
 const showQuit = ref(false)
@@ -46,13 +52,16 @@ function toggleQuit() {
             <div class="content">
                 <ButtonComponent class="menu-option" @click="$emit('resumeGame')">Reprendre</ButtonComponent>
                 <ButtonComponent class="menu-option" @click="toggleRules()">Règles</ButtonComponent>
-                <ButtonComponent class="menu-option" @click="launchCinematique()">Cinématique</ButtonComponent>
+                <ButtonComponent class="menu-option" @click="toggleCinematique()">Cinématique</ButtonComponent>
                 <ButtonComponent class="menu-option" @click="toggleQuit()">Quitter</ButtonComponent>
             </div>
         </div>
     </div>
+
     <popupRules v-if="showRules" :transformer="props.transformer" :gameLaunched="true" @emitToggleRules="toggleRules()"
         @emitPlay="$emit('resumeGame')" @emitBackToGame="$emit('resumeGame')"></popupRules>
+    <cinematic v-if="showCinematique != ''" :transformer="showCinematique" @emitPlay="toggleCinematique()">
+    </cinematic>
     <popupQuit v-if="showQuit" @emitToggleQuit="toggleQuit()"></popupQuit>
 </template>
 

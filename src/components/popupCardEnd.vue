@@ -82,7 +82,7 @@ onMounted(() => {
 })
 
 //Manage the nav between the choices
-let activeSection = ref("recap")
+let activeSection = ref("Résumé")
 function changeSection(id) {
     if (activeSection.value != id) {
         activeSection.value = id
@@ -103,6 +103,12 @@ function endGame() {
     window.location.hash = ""
 }
 
+//Manage the dropdown menu
+const showDropDown = ref(false)
+function toggleDropDown() {
+    showDropDown.value = !showDropDown.value
+}
+
 const ressourceReset = ref(false)
 function toggleRessourceReset() {
     ressourceReset.value = !ressourceReset.value
@@ -117,19 +123,28 @@ function toggleRessourceReset() {
 
         <div class="content">
             <div class="navbar">
-                <buttonComponent class="navbar-option button" id="recap" :class="{ active: activeSection == 'recap' }"
-                    @click="changeSection($event.target.id)">Résumé</buttonComponent>
-                <buttonComponent class="navbar-option button" v-for="n in 5" :id="`choix-${n}`"
-                    :class="{ active: activeSection == `choix-${n}` }" @click="changeSection($event.target.id)">Carte {{ n
-                    }}</buttonComponent>
+                <div class="drop-down-options">
+                    <div class="drop-down-placeholder-container" @click="toggleDropDown()">
+                        <p class="drop-down-placeholder-text">{{ activeSection }}</p>
+                        <img class="drop-down-symbol" src="/assets/icons/down-arrow.svg" :class="{ placeholderActive: showDropDown }" >
+                    </div>
+                    <p v-show="showDropDown" class="navbar-option button" id="Résumé"
+                        :class="{ active: activeSection == 'Résumé' }"
+                        @click="changeSection($event.target.id), toggleDropDown()">Résumé</p>
+                    <p v-show="showDropDown" class="navbar-option button" v-for="n in 5" :id="`Carte ${n}`"
+                        :class="{ active: activeSection == `Carte ${n}` }"
+                        @click="changeSection($event.target.id), toggleDropDown()">Carte {{
+                            n
+                        }}</p>
+                </div>
             </div>
 
-            <section class="detail-section" id="recap-section" v-show="activeSection == 'recap'">
+            <section class="detail-section" id="Résumé-section" v-show="activeSection == 'Résumé'">
                 <RessourceComponent v-for="impact of totalImpact" :img="impact.ressource" :impactLevel="impact.impact"
                     :ressourceSize="RESSOURCE_SIZE" :ressourceReset="ressourceReset"></RessourceComponent>
             </section>
             <section v-for="n in 5" class="detail-section choice-section" :id="`choix-${n}-section`"
-                v-show="activeSection == `choix-${n}`">
+                v-show="activeSection == `Carte ${n}`">
                 <!-- CARDS -->
                 <div class="card-container">
                     <CardBack class="card-details" :title="props.cardSelection[n - 1].title"
@@ -186,10 +201,44 @@ function toggleRessourceReset() {
 }
 
 .navbar {
+    cursor: pointer;
+    position: absolute;
     display: flex;
     flex-direction: row;
     justify-content: center;
     justify-content: space-evenly;
+    z-index: 5;
+    background-color: #FBF8F1;
+    border-radius: 20px 0px;
+    padding: 10px;
+    margin-left: 50px;
+    text-align: left;
+    top: 150px;
+}
+.navbar p {
+    font-size: 1em;
+}
+.navbar-option {
+    padding-top: 5px;
+}
+.drop-down-placeholder-container {
+    display: flex;
+    justify-content: space-between;
+    width: 90px;
+}
+.drop-down-symbol {
+    transition: 0.4s;
+}
+.placeholderActive {
+    transform: rotate(180deg);
+}
+
+.drop-down-options {
+    display: flex;
+    flex-direction: column;
+}
+.active {
+    display: none;
 }
 
 .detail-section {
@@ -198,6 +247,7 @@ function toggleRessourceReset() {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     padding-left: 30px;
     padding-right: 30px;
+    margin-top: 30px;
 }
 
 .card-container,
@@ -226,12 +276,6 @@ function toggleRessourceReset() {
     bottom: 0;
     margin-bottom: 50px;
     transform: translate(-50%, 0);
-}
-
-.active {
-    background-color: black;
-    color: #FBF8F1;
-    border-radius: 20px 0px;
 }
 
 /* --------------------------- CARDS --------------------------------------- */
@@ -274,10 +318,8 @@ function toggleRessourceReset() {
         background-color: #FBF8F1;
     }
 
-    .active {
-        background-color: black;
-        color: #FBF8F1;
-        border-radius: 10px 0px;
+    .navbar {
+        top: 50px;
     }
 
     .title {
@@ -331,7 +373,7 @@ function toggleRessourceReset() {
         width: 40%;
     }
 
-    .choice-section{
+    .choice-section {
         gap: 20px;
     }
 }
