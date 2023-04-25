@@ -34,12 +34,13 @@ const activeRules = ref("")
 const CURRENT_TRANSFORMER = ref("")
 function toggleRules(e) {
     //Get transformer that we clicked
-    if (e !== undefined) {
+    if (e) {
         CURRENT_TRANSFORMER.value = transformers.value.find(
-        (transformer) => transformer.name == e.target.id
-    );
+            (transformer) => transformer.name == e.target.id
+        );
     }
-    //show the rules of hide
+
+    //show the rules or hide
     if (activeRules.value == "") {
         activeRules.value = e.target.id
     } else {
@@ -59,12 +60,12 @@ function changeHash(hash) {
     <div v-for="transformer of transformers" class="transformer" :id="`${transformer.name}`" @click="toggleRules($event)">
         {{ transformer.name }}
     </div>
-    <popupRules v-if="activeRules == 'Tribunal'" @emitToggleRules="toggleRules" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#card')"></popupRules>
-    <popupRules v-if="activeRules == 'Scierie'" @emitToggleRules="toggleRules" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#planche')"></popupRules>
-    <popupRules v-if="activeRules == 'STEP'" @emitToggleRules="toggleRules" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#puzzle')"></popupRules>
+    <popupRules v-if="activeRules == 'Tribunal'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
+        @emitPlay="changeHash('#card')" @emitToggleRules="toggleRules()"></popupRules>
+    <popupRules v-if="activeRules == 'Scierie'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
+        @emitPlay="changeHash('#planche')" @emitToggleRules="toggleRules()"></popupRules>
+    <popupRules v-if="activeRules == 'STEP'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
+        @emitPlay="changeHash('#puzzle')" @emitToggleRules="toggleRules()"></popupRules>
 </template>
 
 <style scoped>
@@ -89,6 +90,7 @@ function changeHash(hash) {
     .title {
         font-size: 1.5em;
     }
+
     .transformer {
         font-size: 0.8em;
     }
