@@ -114,7 +114,7 @@ window.addEventListener("click", (e) => {
     width: 100%;
     height: 100%;
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     z-index: 4;
     background-color: black;
   }

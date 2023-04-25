@@ -432,7 +432,7 @@ onUnmounted(() => {
   justify-content: center;
   height: 100vh;
   background-size: cover;
-  background-position: center;
+  background-position: bottom;
 }
 
 #clickable-part {
