@@ -677,6 +677,8 @@ function endGame(player, endMachine) {
     bgMusic.stop();
     winSound.play();
 
+    timeBeforePause = chrono.value;
+
     // Stop the scene
     finishGame.value = true
     this.physics.pause();
