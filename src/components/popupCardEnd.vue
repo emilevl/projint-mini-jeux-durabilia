@@ -96,6 +96,7 @@ function endGame() {
         ressourceGlobal.value.forEach(glob => {
             if (glob.img == ressource.ressource) {
                 //glob.currentLevel += ressource.impact
+                //Ici, il faut modifier le niveau des ressources liées au joueur
             }
         })
     });
