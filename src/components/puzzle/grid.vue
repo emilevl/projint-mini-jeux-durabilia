@@ -131,49 +131,37 @@ function rotateSides(position) {
 .grid-item {
 
     background-color: #12313C;
-    width: 16dvh;
-    height: 16dvh;
+    width: 18dvh;
+    height: 18dvh;
 }
 
 img {
-    height: 32dvh;
+    height: 36dvh;
     position: absolute;
     margin: 0 auto;
 }
 
 #img_start {
-    top: 10dvh;
+    top: 5dvh;
     left: 50%;
     transform: translate(-300%, 0%);
 }
 
 #img_end {
-    bottom: 10dvh;
+    bottom: 5dvh;
     right: 50%;
     transform: translate(300%, 0%);
 }
 
 #pipe_start {
-    top: 10dvh;
+    top: 5dvh;
     left: 50%;
     transform: translate(-180%, 0%);
 }
 
 #pipe_end {
-    bottom: 10dvh;
+    bottom: 5dvh;
     right: 50%;
     transform: translate(180%, 0%);
-}
-
-
-@media (orientation: portrait) {
-    .grid-item {
-        width: 16dvw;
-        height: 16dvw;
-    }
-
-    img {
-        height: 48dvw;
-    }
 }
 </style>
