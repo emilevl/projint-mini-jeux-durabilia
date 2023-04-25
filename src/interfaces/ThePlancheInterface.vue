@@ -195,7 +195,7 @@ function create() {
     // create the Tilemap
     const map = this.make.tilemap({ key: "tilemap" });
 
-    // add the tileset image we are using
+    // Add the tileset image we are using
     const tileset = map.addTilesetImage("tiles-basic", "base_tiles");
 
     let bg = map.createDynamicLayer("bg", tileset);
@@ -206,13 +206,13 @@ function create() {
 
     let saw = map.createDynamicLayer("saw", tileset);
 
-    // The player and its settings
+    // Player and its settings
     player = this.physics.add
         .sprite(spawnPoint.x, spawnPoint.y, "player")
         .setCollideWorldBounds(true)
         .setBounce(0);
 
-    //  Our player animations, walking left and walking right.
+    // Player animations
     this.anims.create({
         key: "left",
         frames: [{ key: "player", frame: 0 }],
@@ -364,8 +364,6 @@ function create() {
         pad1 = pad;
     });
 
-
-    //console.log(this.sys.game.device.os.iOS || this.sys.game.device.os.android);
     if(this.sys.game.device.os.iOS || this.sys.game.device.os.android) {
         leftButton = this.add.sprite(game.config.width/4,200,"leftButton").setScale(0.8);
         rightButton = this.add.sprite(game.config.width*1/2,200,"rightButton").setScale(0.8);
@@ -465,7 +463,8 @@ if(window.location.hash == ''){
     }
 
 
-    // Movements controls
+    /* Movements controls */
+
     if (player.body.blocked.down) {
         canJump = true;
     }
@@ -634,7 +633,7 @@ function replaceObjects() {
 }
 
 async function killPlayer(player, hitter) {
-    // Disable input
+    // Disable inputs
     this.input.enabled = false;
 
     player.body.velocity.set(0,0)
@@ -658,16 +657,18 @@ async function killPlayer(player, hitter) {
         if (hitter.texture != undefined && hitter.texture.key == "log") {
         hitter.destroy();
     }
-
         deathCount++;
 
+        // Manage chrono
         await delay(500);
         chronoStartTime = new Date();
         timeBeforePause = 0
 
+        // Replace player and elements
         player.setPosition(spawnPoint.x, spawnPoint.y);
         replaceObjects();
 
+        // Make playable again
         playerDead.value = false;
         this.input.enabled = true;
         this.physics.resume();
