@@ -374,8 +374,14 @@ function create() {
     
     
 }
-
+let i = 0
 function update() {
+console.log(i++ + ' : ' + window.location.hash)
+
+if(window.location.hash == ''){
+    game.destroy(true)
+}
+
     if (pauseGame.value || playerDead.value) {
         this.physics.pause();
     } else {
@@ -460,7 +466,6 @@ function update() {
 
 
     // Movements controls
-
     if (player.body.blocked.down) {
         canJump = true;
     }
@@ -645,8 +650,7 @@ async function killPlayer(player, hitter) {
             break;
         }
     }
-    
-    
+
     playerDead.value = true;
     this.physics.pause();
 
@@ -668,50 +672,7 @@ async function killPlayer(player, hitter) {
         this.input.enabled = true;
         this.physics.resume();
     });
-    
-    
-
-    
-
-    
 }
-
-// Function to handle player hitted by a log
-/* function hitLogs(player, log) {
-    console.log(log.texture.key);
-    bonk.play();
-    this.physics.pause();
-
-    deathCount++;
-    chronoStartTime = new Date();
-    timeBeforePause = 0
-
-    player.setPosition(spawnPoint.x, spawnPoint.y);
-    replaceObjects();
-    log.destroy();
-
-    this.physics.resume();
-}
-
-Function to handle if the player hits a saw
-async function hitSaws(player, saw) {
-    playerDead.value = true;
-    this.physics.pause();
-    player.anims.play("playerKilled", false);
-
-    deathCount++;
-
-    await delay(200);
-    chronoStartTime = new Date();
-    timeBeforePause = 0
-
-    player.setPosition(spawnPoint.x, spawnPoint.y);
-    replaceObjects();
-
-    playerDead.value = false;
-    this.physics.resume();
-
-} */
 
 function endGame(player, endMachine) {
     // Manage audio ending
@@ -720,23 +681,18 @@ function endGame(player, endMachine) {
 
     // Stop the scene
     finishGame.value = true
-    this.scene.pause();
+    this.physics.pause();
 }
-
-/* setInterval(function () {
-        console.log("test");
-}, 1000); */
 
 function delay(milliseconds) {
     return new Promise((resolve) => {
         setTimeout(resolve, milliseconds);
     });
 }
+
 </script>
 
 <template>
-    <!-- <h1>Planche</h1> -->
-    <!-- <h1 id="chrono">00'00</h1> -->
     <h1 to="/" class="pause-game" @click="togglePauseGame()">Menu</h1>
     <ThePause
         v-if="pauseGame"
