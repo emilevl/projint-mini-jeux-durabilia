@@ -48,7 +48,7 @@ function playAudio(url) {
 
 watchEffect(() => {
     console.log(activeRules.value);
-    
+
 })
 
 </script>
@@ -60,16 +60,8 @@ watchEffect(() => {
             <the-chrono @partieTerminee="partieTerminee" :rulesOpen="activeRules" :jeuReussi="finPartie"></the-chrono>
         </div>
         <grid @partieTerminee="partieTerminee"></grid>
-        <ThePause
-            v-if="menuOpened"
-            :transformer="CURRENT_TRANSFORMER"
-            @resumeGame="toggleMenu"
-        ></ThePause>
-        <TheScore 
-            v-if="finPartie"
-            :win="win"
-            :transformer="CURRENT_TRANSFORMER"
-        ></TheScore>
+        <ThePause v-if="menuOpened" :transformer="CURRENT_TRANSFORMER" @resumeGame="toggleMenu"></ThePause>
+        <TheScore v-if="finPartie" :win="win" :transformer="CURRENT_TRANSFORMER"></TheScore>
     </div>
 </template>
 

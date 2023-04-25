@@ -191,13 +191,15 @@ function toggleSectionMobile() {
     transform: translate(-50%, -50%);
     width: 1000px;
     height: 600px;
+    /* width: 90vw;
+    height: 80vh; */
     background-color: #FBF8F1;
     text-align: center;
 }
 
 .rules-full-container {
     padding: 50px;
-    height: 500px;
+    /* height: 500px; */
 }
 
 .rules-container {

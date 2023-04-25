@@ -5,8 +5,9 @@ import popupRules from '../components/popupRules.vue';
 
 const D_TRANSFORMER_MIN = 150
 const D_TRANSFORMER_MAX = 200
-const coords = [[300, 180], [750, 250], [500, 550]]
-const coordsMobile = [[100, 180], [350, 250], [600, 200]]
+//const coords = [[300, 180], [750, 250], [500, 550]]
+//const coordsMobile = [[100, 180], [350, 250], [600, 200]]
+const coords = [[15, 20], [75, 30], [50, 55]]
 
 onMounted(() => {
     const transformerSelector = document.querySelectorAll(".transformer")
@@ -16,14 +17,14 @@ onMounted(() => {
         const d = Math.floor(Math.random() * (D_TRANSFORMER_MAX - D_TRANSFORMER_MIN + 1) + D_TRANSFORMER_MIN)
         transformer.style.height = `${d}px`
         transformer.style.width = `${d}px`
-        transformer.style.top = `${coords[i][1]}px`
-        transformer.style.left = `${coords[i][0]}px`
-        if (window.innerWidth < 1050) {
+        transformer.style.top = `${coords[i][1]}vh`
+        transformer.style.left = `${coords[i][0]}vw`
+        /* if (window.innerWidth < 1050) {
             transformer.style.height = `${d / 2}px`
             transformer.style.width = `${d / 2}px`
-            transformer.style.top = `${coordsMobile[i][1]}px`
-            transformer.style.left = `${coordsMobile[i][0]}px`
-        }
+            transformer.style.top = `${coords[i][1]}px`
+            transformer.style.left = `${coords[i][0]}px`
+        } */
         i++
     })
 })

@@ -372,8 +372,14 @@ function create() {
     
     
 }
-
+let i = 0
 function update() {
+console.log(i++ + ' : ' + window.location.hash)
+
+if(window.location.hash == ''){
+    game.destroy(true)
+}
+
     if (pauseGame.value || playerDead.value) {
         this.physics.pause();
     } else {
@@ -643,7 +649,7 @@ async function killPlayer(player, hitter) {
             break;
         }
     }
-    
+
     playerDead.value = true;
     this.physics.pause();
 
@@ -666,9 +672,8 @@ async function killPlayer(player, hitter) {
         playerDead.value = false;
         this.input.enabled = true;
         this.physics.resume();
-    });    
+    });
 }
-
 
 function endGame(player, endMachine) {
     // Manage audio ending
@@ -677,15 +682,15 @@ function endGame(player, endMachine) {
 
     // Stop the scene
     finishGame.value = true
-    this.scene.pause();
+    this.physics.pause();
 }
-
 
 function delay(milliseconds) {
     return new Promise((resolve) => {
         setTimeout(resolve, milliseconds);
     });
 }
+
 </script>
 
 <template>
