@@ -43,10 +43,10 @@ let chronoStartTime;
 let timeBeforePause = 0;
 let chrono = ref();
 let chronoDisplay = computed(() => {
-    if (!pauseGame.value) {
-        return formatTime(chrono.value);
-    } else {
+    if (pauseGame.value || finishGame.value) {
         return formatTime(timeBeforePause);
+    } else {
+        return formatTime(chrono.value);
     }
 });
 let timer;
@@ -369,16 +369,13 @@ function create() {
         rightButton = this.add.sprite(game.config.width*1/2,200,"rightButton").setScale(0.8);
         jumpButton = this.add.sprite(game.config.width,200,"jumpButton").setScale(0.8);
     }
-    
-    
 }
-let i = 0
-function update() {
-console.log(i++ + ' : ' + window.location.hash)
 
-if(window.location.hash == ''){
-    game.destroy(true)
-}
+function update() {
+
+    if(window.location.hash == ''){
+        game.destroy(true)
+    }
 
     if (pauseGame.value || playerDead.value) {
         this.physics.pause();
