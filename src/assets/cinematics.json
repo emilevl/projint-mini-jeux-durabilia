@@ -5,6 +5,7 @@
             "background": "court",
             "dialogs": [
                 {"character" : "player", "text": "Bonjour M. le juge !"},
+                {"character" : "player", "text": "Oh bonjour, t’es enfin là !"},
                 {"character" : "judge", "text": "Je pars à la retraite, ravi que tu prennes la relève !"},
                 {"character" : "player", "text": "Mais, mais, Monsieur le juge ..."}
             ]

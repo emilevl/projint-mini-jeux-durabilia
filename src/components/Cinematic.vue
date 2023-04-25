@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import cinematic from "../assets/cinematics.json";
 import { transformers } from "../utils/store";
 
@@ -9,7 +9,58 @@ const props = defineProps({
 
 const emit = defineEmits(["emitPlay"]);
 
+onMounted(() => {
+    window.addEventListener("keydown", (e) => {
+        if (e.key == "ArrowRight") {
+            nextDialog();
+        }
+        if (e.key == "ArrowLeft") {
+            previousDialog();
+        }
 
+        // if key is "p"
+        if (e.key == "p") {
+            emit("emitPlay");
+            gameLaunched.value = true;
+        }
+    });
+
+    //event listener on click to navigate through dialogs
+    window.addEventListener("click", (e) => {
+        nextDialog();
+    });
+
+    //addEventlistener on touch for mobile devices to navigate through dialogs
+    window.addEventListener("touchstart", (e) => {
+        nextDialog();
+    });
+});
+
+onUnmounted(() => {
+    window.removeEventListener("keydown", (e) => {
+        if (e.key == "ArrowRight") {
+            nextDialog();
+        }
+        if (e.key == "ArrowLeft") {
+            previousDialog();
+        }
+
+        // if key is "p"
+        if (e.key == "p") {
+            emit("emitPlay");
+            gameLaunched.value = true;
+        }
+    });
+
+    //event listener on click to navigate through dialogs
+    window.removeEventListener("click", (e) => {
+        nextDialog();
+    });
+
+    window.removeEventListener("touchstart", (e) => {
+        nextDialog();
+    });
+});
 
 /* const transformer = ref("Scierie"); */
 const CURRENT_TRANSFORMER = transformers.value.find(
@@ -55,25 +106,7 @@ setTimeout(() => {
         }, 250);
     }
 //event listener on arrows keys to navigate through dialogs
-window.addEventListener("keydown", (e) => {
-    if (e.key == "ArrowRight") {
-        nextDialog();
-    }
-    if (e.key == "ArrowLeft") {
-        previousDialog();
-    }
 
-    // if key is "p"
-    if (e.key == "p") {
-        emit("emitPlay");
-        gameLaunched.value = true;
-    }
-});
-
-//event listener on click to navigate through dialogs
-window.addEventListener("click", (e) => {
-    nextDialog();
-});
 
 </script>
 
@@ -114,7 +147,7 @@ window.addEventListener("click", (e) => {
     width: 100%;
     height: 100%;
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     z-index: 4;
     background-color: black;
   }
@@ -125,6 +158,7 @@ window.addEventListener("click", (e) => {
     justify-content: space-around;
     padding: 20px;
     position: absolute;
+    top: 0;
     left: 50%;
     transform: translate(-50%, 0);
     z-index: 6;

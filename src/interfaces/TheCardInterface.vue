@@ -432,7 +432,7 @@ onUnmounted(() => {
   justify-content: center;
   height: 100vh;
   background-size: cover;
-  background-position: center;
+  background-position: bottom;
 }
 
 #clickable-part {
@@ -580,6 +580,7 @@ onUnmounted(() => {
     position: absolute;
     bottom: 5px;
     margin: 10px 10px;
+    left: 10px;
   }
 
   .ressources-impact .ressource-icon-wrapper {
