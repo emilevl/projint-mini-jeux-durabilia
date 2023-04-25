@@ -1,7 +1,7 @@
 {
     "games" : [
         {
-            "name": "cards",
+            "name": "Tribunal",
             "background": "court",
             "dialogs": [
                 {"character" : "player", "text": "Bonjour M. le juge !"},
@@ -11,7 +11,7 @@
         },
 
         {
-            "name": "puzzle",
+            "name": "STEP",
             "background": "step",
             "dialogs": [
                 {"character" : "player", "text": "Bonjour M. l'agent !"},
@@ -23,7 +23,7 @@
         },
 
         {
-            "name": "planche",
+            "name": "Scierie",
             "background": "sawmill",
             "dialogs": [
                 {"character" : "player", "text": "Bonjour M. scieur, y a-t-il un problème ?"},
