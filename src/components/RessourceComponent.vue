@@ -33,15 +33,18 @@ const heightWave = ref("0px")
 const heightWaveImpact = ref("0px")
 
 setTimeout(() => setCurrentLevel(), 10)
+setTimeout(() => setColorImpact(), 10)
 setTimeout(() => setImpactLevel(), 300)
 
-const transitionImpact = ref("all 1s ease 0s")
+const transitionImpact = ref("all 0s ease 0s")
 const transitionPrincip = ref("all 0s ease 0s")
 watchEffect(() => {
     if (props.ressourceReset) {
         transitionImpact.value = "all 0s ease 0s"
         impactHeight.value = "0px"
+        heightWaveImpact.value = "0px"
         setTimeout(() => setCurrentLevel(), 10)
+        setTimeout(() => setColorImpact(), 10)
         setTimeout(() => setImpactLevel(), 300)
     }
 });
@@ -50,11 +53,13 @@ watchEffect(() => {
 function setCurrentLevel() {
     transitionPrincip.value = "all 0s ease 0s"
     principHeight.value = `${(Math.abs(currentLevel.value) / 100) * props.ressourceSize}px`
+    if (currentLevel.value > 0 && currentLevel.value + props.impactLevel > 0) heightWave.value = "5px"
 }
 
 function setImpactLevel() {
     impactLevelTemp.value = props.impactLevel
-    transitionImpact.value = "all 1s ease 0s"
+    transitionImpact.value = "all 0.8s ease 0s"
+
     //Manage the case where we pass the bar limit (0 - 100)
     if (props.impactLevel + currentLevel.value >= 100) {
         impactLevelTemp.value = 100 - currentLevel.value
@@ -62,27 +67,26 @@ function setImpactLevel() {
         heightWaveImpact.value = "1px"
     } else if (props.impactLevel + currentLevel.value <= 0) {
         impactLevelTemp.value = - currentLevel.value
-        heightWaveImpact.value = "5px"
-    } else if (props.impactLevel + currentLevel.value <= 0 && currentLevel == 0) {
-        heightWaveImpact.value = "0px"
-        heightWave.value = "0px"
-    } else if (props.impactLevel == 0) {
-        heightWave.value = "5px"
-    } else {
-        heightWave.value = "5px"
-        heightWaveImpact.value = "5px"
     }
 
     impactHeight.value = `${(Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize}px`
-    impactOpacity.value = 1
-    colorImpact.value = `${hexToHSL(color.value).split("%")[0]}%,70%)`
 
     //Manage the negative impact
     if (props.impactLevel < 0) {
+        transitionPrincip.value = "all 0.8s ease 0s"
+        principHeight.value = `${parseInt(principHeight.value) - ((Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize)}px` //Diminish the principal bar
+    }
+
+    if (parseInt(impactHeight.value) != 0 && heightWaveImpact.value != '1px') heightWaveImpact.value = '5px'
+}
+
+function setColorImpact() {
+    if (props.impactLevel > 0) {
+        impactOpacity.value = 1
+        colorImpact.value = `${hexToHSL(color.value).split("%")[0]}%,70%)`
+    } else {
         impactOpacity.value = 0.5
         colorImpact.value = color.value
-        transitionPrincip.value = "all 1s ease 0s"
-        principHeight.value = `${parseInt(principHeight.value) - ((Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize)}px` //Diminish the principal bar
     }
 }
 
@@ -164,13 +168,11 @@ const d = ref(`M 0 -5 Q ${props.ressourceSize / 4} -10, ${props.ressourceSize / 
 }
 
 .progression-bar-current-svg {
-    transition: 1s;
     height: v-bind(heightWave);
     overflow: visible;
 }
 
 .progression-bar-impact-svg {
-    transition: 1s;
     height: v-bind(heightWaveImpact);
     overflow: visible;
 }

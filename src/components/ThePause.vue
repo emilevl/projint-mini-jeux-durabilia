@@ -23,9 +23,6 @@ function leaveGame() {
 const showRules = ref(false)
 function toggleRules() {
     showRules.value = !showRules.value
-    if (!showRules.value) {
-        emit("resumeGame")
-    }
 }
 
 function launchCinematique() {
@@ -54,17 +51,9 @@ function toggleQuit() {
             </div>
         </div>
     </div>
-    <popupRules 
-        v-if="showRules"
-        :transformer="props.transformer"
-        :gameLaunched="true"
-        @emitToggleRules="toggleRules()"
-        @emitPlay="$emit('resumeGame')"
-    ></popupRules>
-    <popupQuit
-        v-if="showQuit"
-        @emitToggleQuit="toggleQuit()"
-    ></popupQuit>
+    <popupRules v-if="showRules" :transformer="props.transformer" :gameLaunched="true" @emitToggleRules="toggleRules()"
+        @emitPlay="$emit('resumeGame')" @emitBackToGame="$emit('resumeGame')"></popupRules>
+    <popupQuit v-if="showQuit" @emitToggleQuit="toggleQuit()"></popupQuit>
 </template>
 
 <style scoped>

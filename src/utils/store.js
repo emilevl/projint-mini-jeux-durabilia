@@ -19,7 +19,7 @@ export const ressourceGlobal = ref([
     { name: "Justice", img: "peaceJustice", color: "#2A6799", currentLevel: 10 },
     { name: "Engagement", img: "partnership", color: "#254867", currentLevel: 27 },
     { name: "Temps", img: "time", color: "#BDBDBD", currentLevel: 100 },
-    { name: "Aléatoire", img: "random", currentLevel: 0}
+    { name: "Aléatoire", img: "random", color: "#282828", currentLevel: 0}
 ]);
 
 export const transformers = ref([

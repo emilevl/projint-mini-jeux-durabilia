@@ -69,7 +69,7 @@ function rotateSides(position) {
     for (let i = 0; i < 5; i++) {
         for (let n = 0; n < 5; n++) {
             if (VerifiedMatrix != undefined && VerifiedMatrix[0][i][n]) {
-                console.log("Sbonjour", i, n);
+                //console.log("Sbonjour", i, n);
             }
         }
 
@@ -131,49 +131,37 @@ function rotateSides(position) {
 .grid-item {
 
     background-color: #12313C;
-    width: 16vh;
-    height: 16vh;
+    width: 18dvh;
+    height: 18dvh;
 }
 
 img {
-    height: 32vh;
+    height: 36dvh;
     position: absolute;
     margin: 0 auto;
 }
 
 #img_start {
-    top: 10vh;
+    top: 5dvh;
     left: 50%;
     transform: translate(-300%, 0%);
 }
 
 #img_end {
-    bottom: 10vh;
+    bottom: 5dvh;
     right: 50%;
     transform: translate(300%, 0%);
 }
 
 #pipe_start {
-    top: 10vh;
+    top: 5dvh;
     left: 50%;
     transform: translate(-180%, 0%);
 }
 
 #pipe_end {
-    bottom: 10vh;
+    bottom: 5dvh;
     right: 50%;
     transform: translate(180%, 0%);
-}
-
-
-@media (orientation: portrait) {
-    .grid-item {
-        width: 16vw;
-        height: 16vw;
-    }
-
-    img {
-        height: 48vw;
-    }
 }
 </style>

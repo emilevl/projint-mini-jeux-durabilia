@@ -103,7 +103,7 @@ function generateMatrix(arrival, numberofRows, numberofColumns, randomize) {
   }
 
   history.push([0, -1]);
-  console.log('history', history);
+  //console.log('history', history);
   for (let i = 1; i < history.length - 1; i++) {
     if (history[i + 1][0] != history[i][0] || history[i - 1][1] != history[i][1]) {
     } else {

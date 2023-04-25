@@ -43,10 +43,10 @@ let chronoStartTime;
 let timeBeforePause = 0;
 let chrono = ref();
 let chronoDisplay = computed(() => {
-    if (!pauseGame.value) {
-        return formatTime(chrono.value);
-    } else {
+    if (pauseGame.value || finishGame.value) {
         return formatTime(timeBeforePause);
+    } else {
+        return formatTime(chrono.value);
     }
 });
 let timer;
@@ -195,7 +195,7 @@ function create() {
     // create the Tilemap
     const map = this.make.tilemap({ key: "tilemap" });
 
-    // add the tileset image we are using
+    // Add the tileset image we are using
     const tileset = map.addTilesetImage("tiles-basic", "base_tiles");
 
     let bg = map.createDynamicLayer("bg", tileset);
@@ -206,13 +206,13 @@ function create() {
 
     let saw = map.createDynamicLayer("saw", tileset);
 
-    // The player and its settings
+    // Player and its settings
     player = this.physics.add
         .sprite(spawnPoint.x, spawnPoint.y, "player")
         .setCollideWorldBounds(true)
         .setBounce(0);
 
-    //  Our player animations, walking left and walking right.
+    // Player animations
     this.anims.create({
         key: "left",
         frames: [{ key: "player", frame: 0 }],
@@ -364,18 +364,19 @@ function create() {
         pad1 = pad;
     });
 
-
-    //console.log(this.sys.game.device.os.iOS || this.sys.game.device.os.android);
     if(this.sys.game.device.os.iOS || this.sys.game.device.os.android) {
         leftButton = this.add.sprite(game.config.width/4,200,"leftButton").setScale(0.8);
         rightButton = this.add.sprite(game.config.width*1/2,200,"rightButton").setScale(0.8);
         jumpButton = this.add.sprite(game.config.width,200,"jumpButton").setScale(0.8);
     }
-    
-    
 }
 
 function update() {
+
+    if(window.location.hash == ''){
+        game.destroy(true)
+    }
+
     if (pauseGame.value || playerDead.value) {
         this.physics.pause();
     } else {
@@ -459,7 +460,7 @@ function update() {
     }
 
 
-    // Movements controls
+    /* Movements controls */
 
     if (player.body.blocked.down) {
         canJump = true;
@@ -629,7 +630,7 @@ function replaceObjects() {
 }
 
 async function killPlayer(player, hitter) {
-    // Disable input
+    // Disable inputs
     this.input.enabled = false;
 
     player.body.velocity.set(0,0)
@@ -645,8 +646,7 @@ async function killPlayer(player, hitter) {
             break;
         }
     }
-    
-    
+
     playerDead.value = true;
     this.physics.pause();
 
@@ -654,89 +654,45 @@ async function killPlayer(player, hitter) {
         if (hitter.texture != undefined && hitter.texture.key == "log") {
         hitter.destroy();
     }
-
         deathCount++;
 
+        // Manage chrono
         await delay(500);
         chronoStartTime = new Date();
         timeBeforePause = 0
 
+        // Replace player and elements
         player.setPosition(spawnPoint.x, spawnPoint.y);
         replaceObjects();
 
+        // Make playable again
         playerDead.value = false;
         this.input.enabled = true;
         this.physics.resume();
     });
-    
-    
-
-    
-
-    
 }
-
-// Function to handle player hitted by a log
-/* function hitLogs(player, log) {
-    console.log(log.texture.key);
-    bonk.play();
-    this.physics.pause();
-
-    deathCount++;
-    chronoStartTime = new Date();
-    timeBeforePause = 0
-
-    player.setPosition(spawnPoint.x, spawnPoint.y);
-    replaceObjects();
-    log.destroy();
-
-    this.physics.resume();
-}
-
-Function to handle if the player hits a saw
-async function hitSaws(player, saw) {
-    playerDead.value = true;
-    this.physics.pause();
-    player.anims.play("playerKilled", false);
-
-    deathCount++;
-
-    await delay(200);
-    chronoStartTime = new Date();
-    timeBeforePause = 0
-
-    player.setPosition(spawnPoint.x, spawnPoint.y);
-    replaceObjects();
-
-    playerDead.value = false;
-    this.physics.resume();
-
-} */
 
 function endGame(player, endMachine) {
     // Manage audio ending
     bgMusic.stop();
     winSound.play();
 
+    timeBeforePause = chrono.value;
+
     // Stop the scene
     finishGame.value = true
-    this.scene.pause();
+    this.physics.pause();
 }
-
-/* setInterval(function () {
-        console.log("test");
-}, 1000); */
 
 function delay(milliseconds) {
     return new Promise((resolve) => {
         setTimeout(resolve, milliseconds);
     });
 }
+
 </script>
 
 <template>
-    <!-- <h1>Planche</h1> -->
-    <!-- <h1 id="chrono">00'00</h1> -->
     <h1 to="/" class="pause-game" @click="togglePauseGame()">Menu</h1>
     <ThePause
         v-if="pauseGame"
