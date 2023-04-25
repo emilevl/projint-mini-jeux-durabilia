@@ -125,6 +125,7 @@ window.addEventListener("click", (e) => {
     justify-content: space-around;
     padding: 20px;
     position: absolute;
+    top: 0;
     left: 50%;
     transform: translate(-50%, 0);
     z-index: 6;
