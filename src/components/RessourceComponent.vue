@@ -33,16 +33,18 @@ const heightWave = ref("0px")
 const heightWaveImpact = ref("0px")
 
 setTimeout(() => setCurrentLevel(), 10)
+setTimeout(() => setColorImpact(), 10)
 setTimeout(() => setImpactLevel(), 300)
 
-const transitionImpact = ref("all 0.8s ease 0s")
+const transitionImpact = ref("all 0s ease 0s")
 const transitionPrincip = ref("all 0s ease 0s")
 watchEffect(() => {
     if (props.ressourceReset) {
         transitionImpact.value = "all 0s ease 0s"
         impactHeight.value = "0px"
         heightWaveImpact.value = "0px"
-        setTimeout(() => setCurrentLevel())
+        setTimeout(() => setCurrentLevel(), 10)
+        setTimeout(() => setColorImpact(), 10)
         setTimeout(() => setImpactLevel(), 300)
     }
 });
@@ -51,9 +53,7 @@ watchEffect(() => {
 function setCurrentLevel() {
     transitionPrincip.value = "all 0s ease 0s"
     principHeight.value = `${(Math.abs(currentLevel.value) / 100) * props.ressourceSize}px`
-    if(currentLevel.value > 0 && currentLevel.value + props.impactLevel > 0) heightWave.value = "5px"
-    l
-    console.log(currentLevel.value + props.impactLeve)
+    if (currentLevel.value > 0 && currentLevel.value + props.impactLevel > 0) heightWave.value = "5px"
 }
 
 function setImpactLevel() {
@@ -70,18 +70,24 @@ function setImpactLevel() {
     }
 
     impactHeight.value = `${(Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize}px`
-    impactOpacity.value = 1
-    colorImpact.value = `${hexToHSL(color.value).split("%")[0]}%,70%)`
 
     //Manage the negative impact
     if (props.impactLevel < 0) {
-        impactOpacity.value = 0.5
-        colorImpact.value = color.value
         transitionPrincip.value = "all 0.8s ease 0s"
         principHeight.value = `${parseInt(principHeight.value) - ((Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize)}px` //Diminish the principal bar
     }
 
-    if(parseInt(impactHeight.value) != 0 && heightWaveImpact.value != '1px') heightWaveImpact.value = '5px'
+    if (parseInt(impactHeight.value) != 0 && heightWaveImpact.value != '1px') heightWaveImpact.value = '5px'
+}
+
+function setColorImpact() {
+    if (props.impactLevel > 0) {
+        impactOpacity.value = 1
+        colorImpact.value = `${hexToHSL(color.value).split("%")[0]}%,70%)`
+    } else {
+        impactOpacity.value = 0.5
+        colorImpact.value = color.value
+    }
 }
 
 //Manage the waves for the progression bars
