@@ -9,7 +9,7 @@ const emit = defineEmits(['partieTerminee'])
 const nbCols = 5;
 const nbRows = nbCols;
 const nbTiles = nbCols * nbRows
-const arrival = [nbCols-1 , nbRows -1]
+const arrival = [nbCols - 1, nbRows - 1]
 const lengthPath = 15; //entre 8 et 10 p.ex
 
 const maxFrozenTiles = 2; // maximum number of frozen tiles on the grid
@@ -66,13 +66,13 @@ function rotateSides(position) {
         emit('partieTerminee', true)
     }
 
-    for(let i=0; i<5; i++){
-        for(let n=0; n<5; n++){
-            if(VerifiedMatrix != undefined && VerifiedMatrix[0][i][n]){
-                console.log("Sbonjour",i,n);
+    for (let i = 0; i < 5; i++) {
+        for (let n = 0; n < 5; n++) {
+            if (VerifiedMatrix != undefined && VerifiedMatrix[0][i][n]) {
+                console.log("Sbonjour", i, n);
             }
         }
-        
+
     }
     console.log(VerifyMatrix(matrix));
 }
@@ -82,37 +82,45 @@ function rotateSides(position) {
 </script>
 
 <template>
-    <div id="grid-box">
+    <div>
         <img id="pipe_start" src="../../assets/decor/pipe_left.png">
         <img id="img_start" src="../../assets/decor/frozen_left.png">
         <img id="pipe_end" src="../../assets/decor/pipe_right.png">
         <img id="img_end" src="../../assets/decor/frozen_right.png">
-        <div id="grid" class="grid-container">
-            <template v-for="(row, r) in matrix">
-                <div v-for="(col, c) in row" class="grid-item">
-                    <tile :tileType="col.type" :tileInfos="randomizeRotation([r, c])" @rotate="rotateSides([r, c])">
-                    </tile>
-                    <!-- :frozen="randomizeFreeze()" -->
-                </div>
-            </template>
-        </div>
+        <!-- <div id="grid-box"> -->
+            <div id="grid" class="grid-container">
+                <template v-for="(row, r) in matrix">
+                    <div v-for="(col, c) in row" class="grid-item">
+                        <tile :tileType="col.type" :tileInfos="randomizeRotation([r, c])" @rotate="rotateSides([r, c])">
+                        </tile>
+                        <!-- :frozen="randomizeFreeze()" -->
+                    </div>
+                </template>
+            </div>
+        <!-- </div> -->
     </div>
 </template>
 
 <style scoped>
-/* #grid-box {
-    position: absolute;
+
+/* .grid-container::after {
+    display: none;
+}
+#grid-box {
+    display: grid;
+} */
+
+/* position: absolute;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-} */
+    overflow: hidden; */
 .grid-container {
     display: grid;
     grid-template-columns: v-bind(nbColsCss);
     margin: 0 auto;
 
-    height: fit-content;
-    width: fit-content;
+    /* height: fit-content;
+    width: fit-content; */
 
     position: absolute;
     top: 50%;
@@ -121,6 +129,7 @@ function rotateSides(position) {
 }
 
 .grid-item {
+
     background-color: #12313C;
     width: 16vh;
     height: 16vh;
@@ -166,17 +175,5 @@ img {
     img {
         height: 48vw;
     }
-
-    /* #img_start {
-        top: 10vw;
-        left: 50%;
-        transform: translate(-213%, 0%);
-    }
-
-    #img_end {
-        bottom: 10vw;
-        right: 50%;
-        transform: translate(213%, 0%);
-    } */
 }
 </style>
