@@ -41,6 +41,7 @@ watchEffect(() => {
     if (props.ressourceReset) {
         transitionImpact.value = "all 0s ease 0s"
         impactHeight.value = "0px"
+        heightWaveImpact.value = "0px"
         setTimeout(() => setCurrentLevel())
         setTimeout(() => setImpactLevel(), 300)
     }
@@ -50,13 +51,15 @@ watchEffect(() => {
 function setCurrentLevel() {
     transitionPrincip.value = "all 0s ease 0s"
     principHeight.value = `${(Math.abs(currentLevel.value) / 100) * props.ressourceSize}px`
+    if(currentLevel.value > 0 && currentLevel.value + props.impactLevel > 0) heightWave.value = "5px"
+    l
+    console.log(currentLevel.value + props.impactLeve)
 }
 
 function setImpactLevel() {
     impactLevelTemp.value = props.impactLevel
     transitionImpact.value = "all 0.8s ease 0s"
 
-    console.log(props.impactLevel + currentLevel.value <= 0)
     //Manage the case where we pass the bar limit (0 - 100)
     if (props.impactLevel + currentLevel.value >= 100) {
         impactLevelTemp.value = 100 - currentLevel.value
@@ -64,17 +67,6 @@ function setImpactLevel() {
         heightWaveImpact.value = "1px"
     } else if (props.impactLevel + currentLevel.value <= 0) {
         impactLevelTemp.value = - currentLevel.value
-        heightWaveImpact.value = "5px"
-    } else if (props.impactLevel == 0) {
-        heightWave.value = "5px"
-    } else if (currentLevel.value == 0) {
-        heightWaveImpact.value = "0px"
-    } else if (props.impactLevel + currentLevel.value <= 0) {
-        heightWaveImpact.value = "0px"
-        heightWave.value = "0px"
-    } else {
-        heightWaveImpact.value = "5px"
-        heightWave.value = "5px"
     }
 
     impactHeight.value = `${(Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize}px`
@@ -88,6 +80,8 @@ function setImpactLevel() {
         transitionPrincip.value = "all 0.8s ease 0s"
         principHeight.value = `${parseInt(principHeight.value) - ((Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize)}px` //Diminish the principal bar
     }
+
+    if(parseInt(impactHeight.value) != 0 && heightWaveImpact.value != '1px') heightWaveImpact.value = '5px'
 }
 
 //Manage the waves for the progression bars
