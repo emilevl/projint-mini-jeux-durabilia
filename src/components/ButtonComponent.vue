@@ -16,6 +16,8 @@ button {
     cursor: pointer;
     transition: 0.3s;
     text-align: center;
+    background-color: black;
+    color: #FBF8F1;
 }
 
 @media screen and (max-width: 1050px) {
@@ -29,11 +31,10 @@ button {
 }
 
 button:hover {
-        background-color: black;
-        color: #FBF8F1;
-        border-radius: 10px 0px;
-        transition: 0.3s;
-    }
+    border-radius: 10px 0px;
+    opacity: 0.5;
+    transition: 0.3s;
+}
 
 @media screen and (min-width: 1050px) {
     button:hover {

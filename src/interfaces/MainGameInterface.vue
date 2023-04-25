@@ -61,11 +61,11 @@ function changeHash(hash) {
         {{ transformer.name }}
     </div>
     <popupRules v-if="activeRules == 'Tribunal'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#card')" @emitToggleRules="toggleRules()"></popupRules>
+        @emitPlay="changeHash('#card')" @emitBackToGame="toggleRules()"></popupRules>
     <popupRules v-if="activeRules == 'Scierie'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#planche')" @emitToggleRules="toggleRules()"></popupRules>
+        @emitPlay="changeHash('#planche')" @emitBackToGame="toggleRules()"></popupRules>
     <popupRules v-if="activeRules == 'STEP'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#puzzle')" @emitToggleRules="toggleRules()"></popupRules>
+        @emitPlay="changeHash('#puzzle')" @emitBackToGame="toggleRules()"></popupRules>
 </template>
 
 <style scoped>

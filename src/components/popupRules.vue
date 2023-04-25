@@ -12,7 +12,8 @@ const props = defineProps({
 
 const emit = defineEmits([
     'emitToggleRules',
-    'emitPlay'
+    'emitPlay',
+    "emitBackToGame"
 ]);
 
 //MOBILE VERSION
@@ -32,10 +33,10 @@ function toggleSectionMobile() {
 </script>
 
 <template>
-    <div v-if="!props.gameLaunched" class="background" @click="$emit('emitToggleRules')"></div>
+    <div v-if="!props.gameLaunched" class="background" @click="$emit('emitBackToGame')"></div>
     <!-- Desktop interface -->
     <div v-if="!mobileInterface" class="container">
-        <h3 class="close-x" @click="$emit('emitToggleRules')">X</h3>
+        <h3 class="close-x" @click="$emit('emitBackToGame')">X</h3>
         <div v-if="props.gameLaunched" class="back-button" @click="$emit('emitToggleRules')">
             <div class="back-arrow">
                 <div class="bar-1"></div>
