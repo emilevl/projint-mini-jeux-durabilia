@@ -35,7 +35,7 @@ const heightWaveImpact = ref("0px")
 setTimeout(() => setCurrentLevel(), 10)
 setTimeout(() => setImpactLevel(), 300)
 
-const transitionImpact = ref("all 1s ease 0s")
+const transitionImpact = ref("all 0.8s ease 0s")
 const transitionPrincip = ref("all 0s ease 0s")
 watchEffect(() => {
     if (props.ressourceReset) {
@@ -54,7 +54,9 @@ function setCurrentLevel() {
 
 function setImpactLevel() {
     impactLevelTemp.value = props.impactLevel
-    transitionImpact.value = "all 1s ease 0s"
+    transitionImpact.value = "all 0.8s ease 0s"
+
+    console.log(props.impactLevel + currentLevel.value <= 0)
     //Manage the case where we pass the bar limit (0 - 100)
     if (props.impactLevel + currentLevel.value >= 100) {
         impactLevelTemp.value = 100 - currentLevel.value
@@ -63,14 +65,16 @@ function setImpactLevel() {
     } else if (props.impactLevel + currentLevel.value <= 0) {
         impactLevelTemp.value = - currentLevel.value
         heightWaveImpact.value = "5px"
-    } else if (props.impactLevel + currentLevel.value <= 0 && currentLevel == 0) {
-        heightWaveImpact.value = "0px"
-        heightWave.value = "0px"
     } else if (props.impactLevel == 0) {
         heightWave.value = "5px"
+    } else if (currentLevel.value == 0) {
+        heightWaveImpact.value = "0px"
+    } else if (props.impactLevel + currentLevel.value <= 0) {
+        heightWaveImpact.value = "0px"
+        heightWave.value = "0px"
     } else {
-        heightWave.value = "5px"
         heightWaveImpact.value = "5px"
+        heightWave.value = "5px"
     }
 
     impactHeight.value = `${(Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize}px`
@@ -81,7 +85,7 @@ function setImpactLevel() {
     if (props.impactLevel < 0) {
         impactOpacity.value = 0.5
         colorImpact.value = color.value
-        transitionPrincip.value = "all 1s ease 0s"
+        transitionPrincip.value = "all 0.8s ease 0s"
         principHeight.value = `${parseInt(principHeight.value) - ((Math.abs(impactLevelTemp.value) / 100) * props.ressourceSize)}px` //Diminish the principal bar
     }
 }
