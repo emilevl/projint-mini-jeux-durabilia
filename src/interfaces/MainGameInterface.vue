@@ -6,13 +6,7 @@ import Cinematic from '../components/Cinematic.vue';
 
 const D_TRANSFORMER_MIN = 150
 const D_TRANSFORMER_MAX = 200
-<<<<<<< HEAD
 const coords = [[15, 20], [75, 30], [50, 55]]
-=======
-//const coords = [[300, 180], [750, 250], [500, 550]]
-//const coordsMobile = [[100, 180], [350, 250], [600, 200]]
-const coords = [[10, 20], [75, 30], [40, 45]]
->>>>>>> b0338d364e387735d91d373a4bd94c9bf1c9f60f
 
 onMounted(() => {
     const transformerSelector = document.querySelectorAll(".transformer")
