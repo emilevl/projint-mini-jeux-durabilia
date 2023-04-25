@@ -220,6 +220,7 @@ function toggleRessourceReset() {
 }
 .navbar-option {
     padding-top: 5px;
+    border-radius: 20px 0px;
 }
 .drop-down-placeholder-container {
     display: flex;
@@ -308,7 +309,7 @@ function toggleRessourceReset() {
 @media screen and (max-width: 1050px) {
     .recap-container {
         width: 600px;
-        height: 350px;
+        height: 320px;
         padding: 0px;
     }
 
@@ -319,7 +320,13 @@ function toggleRessourceReset() {
     }
 
     .navbar {
-        top: 50px;
+        top: 45px;
+        margin-left: 20px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+    .navbar p {
+        font-size: 0.8em;
     }
 
     .title {
@@ -335,7 +342,7 @@ function toggleRessourceReset() {
         height: 200px;
         padding-left: 15px;
         padding-right: 15px;
-        padding-top: 15px;
+        margin-top: 15px;
     }
 
     .back-to-map {
