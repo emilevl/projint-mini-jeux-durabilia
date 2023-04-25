@@ -31,7 +31,7 @@ let config = {
 };
 
 // 250 300
-const spawnPoint = { x: 250, y: 300 };
+const spawnPoint = { x: 12500, y: 300 };
 
 // Death management
 let deathCount = 0;
@@ -676,6 +676,8 @@ function endGame(player, endMachine) {
     // Manage audio ending
     bgMusic.stop();
     winSound.play();
+
+    timeBeforePause = chrono.value;
 
     // Stop the scene
     finishGame.value = true
