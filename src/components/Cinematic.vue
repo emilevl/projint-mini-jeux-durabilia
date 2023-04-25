@@ -50,16 +50,26 @@ function nextDialog() {
         emit("emitPlay");
     }
     setTimeout(() => {
-        dialogBackground.value = `bubble-${currentCinematic.value.dialogs[dialogIdx.value].character}`;
-        dialogText.value = currentCinematic.value.dialogs[dialogIdx.value].text;
-    }, 500);
-}
+        dialogOn.value = true;
+    }, 2000);
 
-function previousDialog() {
-    if (dialogIdx.value > 0) {
-        dialogIdx.value--;
-        dialogBackground.value = `bubble-${currentCinematic.value.dialogs[dialogIdx.value].character}`;
-        dialogText.value = currentCinematic.value.dialogs[dialogIdx.value].text;
+    function nextDialog() {
+        dialogBackground.value = 'bubble';
+        dialogText.value = '';
+
+        
+        
+        if (dialogIdx.value < dialogTotalNb.value - 1) {
+            dialogIdx.value++;
+        } else {
+            gameLaunched.value = true;
+            //emit play
+            emit("emitPlay");
+        }
+        setTimeout(() => {
+            dialogBackground.value = `bubble-${currentCinematic.value.dialogs[dialogIdx.value].character}`;
+            dialogText.value = currentCinematic.value.dialogs[dialogIdx.value].text;
+        }, 250);
     }
 }
 //event listener on arrows keys to navigate through dialogs
@@ -87,22 +97,13 @@ window.addEventListener("click", (e) => {
 
 <template>
     <div :class="`cinematic ${dialogOn ? 'darken' : ''}`">
-        <!-- <div class="background" :style="{ backgroundImage: 'url(' + gameData.decor + ')' }"></div> -->
-        <div class="background"
-            :style="{ backgroundImage: 'url(/assets/cinematics/' + currentCinematic.background + mobileImgExtension + '.jpg)' }">
+      <div class="background" :style="{ backgroundImage: 'url(/assets/cinematics/' + currentCinematic.background + mobileImgExtension + '.jpg)' }"></div>
+      <div class="conversation" v-if="dialogOn">
+        <div class="dialog" key="0" :style="{ backgroundImage: 'url(/assets/cinematics/' + dialogBackground + mobileImgExtension + '.jpg)' }">
+            <transition name="fade">
+             <p v-if="dialogText">{{ dialogText }}</p>
+            </transition>
         </div>
-        <div class="conversation" v-if="dialogOn">
-            <!-- <div
-                class="dialog"
-                v-for="(dialog, index) in gameData.dialogs"
-                :key="index"
-                > -->
-            <div class="dialog" key="0"
-                :style="{ backgroundImage: 'url(/assets/cinematics/' + dialogBackground + mobileImgExtension + '.jpg)' }">
-                <!-- <img :src="dialog.perso" /> -->
-                <p>{{ dialogText }}</p>
-                <!-- <p>{{ dialog.text }}</p> -->
-            </div>
         </div>
         <img :src="`/assets/cinematics/skip-button${mobileImgExtension}.jpg`" class="skip-button"
             v-if="dialogOn && dialogIdx > 0" @click="$emit('emitPlay')" />
@@ -132,18 +133,21 @@ window.addEventListener("click", (e) => {
     height: 100%;
     background-size: cover;
     background-position: center;
-    z-index: 4;
-}
-
-.conversation {
+    z-index: -1;
+    background-color: black;
+  }
+  
+  .conversation {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     padding: 20px;
-    z-index: 6;
-}
-
-.dialog {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  
+  .dialog {
     width: 750px;
     display: flex;
     flex-direction: column;
@@ -164,7 +168,17 @@ window.addEventListener("click", (e) => {
     z-index: 7;
 }
 
-.skip-button {
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.1s;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
+
+  .skip-button {
     position: absolute;
     bottom: 42px;
     right: 28px;
