@@ -29,7 +29,8 @@ export const transformers = ref([
         description: "Prenez des décisions en balançant les cartes à gauche ou à droite. Ces décisions auront un petit ou un grand impact sur vos ressources. Vous aurez 5 choix à faire. Le 5ème choix affectera de manière plus conséquente vos ressources ou vos interactions sur la carte.",
         ressourceNecessaire: { name: "Temps" , img: "time", level: -30 },
         ressourceRecue: { name: "Justice" , img: "peaceJustice", level: 30 },
-        consequence: { name: "Aléatoire" , img: "random", level: [-20, 30] }
+        consequence: { name: "Aléatoire" , img: "random", level: [-20, 30] },
+        cinematicIdx: 0
     },
     {
         name: "Scierie",
@@ -37,7 +38,8 @@ export const transformers = ref([
         description: "Atteignez la fin du niveau pour couper le courant de la scierie, tout en évitant les scies et les morceaux de bois qui tombent. ",
         ressourceNecessaire: { name: "Terradiversité" , img: "lifeLand", level: -15 },
         ressourceRecue: { name: "Croissance" , img: "decentWork", level: 10 },
-        consequence: { name: "CO2" , img: "climateActions", level: [20] }
+        consequence: { name: "CO2" , img: "climateActions", level: [20] },
+        cinematicIdx: 2
     },
     {
         name: "STEP",
@@ -45,7 +47,8 @@ export const transformers = ref([
         description: "Faites pivotez et connectez les tuyaux dans le temps imparti, afin de guider les eaux usées à travers la station d'épuration. Mode de jeu : clicker les tuyaux pour les faire tourner",
         ressourceNecessaire: { name: "Eau" , img: "water", level: -10 },
         ressourceRecue: { name: "Monnaie" , img: "poverty", level: 15 },
-        consequence: { name: "Engagement" , img: "partnership", level: [30] }
+        consequence: { name: "Engagement" , img: "partnership", level: [30] },
+        cinematicIdx: 1
     }
 ])
 
