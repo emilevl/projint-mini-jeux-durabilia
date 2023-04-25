@@ -35,7 +35,7 @@
 
     setTimeout(() => {
         dialogOn.value = true;
-    }, 3000);
+    }, 2000);
 
     function nextDialog() {
         dialogBackground.value = 'bubble';
@@ -53,7 +53,7 @@
         setTimeout(() => {
             dialogBackground.value = `bubble-${currentCinematic.value.dialogs[dialogIdx.value].character}`;
             dialogText.value = currentCinematic.value.dialogs[dialogIdx.value].text;
-        }, 500);
+        }, 250);
     }
 
     function previousDialog() {
@@ -88,22 +88,13 @@
 
 <template>
     <div :class="`cinematic ${dialogOn ? 'darken' : ''}`">
-      <!-- <div class="background" :style="{ backgroundImage: 'url(' + gameData.decor + ')' }"></div> -->
       <div class="background" :style="{ backgroundImage: 'url(/assets/cinematics/' + currentCinematic.background + mobileImgExtension + '.jpg)' }"></div>
       <div class="conversation" v-if="dialogOn">
-            <!-- <div
-            class="dialog"
-            v-for="(dialog, index) in gameData.dialogs"
-            :key="index"
-            > -->
-            <div
-            class="dialog"
-            key="0"
-            :style="{ backgroundImage: 'url(/assets/cinematics/' + dialogBackground + mobileImgExtension + '.jpg)' }">
-            <!-- <img :src="dialog.perso" /> -->
-            <p>{{ dialogText }}</p>
-            <!-- <p>{{ dialog.text }}</p> -->
-            </div>
+        <div class="dialog" key="0" :style="{ backgroundImage: 'url(/assets/cinematics/' + dialogBackground + mobileImgExtension + '.jpg)' }">
+            <transition name="fade">
+             <p v-if="dialogText">{{ dialogText }}</p>
+            </transition>
+        </div>
         </div>
         <img :src="`/assets/cinematics/skip-button${mobileImgExtension}.jpg`" class="skip-button" v-if="dialogOn && dialogIdx > 0" @click="$emit('emitPlay')" />
     </div>
@@ -132,6 +123,7 @@
     background-size: cover;
     background-position: center;
     z-index: -1;
+    background-color: black;
   }
   
   .conversation {
@@ -139,6 +131,9 @@
     flex-wrap: wrap;
     justify-content: space-around;
     padding: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
   }
   
   .dialog {
@@ -158,6 +153,16 @@
     color: white;
     padding: 10px;
     padding: 30px;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.1s;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
   }
 
   .skip-button {
