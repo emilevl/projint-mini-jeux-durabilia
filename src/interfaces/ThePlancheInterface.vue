@@ -98,7 +98,7 @@ let buttonControllerReleased = false;
 let leftButton, rightButton, jumpButton;
 
 // Audio
-let bonk;
+let bgMusic, popSound, bonk, jumpSound, winSound;
 
 let finishGame = ref(false)
 
@@ -157,7 +157,11 @@ function preload() {
     this.load.image("jumpButton", "assets/scierie/jumpButton.png");
 
     // Audio
+    this.load.audio("bgMusic", "assets/scierie/audio/bgMusic.mp3");
+    this.load.audio("jumpSound", "assets/scierie/audio/jumpSound.mp3");
+    this.load.audio("popSound", "assets/scierie/audio/popSound.mp3");
     this.load.audio("bonk", "assets/scierie/audio/bonk.mp3");
+    this.load.audio("winSound", "assets/scierie/audio/winSound.mp3");
 }
 
 function create() {
@@ -168,7 +172,15 @@ function create() {
         this.cameras.main.zoom = 0.6;
     }
 
+    // Audio
+    bgMusic = this.sound.add("bgMusic", { loop: true });
+    bgMusic.config.volume = 0.15
+    bgMusic.play();
+
+    popSound = this.sound.add("popSound", { loop: false });
     bonk = this.sound.add("bonk", { loop: false });
+    jumpSound = this.sound.add("jumpSound", { loop: false });
+    winSound = this.sound.add("winSound", { loop: false });
 
     this.cameras.main.setBounds(0, 0, 1000000, 100000);
     this.physics.world.setBounds(0, 0, 1000000, 100000);
@@ -446,6 +458,7 @@ function update() {
         movingPlatform.setVelocityX(-movingSawsSpeed);
     }
 
+
     // Movements controls
 
     if (player.body.blocked.down) {
@@ -482,12 +495,14 @@ function update() {
     // Jump
     if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
         if (!player.body.blocked.down && canJump) {
+            jumpSound.play();
             canJump = false;
             player.setVelocityY(-playerJumpVelocity);
             player.anims.play("jump", true);
         }
 
         if (player.body.blocked.down) {
+            jumpSound.play();
             canDoubleJump = true;
             player.setVelocityY(-playerJumpVelocity);
             player.anims.play("jump", true);
@@ -498,6 +513,7 @@ function update() {
                 player.anims.play("jumpLeft", true);
             }
         } else if (!player.body.blocked.down && canDoubleJump) {
+            jumpSound.play();
             canDoubleJump = false;
             player.setVelocityY(-playerJumpVelocity);
             player.anims.play("jump", true);
@@ -616,6 +632,8 @@ async function killPlayer(player, hitter) {
     // Disable input
     this.input.enabled = false;
 
+    player.body.velocity.set(0,0)
+
     // Death sound
     if(hitter.texture != undefined) {
         switch (hitter.texture.key) {
@@ -623,6 +641,7 @@ async function killPlayer(player, hitter) {
             bonk.play();
             break;
         default:
+            popSound.play();
             break;
         }
     }
@@ -695,6 +714,10 @@ async function hitSaws(player, saw) {
 } */
 
 function endGame(player, endMachine) {
+    // Manage audio ending
+    bgMusic.stop();
+    winSound.play();
+
     // Stop the scene
     finishGame.value = true
     this.scene.pause();
