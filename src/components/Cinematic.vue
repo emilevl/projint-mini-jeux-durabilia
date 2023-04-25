@@ -36,23 +36,6 @@ setTimeout(() => {
     dialogOn.value = true;
 }, 3000);
 
-function nextDialog() {
-    dialogBackground.value = 'bubble';
-    dialogText.value = '';
-
-
-
-    if (dialogIdx.value < dialogTotalNb.value - 1) {
-        dialogIdx.value++;
-    } else {
-        gameLaunched.value = true;
-        //emit play
-        emit("emitPlay");
-    }
-    setTimeout(() => {
-        dialogOn.value = true;
-    }, 2000);
-
     function nextDialog() {
         dialogBackground.value = 'bubble';
         dialogText.value = '';
@@ -71,7 +54,6 @@ function nextDialog() {
             dialogText.value = currentCinematic.value.dialogs[dialogIdx.value].text;
         }, 250);
     }
-}
 //event listener on arrows keys to navigate through dialogs
 window.addEventListener("keydown", (e) => {
     if (e.key == "ArrowRight") {
@@ -122,6 +104,7 @@ window.addEventListener("click", (e) => {
     height: 100vh;
     width: 100vw;
     background-color: rgba(40, 40, 40, 0.35);
+    z-index: 5;
 }
 
 .background {
@@ -132,7 +115,7 @@ window.addEventListener("click", (e) => {
     height: 100%;
     background-size: cover;
     background-position: center;
-    z-index: -1;
+    z-index: 4;
     background-color: black;
   }
   
@@ -144,6 +127,7 @@ window.addEventListener("click", (e) => {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
+    z-index: 6;
   }
   
   .dialog {
@@ -154,6 +138,7 @@ window.addEventListener("click", (e) => {
     background-size: cover;
     background-position: center;
     justify-content: center;
+    z-index: 6;
 }
 
 .dialog p {
@@ -161,8 +146,8 @@ window.addEventListener("click", (e) => {
     font-family: "Urbanist", "Inter", sans-serif;
     margin: 0;
     color: white;
-    padding: 10px;
     padding: 30px;
+    z-index: 7;
 }
 
   .fade-enter-active,
@@ -176,11 +161,29 @@ window.addEventListener("click", (e) => {
   }
 
   .skip-button {
-    position: absolute;
-    bottom: 42px;
-    right: 28px;
-    width: 172px;
-    cursor: pointer;
-}
+        position: absolute;
+        bottom: 42px;
+        right: 28px;
+        width: 172px;
+        cursor: pointer;
+        z-index: 6;
+    } 
+    
+    @media (max-width: 1050px) {
+        
+        .dialog {
+            width: 368px;
+            height: 80px;
+        }
+        .dialog p {
+            font-size: 0.9rem;
+            padding: 30px;
+        }
+
+        .skip-button {
+            width: 89px;
+            bottom: 40px;
+        }
+    }
 </style>
   

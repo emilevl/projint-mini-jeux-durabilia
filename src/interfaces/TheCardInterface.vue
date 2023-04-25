@@ -33,6 +33,7 @@ let cardSelection = ref([]);
 const endGame = ref(false);
 const pauseGame = ref(false);
 const cardMoved = ref(false);
+const mobileImgExtension = ref("");
 loadDataCards();
 
 
@@ -40,6 +41,10 @@ onMounted(() => {
 
   iCurrentCard.value = handCards.value.length - 1;
   setEventListeners();
+  // matchmedia to change the image extension for mobile
+  if (window.matchMedia("(max-width: 1050px)").matches) {
+    mobileImgExtension.value = "-mobile";
+  }
 });
 
 watchEffect(() => {
@@ -325,7 +330,7 @@ onUnmounted(() => {
 
 
 <template>
-  <div class="main-page">
+  <div class="main-page" :style="{ backgroundImage: 'url(/assets/cinematics/court-light' + mobileImgExtension + '.jpg)' }">
     <div id="clickable-part">
       <div id="description-current-card">
         <h2>Description</h2>
@@ -348,27 +353,27 @@ onUnmounted(() => {
       ></Card>
     </div>
 
-  </div>
-  <div class="ressources-impact">
-    <div
-      v-for="ressource of handCards[iCurrentCard].responses[iChoice].impact"
-      :class="`ressource-icon-wrapper ${iconColored ? ressource.level > 0 ? 'ressource-icon-red' : 'ressource-icon-green': ''} ${cardsDrawn && cardMoved ? '' : 'display-none'}`"
-    >
-      <div class="circle-container">
-        <div
-          class="circle"
-          :style="{
-            height: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
-            width: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
-          }"
+    <div class="ressources-impact">
+      <div
+        v-for="ressource of handCards[iCurrentCard].responses[iChoice].impact"
+        :class="`ressource-icon-wrapper ${iconColored ? ressource.level < 0 ? 'ressource-icon-red' : 'ressource-icon-green': ''} ${cardsDrawn && cardMoved ? '' : 'display-none'}`"
+      >
+        <div class="circle-container">
+          <div
+            class="circle"
+            :style="{
+              height: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
+              width: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
+            }"
+          ></div>
+        </div>
+  
+        <div 
+          v-html="svgContent[ressource.ressource]"
         ></div>
+  
+        <p> {{ getRessourceNameByImg(ressource.ressource) }}</p>
       </div>
-
-      <div 
-        v-html="svgContent[ressource.ressource]"
-      ></div>
-
-      <p> {{ getRessourceNameByImg(ressource.ressource) }}</p>
     </div>
   </div>
 
@@ -425,6 +430,9 @@ onUnmounted(() => {
 .main-page {
   display: flex;
   justify-content: center;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
 }
 
 #clickable-part {
@@ -475,7 +483,7 @@ onUnmounted(() => {
   flex-direction: row;
   justify-content: center;
   gap: 20px;
-  /* position: absolute; */
+  position: absolute;
   bottom: 10px;
   margin: 35px auto;
 }
