@@ -25,6 +25,7 @@ export const ressourceGlobal = ref([
 export const transformers = ref([
     {
         name: "Tribunal",
+        hash: "tribunal",
         type: "Jeu de décision",
         description: "Prenez des décisions en balançant les cartes à gauche ou à droite. Ces décisions auront un petit ou un grand impact sur vos ressources. Vous aurez 5 choix à faire. Le 5ème choix affectera de manière plus conséquente vos ressources ou vos interactions sur la carte.",
         ressourceNecessaire: { name: "Temps" , img: "time", level: -30 },
@@ -34,6 +35,7 @@ export const transformers = ref([
     },
     {
         name: "Scierie",
+        hash: "scierie",
         type: "Jeu de plateforme",
         description: "Atteignez la fin du niveau pour couper le courant de la scierie, tout en évitant les scies et les morceaux de bois qui tombent. ",
         ressourceNecessaire: { name: "Terradiversité" , img: "lifeLand", level: -15 },
@@ -43,6 +45,7 @@ export const transformers = ref([
     },
     {
         name: "STEP",
+        hash: "step",
         type: "Jeu de puzzle",
         description: "Faites pivotez et connectez les tuyaux dans le temps imparti, afin de guider les eaux usées à travers la station d'épuration. Mode de jeu : clicker les tuyaux pour les faire tourner",
         ressourceNecessaire: { name: "Eau" , img: "water", level: -10 },

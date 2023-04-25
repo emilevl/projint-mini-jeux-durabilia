@@ -47,8 +47,8 @@ function findTile() {
     let name = IMG_PATH + tile.svg
 
     props.tileInfos.frozen ?
-        name += '-frozen.svg' :
-        name += '.svg'
+        name += '-frozen.jpg' :
+        name += '.jpg'
 
     return name
 }

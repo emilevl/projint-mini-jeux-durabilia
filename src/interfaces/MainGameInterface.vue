@@ -2,11 +2,10 @@
 import { onMounted, ref } from 'vue';
 import { transformers } from '../utils/store';
 import popupRules from '../components/popupRules.vue';
+import Cinematic from '../components/Cinematic.vue';
 
 const D_TRANSFORMER_MIN = 150
 const D_TRANSFORMER_MAX = 200
-//const coords = [[300, 180], [750, 250], [500, 550]]
-//const coordsMobile = [[100, 180], [350, 250], [600, 200]]
 const coords = [[15, 20], [75, 30], [50, 55]]
 
 onMounted(() => {
@@ -19,12 +18,6 @@ onMounted(() => {
         transformer.style.width = `${d}px`
         transformer.style.top = `${coords[i][1]}vh`
         transformer.style.left = `${coords[i][0]}vw`
-        /* if (window.innerWidth < 1050) {
-            transformer.style.height = `${d / 2}px`
-            transformer.style.width = `${d / 2}px`
-            transformer.style.top = `${coords[i][1]}px`
-            transformer.style.left = `${coords[i][0]}px`
-        } */
         i++
     })
 })
@@ -48,24 +41,37 @@ function toggleRules(e) {
     }
 }
 
-function changeHash(hash) {
+const cinematiqueShow = ref("")
+function launchCinematique(transformer) {
     activeRules.value = ""
-    window.location.hash = hash
+    cinematiqueShow.value = transformer
+}
+
+//Change the hash to go to the minigames
+function changeHash(transformerName) {
+    const hash = transformers.value.find((transfo) => transfo.name == transformerName).hash;
+    window.location.hash = `#${hash}`
 }
 
 </script>
 
 <template>
-    <h1 class="title">Durabilia</h1>
-    <div v-for="transformer of transformers" class="transformer" :id="`${transformer.name}`" @click="toggleRules($event)">
-        {{ transformer.name }}
+    <div v-show="cinematiqueShow == ''" class="main-interface-container">
+        <h1 class="title">Durabilia</h1>
+        <div v-for="transformer of transformers" class="transformer"
+            :id="`${transformer.name}`" @click="toggleRules($event)">
+            {{ transformer.name }}
+        </div>
     </div>
+
     <popupRules v-if="activeRules == 'Tribunal'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#card')" @emitBackToGame="toggleRules()"></popupRules>
+        @emitPlay="launchCinematique('Tribunal')" @emitBackToGame="toggleRules()"></popupRules>
     <popupRules v-if="activeRules == 'Scierie'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#planche')" @emitBackToGame="toggleRules()"></popupRules>
+        @emitPlay="launchCinematique('Scierie')" @emitBackToGame="toggleRules()"></popupRules>
     <popupRules v-if="activeRules == 'STEP'" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false"
-        @emitPlay="changeHash('#puzzle')" @emitBackToGame="toggleRules()"></popupRules>
+        @emitPlay="launchCinematique('STEP')" @emitBackToGame="toggleRules()"></popupRules>
+    <cinematic v-if="cinematiqueShow != ''" :transformer="cinematiqueShow" @emitPlay="changeHash(cinematiqueShow)">
+    </cinematic>
 </template>
 
 <style scoped>
