@@ -74,8 +74,8 @@ watchEffect(() => {
     font-family: 'Limelight', cursive;
     background-color: #12313c;
     background: radial-gradient(circle, #12313C 0%, #0D0C0C 100%);
-    height: 100vh;
-    width: 100vw;
+    height: 100dvh;
+    width: 100dvw;
     position: relative;
     overflow: hidden;
     margin: 0;
