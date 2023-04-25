@@ -255,10 +255,10 @@
                 {
                     "name": "Oui, investissons dans les énergies vertes.",
                     "impact": [
-                        {"ressource": "poverty", "level": -30},
+                        {"ressource": "energy", "level": -20},
                         {"ressource": "climateActions", "level": 30},
                         {"ressource": "consumption", "level": 20},
-                        {"ressource": "energy", "level": -20}
+                        {"ressource": "poverty", "level": -30}
                     ]
                 },
                 {
