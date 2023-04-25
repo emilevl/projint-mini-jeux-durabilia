@@ -2,6 +2,7 @@
 import { ref, watchEffect } from 'vue';
 import addTime from 'add-time';
 import { menuOpened } from "../../utils/store.js"
+import anime from 'animejs/lib/anime.es.js';
 
 const props = defineProps({
     jeuReussi: {
@@ -13,6 +14,8 @@ const props = defineProps({
         required: true
     }
 })
+
+const chrono = ref(null)
 
 const emit = defineEmits(['partieTerminee'])
 
@@ -66,7 +69,26 @@ function startTimer(newDate) {
             timer.value = distance
             clearInterval(interval)
         }
+
     }, 0)
+}
+
+function animChrono() {
+  setTimeout(() => {
+    anime.timeline({
+        targets: '#chrono',
+        easing: 'linear',
+        duration: 300,
+    }).add({
+        scale: [1.2],
+    }).add({
+        scale: [1],
+    }).add({
+        scale: [1.2],
+    }).add({
+        scale: [1],
+})
+  }, 500);
 }
 
 watchEffect(() => {
@@ -74,8 +96,8 @@ watchEffect(() => {
         const newDate = new Date(Date.now() + timer.value);
         startTimer(newDate)
     }
+    animChrono()
 })
-
 </script>
 
 <template>
