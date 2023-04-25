@@ -18,17 +18,6 @@ function toggleRules() {
 
 }
 
-const resourceReceived = computed(() => {
-        props.transformer.ressourceRecue.level
-})
-
-const consequence = computed(() => {
-        props.transformer.consequence.level[0]
-})
-
-const resultSubtitle = computed(() => {
-        'Vous avez gagné !'
-})
 </script>
 
 <template>
@@ -48,11 +37,11 @@ const resultSubtitle = computed(() => {
                     </div>
                     <div class="ressources-details">
                         <RessourceComponent class="ressource" :img="props.transformer.ressourceRecue.img"
-                            :impactLevel="resourceReceived" :ressourceSize="100"></RessourceComponent>
+                            :impactLevel="props.transformer.ressourceRecue.level" :ressourceSize="100"></RessourceComponent>
                     </div>
                     <div class="ressources-details">
                         <RessourceComponent class="ressource" :img="props.transformer.consequence.img"
-                            :impactLevel="consequence" :ressourceSize="100"></RessourceComponent>
+                            :impactLevel="props.transformer.consequence.level[0]" :ressourceSize="100"></RessourceComponent>
                     </div>
                 </div>
             </div>
