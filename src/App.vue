@@ -46,19 +46,19 @@ const routes = {
     id: "accueil",
     component: MainGameInterface,
   },
-  "#card": {
-    label: "Card",
-    id: "card",
+  "#tribunal": {
+    label: "Tribunal",
+    id: "tribunal",
     component: TheCardInterface,
   },
-  "#puzzle": {
-    label: "Puzzle",
-    id: "puzzle",
+  "#step": {
+    label: "STEP",
+    id: "step",
     component: ThePuzzleInterface,
   },
-  "#planche": {
-    label: "Planche",
-    id: "planche",
+  "#scierie": {
+    label: "Scierie",
+    id: "scierie",
     component: ThePlancheInterface,
   }
 };

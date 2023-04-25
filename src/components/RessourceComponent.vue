@@ -121,7 +121,7 @@ const d = ref(`M 0 -5 Q ${props.ressourceSize / 4} -10, ${props.ressourceSize / 
 <style scoped>
 .icon {
     height: 30px;
-    z-index: 10;
+    z-index: 4;
     filter: brightness(0) invert(1);
 }
 
@@ -192,7 +192,7 @@ const d = ref(`M 0 -5 Q ${props.ressourceSize / 4} -10, ${props.ressourceSize / 
 
     .icon {
         height: 20px;
-        z-index: 10;
+        z-index: 4;
         filter: brightness(0) invert(1);
     }
 }
