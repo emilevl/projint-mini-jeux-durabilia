@@ -42,10 +42,10 @@ Pour ce jeu, le temps est l'ODD impacté par défaut. Ensuite, les 17 SDG peuven
 
 
 ## STEP
-...
+La Station d'épuration est un jeu de type labyrinthe/puzzle, où il faut connecter les tuyaux entre eux pour créer un chemin de l'entrée à la sortie. Le joueur doit cliquer sur les bouts de tuyaux pour changer leur orientation.
 
 ### ODD impactés
-...
+Le joueur doit dépenser la ressource *Eau*. En retour, il recevra de la *Monnaie* et de l'*Engagement*. S'il perd, il ne recevra que la moitié des ressources attendues.
 
 
 ## Scierie
