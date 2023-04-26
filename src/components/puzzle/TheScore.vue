@@ -67,7 +67,7 @@ const resultSubtitle = computed(() => {
             <ButtonComponent 
                 @click="leaveGame"
                 class="back-map"
-            >Retour à la map</ButtonComponent>
+            >Retour à la carte</ButtonComponent>
         </div>
     </div>
 </template>
