@@ -2,6 +2,23 @@
 import { ref, watchEffect } from 'vue';
 import addTime from 'add-time';
 import { menuOpened } from "../../utils/store.js"
+import anime from 'animejs/lib/anime.es.js';
+import beepSound from '../../assets/sounds/beep.wav'
+
+const props = defineProps({
+    jeuReussi: {
+        type: Boolean,
+        required: true
+    },
+    rulesOpen: {
+        type: Boolean,
+        required: true
+    }
+})
+
+const chrono = ref(null)
+
+const emit = defineEmits(['partieTerminee'])
 
 const minCounter = 1  // nombre de minutes au timer
 let timer = ref(minCounter * 60000)
@@ -40,24 +57,54 @@ function startTimer(newDate) {
         if (distance <= 0) {
             clearInterval(interval)
             time.value = "FIN"
+            emit('partieTerminee', false)
         }
+
+        if (props.jeuReussi) {
+            clearInterval(interval)
+            time.value = "FIN"
+        }
+        
 
         if (menuOpened.value) {
             timer.value = distance
             clearInterval(interval)
         }
-    }, 0)
+
+        if (min == '00' && sec <= '10') playAudio(beepSound)
+
+    }, 1000)
+}
+
+function animChrono() {
+  setTimeout(() => {
+    anime.timeline({
+        targets: '#chrono',
+        easing: 'linear',
+        duration: 300,
+    }).add({
+        scale: [1.2],
+    }).add({
+        scale: [1],
+    }).add({
+        scale: [1.2],
+    }).add({
+        scale: [1],
+})
+  }, 500);
 }
 
 watchEffect(() => {
     if (!menuOpened.value) {
         const newDate = new Date(Date.now() + timer.value);
         startTimer(newDate)
+        animChrono()
     }
+})
+
+function playAudio(url) {
+    new Audio(url).play();
 }
-
-)
-
 </script>
 
 <template>
@@ -77,7 +124,7 @@ img {
 
 #counter {
     font-family: "Limelight", Inter, system-ui, Avenir, Helvetica, Arial,
-    sans-serif;
+        sans-serif;
     color: #FDFCFC;
     display: inline-block;
     font-size: 3vw;

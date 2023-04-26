@@ -3,7 +3,8 @@ import Tile from '../puzzle/tile.vue'
 import { generateMatrix } from '../../utils/generateRandomPath.js';
 import { VerifyMatrix } from '../../utils/verifyPuzzle.js';
 import { computed, watchEffect, ref, reactive } from 'vue'
-//import {VerifyMatrix} from '../../utils/verifyPuzzle.js'
+
+const emit = defineEmits(['partieTerminee'])
 
 
 
@@ -25,14 +26,21 @@ const rotations = [0, 90, 180, 270]
 let totalRandom = 0;
 
 function randomizeRotation(position) {
-    let randomInt = Math.floor(Math.random() * rotations.length)
+
+    // const frozen = randomizeFreeze()
+    const frozen = false
+
+    let randomInt = frozen ? 0 : Math.floor(Math.random() * rotations.length)
     let i = 0
     totalRandom += randomInt;
     while (i < randomInt) {
         rotateSides(position)
         i++
     }
-    return rotations[randomInt]
+    return {
+        rotation: rotations[randomInt],
+        frozen: frozen
+    }
 }
 
 function randomizeFreeze() {
@@ -55,8 +63,12 @@ let totalRotate = 0;
     let last = matrix[position[0]][position[1]].sides.pop();
     matrix[position[0]][position[1]].sides.unshift(last);
     let VerifiedMatrix = VerifyMatrix(matrix);
-    console.log("matrice verif", VerifiedMatrix[0]);
 
+    console.log("matrice verif", VerifiedMatrix[0]);
+    if (VerifiedMatrix != undefined && VerifiedMatrix[1] == true) {
+        //console.log('FINI')
+        emit('partieTerminee', true)
+    }
 
  totalRotate++
     if(totalRotate>totalRandom){
@@ -112,7 +124,6 @@ function lightPath(VerifiedMatrix){
             
             }
         }
-
         
     }
 }
@@ -122,40 +133,47 @@ function lightPath(VerifiedMatrix){
 </script>
 
 <template>
-    <div id="grid-box">
+    <div>
         <img id="pipe_start" src="../../assets/decor/pipe_left.png">
         <img id="img_start" src="../../assets/decor/freeze_left.png">
         <img id="pipe_end" src="../../assets/decor/pipe_right.png">
         <img id="img_end" src="../../assets/decor/freeze_right.png">
-        <div id="grid" class="grid-container">
-            <template v-for="(row, r) in matrix">
-                <div v-for="(col, c) in row" class="grid-item" >
-                    <tile :data-id="`${r}-${c}`" :tileType="col.type" :rotation="randomizeRotation([r, c])" @rotate="rotateSides([r, c])" :dark="true" >
-                    </tile>
-                    <!-- :frozen="randomizeFreeze()" -->
+        <!-- <div id="grid-box"> -->
+            <div id="grid" class="grid-container">
+                <template v-for="(row, r) in matrix">
+                    <div v-for="(col, c) in row" class="grid-item" >
+                        <tile :data-id="`${r}-${c}`" :tileType="col.type" :tileInfos="randomizeRotation([r, c])" @rotate="rotateSides([r, c])" :dark="true" >
+                        </tile>
+                        <!-- :frozen="randomizeFreeze()" -->
                     <!-- :frozen="newMatrix[r][c].value" -->
                     <!--:dark="col"-->
-                </div>
-            </template>
-        </div>
+                    </div>
+                </template>
+            </div>
+        <!-- </div> -->
     </div>
 </template>
 
 <style scoped>
 
-/* #grid-box {
-    position: absolute;
+/* .grid-container::after {
+    display: none;
+}
+#grid-box {
+    display: grid;
+} */
+
+/* position: absolute;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-} */
+    overflow: hidden; */
 .grid-container {
     display: grid;
     grid-template-columns: v-bind(nbColsCss);
     margin: 0 auto;
 
-    height: fit-content;
-    width: fit-content;
+    /* height: fit-content;
+    width: fit-content; */
 
     position: absolute;
     top: 50%;
@@ -164,62 +182,46 @@ function lightPath(VerifiedMatrix){
 }
 
 .grid-item {
+
     background-color: #12313C;
-    width: 16vh;
-    height: 16vh;
+    width: 18vh; 
+    height: 18vh;
+    width: 18dvh;
+    height: 18dvh;
 }
 
 img {
-    height: 48vh;
+    height: 36vh;
+    height: 36dvh;
     position: absolute;
     margin: 0 auto;
 }
 
 #img_start {
-    top: 10vh;
+    top: 5vh;
+    top: 5dvh;
     left: 50%;
     transform: translate(-300%, 0%);
 }
 
 #img_end {
-    bottom: 10vh;
+    bottom: 5vh;
+    bottom: 5dvh;
     right: 50%;
     transform: translate(300%, 0%);
 }
 
 #pipe_start {
-    top: 10vh;
+    top: 5vh;
+    top: 5dvh;
     left: 50%;
     transform: translate(-180%, 0%);
 }
 
 #pipe_end {
-    bottom: 10vh;
+    bottom: 5vh;
+    bottom: 5dvh;
     right: 50%;
     transform: translate(180%, 0%);
-}
-
-
-@media (orientation: portrait) {
-    .grid-item {
-        width: 16vw;
-        height: 16vw;
-    }
-
-    img {
-        height: 48vw;
-    }
-
-    /* #img_start {
-        top: 10vw;
-        left: 50%;
-        transform: translate(-213%, 0%);
-    }
-
-    #img_end {
-        bottom: 10vw;
-        right: 50%;
-        transform: translate(213%, 0%);
-    } */
 }
 </style>

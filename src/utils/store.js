@@ -18,33 +18,40 @@ export const ressourceGlobal = ref([
     { name: "Terradiversité", img: "lifeLand", color: "#73BD46", currentLevel: 35 },
     { name: "Justice", img: "peaceJustice", color: "#2A6799", currentLevel: 10 },
     { name: "Engagement", img: "partnership", color: "#254867", currentLevel: 27 },
-    { name: "Temps", img: "time", color: "#BDBDBD", currentLevel: 100 }
+    { name: "Temps", img: "time", color: "#BDBDBD", currentLevel: 100 },
+    { name: "Aléatoire", img: "random", color: "#282828", currentLevel: 0}
 ]);
 
 export const transformers = ref([
     {
         name: "Tribunal",
+        hash: "tribunal",
         type: "Jeu de décision",
         description: "Prenez des décisions en balançant les cartes à gauche ou à droite. Ces décisions auront un petit ou un grand impact sur vos ressources. Vous aurez 5 choix à faire. Le 5ème choix affectera de manière plus conséquente vos ressources ou vos interactions sur la carte.",
         ressourceNecessaire: { name: "Temps" , img: "time", level: -30 },
         ressourceRecue: { name: "Justice" , img: "peaceJustice", level: 30 },
-        consequence: { name: "Aléatoire" , img: "random", level: [-20, 30] }
+        consequence: { name: "Aléatoire" , img: "random", level: [-20, 30] },
+        cinematicIdx: 0
     },
     {
         name: "Scierie",
+        hash: "scierie",
         type: "Jeu de plateforme",
         description: "Atteignez la fin du niveau pour couper le courant de la scierie, tout en évitant les scies et les morceaux de bois qui tombent. ",
         ressourceNecessaire: { name: "Terradiversité" , img: "lifeLand", level: -15 },
-        ressourceRecue: { name: "Croissance" , img: "decentWork", level: 30 },
-        consequence: { name: "CO2" , img: "climateActions", level: [20] }
+        ressourceRecue: { name: "Croissance" , img: "decentWork", level: 10 },
+        consequence: { name: "CO2" , img: "climateActions", level: [20] },
+        cinematicIdx: 2
     },
     {
         name: "STEP",
+        hash: "step",
         type: "Jeu de puzzle",
-        description: "Faites pivotez et connectez les tuyaux, afin de guider les eaux usées à travers la station d'épuration.",
+        description: "Faites pivotez et connectez les tuyaux dans le temps imparti, afin de guider les eaux usées à travers la station d'épuration. Mode de jeu : clicker les tuyaux pour les faire tourner",
         ressourceNecessaire: { name: "Eau" , img: "water", level: -10 },
         ressourceRecue: { name: "Monnaie" , img: "poverty", level: 15 },
-        consequence: { name: "Engagement" , img: "partnership", level: [30] }
+        consequence: { name: "Engagement" , img: "partnership", level: [30] },
+        cinematicIdx: 1
     }
 ])
 

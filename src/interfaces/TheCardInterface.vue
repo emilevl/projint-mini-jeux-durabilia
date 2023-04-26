@@ -33,12 +33,18 @@ let cardSelection = ref([]);
 const endGame = ref(false);
 const pauseGame = ref(false);
 const cardMoved = ref(false);
+const mobileImgExtension = ref("");
 loadDataCards();
 
 
 onMounted(() => {
 
   iCurrentCard.value = handCards.value.length - 1;
+  setEventListeners();
+  // matchmedia to change the image extension for mobile
+  if (window.matchMedia("(max-width: 1050px)").matches) {
+    mobileImgExtension.value = "-mobile";
+  }
 });
 
 watchEffect(() => {
@@ -55,11 +61,10 @@ watchEffect(() => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+// document.addEventListener("DOMContentLoaded", () => {
   
   
   mouseMoveHandler = (event) => {
-    console.log("touchCArds")
     const card = document.querySelector(`#card-${iCurrentCard.value}`);
     const band = card.querySelector(`.flip-card-band`);
     if (!card) return;
@@ -85,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ((event.clientX - windowCenterX) / windowCenterX) * tiltRange;
     card.style.transform = `rotate(${tilt}deg) translate(calc(-50% - ${
       7 * iCurrentCard.value
-    }px), calc(-60% + ${2 * iCurrentCard.value}px))`;
+    }px), calc(-52% + ${2 * iCurrentCard.value}px))`;
   };
   
   let initialTouchX = null;
@@ -144,25 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cardMoved.value = false;
     }
   };
-    setEventListeners();
-  });
-  
-  // TODO: Detect if the user is on a mobile device or not
-  // const platform = navigator.platform.toLowerCase();
-  //   if (/(android|webos|iphone|ipad|ipod|blackberry|windows phone)/.test(platform)) {
-  //       // this.deviceType = 'mobile';
-  //       console.log("mobile")
-  //   } else if (/mac|win|linux/i.test(platform)) {
-  //       // this.deviceType = 'desktop';
-  //       console.log("desktop")
-  //   } else if (/tablet|ipad/i.test(platform)) {
-  //       // this.deviceType = 'tablet';
-  //       console.log("tablet")
-  //   } else {
-  //       // this.deviceType = 'unknown';
-  //       console.log("unknown")
-  //   }
-  //select the #app element
+
 
 
 function loadDataCards() {
@@ -180,20 +167,9 @@ function drawCards() {
     tempCards.splice(randomIndex, 1);
   }
   cardsDrawn.value = true;
-
-  // for(const card of handCardsCopy.value) {
-  //   console.log("test")
-  //   console.log(card)
-  // }
 }
 
 drawCards();
-// create a new array with 5 of the dataCards objects
-// for (let i = 0; i < 5; i++) {
-//   // add the card from the dataCards object to the handCards array
-//   handCards.value.push(dataCardsJson.cards[i]);
-//   // dataCards.cards[i].id = i
-// }
 
 function decisionDone() {
 
@@ -201,7 +177,7 @@ function decisionDone() {
 
   // add a style to the ressources to make their fill color
   // change to the color of the decision
-  removeEventListener();
+  unsetEventListener();
 
   iconColored.value = true;
   
@@ -219,7 +195,6 @@ function decisionDone() {
   }
 
   // animate the card to leave the page from the left or right, down
-  // console.log(iCurrentCard.value)
   const card = document.querySelector(
     `#card-${iCurrentCard.value} .flip-card-inner`    
   );
@@ -261,7 +236,7 @@ const windowCenterX = window.innerWidth / 2;
 
 
   function setEventListeners() {
-    if (window.innerWidth > 1050) {
+    if (window.matchMedia("(min-width: 1050px)").matches) {
       document.addEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").addEventListener("click", updateCardDecision);
     } else {
@@ -273,11 +248,12 @@ const windowCenterX = window.innerWidth / 2;
     }
   }
 
-  function removeEventListener() {
-    if (window.innerWidth > 1050) {
+  function unsetEventListener() {
+    if (window.matchMedia("(min-width: 1050px)").matches) {
       document.removeEventListener("mousemove", mouseMoveHandler);
       document.querySelector("#clickable-part").removeEventListener("click", updateCardDecision);
     } else {
+      if (endGame.value) return;
       document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchmove", touchMoveHandler);
       document.querySelector(`#card-${iCurrentCard.value} .flip-card-inner`).removeEventListener("touchend", decisionDone);
     }
@@ -309,14 +285,9 @@ function cardLoaded() {
   setTimeout(() => {
     turnCard();
   }, 500);
-  console.log("card loaded");
-  // if (iCurrentCard.value === 0) {
-  //   setListeners();
-  // }
 }
 
 function togglePauseGame() {
-  console.log("pause");
   if (pauseGame.value) {
     document.addEventListener("mousemove", mouseMoveHandler);
     document
@@ -332,10 +303,6 @@ function togglePauseGame() {
   }
 }
 
-function infoPlayer() {
-  console.log("info player");
-}
-
 function getRessourceNameByImg(imgName) {
   const ressource = ressourceGlobal.value.find((r) => r.img === imgName);
   return ressource ? ressource.name : '';
@@ -349,27 +316,21 @@ function donePlaying() {
   handCards.value = [];
 }
 
-const activeRules = ref(true)
-function toggleRules(){
-  activeRules.value = !activeRules.value
-}
-
 async function  fetchSvgContent(icon) {
     const response = await fetch(`/assets/icons/${icon}.svg`);
     const content = await response.text();
     return content;
   }
 
-// TODO: Function to remove / add all the event listeners in one time ? 
-
 onUnmounted(() => {
-  document.removeEventListener("mousemove", mouseMoveHandler);
+  unsetEventListener();
+  // document.removeEventListener("mousemove", mouseMoveHandler);
 });
 </script>
 
 
 <template>
-  <div class="main-page">
+  <div class="main-page" :style="{ backgroundImage: 'url(/assets/cinematics/court-light' + mobileImgExtension + '.jpg)' }">
     <div id="clickable-part">
       <div id="description-current-card">
         <h2>Description</h2>
@@ -377,10 +338,6 @@ onUnmounted(() => {
       </div>
     </div>
     <h1 to="/" class="pause-game" @click="togglePauseGame()">Menu</h1>
-
-    <!-- <div class="cardNo-onNo">
-      <h1>{{ TOTAL_CARDS - iCurrentCard }} / {{ TOTAL_CARDS }}</h1>
-    </div> -->
 
     <div id="cards">
       <Card
@@ -395,28 +352,28 @@ onUnmounted(() => {
         @card-loaded="cardLoaded"
       ></Card>
     </div>
-    <!-- <div id="player-info" @click="infoPlayer()"><img src="src/assets/icons/player.svg"></div> -->
-  </div>
-  <div class="ressources-impact">
-    <div
-      v-for="ressource of handCards[iCurrentCard].responses[iChoice].impact"
-      :class="`ressource-icon-wrapper ${iconColored ? ressource.level > 0 ? 'ressource-icon-red' : 'ressource-icon-green': ''} ${cardsDrawn && cardMoved ? '' : 'display-none'}`"
-    >
-      <div class="circle-container">
-        <div
-          class="circle"
-          :style="{
-            height: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
-            width: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
-          }"
+
+    <div class="ressources-impact">
+      <div
+        v-for="ressource of handCards[iCurrentCard].responses[iChoice].impact"
+        :class="`ressource-icon-wrapper ${iconColored ? ressource.level < 0 ? 'ressource-icon-red' : 'ressource-icon-green': ''} ${cardsDrawn && cardMoved ? '' : 'display-none'}`"
+      >
+        <div class="circle-container">
+          <div
+            class="circle"
+            :style="{
+              height: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
+              width: `${Math.pow((Math.abs(ressource.level) / 10), 1.5) + 5}px`,
+            }"
+          ></div>
+        </div>
+  
+        <div 
+          v-html="svgContent[ressource.ressource]"
         ></div>
+  
+        <p> {{ getRessourceNameByImg(ressource.ressource) }}</p>
       </div>
-
-      <div 
-        v-html="svgContent[ressource.ressource]"
-      ></div>
-
-      <p> {{ getRessourceNameByImg(ressource.ressource) }}</p>
     </div>
   </div>
 
@@ -426,7 +383,6 @@ onUnmounted(() => {
     :transformer="CURRENT_TRANSFORMER"
     @resumeGame="togglePauseGame"
   ></ThePause>
-  <popupRules v-if="activeRules" :transformer="CURRENT_TRANSFORMER" :gameLaunched="false" @emitPlay="toggleRules()"></popupRules>
 </template>
   
 <style>
@@ -439,11 +395,6 @@ onUnmounted(() => {
 }
 
 #description-current-card {
-  /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 20px;
-    max-width: 500px; */
   position: absolute;
   left: 0;
   margin: 0 0 0 5%;
@@ -479,6 +430,9 @@ onUnmounted(() => {
 .main-page {
   display: flex;
   justify-content: center;
+  height: 100vh;
+  background-size: cover;
+  background-position: bottom;
 }
 
 #clickable-part {
@@ -513,15 +467,6 @@ onUnmounted(() => {
   text-align: center;
   text-align: left;
 }
-/* #cards {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: normal;
-        align-items: normal;
-        align-content: normal;
-        gap: 32px;
-      } */
 
 #ressources {
   display: flex;
@@ -538,7 +483,7 @@ onUnmounted(() => {
   flex-direction: row;
   justify-content: center;
   gap: 20px;
-  /* position: absolute; */
+  position: absolute;
   bottom: 10px;
   margin: 35px auto;
 }
@@ -635,6 +580,7 @@ onUnmounted(() => {
     position: absolute;
     bottom: 5px;
     margin: 10px 10px;
+    left: 10px;
   }
 
   .ressources-impact .ressource-icon-wrapper {
@@ -653,7 +599,7 @@ onUnmounted(() => {
 
   .ressources-impact .ressource-icon-wrapper p {
     font-size: 0.8rem;
-    padding-top: 5px;
+    padding-top: 0px;
   }
 
   .ressources-impact .circle-container {
@@ -664,37 +610,5 @@ onUnmounted(() => {
     align-items: end;
   }
 }
-/* @media (max-width: 900px) {
-
-    #main-title {
-      font-size: 1.5rem;
-      margin: 5px 0 0;
-    }
-
-    .bottom-text {
-        bottom: 5px;
-    }
-    
-    .bottom-text p {
-        font-size: 0.9em;
-    }
-
-    #description-current-card {
-      margin-left: 5px;
-      max-width: 275px;
-      position: absolute;
-      top: 50px;
-    }
-
-    #description-current-card h1 {
-        font-size: 1.3rem;
-        margin: 0;
-    }
-
-    #description-current-card p {
-        font-size: 0.9em;
-        margin: 5px 0 0;
-    }
-} */
 </style>
   

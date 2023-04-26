@@ -1,0 +1,40 @@
+{
+    "games" : [
+        {
+            "name": "Tribunal",
+            "background": "court",
+            "dialogs": [
+                {"character" : "player", "text": "Bonjour M. le juge !"},
+                {"character" : "player", "text": "Oh bonjour, t’es enfin là !"},
+                {"character" : "judge", "text": "Je pars à la retraite, ravi que tu prennes la relève !"},
+                {"character" : "player", "text": "Mais, mais, Monsieur le juge ..."}
+            ]
+        },
+
+        {
+            "name": "STEP",
+            "background": "step",
+            "dialogs": [
+                {"character" : "player", "text": "Bonjour M. l'agent !"},
+                {"character" : "agent", "text": "Oh bonjour, je suis ravi que tu sois là..."},
+                {"character" : "player", "text": "Qu'est-ce qu'il se passe ?"},
+                {"character" : "agent", "text": "Il a fait super froid et les tuyaux ont cassé à cause de la température négative..."},
+                {"character" : "agent", "text": "Est-ce que tu peux nous aider à les réparer ?"}
+            ]
+        },
+
+        {
+            "name": "Scierie",
+            "background": "sawmill",
+            "dialogs": [
+                {"character" : "player", "text": "Bonjour M. scieur, y a-t-il un problème ?"},
+                {"character" : "sawyer", "text": "Oh oui, merci beaucoup d'être là !"},
+                {"character" : "sawyer", "text": "Le boss a voulu accélérer la cadence des machines."},
+                {"character" : "sawyer", "text": "Les machines sont dysfonctionnelles à cause de la surchauffe, peux-tu nous aider ?"},
+                {"character" : "player", "text": "Oui, bien sûr, qu'est-ce qu'il faut faire ?"},
+                {"character" : "sawyer", "text": "Il faut traverser toute la scierie et tu sauras quoi faire une fois sur place !"}
+            ]
+        }
+    ]
+
+}

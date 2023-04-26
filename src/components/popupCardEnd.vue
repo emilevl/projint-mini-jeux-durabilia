@@ -9,14 +9,16 @@ const props = defineProps({
     cardSelection: Array
 })
 
-const emit = defineEmits([
-    'closeRecap',
-]);
-
 //Get current transformer
 const CURRENT_TRANSFORMER = transformers.value.find(
     (transformer) => transformer.name == "Tribunal"
 );
+
+//Set size of ressource
+const RESSOURCE_SIZE = ref(100)
+if (window.innerWidth < 1050) {
+    RESSOURCE_SIZE.value = 60
+}
 
 //Store the impact of the cards from the choices of the player
 let playerChoices = ref([[], [], [], [], []])
@@ -80,7 +82,7 @@ onMounted(() => {
 })
 
 //Manage the nav between the choices
-let activeSection = ref("recap")
+let activeSection = ref("Résumé")
 function changeSection(id) {
     if (activeSection.value != id) {
         activeSection.value = id
@@ -89,18 +91,26 @@ function changeSection(id) {
     }
 }
 
-function setNewRessources() {
+function endGame() {
     totalImpact.value.forEach(ressource => {
         ressourceGlobal.value.forEach(glob => {
             if (glob.img == ressource.ressource) {
                 //glob.currentLevel += ressource.impact
+                //Ici, il faut modifier le niveau des ressources liées au joueur
             }
         })
     });
+    window.location.hash = ""
+}
+
+//Manage the dropdown menu
+const showDropDown = ref(false)
+function toggleDropDown() {
+    showDropDown.value = !showDropDown.value
 }
 
 const ressourceReset = ref(false)
-function toggleRessourceReset(){
+function toggleRessourceReset() {
     ressourceReset.value = !ressourceReset.value
 }
 </script>
@@ -113,18 +123,29 @@ function toggleRessourceReset(){
 
         <div class="content">
             <div class="navbar">
-                <buttonComponent class="navbar-option button" id="recap" :class="{ active: activeSection == 'recap' }"
-                    @click="changeSection($event.target.id)">Résumé</buttonComponent>
-                <buttonComponent class="navbar-option button" v-for="n in 5" :id="`choix-${n}`"
-                    :class="{ active: activeSection == `choix-${n}` }" @click="changeSection($event.target.id)">Carte {{ n
-                    }}</buttonComponent>
+                <div class="drop-down-options">
+                    <div class="drop-down-placeholder-container" @click="toggleDropDown()">
+                        <p class="drop-down-placeholder-text">{{ activeSection }}</p>
+                        <img class="drop-down-symbol" src="/assets/icons/down-arrow.svg"
+                            :class="{ placeholderActive: showDropDown }">
+                    </div>
+                    <p v-show="showDropDown" class="navbar-option button" id="Résumé"
+                        :class="{ active: activeSection == 'Résumé' }"
+                        @click="changeSection($event.target.id), toggleDropDown()">Résumé</p>
+                    <p v-show="showDropDown" class="navbar-option button" v-for="n in 5" :id="`Carte ${n}`"
+                        :class="{ active: activeSection == `Carte ${n}` }"
+                        @click="changeSection($event.target.id), toggleDropDown()">Carte {{
+                            n
+                        }}</p>
+                </div>
             </div>
 
-            <section class="detail-section" id="recap-section" v-show="activeSection == 'recap'">
-                <RessourceComponent v-for="impact of totalImpact" :img="impact.ressource" :impactLevel="impact.impact" :ressourceSize="100" :ressourceReset="ressourceReset"></RessourceComponent>
+            <section class="detail-section" id="Résumé-section" v-show="activeSection == 'Résumé'">
+                <RessourceComponent v-for="impact of totalImpact" :img="impact.ressource" :impactLevel="impact.impact"
+                    :ressourceSize="RESSOURCE_SIZE" :ressourceReset="ressourceReset"></RessourceComponent>
             </section>
             <section v-for="n in 5" class="detail-section choice-section" :id="`choix-${n}-section`"
-                v-show="activeSection == `choix-${n}`">
+                v-show="activeSection == `Carte ${n}`">
                 <!-- CARDS -->
                 <div class="card-container">
                     <CardBack class="card-details" :title="props.cardSelection[n - 1].title"
@@ -135,12 +156,13 @@ function toggleRessourceReset(){
 
                 <div class="bar-container">
                     <RessourceComponent v-for="impact of playerChoices[n - 1]" :img="impact.ressource"
-                        :impactLevel="impact.level" :ressourceSize="100" :ressourceReset="ressourceReset"></RessourceComponent>
+                        :impactLevel="impact.level" :ressourceSize="RESSOURCE_SIZE" :ressourceReset="ressourceReset">
+                    </RessourceComponent>
                 </div>
             </section>
         </div>
 
-        <ButtonComponent class="back-to-map" @click="$emit('closeRecap'); setNewRessources()">Retour à la carte
+        <ButtonComponent class="back-to-map" @click="endGame()">Retour à la carte
         </ButtonComponent>
     </div>
 </template>
@@ -180,10 +202,57 @@ function toggleRessourceReset(){
 }
 
 .navbar {
+    cursor: pointer;
+    position: absolute;
     display: flex;
     flex-direction: row;
     justify-content: center;
     justify-content: space-evenly;
+    z-index: 5;
+    background-color: #FBF8F1;
+    border-radius: 20px 0px;
+    padding: 10px;
+    margin-left: 50px;
+    text-align: left;
+    top: 130px;
+    border: 1px solid black
+}
+
+.navbar p {
+    font-size: 1em;
+}
+
+.navbar p:hover {
+    font-weight: bold;
+}
+
+.navbar-option {
+    padding-top: 5px;
+    border-radius: 20px 0px;
+}
+
+.drop-down-placeholder-container {
+    display: flex;
+    justify-content: space-between;
+    width: 90px;
+}
+
+.drop-down-symbol {
+    transition: 0.4s;
+    width: 22px;
+}
+
+.placeholderActive {
+    transform: rotate(180deg);
+}
+
+.drop-down-options {
+    display: flex;
+    flex-direction: column;
+}
+
+.active {
+    display: none;
 }
 
 .detail-section {
@@ -192,6 +261,7 @@ function toggleRessourceReset(){
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     padding-left: 30px;
     padding-right: 30px;
+    margin-top: 30px;
 }
 
 .card-container,
@@ -220,18 +290,17 @@ function toggleRessourceReset(){
     bottom: 0;
     margin-bottom: 50px;
     transform: translate(-50%, 0);
-}
-
-.active {
     background-color: black;
     color: #FBF8F1;
     border-radius: 20px 0px;
+}
+.back-to-map:hover {
+    opacity: 0.5;
 }
 
 /* --------------------------- CARDS --------------------------------------- */
 .card-details {
     transform: unset;
-    position: unset;
     width: 250px;
     height: 350px;
 }
@@ -251,11 +320,88 @@ function toggleRessourceReset(){
 }
 
 .card-details:deep(.flip-card-band) {
-    position: relative;
     height: 17%;
-    bottom: unset;
 }
 
 /* ------------------------------- MOBILE ----------------------------------- */
 
-@media screen and (max-width: 1050px) {}</style>
+@media screen and (max-width: 1050px) {
+    .recap-container {
+        width: 600px;
+        height: 320px;
+        padding: 0px;
+    }
+
+    .button {
+        font-size: 0.8em;
+        color: black;
+        background-color: #FBF8F1;
+    }
+
+    .navbar {
+        top: 45px;
+        margin-left: 20px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .navbar p {
+        font-size: 0.8em;
+    }
+
+    .title {
+        font-size: 1.2em;
+    }
+
+    .content {
+        width: 100%;
+        height: 300px;
+    }
+
+    .detail-section {
+        height: 200px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-top: 15px;
+    }
+
+    .back-to-map {
+        margin-bottom: 15px;
+        font-size: 0.8em;
+        border-radius: 10px 0px;
+    }
+
+    /* Cards */
+    .card-details {
+        transform: unset;
+        width: 150px;
+        height: 200px;
+    }
+
+    .card-details:deep(.card-title) {
+        font-size: 0.8em;
+        padding: 5px 5px 0 5px;
+    }
+
+    .card-details:deep(.card-question) {
+        font-size: 0.5em;
+        padding: 0px 15px;
+    }
+
+    .card-details:deep(.flip-card-response) {
+        font-size: 0.5em;
+    }
+
+    .card-details:deep(.flip-card-band) {
+        height: 17%;
+    }
+
+    .card-container,
+    .bar-container {
+        width: 40%;
+    }
+
+    .choice-section {
+        gap: 20px;
+    }
+}</style>

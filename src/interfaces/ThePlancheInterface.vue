@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { transformers } from "../utils/store.js";
 import ThePause from "../components/ThePause.vue";
+import TheScoreScierie from "../components/TheScoreScierie.vue";
 import { computed } from "@vue/reactivity";
 const CURRENT_TRANSFORMER = transformers.value.find((transformer) => transformer.name == "Scierie");
 
@@ -42,10 +43,10 @@ let chronoStartTime;
 let timeBeforePause = 0;
 let chrono = ref();
 let chronoDisplay = computed(() => {
-    if (!pauseGame.value) {
-        return formatTime(chrono.value);
-    } else {
+    if (pauseGame.value || finishGame.value) {
         return formatTime(timeBeforePause);
+    } else {
+        return formatTime(chrono.value);
     }
 });
 let timer;
@@ -97,7 +98,9 @@ let buttonControllerReleased = false;
 let leftButton, rightButton, jumpButton;
 
 // Audio
-let bonk;
+let bgMusic, popSound, bonk, jumpSound, winSound;
+
+let finishGame = ref(false)
 
 let game = new Phaser.Game(config);
 
@@ -154,7 +157,11 @@ function preload() {
     this.load.image("jumpButton", "assets/scierie/jumpButton.png");
 
     // Audio
+    this.load.audio("bgMusic", "assets/scierie/audio/bgMusic.mp3");
+    this.load.audio("jumpSound", "assets/scierie/audio/jumpSound.mp3");
+    this.load.audio("popSound", "assets/scierie/audio/popSound.mp3");
     this.load.audio("bonk", "assets/scierie/audio/bonk.mp3");
+    this.load.audio("winSound", "assets/scierie/audio/winSound.mp3");
 }
 
 function create() {
@@ -165,7 +172,15 @@ function create() {
         this.cameras.main.zoom = 0.6;
     }
 
+    // Audio
+    bgMusic = this.sound.add("bgMusic", { loop: true });
+    bgMusic.config.volume = 0.15
+    bgMusic.play();
+
+    popSound = this.sound.add("popSound", { loop: false });
     bonk = this.sound.add("bonk", { loop: false });
+    jumpSound = this.sound.add("jumpSound", { loop: false });
+    winSound = this.sound.add("winSound", { loop: false });
 
     this.cameras.main.setBounds(0, 0, 1000000, 100000);
     this.physics.world.setBounds(0, 0, 1000000, 100000);
@@ -174,10 +189,13 @@ function create() {
 
     this.physics.world.setFPS(120);
 
+    // Pause on esc key press
+    this.input.keyboard.on('keydown_ESC', togglePauseGame, this);
+
     // create the Tilemap
     const map = this.make.tilemap({ key: "tilemap" });
 
-    // add the tileset image we are using
+    // Add the tileset image we are using
     const tileset = map.addTilesetImage("tiles-basic", "base_tiles");
 
     let bg = map.createDynamicLayer("bg", tileset);
@@ -188,13 +206,13 @@ function create() {
 
     let saw = map.createDynamicLayer("saw", tileset);
 
-    // The player and its settings
+    // Player and its settings
     player = this.physics.add
         .sprite(spawnPoint.x, spawnPoint.y, "player")
         .setCollideWorldBounds(true)
         .setBounce(0);
 
-    //  Our player animations, walking left and walking right.
+    // Player animations
     this.anims.create({
         key: "left",
         frames: [{ key: "player", frame: 0 }],
@@ -209,21 +227,21 @@ function create() {
 
     this.anims.create({
         key: "jump",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 11 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 12 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "jumpRight",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 11 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 0, end: 12 }),
         frameRate: 81,
         repeat: 0,
     });
 
     this.anims.create({
         key: "jumpLeft",
-        frames: this.anims.generateFrameNumbers("playerJump", { start: 12, end: 23 }),
+        frames: this.anims.generateFrameNumbers("playerJump", { start: 13, end: 24 }),
         frameRate: 81,
         repeat: 0,
     });
@@ -346,18 +364,19 @@ function create() {
         pad1 = pad;
     });
 
-
-    //console.log(this.sys.game.device.os.iOS || this.sys.game.device.os.android);
     if(this.sys.game.device.os.iOS || this.sys.game.device.os.android) {
         leftButton = this.add.sprite(game.config.width/4,200,"leftButton").setScale(0.8);
         rightButton = this.add.sprite(game.config.width*1/2,200,"rightButton").setScale(0.8);
         jumpButton = this.add.sprite(game.config.width,200,"jumpButton").setScale(0.8);
     }
-    
-    
 }
 
 function update() {
+
+    if(window.location.hash == ''){
+        game.destroy(true)
+    }
+
     if (pauseGame.value || playerDead.value) {
         this.physics.pause();
     } else {
@@ -440,7 +459,8 @@ function update() {
         movingPlatform.setVelocityX(-movingSawsSpeed);
     }
 
-    // Movements controls
+
+    /* Movements controls */
 
     if (player.body.blocked.down) {
         canJump = true;
@@ -451,7 +471,8 @@ function update() {
         console.log(player);
     }
 
-    if (cursors.left.isDown) {
+
+    if (cursors.left.isDown && !playerDead.value) {
         if (playerActualVelocity < playerVelocity) {
             playerActualVelocity += 50;
         }
@@ -459,7 +480,7 @@ function update() {
         if (player.body.blocked.down) {
             player.anims.play("left", true);
         }
-    } else if (cursors.right.isDown) {
+    } else if (cursors.right.isDown && !playerDead.value) {
         if (playerActualVelocity < playerVelocity) {
             playerActualVelocity += 50;
         }
@@ -467,20 +488,22 @@ function update() {
         if (player.body.blocked.down) {
             player.anims.play("right", true);
         }
-    } else if (!this.input.pointer1.isDown && !this.input.pointer2.isDown) {
+    } else if (!this.input.pointer1.isDown && !this.input.pointer2.isDown && !playerDead.value) {
         playerActualVelocity = 0;
         player.setVelocityX(0);
     }
 
     // Jump
-    if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
+    if (Phaser.Input.Keyboard.JustDown(cursors.space) && !playerDead.value) {
         if (!player.body.blocked.down && canJump) {
+            jumpSound.play();
             canJump = false;
             player.setVelocityY(-playerJumpVelocity);
             player.anims.play("jump", true);
         }
 
         if (player.body.blocked.down) {
+            jumpSound.play();
             canDoubleJump = true;
             player.setVelocityY(-playerJumpVelocity);
             player.anims.play("jump", true);
@@ -491,6 +514,7 @@ function update() {
                 player.anims.play("jumpLeft", true);
             }
         } else if (!player.body.blocked.down && canDoubleJump) {
+            jumpSound.play();
             canDoubleJump = false;
             player.setVelocityY(-playerJumpVelocity);
             player.anims.play("jump", true);
@@ -504,7 +528,7 @@ function update() {
     }
 
     // Mobile handeling of the jump
-    if (this.input.pointer1.isDown || this.input.pointer2.isDown) {
+    if (this.input.pointer1.isDown  && !playerDead.value || this.input.pointer2.isDown && !playerDead.value) {
         if (
             this.input.pointer1.position.x < game.config.width / 4 ||
             (this.input.pointer2.position.x < game.config.width / 4 &&
@@ -535,7 +559,7 @@ function update() {
         if (
             (this.input.pointer1.justDown &&
                 this.input.pointer1.position.x > game.config.width / 2) ||
-            (this.input.pointer2.justDown && this.input.pointer2.position.x > game.config.width / 2)
+            (this.input.pointer2.justDown && this.input.pointer2.position.x > game.config.width / 2)  && !playerDead.value
         ) {
             if (player.body.blocked.down) {
                 canDoubleJump = true;
@@ -606,8 +630,10 @@ function replaceObjects() {
 }
 
 async function killPlayer(player, hitter) {
-    // Disable input
+    // Disable inputs
     this.input.enabled = false;
+
+    player.body.velocity.set(0,0)
 
     // Death sound
     if(hitter.texture != undefined) {
@@ -616,11 +642,11 @@ async function killPlayer(player, hitter) {
             bonk.play();
             break;
         default:
+            popSound.play();
             break;
         }
     }
-    
-    
+
     playerDead.value = true;
     this.physics.pause();
 
@@ -628,94 +654,56 @@ async function killPlayer(player, hitter) {
         if (hitter.texture != undefined && hitter.texture.key == "log") {
         hitter.destroy();
     }
-
         deathCount++;
 
+        // Manage chrono
         await delay(500);
         chronoStartTime = new Date();
         timeBeforePause = 0
 
+        // Replace player and elements
         player.setPosition(spawnPoint.x, spawnPoint.y);
         replaceObjects();
 
+        // Make playable again
         playerDead.value = false;
         this.input.enabled = true;
         this.physics.resume();
     });
-    
-    
-
-    
-
-    
 }
-
-// Function to handle player hitted by a log
-/* function hitLogs(player, log) {
-    console.log(log.texture.key);
-    bonk.play();
-    this.physics.pause();
-
-    deathCount++;
-    chronoStartTime = new Date();
-    timeBeforePause = 0
-
-    player.setPosition(spawnPoint.x, spawnPoint.y);
-    replaceObjects();
-    log.destroy();
-
-    this.physics.resume();
-}
-
-Function to handle if the player hits a saw
-async function hitSaws(player, saw) {
-    playerDead.value = true;
-    this.physics.pause();
-    player.anims.play("playerKilled", false);
-
-    deathCount++;
-
-    await delay(200);
-    chronoStartTime = new Date();
-    timeBeforePause = 0
-
-    player.setPosition(spawnPoint.x, spawnPoint.y);
-    replaceObjects();
-
-    playerDead.value = false;
-    this.physics.resume();
-
-} */
 
 function endGame(player, endMachine) {
+    // Manage audio ending
+    bgMusic.stop();
+    winSound.play();
+
+    timeBeforePause = chrono.value;
+
     // Stop the scene
-    this.scene.pause();
-    
-    const finalTime = formatTime(chrono.value);
-
-    
+    finishGame.value = true
+    this.physics.pause();
 }
-
-/* setInterval(function () {
-        console.log("test");
-}, 1000); */
 
 function delay(milliseconds) {
     return new Promise((resolve) => {
         setTimeout(resolve, milliseconds);
     });
 }
+
 </script>
 
 <template>
-    <!-- <h1>Planche</h1> -->
-    <!-- <h1 id="chrono">00'00</h1> -->
     <h1 to="/" class="pause-game" @click="togglePauseGame()">Menu</h1>
     <ThePause
         v-if="pauseGame"
         :transformer="CURRENT_TRANSFORMER"
         @resumeGame="togglePauseGame"
     ></ThePause>
+    <TheScoreScierie 
+            v-if="finishGame"
+            :time="chronoDisplay"
+            :transformer="CURRENT_TRANSFORMER"
+    ></TheScoreScierie>
     <h1 id="chrono">{{ chronoDisplay }}</h1>
     <h2 v-if="playerDead" id="death-message">Touché</h2>
 </template>

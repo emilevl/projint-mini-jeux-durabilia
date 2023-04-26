@@ -9,8 +9,8 @@
                 {
                     "name": "Oui, construisons le barrage.",
                     "impact": [
-                        {"ressource": "lifeAquatic", "level": -10},
                         {"ressource": "energy", "level": 20},
+                        {"ressource": "lifeAquatic", "level": -10},
                         {"ressource": "communities", "level": 20}
                         
                         
@@ -19,8 +19,8 @@
                 {
                     "name": "Non, ne touchons pas à la rivière.",
                     "impact": [
-                        {"ressource": "lifeAquatic", "level": 10},
                         {"ressource": "energy", "level": -10},
+                        {"ressource": "lifeAquatic", "level": 10},
                         {"ressource": "communities", "level": -20}
                         
                     ]
@@ -37,16 +37,16 @@
                     "name": "Oui, arrêtons la pêche de masse.",
                     "impact": [
                         {"ressource": "hunger", "level": -20},
-                        {"ressource": "poverty", "level": -20},
-                        {"ressource": "lifeAquatic", "level": 20}
+                        {"ressource": "lifeAquatic", "level": 20},
+                        {"ressource": "poverty", "level": -20}
                     ]
                 },
                 {
                     "name": "Non, c'est malheureux, mais il faut continuer la pêche de masse.",
                     "impact": [
                         {"ressource": "decentWork", "level": 10},
-                        {"ressource": "poverty", "level": 10},
-                        {"ressource": "lifeAquatic", "level": -30}
+                        {"ressource": "lifeAquatic", "level": -30},
+                        {"ressource": "poverty", "level": 10}
                     ]
                 }
             ]
@@ -82,9 +82,9 @@
                 {
                     "name": "Rénovons nos routes et créons des chantiers !",
                     "impact": [
+                        {"ressource": "poverty", "level": -30},
                         {"ressource": "inequality", "level": 30},
-                        {"ressource": "innovation", "level": 10},
-                        {"ressource": "poverty", "level": -30}
+                        {"ressource": "innovation", "level": 10}
                     ]
                 },
                 {
@@ -104,8 +104,8 @@
                 {
                     "name": "Oui, aidons le corps médical.",
                     "impact": [
-                        {"ressource": "communities", "level": 20},
                         {"ressource": "health", "level": 30},
+                        {"ressource": "communities", "level": 20},
                         {"ressource": "decentWork", "level": -10}
                     ]
                 },
@@ -127,8 +127,8 @@
                 {
                     "name": "Oui, accordons les fonds.",
                     "impact": [
-                        {"ressource": "poverty", "level": -10},
                         {"ressource": "health", "level": 30},
+                        {"ressource": "poverty", "level": -10},
                         {"ressource": "education", "level": 10}
                     ]
                 },
@@ -153,8 +153,8 @@
                     "name": "Oui, créons des classes.",
                     "impact": [
                         {"ressource": "education", "level": 30},
-                        {"ressource": "communities", "level": 10},
-                        {"ressource": "inequality", "level": 10}
+                        {"ressource": "inequality", "level": 10},
+                        {"ressource": "communities", "level": 10}
                     ]
                 },
                 {
@@ -227,18 +227,18 @@
                 {
                     "name": "Oui, mettons en place ce type de programmes.",
                     "impact": [
+                        {"ressource": "poverty", "level": -10},
                         {"ressource": "genderEquality", "level": 30},
-                        {"ressource": "partnership", "level": 10},
-                        {"ressource": "poverty", "level": -10}
+                        {"ressource": "partnership", "level": 10}
  
                     ]
                 },
                 {
                     "name": "Non, il est trop difficile de pallier ces problèmes en faisant de la prévention.",
                     "impact": [
+                        {"ressource": "health", "level": -10},
                         {"ressource": "genderEquality", "level": -20},
-                        {"ressource": "partnership", "level": -10},
-                        {"ressource": "health", "level": -10}
+                        {"ressource": "partnership", "level": -10}
                         
                         
                     ]
@@ -255,19 +255,19 @@
                 {
                     "name": "Oui, investissons dans les énergies vertes.",
                     "impact": [
+                        {"ressource": "energy", "level": -20},
                         {"ressource": "climateActions", "level": 30},
                         {"ressource": "consumption", "level": 20},
-                        {"ressource": "poverty", "level": -30},
-                        {"ressource": "energy", "level": -20}
+                        {"ressource": "poverty", "level": -30}
                     ]
                 },
                 {
                     "name": "Attendons qu'elles soient plus rentables.",
                     "impact": [
                         {"ressource": "energy", "level": 20},
-                        {"ressource": "decentWork", "level": 20},
                         {"ressource": "climateActions", "level": -20},
-                        {"ressource": "consumption", "level": -20}
+                        {"ressource": "consumption", "level": -20},
+                        {"ressource": "decentWork", "level": 20}
                         
                         
                     ]
@@ -294,10 +294,10 @@
                 {
                     "name": "Non, les résultats ne sont pas garantis.",
                     "impact": [
-                        {"ressource": "poverty", "level": 20},
-                        {"ressource": "decentWork", "level": 20},
                         {"ressource": "climateActions", "level": -20},
-                        {"ressource": "consumption", "level": -20}
+                        {"ressource": "consumption", "level": -20},
+                        {"ressource": "poverty", "level": 20},
+                        {"ressource": "decentWork", "level": 20}
                         
                         
                     ]
@@ -314,10 +314,10 @@
                 {
                     "name": "Oui, améliorons les infrastructures des eaux usées.",
                     "impact": [
+                         {"ressource": "poverty", "level": -20},
                         {"ressource": "water", "level": 30},
                         {"ressource": "lifeAquatic", "level": 10},
-                        {"ressource": "innovation", "level": 20},
-                        {"ressource": "poverty", "level": -20}
+                        {"ressource": "innovation", "level": 20}
                     ]
                 },
                 {
@@ -325,8 +325,8 @@
                     "impact": [
                         {"ressource": "poverty", "level": 20},
                         {"ressource": "water", "level": -10},
-                        {"ressource": "innovation", "level": -20},
-                        {"ressource": "lifeAquatic", "level": -10}
+                        {"ressource": "lifeAquatic", "level": -10},
+                        {"ressource": "innovation", "level": -20}
                     ]
                 }
             ]
@@ -348,8 +348,8 @@
                 {
                     "name": "Non, trouvons une autre solution.",
                     "impact": [
-                        {"ressource": "health", "level": -20},
                         {"ressource": "water", "level": -20},
+                        {"ressource": "health", "level": -20},
                         {"ressource": "poverty", "level": 20}
                         
                         
@@ -366,17 +366,17 @@
                 {
                     "name": "Oui, soutenons les petites entreprises locales.",
                     "impact": [
+                        {"ressource": "poverty", "level": -20},
                         {"ressource": "decentWork", "level": 30},
-                        {"ressource": "communities", "level": 10},
-                        {"ressource": "poverty", "level": -20}
+                        {"ressource": "communities", "level": 10}
                     ]
                 },
                 {
                     "name": "Non, les grandes entreprisent créent plus d'emplois.",
                     "impact": [
+                        {"ressource": "poverty", "level": 20},
                         {"ressource": "decentWork", "level": -10},
-                        {"ressource": "communities", "level": -10},
-                        {"ressource": "poverty", "level": 20}
+                        {"ressource": "communities", "level": -10}
                         
                     ]
                 }
@@ -392,16 +392,16 @@
                     "name": "Oui, protégeons les travailleur·euse·s.",
                     "impact": [
                         {"ressource": "decentWork", "level": 30},
-                        {"ressource": "health", "level": 10},
-                        {"ressource": "poverty", "level": -20}
+                        {"ressource": "poverty", "level": -20},
+                        {"ressource": "health", "level": 10}
                     ]
                 },
                 {
                     "name": "Non, cela mettrait en péril les entreprises actuelles.",
                     "impact": [
                         {"ressource": "decentWork", "level": -10},
-                        {"ressource": "communities", "level": -10},
-                        {"ressource": "poverty", "level": 20}
+                        {"ressource": "poverty", "level": 20},
+                        {"ressource": "communities", "level": -10}
                         
                     ]
                 }
