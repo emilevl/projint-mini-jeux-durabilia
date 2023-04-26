@@ -64,7 +64,7 @@ function findTile() {
     name += '-dark':
     name += ''
 
-    name += '.svg'
+    name += '.jpg'
     
     return name
 }

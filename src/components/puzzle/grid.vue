@@ -84,13 +84,13 @@ function lightPath(VerifiedMatrix){
             const firstTileSrc =firstTile.getAttribute('src');
             console.log("matrix sides",matrix[0][0].sides)
         if(matrix[0][0].sides[3]==1){
-            if(firstTileSrc.includes('-dark.svg')){
-                   const newSource = firstTileSrc.replace('-dark.svg', '.svg')
+            if(firstTileSrc.includes('-dark.jpg')){
+                   const newSource = firstTileSrc.replace('-dark.jpg', '.jpg')
                    firstTile.setAttribute('src', newSource);
                }
         }else{
-            if(!firstTileSrc.includes('-dark.svg')){
-                const newSource = firstTileSrc.replace('.svg', '-dark.svg');
+            if(!firstTileSrc.includes('-dark.jpg')){
+                const newSource = firstTileSrc.replace('.jpg', '-dark.jpg');
                 firstTile.setAttribute('src', newSource);
                 }
         }
@@ -104,9 +104,9 @@ function lightPath(VerifiedMatrix){
         const tileSrc = tileImg.getAttribute('src');
                if(VerifiedMatrix[0][row][col]){
                
-                if(tileSrc.includes('-dark.svg')){
+                if(tileSrc.includes('-dark.jpg')){
                    
-                   const newSource = tileSrc.replace('-dark.svg', '.svg')
+                   const newSource = tileSrc.replace('-dark.jpg', '.jpg')
                    tileImg.setAttribute('src', newSource);
                }
                }else{
@@ -114,7 +114,7 @@ function lightPath(VerifiedMatrix){
                 
 
                 if(!tileSrc.includes('-dark')){
-                const newSource = tileSrc.replace('.svg', '-dark.svg');
+                const newSource = tileSrc.replace('.jpg', '-dark.jpg');
                 tileImg.setAttribute('src', newSource);
                 }
                 
