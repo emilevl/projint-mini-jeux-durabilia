@@ -90,7 +90,7 @@ watchEffect(() => {
       ((event.clientX - windowCenterX) / windowCenterX) * tiltRange;
     card.style.transform = `rotate(${tilt}deg) translate(calc(-50% - ${
       7 * iCurrentCard.value
-    }px), calc(-60% + ${2 * iCurrentCard.value}px))`;
+    }px), calc(-52% + ${2 * iCurrentCard.value}px))`;
   };
   
   let initialTouchX = null;

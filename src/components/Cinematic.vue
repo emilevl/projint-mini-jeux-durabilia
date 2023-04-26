@@ -87,25 +87,38 @@ setTimeout(() => {
     dialogOn.value = true;
 }, 3000);
 
-    function nextDialog() {
-        dialogBackground.value = 'bubble';
-        dialogText.value = '';
+function nextDialog() {
+    dialogBackground.value = 'bubble';
+    dialogText.value = '';
 
-        
-        
-        if (dialogIdx.value < dialogTotalNb.value - 1) {
-            dialogIdx.value++;
-        } else {
-            gameLaunched.value = true;
-            //emit play
-            emit("emitPlay");
-        }
-        setTimeout(() => {
-            dialogBackground.value = `bubble-${currentCinematic.value.dialogs[dialogIdx.value].character}`;
-            dialogText.value = currentCinematic.value.dialogs[dialogIdx.value].text;
-        }, 250);
+    
+    
+    if (dialogIdx.value < dialogTotalNb.value - 1) {
+        dialogIdx.value++;
+    } else {
+        gameLaunched.value = true;
+        //emit play
+        emit("emitPlay");
     }
-//event listener on arrows keys to navigate through dialogs
+    setTimeout(() => {
+        dialogBackground.value = `bubble-${currentCinematic.value.dialogs[dialogIdx.value].character}`;
+        dialogText.value = currentCinematic.value.dialogs[dialogIdx.value].text;
+    }, 250);
+}
+
+
+function previousDialog() {
+    dialogBackground.value = 'bubble';
+    dialogText.value = '';
+
+    if (dialogIdx.value > 0) {
+        dialogIdx.value--;
+    }
+    setTimeout(() => {
+        dialogBackground.value = `bubble-${currentCinematic.value.dialogs[dialogIdx.value].character}`;
+        dialogText.value = currentCinematic.value.dialogs[dialogIdx.value].text;
+    }, 250);
+}
 
 
 </script>
@@ -116,7 +129,10 @@ setTimeout(() => {
       <div class="conversation" v-if="dialogOn">
         <div class="dialog" key="0" :style="{ backgroundImage: 'url(/assets/cinematics/' + dialogBackground + mobileImgExtension + '.jpg)' }">
             <transition name="fade">
-             <p v-if="dialogText">{{ dialogText }}</p>
+             <p v-if="dialogText">
+                {{ dialogText }}
+                <img v-if="dialogIdx < dialogTotalNb - 1" class="more-text" :src="`/assets/cinematics/moreText.svg`" />
+            </p>
             </transition>
         </div>
         </div>
@@ -139,6 +155,15 @@ setTimeout(() => {
     background-color: rgba(40, 40, 40, 0.35);
     z-index: 5;
 }
+
+.more-text {
+        /* Your styles for the image, e.g. */
+        display: inline-block;
+        width: 20px;
+        height: auto;
+        margin-left: 5px;
+        vertical-align: middle;
+    }
 
 .background {
     position: absolute;
@@ -217,6 +242,10 @@ setTimeout(() => {
         .skip-button {
             width: 89px;
             bottom: 40px;
+        }
+
+        .more-text {
+            width: 13px;
         }
     }
 </style>
