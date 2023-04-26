@@ -21,8 +21,14 @@ const props = defineProps({
     },
     position: {
         type: Array
+    },
+    dark: {
+        type: Boolean,
     }
 })
+
+
+
 
 const emit = defineEmits(['rotate'])
 
@@ -47,14 +53,24 @@ let currentRotation = props.rotation
 }) */
 
 // Get the tile type to display the correct image
+
+
+     
+    
 function findTile() {
     const tile = tiles.find(tile => tile.type === props.tileType)
     let name = IMG_PATH + tile.svg
 
     props.frozen ?
-        name += '-frozen.svg' :
-        name += '.svg'
+        name += '-frozen' :
+        name += ''
 
+    props.dark ?
+    name += '-dark':
+    name += ''
+
+    name += '.svg'
+    
     return name
 }
 

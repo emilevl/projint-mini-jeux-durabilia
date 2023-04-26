@@ -81,32 +81,34 @@ const connexTiles = (matrix, currentTile) => {
 
   currentNeighbors.forEach((neighbor) => {
     if (!connectedTiles.includes(neighbor)) {
-      if (neighbor[0] > currentTile[0]) {
-        // case en dessous
+      if (matrix[0][0].sides[3] == 1) {
+        if (neighbor[0] > currentTile[0]) {
+          // case en dessous
 
-        if (matrix[currentTile[0]][currentTile[1]].sides[2] == 1 && matrix[neighbor[0]][neighbor[1]].sides[0] == 1) {
-          connectedTiles.push(neighbor);
+          if (matrix[currentTile[0]][currentTile[1]].sides[2] == 1 && matrix[neighbor[0]][neighbor[1]].sides[0] == 1) {
+            connectedTiles.push(neighbor);
+          }
         }
-      }
-      if (neighbor[0] < currentTile[0]) {
-        // case au dessus
+        if (neighbor[0] < currentTile[0]) {
+          // case au dessus
 
-        if (matrix[currentTile[0]][currentTile[1]].sides[0] == 1 && matrix[neighbor[0]][neighbor[1]].sides[2] == 1) {
-          connectedTiles.push(neighbor);
+          if (matrix[currentTile[0]][currentTile[1]].sides[0] == 1 && matrix[neighbor[0]][neighbor[1]].sides[2] == 1) {
+            connectedTiles.push(neighbor);
+          }
         }
-      }
-      if (neighbor[1] > currentTile[1]) {
-        // à droite
+        if (neighbor[1] > currentTile[1]) {
+          // à droite
 
-        if (matrix[currentTile[0]][currentTile[1]].sides[1] == 1 && matrix[neighbor[0]][neighbor[1]].sides[3] == 1) {
-          connectedTiles.push(neighbor);
+          if (matrix[currentTile[0]][currentTile[1]].sides[1] == 1 && matrix[neighbor[0]][neighbor[1]].sides[3] == 1) {
+            connectedTiles.push(neighbor);
+          }
         }
-      }
-      if (neighbor[1] < currentTile[1]) {
-        // à gauche
+        if (neighbor[1] < currentTile[1]) {
+          // à gauche
 
-        if (matrix[currentTile[0]][currentTile[1]].sides[3] == 1 && matrix[neighbor[0]][neighbor[1]].sides[1] == 1) {
-          connectedTiles.push(neighbor);
+          if (matrix[currentTile[0]][currentTile[1]].sides[3] == 1 && matrix[neighbor[0]][neighbor[1]].sides[1] == 1) {
+            connectedTiles.push(neighbor);
+          }
         }
       }
     }
@@ -118,7 +120,7 @@ const connexTiles = (matrix, currentTile) => {
   return tabreturn;
 };
 
-function VerifyMatrix(matrix, finish = [4, 4]) {
+function VerifyMatrix(matrix, start = [0, 0]) {
   // let matrix = generateMatrix([4, 4], 5, 5, 9);
   // for (let i = 0; i < matrix.length; i++) {
   //   for (let n = 0; n < matrix[i].length; n++) {
@@ -127,17 +129,17 @@ function VerifyMatrix(matrix, finish = [4, 4]) {
   // }
   // console.log('la matrix 2', matrix);
 
+  initFlowMap(matrix.length, matrix[0].length);
+  let map = flowFieldTo(start[0], start[1], matrix);
+  //console.log('map', map[4][4]);
+  let solved = false;
   if (matrix[0][0].sides[3] == 1) {
-    initFlowMap(5, 5);
-    let map = flowFieldTo(0, 0, matrix);
-    //console.log('map', map[4][4]);
-    let solved = false;
     if (map[matrix.length - 1][matrix[0].length - 1] != false && matrix[matrix.length - 1][matrix[0].length - 1].sides[1] == 1) {
       solved = true;
     }
-    console.log(`solved: ${solved}`);
-    return [map, solved];
   }
+  console.log(`solved: ${solved}`);
+  return [map, solved];
 }
 
 export { VerifyMatrix };

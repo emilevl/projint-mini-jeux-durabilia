@@ -2,14 +2,16 @@
 import Tile from '../puzzle/tile.vue'
 import { generateMatrix } from '../../utils/generateRandomPath.js';
 import { VerifyMatrix } from '../../utils/verifyPuzzle.js';
-import { computed, watchEffect, ref } from 'vue'
+import { computed, watchEffect, ref, reactive } from 'vue'
 //import {VerifyMatrix} from '../../utils/verifyPuzzle.js'
+
+
 
 const nbCols = 5;
 const nbRows = nbCols;
 const nbTiles = nbCols * nbRows
 const arrival = [nbCols-1 , nbRows -1]
-const lengthPath = 15; //entre 8 et 10 p.ex
+const lengthPath = 12; //entre 8 et 10 p.ex
 
 const maxFrozenTiles = 2; // maximum number of frozen tiles on the grid
 let frozenTilesCounter = 0;
@@ -20,11 +22,12 @@ const nbColsCss = `repeat(${nbCols}, 1fr)`
 const matrix = generateMatrix(arrival, nbRows, nbCols, lengthPath)
 
 const rotations = [0, 90, 180, 270]
+let totalRandom = 0;
 
 function randomizeRotation(position) {
     let randomInt = Math.floor(Math.random() * rotations.length)
     let i = 0
-
+    totalRandom += randomInt;
     while (i < randomInt) {
         rotateSides(position)
         i++
@@ -45,20 +48,73 @@ function randomizeFreeze() {
     return frozen
 }
 
-function rotateSides(position) {
 
+let totalRotate = 0;
+
+    function rotateSides(position) {
     let last = matrix[position[0]][position[1]].sides.pop();
     matrix[position[0]][position[1]].sides.unshift(last);
-    let VerifiedMatrix = VerifyMatrix(matrix)
-    for(let i=0; i<5; i++){
-        for(let n=0; n<5; n++){
-            if(VerifiedMatrix[0][i][n]){
-                console.log("Sbonjour",i,n);
+    let VerifiedMatrix = VerifyMatrix(matrix);
+    console.log("matrice verif", VerifiedMatrix[0]);
+
+
+ totalRotate++
+    if(totalRotate>totalRandom){
+       lightPath(VerifiedMatrix)
+}
+
+
+
+}
+
+function lightPath(VerifiedMatrix){
+    const firstTile = document.querySelector('[data-id="0-0"] img');
+            const firstTileSrc =firstTile.getAttribute('src');
+            console.log("matrix sides",matrix[0][0].sides)
+        if(matrix[0][0].sides[3]==1){
+            if(firstTileSrc.includes('-dark.svg')){
+                   const newSource = firstTileSrc.replace('-dark.svg', '.svg')
+                   firstTile.setAttribute('src', newSource);
+               }
+        }else{
+            if(!firstTileSrc.includes('-dark.svg')){
+                const newSource = firstTileSrc.replace('.svg', '-dark.svg');
+                firstTile.setAttribute('src', newSource);
+                }
+        }
+     for(let row=0; row<5; row++){
+   
+     for(let col=0; col<5; col++){
+        if(row==0 && col==0){
+
+        }else{
+        const tileImg = document.querySelector(`[data-id="${row}-${col}"] img`);
+        const tileSrc = tileImg.getAttribute('src');
+               if(VerifiedMatrix[0][row][col]){
+               
+                if(tileSrc.includes('-dark.svg')){
+                   
+                   const newSource = tileSrc.replace('-dark.svg', '.svg')
+                   tileImg.setAttribute('src', newSource);
+               }
+               }else{
+               
+                
+
+                if(!tileSrc.includes('-dark')){
+                const newSource = tileSrc.replace('.svg', '-dark.svg');
+                tileImg.setAttribute('src', newSource);
+                }
+                
+               
+               
+               }
+            
             }
         }
+
         
     }
-    console.log(VerifyMatrix(matrix));
 }
 
 
@@ -68,15 +124,17 @@ function rotateSides(position) {
 <template>
     <div id="grid-box">
         <img id="pipe_start" src="../../assets/decor/pipe_left.png">
-        <img id="img_start" src="../../assets/decor/frozen_left.png">
+        <img id="img_start" src="../../assets/decor/freeze_left.png">
         <img id="pipe_end" src="../../assets/decor/pipe_right.png">
-        <img id="img_end" src="../../assets/decor/frozen_right.png">
+        <img id="img_end" src="../../assets/decor/freeze_right.png">
         <div id="grid" class="grid-container">
             <template v-for="(row, r) in matrix">
-                <div v-for="(col, c) in row" class="grid-item">
-                    <tile :tileType="col.type" :rotation="randomizeRotation([r, c])" @rotate="rotateSides([r, c])">
+                <div v-for="(col, c) in row" class="grid-item" >
+                    <tile :data-id="`${r}-${c}`" :tileType="col.type" :rotation="randomizeRotation([r, c])" @rotate="rotateSides([r, c])" :dark="true" >
                     </tile>
                     <!-- :frozen="randomizeFreeze()" -->
+                    <!-- :frozen="newMatrix[r][c].value" -->
+                    <!--:dark="col"-->
                 </div>
             </template>
         </div>
@@ -112,7 +170,7 @@ function rotateSides(position) {
 }
 
 img {
-    height: 32vh;
+    height: 48vh;
     position: absolute;
     margin: 0 auto;
 }
