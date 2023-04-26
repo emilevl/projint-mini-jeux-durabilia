@@ -126,7 +126,8 @@ function toggleRessourceReset() {
                 <div class="drop-down-options">
                     <div class="drop-down-placeholder-container" @click="toggleDropDown()">
                         <p class="drop-down-placeholder-text">{{ activeSection }}</p>
-                        <img class="drop-down-symbol" src="/assets/icons/down-arrow.svg" :class="{ placeholderActive: showDropDown }" >
+                        <img class="drop-down-symbol" src="/assets/icons/down-arrow.svg"
+                            :class="{ placeholderActive: showDropDown }">
                     </div>
                     <p v-show="showDropDown" class="navbar-option button" id="Résumé"
                         :class="{ active: activeSection == 'Résumé' }"
@@ -213,23 +214,28 @@ function toggleRessourceReset() {
     padding: 10px;
     margin-left: 50px;
     text-align: left;
-    top: 150px;
+    top: 130px;
 }
+
 .navbar p {
     font-size: 1em;
 }
+
 .navbar-option {
     padding-top: 5px;
     border-radius: 20px 0px;
 }
+
 .drop-down-placeholder-container {
     display: flex;
     justify-content: space-between;
     width: 90px;
 }
+
 .drop-down-symbol {
     transition: 0.4s;
 }
+
 .placeholderActive {
     transform: rotate(180deg);
 }
@@ -238,6 +244,7 @@ function toggleRessourceReset() {
     display: flex;
     flex-direction: column;
 }
+
 .active {
     display: none;
 }
@@ -277,6 +284,12 @@ function toggleRessourceReset() {
     bottom: 0;
     margin-bottom: 50px;
     transform: translate(-50%, 0);
+    background-color: black;
+    color: #FBF8F1;
+    border-radius: 20px 0px;
+}
+.back-to-map:hover {
+    opacity: 0.5;
 }
 
 /* --------------------------- CARDS --------------------------------------- */
@@ -325,6 +338,7 @@ function toggleRessourceReset() {
         padding-top: 0px;
         padding-bottom: 0px;
     }
+
     .navbar p {
         font-size: 0.8em;
     }
@@ -348,6 +362,7 @@ function toggleRessourceReset() {
     .back-to-map {
         margin-bottom: 15px;
         font-size: 0.8em;
+        border-radius: 10px 0px;
     }
 
     /* Cards */
@@ -383,5 +398,4 @@ function toggleRessourceReset() {
     .choice-section {
         gap: 20px;
     }
-}
-</style>
+}</style>

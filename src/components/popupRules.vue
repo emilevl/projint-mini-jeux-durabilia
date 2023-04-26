@@ -77,7 +77,7 @@ function toggleSectionMobile() {
 
     <!-- Mobile interface -->
     <div v-if="mobileInterface" class="container">
-        <h3 class="close-x" @click="$emit('emitToggleRules')">X</h3>
+        <h3 class="close-x" @click="$emit('emitBackToGame')">X</h3>
         <div v-if="props.gameLaunched" class="back-button" @click="$emit('emitToggleRules')">
             <div class="back-arrow">
                 <div class="bar-1"></div>
@@ -235,6 +235,12 @@ function toggleSectionMobile() {
 
 .play-button {
     margin-top: 30px;
+    background-color: black;
+    color: #FBF8F1;
+    border-radius: 20px 0px;
+}
+.play-button:hover {
+    opacity: 0.5;
 }
 
 .ressource {
@@ -299,7 +305,11 @@ function toggleSectionMobile() {
 
     .container {
         width: 600px;
-        height: 350px;
+        height: 320px;
+    }
+
+    .ressources-container {
+        margin-top: 15px;
     }
 
     .rules-full-container {

@@ -152,7 +152,7 @@ function toggleQuit() {
 @media screen and (max-width: 1050px) {
     .pause-container {
         width: 600px;
-        height: 350px;
+        height: 320px;
     }
 
     .pause-details-container {
