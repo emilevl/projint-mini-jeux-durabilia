@@ -472,7 +472,7 @@ function update() {
     }
 
 
-    if (cursors.left.isDown) {
+    if (cursors.left.isDown && !playerDead.value) {
         if (playerActualVelocity < playerVelocity) {
             playerActualVelocity += 50;
         }
@@ -480,7 +480,7 @@ function update() {
         if (player.body.blocked.down) {
             player.anims.play("left", true);
         }
-    } else if (cursors.right.isDown) {
+    } else if (cursors.right.isDown && !playerDead.value) {
         if (playerActualVelocity < playerVelocity) {
             playerActualVelocity += 50;
         }
@@ -488,13 +488,13 @@ function update() {
         if (player.body.blocked.down) {
             player.anims.play("right", true);
         }
-    } else if (!this.input.pointer1.isDown && !this.input.pointer2.isDown) {
+    } else if (!this.input.pointer1.isDown && !this.input.pointer2.isDown && !playerDead.value) {
         playerActualVelocity = 0;
         player.setVelocityX(0);
     }
 
     // Jump
-    if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
+    if (Phaser.Input.Keyboard.JustDown(cursors.space) && !playerDead.value) {
         if (!player.body.blocked.down && canJump) {
             jumpSound.play();
             canJump = false;
@@ -528,7 +528,7 @@ function update() {
     }
 
     // Mobile handeling of the jump
-    if (this.input.pointer1.isDown || this.input.pointer2.isDown) {
+    if (this.input.pointer1.isDown  && !playerDead.value || this.input.pointer2.isDown && !playerDead.value) {
         if (
             this.input.pointer1.position.x < game.config.width / 4 ||
             (this.input.pointer2.position.x < game.config.width / 4 &&
@@ -559,7 +559,7 @@ function update() {
         if (
             (this.input.pointer1.justDown &&
                 this.input.pointer1.position.x > game.config.width / 2) ||
-            (this.input.pointer2.justDown && this.input.pointer2.position.x > game.config.width / 2)
+            (this.input.pointer2.justDown && this.input.pointer2.position.x > game.config.width / 2)  && !playerDead.value
         ) {
             if (player.body.blocked.down) {
                 canDoubleJump = true;
