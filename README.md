@@ -1,10 +1,16 @@
 # Projet d'intégration
+Ce projet a été réalisé dans le cadre du projet d'intégration de 3e année du département COMEM+, HEIG-VD.
 
+Il s'agit de 3 mini-jeux éducatifs qui s'implémentent dans un jeu de plateforme générale, où le joueur peut se balader parmis des transformers. En entrant dans un Transformer, il se retrouvera dans l'un des mini-jeux. Le but est de présenter les 17 objectifs de développement durable (ODD) des Nations Unies.
 
-#Transformers
+Dans chaque mini-jeu, des éléments similaires pourront être vus: 
+- Une présentation des règles avec les ODD impactés par le mini-jeu. 
+- Une cinématique permettant de présenter le mini-jeu
+
+Ensuite, chaque mini-jeu aura son propre fonctionnement et son propre but.
 
 ## Jeu de cartes
-Le jeu de cartes est un jeu éducatif et divertissant qui vise à sensibiliser aux 17 objectifs de développement durable (ODD) des Nations Unies de manière ludique et agréable. Les joueurs endossent le rôle de juge, prenant des décisions sur diverses situations et observant leur impact sur le monde.
+Le jeu de cartes est un jeu éducatif et divertissant qui vise à sensibiliser aux 17 ODD de manière ludique et agréable. Les joueurs endossent le rôle de juge, prenant des décisions sur diverses situations et observant leur impact sur le monde.
 
 ### Type de jeu
 Il s'agit d'un jeu interactif de prise de décision où les joueurs doivent faire des choix basés sur des situations présentées. Le jeu s'inspire des mécaniques de "Reigns" et est conçu pour être à la fois divertissant et éducatif, favorisant la sensibilisation aux 17 ODD.
@@ -30,3 +36,20 @@ L'application du jeu de cartes Transformer est construite en utilisant les techn
 - CSS
 - SVG
 - Anime.js
+
+### ODD impactés
+Pour ce jeu, le temps est l'ODD impacté par défaut. Ensuite, les 17 SDG peuvent être impactés, en fonction des décisions prises. Il s'agit du seul mini-jeu où l'impact des SDG n'est pas fixe.
+
+
+## STEP
+...
+
+### ODD impactés
+...
+
+
+## Scierie
+...
+
+### ODD impactés
+...
