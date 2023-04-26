@@ -215,10 +215,15 @@ function toggleRessourceReset() {
     margin-left: 50px;
     text-align: left;
     top: 130px;
+    border: 1px solid black
 }
 
 .navbar p {
     font-size: 1em;
+}
+
+.navbar p:hover {
+    font-weight: bold;
 }
 
 .navbar-option {
@@ -234,6 +239,7 @@ function toggleRessourceReset() {
 
 .drop-down-symbol {
     transition: 0.4s;
+    width: 22px;
 }
 
 .placeholderActive {
