@@ -64,9 +64,7 @@ let totalRotate = 0;
     matrix[position[0]][position[1]].sides.unshift(last);
     let VerifiedMatrix = VerifyMatrix(matrix);
 
-    console.log("matrice verif", VerifiedMatrix[0]);
     if (VerifiedMatrix != undefined && VerifiedMatrix[1] == true) {
-        //console.log('FINI')
         emit('partieTerminee', true)
     }
 
@@ -82,7 +80,7 @@ let totalRotate = 0;
 function lightPath(VerifiedMatrix){
     const firstTile = document.querySelector('[data-id="0-0"] img');
             const firstTileSrc =firstTile.getAttribute('src');
-            console.log("matrix sides",matrix[0][0].sides)
+            // console.log("matrix sides",matrix[0][0].sides)
         if(matrix[0][0].sides[3]==1){
             if(firstTileSrc.includes('-dark.jpg')){
                    const newSource = firstTileSrc.replace('-dark.jpg', '.jpg')
@@ -135,9 +133,9 @@ function lightPath(VerifiedMatrix){
 <template>
     <div>
         <img id="pipe_start" src="../../assets/decor/pipe_left.png">
-        <img id="img_start" src="../../assets/decor/freeze_left.png">
+        <img id="img_start" src="../../assets/decor/frozen_left.png">
         <img id="pipe_end" src="../../assets/decor/pipe_right.png">
-        <img id="img_end" src="../../assets/decor/freeze_right.png">
+        <img id="img_end" src="../../assets/decor/frozen_right.png">
         <!-- <div id="grid-box"> -->
             <div id="grid" class="grid-container">
                 <template v-for="(row, r) in matrix">
