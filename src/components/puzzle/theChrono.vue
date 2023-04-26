@@ -3,6 +3,7 @@ import { ref, watchEffect } from 'vue';
 import addTime from 'add-time';
 import { menuOpened } from "../../utils/store.js"
 import anime from 'animejs/lib/anime.es.js';
+import beepSound from '../../assets/sounds/beep.wav'
 
 const props = defineProps({
     jeuReussi: {
@@ -70,7 +71,9 @@ function startTimer(newDate) {
             clearInterval(interval)
         }
 
-    }, 0)
+        if (min == '00' && sec <= '10') playAudio(beepSound)
+
+    }, 1000)
 }
 
 function animChrono() {
@@ -95,9 +98,13 @@ watchEffect(() => {
     if (!menuOpened.value) {
         const newDate = new Date(Date.now() + timer.value);
         startTimer(newDate)
+        animChrono()
     }
-    animChrono()
 })
+
+function playAudio(url) {
+    new Audio(url).play();
+}
 </script>
 
 <template>
