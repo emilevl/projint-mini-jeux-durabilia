@@ -49,7 +49,10 @@ Pour ce jeu, le temps est l'ODD impacté par défaut. Ensuite, les 17 SDG peuven
 
 
 ## Scierie
-...
+Le jeu de la scierie est un jeu de plateforme rapide, addictif et offrant un petit challenge. Les joueurs se retrouvent dans une scierie où les machines sont hors de contrôle. Ils devront alors la traverser afin de couper le courant, en évitant sur leur passage les diverses scies et bûches.
+
+### Technologies utilisées
+L'application du jeu de la scierie est construite en utilisant le framework [Phaser 3](https://phaser.io).
 
 ### ODD impactés
-...
+Pour jouer à ce jeu, le joueur devra dépenser la ressource *Terradiversité*. Il recevra alors, en finissant le niveau, la ressource *Croissance* mais cela entraînera également une augmentation du *CO2*.
