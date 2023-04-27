@@ -23,12 +23,6 @@ onBeforeUnmount(() => {
 
 const checkDeviceOrientation = () => {
   isPortrait.value = window.innerHeight > window.innerWidth;
-  // const rotateDevice = document.querySelector('.rotate-device');
-  // if (isPortrait.value) {
-  //   rotateDevice.style.display = 'flex';
-  // } else {
-  //   rotateDevice.style.display = 'none';
-  // }
 };
 
 function initializeDataCards() {

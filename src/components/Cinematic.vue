@@ -10,31 +10,32 @@ const props = defineProps({
 const emit = defineEmits(["emitPlay"]);
 
 onMounted(() => {
-    window.addEventListener("keydown", (e) => {
-        if (e.key == "ArrowRight") {
+    if (window.matchMedia("(min-width: 1050px)").matches) {
+        window.addEventListener("keydown", (e) => {
+            if (e.key == "ArrowRight") {
+                nextDialog();
+            }
+            if (e.key == "ArrowLeft") {
+                previousDialog();
+            }
+
+            // if key is "p"
+            if (e.key == "p") {
+                emit("emitPlay");
+                gameLaunched.value = true;
+            }
+        });
+
+        //event listener on click to navigate through dialogs
+        setTimeout(() => window.addEventListener("click", (e) => {
             nextDialog();
-        }
-        if (e.key == "ArrowLeft") {
-            previousDialog();
-        }
-
-        // if key is "p"
-        if (e.key == "p") {
-            emit("emitPlay");
-            gameLaunched.value = true;
-        }
-    });
-
-    //event listener on click to navigate through dialogs
-    setTimeout(() => window.addEventListener("click", (e) => {
-        nextDialog();
-    }), 100)
-
-
-    //addEventlistener on touch for mobile devices to navigate through dialogs
-    setTimeout(() => window.addEventListener("touchstart", (e) => {
-        nextDialog();
-    }), 100)
+        }), 100)
+    } else {
+        //addEventlistener on touch for mobile devices to navigate through dialogs
+        setTimeout(() => window.addEventListener("touchstart", (e) => {
+            nextDialog();
+        }), 100)
+    }
 
 });
 
